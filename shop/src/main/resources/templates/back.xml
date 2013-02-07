@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+	<!-- 系统模板 -->
+	<module key="system">		
+		<template key="cache" title="cache,setup"> 
+			<node key="field" text="reset,cache" ref="submit" action="system_cache" value="%{getText('reset')}"/>
+			<node key="field" text="reset,template" ref="submit" action="system_templates_cache" value="%{getText('reset')}"/>
+		</template> 
+	</module>
+	
+	<!-- 管理员模板 -->
+	<module key="admin">
+		<template key="add" title="add,admin" action="admin_add"> 
+			<node key="field" text="admin,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="admin,pwd" ref="password"  name="entity.password"/> 
+			<node key="field" text="email" ref="textfield"  name="entity.email"/> 
+			<node key="field" text="role" ref="roleList"/>   
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,admin" action="admin_edit" ref="add">
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="admin,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="admin_theme_add"/>	
+			<node key="submit" ref="delButton" action="admin_dels"/>
+			<node th="admin,name;email;date" />	
+			<node td="name;email;date"/> 
+		</template>
+	</module> 
+	
+	<!-- 操作日志模板 -->
+	<module key="operateLogs">
+		<template key="list" title="operate,logs,list" edit="true">
+			<node key="search" text="start,date" ref="startDate"/>	
+			<node key="search" text="end,date" ref="endDate"/>	
+			<node key="submit" ref="querySubmit" action="operateLogs_page"/>	
+			<node key="submit" ref="delButton" action="operateLogs_dels"/>
+			<node key="submit" ref="trunButton" action="operateLogs_trun"/>
+			<node th="user,name;oper,date;content;state" />	
+			<node td="userId;date;content;%{getText(#{0:'invalid',1:'avail'}.get(`state`))}"/>			
+		</template>
+	</module>
+	
+	<!-- 权限模板 -->
+	<module key="operate">
+		<template key="add" title="add,operate" action="operate_add"> 
+			<node key="field" text="belong,menu" ref="menuList"/> 
+			<node key="field" text="display" ref="displayList"/>
+			<node key="field" text="operate,name" ref="textfield"  name="entity.name"/>
+			<node key="field" text="operate,link" ref="textfield"  name="entity.link"/> 
+			<node key="field" text="state" ref="stateList"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,operate" action="operate_edit" ref="add">  
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="operate,list" edit="true"> 
+			<node key="search" text="belong,menu" ref="menuSelect"/>	
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="operate_page"/>	
+			<node key="submit" ref="delButton" action="operate_dels"/>
+			<node th="operate,name;operate,link;display;state" />	
+			<node td="name;link;%{getText(#{0:'no',1:'yes'}.get(`display`))};%{getText(#{0:'invalid',1:'avail'}.get(`state`))}"/>			
+		</template>
+	</module>
+	 		 	
+	<!-- 角色模板 -->
+	<module key="role">
+		<template key="add" title="add,role" action="role_add"> 
+			<node key="field" text="role,name" ref="textfield"  name="entity.name"/>   
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,role" action="role_edit" ref="add"> 
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="role,list" edit="true" del="true">				
+			<node key="submit" ref="addSubmit" action="role_theme_add"/>	
+			<node key="submit" ref="delButton" action="role_dels"/>
+			<node th="role,name" />	
+			<node td="name"/> 
+		</template>
+	</module> 	
+</templates>

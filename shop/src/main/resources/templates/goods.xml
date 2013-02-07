@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates> 
+	<!-- 物品模板 -->
+	<module key="goods">
+		<template key="add" title="add,goods" action="goods_add" enctype="multipart/form-data"> 
+			<node tabs="base,info;goods,page,detail;goods,setup;goods,photo;goods,specification;attribute,param" />
+			<node key="base,info" next="true">  
+				<node key="field" text="goods,sort" ref="goodsSortList"/> 
+				<node key="field" text="goods,name" ref="textfield" name="entity.name"/>
+				<node key="field" text="goods,sn" ref="textfield" name="entity.sn"/> 
+				<node key="field" text="goods,brand" ref="brandList"/> 
+				<node key="field" text="price" ref="textfield" name="entity.price"/>
+				<node key="field" text="cost,price" ref="textfield" name="entity.cost"/>
+				<node key="field" text="market,price" ref="textfield" name="entity.market"/>
+				<node key="field" text="reserve" ref="textfield" name="entity.reserve"/>				
+				<node key="field" text="brief" ref="textarea" name="entity.brief"/>				
+				<node key="field" text="detail" ref="editor" name="entity.detail"/>
+			</node>		
+			<node key="goods,page,detail" next="true"> 
+				<node key="field" text="title" ref="textfield" name="entity.title"/>
+				<node key="field" text="keyWords" ref="textfield" name="entity.keyWords"/>
+				<node key="field" text="detail" ref="textarea" name="entity.description"/> 
+			</node>
+			<node key="goods,setup" next="true">
+				<node key="field" text="markeTable" ref="checkbox" name="entity.markeTable" value="1"/>   
+				<node key="field" text="best" ref="checkbox" name="entity.best"/>
+				<node key="field" text="newIn" ref="checkbox" name="entity.newIn"/>
+				<node key="field" text="hot" ref="checkbox" name="entity.hot"/> 
+			</node> 
+			<node key="goods,photo" next="true" table="goodsImageTable">
+				<node key="field" id="addGoodsImageButton" value="%{getText('add,photo')}" ref="button" tr="noneHover"/>
+				<node key="field" th="upload,photo;photo,description;del" tr="title"/>
+				<node key="field" goodsPhoto="true"/> 
+			</node>
+			<node key="goods,specification" next="true"> 
+				<node key="field" text="goods,specification" ref="checkboxlist" list="%{#attr.query.list('specification')}" value="%{entity.specifications!=null?entity.specifications.{id}:''}" listKey="id" listValue="name" name="entity.specifications.id" div="specificationSelect"/>
+			</node>
+			<node key="attribute,param" next="true" table="goodsType"> 
+				<node key="field" text="select,goods,type" id="goodsTypeId" ref="select" list="%{#attr.query.list('type')}" listKey="id" listValue="name" headerKey="0" headerValue="%{getText('select')}..." tr="title" name="entity.typeId"/>
+				<node key="field" goodsAttributeParam="true"/> 
+			</node>
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,goods" action="goods_edit" ref="add">   
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="goods,list" edit="true">  
+			<node key="submit" ref="addSubmit" action="goods_theme_add"/>	
+			<node key="submit" ref="delButton" action="goods_dels"/>
+			<node th="goods,name;goods,sn;sort;price;markeTable;best;newIn;hot;store" />	
+			<node td="name;sn;%{#attr.query.get('goodsSort',sortId).name};price;markeTable;best;newIn;hot;store"/> 
+		</template>
+	</module>
+	
+	<!-- 物品分类模板 -->
+	<module key="sort">
+		<template key="add" title="add,goods,sort" action="sort_add"> 
+			<node key="field" text="goods,sort,name" ref="textfield" name="entity.name"/>			
+			<node key="field" text="superior,sort" ref="goodsSortList"/>
+			<node key="field" text="flag" ref="textfield" name="entity.flag"/>
+			<node key="field" text="title" ref="textfield" name="entity.title"/>
+			<node key="field" text="keyWords" ref="textfield" name="entity.keyWords"/>
+			<node key="field" text="description" ref="textarea" name="entity.description"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,goods,sort" action="sort_edit" ref="add">   
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="goodsSort,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="sort_theme_add"/>	
+			<node key="submit" ref="delButton" action="sort_dels"/>
+			<node th="sort,name;flag;title;keyWords;description" />	
+			<node td="name;flag;title;keyWords;description"/> 
+		</template>
+	</module> 
+	
+	<!-- 物品类型模板 -->
+	<module key="type">
+		<template key="add" title="add,goods,type" action="type_add"> 
+			<node tabs="base,info;goods,brand;goods,attribute;goods,param" />
+			<node key="base,info" next="true">  
+				<node key="field" text="type,name" ref="textfield" name="entity.name"/>			 
+			</node>
+			<node key="goods,brand" next="true">  
+				<node key="field" text="goods,brand" ref="checkboxlist" list="%{#attr.query.list('brand')}" value="%{entity.brands!=null?entity.brands.{id}:''}" listKey="id" listValue="name" name="entity.brands.id" div="brandSelect"/>		 
+			</node>
+			<node key="goods,attribute" next="true" table="goodsAttributeTable">  
+				<node key="field" id="addGoodsAttributeButton" value="%{getText('add,attribute')}" ref="button" tr="noneHover"/>			 
+				<node key="field" th="attribute,name;attribute,type;option;del" tr="title"/>				
+				<node key="field" goodsTypeAttribute="true"/> 
+			</node>
+			<node key="goods,param" next="true" table="goodsParameterTable">  
+				<node key="field" id="addGoodsParameterButton" value="%{getText('add,param')}" ref="button" tr="noneHover"/>
+				<node key="field" th="param,name;del" tr="title"/>
+				<node key="field" goodsTypeParam="true"/> 
+			</node>
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,goods,type" action="type_edit" ref="add">    
+			<node key="goods,attribute" next="true" table="goodsAttributeTable">  
+				<node key="field" goodsTypeAttribute="true"/> 		
+			</node>
+			<node key="goods,param" next="true" table="goodsParameterTable">  
+				<node key="field" goodsTypeParam="true"/> 
+			</node> 
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="goodsSort,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="type_theme_add"/>	
+			<node key="submit" ref="delButton" action="type_dels"/>
+			<node th="type,name;goods,attribute;createDate" />	
+			<node td="name;attributes.{name};date"/> 
+		</template>
+	</module> 
+	
+	<!-- 品牌模板 -->
+	<module key="brand">
+		<template key="add" title="add,brand" action="brand_add" enctype="multipart/form-data"> 
+			<node key="field" text="brand,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="url" ref="textfield"  name="entity.url"/>
+			<node key="field" text="logo" ref="file"/>
+			<node key="field" text="detail" ref="editor" name="entity.detail"/>
+			<node key="submit" ref="submit"/>
+		</template>
+		<template key="edit" title="edit,brand" action="brand_edit" ref="add">
+			<node key="hidden" name="entity.key"/>
+		</template>		
+		<template key="list" title="brand,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="brand_theme_add"/>	
+			<node key="submit" ref="delButton" action="brand_dels"/>
+			<node th="brand,name;url;logo" />	
+			<node td="name;url;logo"/> 
+		</template>
+	</module>
+	
+	<!-- 规格模板 -->
+	<module key="specification">
+		<template key="add" title="add,goods,specification" action="specification_add" table="specificationTable" enctype="multipart/form-data"> 
+			<node key="field" text="specification,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="specification,type" ref="specificationType"  name="entity.state" />
+			<node key="field" text="remark" ref="textfield"  name="entity.remark"/> 
+			<node key="field" text="" id="addSpecificationValueButton" ref="button" value="%{getText('add,specification,value')}"/> 
+			<node key="field" th="" td="specification,value,name;specification,value,photo;del" tr="title"/>
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,goods,specification" action="specification_edit" ref="add">
+			<node key="field" specificationValues="true"/> 
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list" title="goods,specification,list" edit="true">  
+			<node key="submit" ref="addSubmit" action="specification_theme_add"/>	
+			<node key="submit" ref="delButton" action="specification_dels"/>
+			<node th="specification,name;specification,type;specification,value;remark" />	
+			<node td="name;%{getText(#{0:'text,type',1:'photo,type'}.get(`state`))};specificationValues.{name};remark"/> 
+		</template>
+	</module> 
+	
+	<!-- 商品评论 -->
+	<module key="comment">
+		<template key="list" title="goods,comment,list" edit="true">   
+			<node th="comment,man;comment,goods;comment,date" />	
+			<node td="user_id;goods_id;date"/> 
+		</template>
+	</module> 
+</templates>

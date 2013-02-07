@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates> 
+	<!-- 登录日志模板 -->
+	<module key="loginLogs">
+		<template key="list" title="login,logs,list" edit="true" del="true"> 
+			<node key="search" text="start,date" ref="startDate"/>	
+			<node key="search" text="end,date" ref="endDate"/>	
+			<node key="submit" ref="querySubmit" action="loginLogs_page"/>	
+			<node key="submit" ref="delButton" action="loginLogs_dels"/>
+			<node key="submit" ref="trunButton" action="loginLogs_trun"/>
+			<node th="user,name;login,ip;login,date;login,state" />	
+			<node td="userId;ip;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module> 
+	
+	<!-- 登录统计模板 -->
+	<module key="loginStatistics">
+		<template key="list" title="login,list"> 
+			<node key="search" text="start,date" ref="startDate"/>	
+			<node key="search" text="end,date" ref="endDate"/>	
+			<node key="submit" ref="querySubmit" action="loginStatistics_page"/>	
+			<node key="submit" ref="delButton" action="loginStatistics_dels"/>
+			<node key="submit" ref="trunButton" action="loginStatistics_trun"/>
+			<node th="login,count;login,date;login,ip;last,login,date;last,login,ip" />	
+			<node td="count;date;ip;lastDate;lastIp"/> 
+		</template>
+	</module> 
+</templates>

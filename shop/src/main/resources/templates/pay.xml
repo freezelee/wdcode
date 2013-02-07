@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>		
+	<!-- 支付方式模板 -->
+	<module key="payment">
+		<template key="add" title="add,pay,mode" action="payment_add">  
+			<node key="field" text="pay,type" ref="select" list="%{#attr.query.list('payType')}" listKey="id" listValue="name" name="entity.typeId"/>
+			<node key="field" text="pay,mode,name" ref="textfield" name="entity.name"/>			 
+			<node key="field" text="total" ref="textfield" name="entity.total"/>
+			<node key="field" text="detail" ref="editor" name="entity.detail"/>
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,pay,mode" action="payment_edit" ref="add">
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="pay,mode,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="payment_theme_add"/>	
+			<node key="submit" ref="delButton" action="payment_dels"/>
+			<node th="name;type;rate;detail" />	
+			<node td="name;type.name;rate;detail"/>
+		</template>
+	</module>  
+</templates>

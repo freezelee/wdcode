@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- 保存属性 -->
+	<save>
+		<!-- 保存属性的方式 -->
+		<attribute>cookie</attribute>
+	</save>
+	  
+	<!-- 关于权限的配置 -->
+	<role>
+		<!-- 所有权限的角色ID -->
+		<all>1</all>
+	</role>
+	  
+	<!-- 加密配置 -->
+	<encrypt>
+		<!-- 加密Key -->
+		<key>http://www.wdcode.org</key>
+	</encrypt>	
+	
+	<!-- 主题 -->	
+	<back><theme>houtai</theme></back>
+	
+	<!-- 登录 -->
+	<login>
+		<filter> 
+			<special>login,index,.css,.gif,png,verify</special> 
+			<index>/</index>
+		</filter> 
+		<logs>true</logs>
+		<statistics>true</statistics>
+	</login>
+	
+	<!-- 操作 -->
+	<operate><logs>true</logs></operate>
+	
+	<!-- 页面 -->
+	<page>
+		<logs>true</logs>
+		<statistics>true</statistics>
+	</page> 
+</config>

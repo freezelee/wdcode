@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>	
+	<!-- 是否处于开发模式 发布时一定要设为false  -->
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.reload" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	<constant name="struts.serve.static.browserCache" value="false" />
+	
+	<!-- Struts2 默认配置 -->
+	<include file="struts-base.xml" />
+	<!-- Struts2 Action 配置 -->
+	<include file="config/struts/struts_back_action.xml" />
+	<include file="config/struts/struts_shop_action.xml" /> 
+</struts>

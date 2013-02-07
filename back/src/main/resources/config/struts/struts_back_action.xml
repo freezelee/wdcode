@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="back" extends="struts-base">		
+		<!-- 全局返回 	-->
+		<global-results>
+			<result name="login" type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/login.ftl</result>
+		</global-results>
+		
+		<!-- 进入框价页 -->
+		<action name="index" class="backAction" method="index">
+			<result type="redirect">/main.htm</result>
+		</action>
+ 
+		<!-- 进入框价页 -->
+		<action name="main" class="backAction"  method="main"> 
+			<result type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/main.ftl</result>
+		</action>
+		
+		<!-- 进入top页 -->
+		<action name="top" class="backAction">
+			<result type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/top.ftl</result>
+		</action>
+		<!-- 进入left页 -->
+		<action name="left" class="backAction">
+			<result type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/left.ftl</result>
+		</action>
+		<!-- 进入welcome页 -->
+		<action name="welcome" class="backAction">
+			<result type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/welcome.ftl</result>
+		</action>
+		
+		<!-- 登录  -->
+		<action name="login" class="backAction" method="login">
+			<result type="redirect">/main.htm</result>
+			<result name="input" type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/login.ftl</result>
+		</action>
+		
+		<!-- 登出  -->
+		<action name="logout" class="backAction" method="logout">
+			<result type="redirect">/</result>
+		</action>
+		
+		<!-- 验证码  -->
+		<action name="verify" class="backAction" method="verifyCode"/>  
+  
+		  
+		 <!-- 通用配置 -->	
+		 <action name="*_*_*" class="backAction" method="{2}">
+			<result type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/theme.ftl</result> 
+			<result name="dels" type="chain">{1}_page</result>
+			<result name="list" type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/list.ftl</result>
+			<result name="input" type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/theme.ftl</result>
+			<result name="error" type="freemarker">/WEB-INF/template/back/%{#application.themeBack}/theme.ftl</result>	
+		</action>   	 
+	</package>
+</struts>
