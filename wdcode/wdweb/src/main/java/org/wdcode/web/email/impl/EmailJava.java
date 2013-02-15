@@ -20,8 +20,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.web.constants.EmailConstants;
-import org.wdcode.web.constants.WebConstants;
+import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.email.base.BaseEmail;
 
 /**
@@ -99,9 +98,9 @@ public final class EmailJava extends BaseEmail {
 			// 参数设置
 			Properties props = new Properties();
 			// 指定SMTP服务器
-			props.put(EmailConstants.MAIL_SMTP_HOST, getHost());
+			props.put("mail.smtp.host", getHost());
 			// 是否需要SMTP验证
-			props.put(EmailConstants.MAIL_SMTP_AUTH, isAuth());
+			props.put("mail.smtp.auth", isAuth());
 			// 获得Session
 			Session mailSession = Session.getDefaultInstance(props);
 			// 创建细信息类
@@ -128,7 +127,7 @@ public final class EmailJava extends BaseEmail {
 				MimeBodyPart messageBodyPart = new MimeBodyPart();
 				DataSource source = null;
 				// 判断是本地文件还是远程
-				if (attach.indexOf(WebConstants.URL_HTTP) == -1) {
+				if (attach.indexOf(HttpConstants.HTTP) == -1) {
 					// 本地文件
 					source = new FileDataSource(attach);
 				} else {

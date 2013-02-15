@@ -8,6 +8,18 @@ package org.wdcode.web.constants;
  */
 public final class HttpConstants {
 	/**
+	 * HTTP http://
+	 */
+	public final static String	HTTP							= "http://";
+	/**
+	 * HTTPS https://
+	 */
+	public final static String	HTTPS							= "https://";
+	/**
+	 * FTP ftp://
+	 */
+	public final static String	FTP								= "ftp://";
+	/**
 	 * HTTP提交方式 GET
 	 */
 	public final static String	METHOD_GET						= "GET";
@@ -59,6 +71,26 @@ public final class HttpConstants {
 	 * ContentType xml格式
 	 */
 	public final static String	CONTENT_TYPE_XML				= "text/xml";
+	/**
+	 * XHTML文档 .xhtml
+	 */
+	public final static String	CONTENT_TYPE_XHTML				= "application/xhtml+xml";
+	/**
+	 * AVI文件 .avi
+	 */
+	public final static String	CONTENT_TYPE_AVI				= "video/x-msvideo";
+	/**
+	 * GZIP文件 .gz
+	 */
+	public final static String	CONTENT_TYPE_GZIP				= "application/x-gzip";
+	/**
+	 * TAR文件 .tar
+	 */
+	public final static String	CONTENT_TYPE_TAR				= "application/x-tar";
+	/**
+	 * 任意的二进制数据
+	 */
+	public final static String	CONTENT_TYPE_BYE				= "application/octet-stream";
 	/**
 	 * Header 获得 User-Agent "User-Agent"
 	 */

@@ -13,7 +13,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.web.constants.WebConstants;
+import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.email.base.BaseEmail;
 
 /**
@@ -139,7 +139,7 @@ public final class EmailApache extends BaseEmail {
 			// 实例化邮件附件
 			EmailAttachment attachment = new EmailAttachment();
 			// 判断是本地文件还是远程
-			if (attach.indexOf(WebConstants.URL_HTTP) == -1) {
+			if (attach.indexOf(HttpConstants.HTTP) == -1) {
 				// 本地文件
 				attachment.setPath(attach);
 			} else {
