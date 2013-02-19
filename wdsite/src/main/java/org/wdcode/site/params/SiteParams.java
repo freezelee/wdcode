@@ -65,6 +65,10 @@ public final class SiteParams {
 	 * 页面访问统计是否开启
 	 */
 	public final static boolean		PAGE_STATISTICS				= Params.getBoolean("page.statistics", false);
+	/**
+	 * 是否静态化
+	 */
+	public final static boolean		IS_STATICS_POWER			= Params.getBoolean("staics.power", false);
 
 	/**
 	 * 私有构造

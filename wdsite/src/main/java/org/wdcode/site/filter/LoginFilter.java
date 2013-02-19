@@ -9,8 +9,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.wdcode.base.entity.EntityLogin;
-import org.wdcode.base.params.BaseParams;
+import org.wdcode.base.entity.EntityLogin; 
+import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.params.Params;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.engine.LoginEngine;
 
@@ -24,15 +26,27 @@ import java.io.IOException;
  */
 public final class LoginFilter<L extends EntityLogin> implements Filter {
 	// 常量
-	private final static String	FORWARD	= "forward";
+	private final static String	REDIRECT	= "redirect";
+	private final static String	LOGIN		= "login";
+	/**
+	 * 跳转类型
+	 */
+	private String				result;
 	// 登录过滤Key
 	private String				login;
+	// 跳转页
+	private String				index;
+	// 不过滤页
+	private String[]			special;
 
 	/**
 	 * 载入过滤器到服务 读取过滤器配置参数
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
-		login = filterConfig.getInitParameter("login");
+		login = filterConfig.getInitParameter(LOGIN);
+		index = Params.getString(Params.getKey(LOGIN, login, "index"), StringConstants.BACKSLASH);
+		special = Params.getStringArray(Params.getKey(LOGIN, login, "special"), ArrayConstants.STRING_EMPTY);
+		result = Params.getString(Params.getKey(LOGIN, login, "result"), REDIRECT);
 	}
 
 	/**
@@ -46,11 +60,7 @@ public final class LoginFilter<L extends EntityLogin> implements Filter {
 		// 校验页面
 		boolean find = true;
 		// 获得当前页面
-		String paths = httpRequest.getServletPath(); // httpRequest.getHeader("Referer");
-		// 跳转页
-		String indexPage = BaseParams.LOGIN_FILTER_INDEX;
-
-		String[] special = BaseParams.LOGIN_FILTER_SPECIAL;
+		String paths = httpRequest.getServletPath();
 		// 有数组
 		if (!EmptyUtil.isEmpty(special)) {
 			// 循环数组
@@ -72,12 +82,12 @@ public final class LoginFilter<L extends EntityLogin> implements Filter {
 				chain.doFilter(request, response);
 			} else {
 				// 判断跳转方式
-				if (FORWARD.equals(BaseParams.LOGIN_FILTER_RESULT)) {
-					// forward
-					httpRequest.getRequestDispatcher(httpRequest.getContextPath() + indexPage).forward(request, response);
-				} else {
+				if (REDIRECT.equals(result)) {
 					// redirect
-					httpResponse.sendRedirect(httpRequest.getContextPath() + indexPage);
+					httpResponse.sendRedirect(httpRequest.getContextPath() + index);
+				} else {
+					// forward
+					httpRequest.getRequestDispatcher(httpRequest.getContextPath() + index).forward(request, response);
 				}
 			}
 

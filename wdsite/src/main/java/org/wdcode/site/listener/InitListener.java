@@ -14,6 +14,7 @@ import org.wdcode.common.util.ResourceUtil;
 import org.wdcode.core.config.ConfigFactory;
 import org.wdcode.core.engine.QuartzEngine;
 import org.wdcode.core.params.QuartzParams;
+import org.wdcode.site.params.SiteParams;
 import org.wdcode.base.engine.StaticsEngine;
 import org.wdcode.base.params.BaseParams;
 
@@ -45,7 +46,7 @@ public class InitListener implements ServletContextListener {
 		System.setProperty("dataSourceConfig", BaseParams.DATA_SOURCE_CONFIG);
 
 		// 是否静态化
-		if (BaseParams.IS_STATICS_POWER) {
+		if (SiteParams.IS_STATICS_POWER) {
 			StaticsEngine.start();
 		}
 		// 是否开启任务

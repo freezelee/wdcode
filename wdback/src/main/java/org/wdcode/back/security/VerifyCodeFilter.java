@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
-import org.wdcode.base.params.BaseParams;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.web.util.VerifyCodeUtil;
 
 /**
@@ -36,7 +36,7 @@ public class VerifyCodeFilter implements Filter {
 			// 校验验证码
 			if (!VerifyCodeUtil.check(request, response, request.getParameter("verifyCode"))) {
 				// 跳转到主页
-				response.sendRedirect(request.getContextPath() + BaseParams.LOGIN_FILTER_INDEX);
+				response.sendRedirect(request.getContextPath() + StringConstants.BACKSLASH);
 				return;
 			}
 		}
