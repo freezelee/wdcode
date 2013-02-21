@@ -37,11 +37,11 @@ public final class JsonEngine {
 			case "fast":
 				J = new JsonFast();
 				break;
-			case "gson":
-				J = new JsonGson();
+			case "lib":
+				J = new JsonLib();
 				break;
 			default:
-				J = new JsonLib();
+				J = new JsonGson();
 				break;
 		}
 	}

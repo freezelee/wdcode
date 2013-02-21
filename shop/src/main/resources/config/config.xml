@@ -25,10 +25,10 @@
 	  
 	<!-- 登录 -->
 	<login>
-		<filter> 
+		<user> 
 			<special>login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave</special> 
 			<index>/</index>
-		</filter> 
+		</user> 
 		<logs>true</logs>
 		<statistics>true</statistics>
 	</login>
