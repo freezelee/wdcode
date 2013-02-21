@@ -1,7 +1,7 @@
 package org.wdcode.site.token;
 
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.engine.JsonEngine;
+import org.wdcode.core.json.JsonEngine;
 
 /**
  * 登录信息封装

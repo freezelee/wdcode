@@ -2,6 +2,7 @@ package org.wdcode.core.engine;
 
 import org.wdcode.common.constants.FileConstants;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.core.json.JsonEngine;
 import org.wdcode.core.params.CoreParams;
 
 /**
@@ -14,10 +15,9 @@ public final class DataEngine {
 	/**
 	 * 把对象转换为字符串
 	 * @param obj 要转换的对象
-	 * @param fields 要过滤掉的字段
 	 * @return 转换后的字符串
 	 */
-	public static String toString(Object obj, String... fields) {
+	public static String toString(Object obj) {
 		// 判断是否字符串
 		if (obj instanceof String || obj instanceof Number || obj instanceof Boolean) {
 			return Conversion.toString(obj);
@@ -26,7 +26,7 @@ public final class DataEngine {
 		if (FileConstants.SUFFIX_XML.equals(CoreParams.DATA_FORMAT)) {
 			return XmlEngine.toXML(obj);
 		} else {
-			return JsonEngine.toJson(obj, fields);
+			return JsonEngine.toJson(obj);
 		}
 	}
 

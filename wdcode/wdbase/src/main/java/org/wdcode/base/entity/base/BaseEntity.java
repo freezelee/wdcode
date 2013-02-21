@@ -15,9 +15,7 @@ import org.wdcode.core.engine.DataEngine;
  */
 public abstract class BaseEntity implements Entity {
 	// 序列化ID
-	private static final long		serialVersionUID	= -6162883824224379291L;
-	// 普通实体 过滤字段
-	protected final static String[]	FIELDS				= { "empty", "key", "fields", "clear" };
+	private static final long	serialVersionUID	= -6162883824224379291L;
 
 	/**
 	 * 判断是否为空
@@ -30,7 +28,7 @@ public abstract class BaseEntity implements Entity {
 	 * 重写toString 使用json输出属性
 	 */
 	public String toString() {
-		return DataEngine.toString(this, FIELDS);
+		return DataEngine.toString(this);
 	}
 
 	/**

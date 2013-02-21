@@ -15,7 +15,7 @@ import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.core.engine.JsonEngine;
+import org.wdcode.core.json.JsonEngine;
 
 /**
  * Json保存数据类型

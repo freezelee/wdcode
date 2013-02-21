@@ -91,8 +91,8 @@
 							</dl>
 						</#if>
 						<#if type.attributes??>   
-							<#list type.attributes as a> 
-								<#if a.type==0>					 
+							<#list type.attributes as a>  
+								<#if a.type?number==0>					 
 									<dl>
 										<dt>${a.name}: </dt>
 										<dd>
