@@ -2,10 +2,10 @@ package org.wdcode.common.lang;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.log.Logs;
@@ -86,9 +86,29 @@ public final class Concurrents {
 	/**
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
 	 * @param task Runnable 任务
+	 * @param timeout 如果可以最多等待的时间
+	 * @return 表示该任务的 Future
+	 */
+	public static <T> List<T> submit(long timeout, List<Callable<T>> tasks) {
+		return submit(timeout, Lists.toArray(tasks));
+	}
+
+	/**
+	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
+	 * @param task Runnable 任务
 	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(Callable<T>... tasks) {
+		return submit(CommonParams.THREAD_TIME_OUT, tasks);
+	}
+
+	/**
+	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
+	 * @param task Runnable 任务
+	 * @param timeout 如果可以最多等待的时间
+	 * @return 表示该任务的 Future
+	 */
+	public static <T> List<T> submit(long timeout, Callable<T>... tasks) {
 		// 声明线程池
 		ExecutorService es = Executors.newFixedThreadPool(CommonParams.THREAD_POOL > tasks.length ? tasks.length : CommonParams.THREAD_POOL);
 		// 声明结果列表
@@ -102,8 +122,8 @@ public final class Concurrents {
 		// 循环获得结果
 		for (Future<T> f : list) {
 			try {
-				ls.add(f.get());
-			} catch (InterruptedException | ExecutionException e) {
+				ls.add(f.get(timeout, TimeUnit.MILLISECONDS));
+			} catch (Exception e) {
 				Logs.warn(e);
 			}
 		}

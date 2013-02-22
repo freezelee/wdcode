@@ -81,6 +81,10 @@ public final class CommonParams {
 	 * 线程池数
 	 */
 	public final static int		THREAD_POOL				= Params.getInt("thread.pool", SystemConstants.CPU_NUM + 1);
+	/**
+	 * 线程池数
+	 */
+	public final static long	THREAD_TIME_OUT			= Params.getLong("thread.timeout", 2000);
 
 	/**
 	 * 私有构造
