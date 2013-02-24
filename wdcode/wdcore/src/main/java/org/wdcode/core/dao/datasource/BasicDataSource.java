@@ -5,8 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
-import org.wdcode.core.constants.DataBaseConstants;
+ 
 import org.wdcode.core.dao.datasource.impl.DataSourceBonecp;
 import org.wdcode.core.dao.datasource.impl.DataSourceC3P0;
 import org.wdcode.core.dao.datasource.impl.DataSourceDBCP;
@@ -29,16 +28,16 @@ public final class BasicDataSource implements DataSource {
 	public void setParse(String parse) {
 		// 判断数据源
 		switch (parse) {
-			case DataBaseConstants.DATABASE_TYPE_DBCP:
+			case "dbcp":
 				ds = new DataSourceDBCP();
 				break;
-			case DataBaseConstants.DATABASE_TYPE_C3P0:
+			case "c3p0":
 				ds = new DataSourceC3P0();
 				break;
-			case DataBaseConstants.DATABASE_TYPE_PROXOOL:
+			case "proxool":
 				ds = new DataSourceProxool();
 				break;
-			case DataBaseConstants.DATABASE_TYPE_BONECP:
+			case "bonecp":
 				ds = new DataSourceBonecp();
 				break;
 		}

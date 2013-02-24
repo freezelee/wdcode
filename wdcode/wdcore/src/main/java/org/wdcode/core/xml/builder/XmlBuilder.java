@@ -3,7 +3,6 @@ package org.wdcode.core.xml.builder;
 import java.io.File;
 import java.io.InputStream;
 
-import org.wdcode.core.constants.XmlConstants;
 import org.wdcode.core.params.CoreParams;
 import org.wdcode.core.xml.Attribute;
 import org.wdcode.core.xml.Document;
@@ -38,7 +37,7 @@ public final class XmlBuilder {
 	 * 静态初始化
 	 */
 	static {
-		DOM4J = XmlConstants.PARSE_DOM4J.equalsIgnoreCase(CoreParams.XML_PARSE);
+		DOM4J = "dom4j".equalsIgnoreCase(CoreParams.XML_PARSE);
 	}
 
 	/**

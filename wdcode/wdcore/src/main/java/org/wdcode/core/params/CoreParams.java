@@ -5,7 +5,6 @@ import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.constants.ZipConstants;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.params.Params;
-import org.wdcode.core.constants.XmlConstants;
 
 /**
  * WdCore包所用参数读取类
@@ -21,7 +20,7 @@ public final class CoreParams {
 	/**
 	 * Xml的根节点名称
 	 */
-	public final static String	XML_ROOT					= Params.getString("xml.root", XmlConstants.NODE_ROOT);
+	public final static String	XML_ROOT					= Params.getString("xml.root", "root");
 	/**
 	 * Xml的编码格式
 	 */
@@ -37,7 +36,7 @@ public final class CoreParams {
 	/**
 	 * XML解析所用的包
 	 */
-	public final static String	XML_PARSE					= Params.getString("xml.parse", XmlConstants.PARSE_DOM4J);
+	public final static String	XML_PARSE					= Params.getString("xml.parse", "jdom");
 	/**
 	 * 压缩算法
 	 */

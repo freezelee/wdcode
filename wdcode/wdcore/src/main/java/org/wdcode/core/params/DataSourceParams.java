@@ -1,8 +1,7 @@
 package org.wdcode.core.params;
 
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.params.Params;
-import org.wdcode.core.constants.DataBaseConstants;
+import org.wdcode.common.params.Params; 
 
 /**
  * MemCache配置读取
@@ -220,7 +219,7 @@ public final class DataSourceParams {
 	 * @return 默认使用的连接池
 	 */
 	public static String getParse(String name) {
-		return Params.getString(getKey(name, PARSE), DataBaseConstants.DATABASE_TYPE_DBCP);
+		return Params.getString(getKey(name, PARSE), "dbcp");
 	}
 
 	/**
