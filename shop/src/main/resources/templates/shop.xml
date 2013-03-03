@@ -90,8 +90,8 @@
 	<!-- 缺货模板 -->
 	<module key="notify">
 		<template key="list" title="notify,list"> 
-			<node th="user;goods;product" />	
-			<node td="userId;goodsId;productId"/>
+			<node th="name;user;email;time"/>	
+			<node td="goodsId;userId;email;date"/>
 		</template>
 	</module>   
 </templates>
