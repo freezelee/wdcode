@@ -154,6 +154,6 @@ public final class MemcacheX extends BaseMemcache {
 	 * @return 缓存保存时间
 	 */
 	private int getExt() {
-		return Conversion.toInt(DateConstants.TIME_DAY);
+		return Conversion.toInt(DateConstants.TIME_DAY / 1000);
 	}
 }

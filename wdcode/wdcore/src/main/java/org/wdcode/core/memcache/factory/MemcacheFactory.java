@@ -5,7 +5,6 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.memcache.Memcache;
 import org.wdcode.core.memcache.impl.MemcacheArray;
-import org.wdcode.core.memcache.impl.MemcacheSpy;
 import org.wdcode.core.memcache.impl.MemcacheWhalin;
 import org.wdcode.core.memcache.impl.MemcacheX;
 import org.wdcode.core.params.MemcacheParams;
@@ -81,8 +80,6 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 */
 	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
 		switch (MemcacheParams.getParse(name)) {
-			case "spy":
-				return new MemcacheSpy(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
 			case "x":
 				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
 			default:
