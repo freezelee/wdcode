@@ -79,15 +79,13 @@ class Goods extends BaseGoods implements EntityFiles{
 	 */
 	public String[] getPaths() {
 		if (!EmptyUtil.isEmpty(images)) {
-			// 获得所有图片列表
-			List<GoodsImage> list = Lists.getList(images)
 			// 获得值长度
-			int size = list.size()
+			int size = images.size()
 			// 声明数组
 			String[] paths = new String[size]
 			// 循环赋值
 			for (int i = 0; i < size; i++) {
-				paths[i] = list.get(i).getPath()
+				paths[i] = images.get(i).getPath()
 			}
 			// 返回数组
 			return paths
@@ -100,11 +98,9 @@ class Goods extends BaseGoods implements EntityFiles{
 	 * 设置路径数组
 	 */
 	public void setPaths(String[] paths) {
-		if (!EmptyUtil.isEmpty(images)) {
-			// 设置路径
-			for (int i = 0; i < paths.length; i++) {
-				images.get(i).setPath(paths[i])
-			}
+		// 设置路径
+		for (int i = 0; i < paths.length; i++) {
+			images.add(new GoodsImage(paths[i]))
 		}
 	}
 
@@ -145,5 +141,11 @@ class Goods extends BaseGoods implements EntityFiles{
 		String				path
 		// 描述
 		String				description
+
+		public GoodsImage(){}
+
+		public GoodsImage(String path){
+			this.path = path
+		}
 	}
 }

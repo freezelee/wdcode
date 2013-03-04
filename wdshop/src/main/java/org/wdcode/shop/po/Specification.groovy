@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityFiles
 import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.common.constants.ArrayConstants
+import org.wdcode.common.util.EmptyUtil
 
 /**
  * 规格
@@ -39,16 +41,20 @@ class Specification extends BaseEntityIdTime implements EntityFiles {
 	 * 获得路径数组
 	 */
 	public String[] getPaths() {
-		// 获得值长度
-		int size = specificationValues.size()
-		// 声明数组
-		String[] paths = new String[size]
-		// 循环赋值
-		for (int i = 0; i < size; i++) {
-			paths[i] = specificationValues.get(i).getPath()
+		if (!EmptyUtil.isEmpty(specificationValues)) {
+			// 获得值长度
+			int size = specificationValues.size()
+			// 声明数组
+			String[] paths = new String[size]
+			// 循环赋值
+			for (int i = 0; i < size; i++) {
+				paths[i] = specificationValues.get(i).getPath()
+			}
+			// 返回数组
+			return paths
+		} else {
+			return ArrayConstants.STRING_EMPTY
 		}
-		// 返回数组
-		return paths
 	}
 
 	/**
@@ -57,7 +63,7 @@ class Specification extends BaseEntityIdTime implements EntityFiles {
 	public void setPaths(String[] paths) {
 		// 设置路径
 		for (int i = 0; i < paths.length; i++) {
-			specificationValues.get(i).setPath(paths[i])
+			specificationValues.add(new SpecificationValue(paths[i]))
 		}
 	}
 
@@ -72,6 +78,12 @@ class Specification extends BaseEntityIdTime implements EntityFiles {
 		String				path
 		// 名称
 		String				name
+
+		public SpecificationValue(){}
+
+		public SpecificationValue(String path){
+			this.path = path
+		}
 
 		@Override
 		public int hashCode() {
