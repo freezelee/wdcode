@@ -88,12 +88,7 @@ public class InitListener implements ServletContextListener {
 	 * 设置配置文件
 	 * @param config 配置文件
 	 */
-	private void setConfig(String fileName) {
-		// 判断配置不为空
-		if (EmptyUtil.isEmpty(fileName)) {
-			fileName = "config/config.xml";
-		}
-		// 设置配置
-		Params.setConfig(ConfigFactory.getConfig(fileName));
+	private void setConfig(String fileName) { 
+		Params.setConfig(EmptyUtil.isEmpty(fileName) ? ConfigFactory.getConfig() : ConfigFactory.getConfig(fileName));
 	}
 }
