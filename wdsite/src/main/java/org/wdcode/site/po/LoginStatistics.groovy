@@ -8,12 +8,12 @@ import javax.persistence.Id
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityIp
 import org.wdcode.base.entity.base.BaseEntityTime
 import org.wdcode.common.constants.StringConstants
 import org.wdcode.common.lang.Conversion
 import org.wdcode.common.util.DateUtil
 import org.wdcode.common.util.EmptyUtil
+import org.wdcode.site.entity.EntityIp;
 
 /**
  * 登录统计实体

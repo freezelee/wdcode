@@ -9,21 +9,18 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.entity.Entity;
-import org.wdcode.base.entity.EntityFile;
-import org.wdcode.base.entity.EntityFiles;
-import org.wdcode.base.entity.EntityIp;
 import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.constants.StringConstants; 
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.json.JsonEngine;
+import org.wdcode.core.json.JsonEngine; 
 
 /**
  * 超级通用Action
@@ -440,18 +437,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 判断实体类型
 		if (e instanceof EntityTime) {
 			((EntityTime) e).setTime(DateUtil.getTime());
-		}
-		// 判断需要上传文件类型
-		if (e instanceof EntityFile) {
-			((EntityFile) e).setPath(upload());
-		}
-		// 判断需要上传文件数组类型
-		if (e instanceof EntityFiles) {
-			((EntityFiles) e).setPaths(uploads());
-		}
-		// 判断实体类型
-		if (e instanceof EntityIp) {
-			((EntityIp) e).setIp(getIp());
 		}
 		// 返回E
 		return e;

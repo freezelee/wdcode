@@ -11,10 +11,10 @@ import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityFiles
 import org.wdcode.base.entity.base.BaseEntityIdTime
 import org.wdcode.common.constants.ArrayConstants
 import org.wdcode.common.util.EmptyUtil
+import org.wdcode.site.entity.EntityFiles;
 
 /**
  * 规格

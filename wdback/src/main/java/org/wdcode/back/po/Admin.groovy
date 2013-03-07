@@ -6,10 +6,10 @@ import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityLogin
+import org.springframework.beans.factory.config.ConfigurableBeanFactory 
 import org.wdcode.base.entity.base.BaseEntityIdTime
 import org.wdcode.common.crypto.Digest
+import org.wdcode.site.entity.EntityLogin;
 
 /**
  * 管理员

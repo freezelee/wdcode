@@ -2,9 +2,13 @@ package org.wdcode.core.memcache.impl;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
-import net.rubyeye.xmemcached.XMemcachedClient;
+import net.rubyeye.xmemcached.MemcachedClientBuilder;
+import net.rubyeye.xmemcached.XMemcachedClientBuilder;
+import net.rubyeye.xmemcached.command.BinaryCommandFactory;
+import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.rubyeye.xmemcached.utils.AddrUtil;
 
 import org.wdcode.common.constants.DateConstants;
@@ -14,7 +18,6 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.ArrayUtil;
-import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.memcache.base.BaseMemcache;
 
 /**
@@ -26,15 +29,12 @@ import org.wdcode.core.memcache.base.BaseMemcache;
 public final class MemcacheX extends BaseMemcache {
 	// 客户端
 	private MemcachedClient	client;
-	// 服务器地址
-	private String[]		servers;
 
 	/**
 	 * 构造方法
 	 */
 	public MemcacheX(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
 		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
-		this.servers = servers;
 	}
 
 	/**
@@ -94,15 +94,6 @@ public final class MemcacheX extends BaseMemcache {
 	}
 
 	/**
-	 * 验证键是否存在
-	 * @param key
-	 * @return true 存在 false 不存在
-	 */
-	public boolean keyExists(String key) {
-		return !EmptyUtil.isEmpty(get(key));
-	}
-
-	/**
 	 * 设置键值 无论存储空间是否存在相同键，都保存
 	 * @param key 键
 	 * @param value 值
@@ -135,7 +126,11 @@ public final class MemcacheX extends BaseMemcache {
 	 * /** 清除属性值
 	 */
 	public void clear() {
-		client.removeServer(ArrayUtil.toString(servers));
+		try {
+			client.flushAll();
+		} catch (TimeoutException | InterruptedException | MemcachedException e) {
+			Logs.warn(e);
+		}
 	}
 
 	/**
@@ -143,7 +138,14 @@ public final class MemcacheX extends BaseMemcache {
 	 */
 	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
 		try {
-			client = new XMemcachedClient(AddrUtil.getAddresses(ArrayUtil.toString(servers)));
+			MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(ArrayUtil.toString(servers)), ArrayUtil.toInt(weights));
+			// 添加下面这行，采用BinaryCommandFactory即可使用二进制协议
+			builder.setCommandFactory(new BinaryCommandFactory());
+			builder.setConnectionPoolSize(maxConn);
+			builder.setConnectTimeout(socketConnectTO);
+			builder.setOpTimeout(socketTO);
+			// 构建客户端
+			client = builder.build();
 		} catch (IOException e) {
 			Logs.warn(e);
 		}

@@ -44,7 +44,7 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 	 * 实例化一个新对象
 	 */
 	public Config newInstance() {
-		return newInstance("conf/config.xml");
+		return newInstance("config/config.xml");
 	}
 
 	/**

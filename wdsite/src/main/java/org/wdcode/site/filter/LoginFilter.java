@@ -9,12 +9,12 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.wdcode.base.entity.EntityLogin; 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.params.Params;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.engine.LoginEngine;
+import org.wdcode.site.entity.EntityLogin;
 
 import java.io.IOException;
 

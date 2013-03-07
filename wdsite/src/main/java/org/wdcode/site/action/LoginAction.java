@@ -4,11 +4,11 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.entity.Entity;
-import org.wdcode.base.entity.EntityLogin;
-import org.wdcode.base.entity.EntityUser;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.engine.LoginEngine;
+import org.wdcode.site.entity.EntityLogin;
+import org.wdcode.site.entity.EntityUser;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.web.util.VerifyCodeUtil;

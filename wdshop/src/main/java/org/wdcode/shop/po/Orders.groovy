@@ -12,9 +12,9 @@ import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser
 import org.wdcode.base.entity.base.BaseEntityTime
 import org.wdcode.common.lang.Conversion
+import org.wdcode.site.entity.EntityUser;
 
 /**
  * 物品订单

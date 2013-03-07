@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.base.BaseEntityId
-import org.wdcode.base.entity.simple.EntityPage
+import org.wdcode.site.entity.EntityPage;
 
 /**
  * 栏目实体

@@ -20,8 +20,8 @@ import org.wdcode.common.constants.ArrayConstants
 import org.wdcode.common.lang.Lists
 import org.wdcode.common.util.EmptyUtil
 import org.wdcode.shop.po.base.BaseGoods
-import org.wdcode.base.entity.EntityFiles
-import org.wdcode.base.entity.simple.EntityPage
+import org.wdcode.site.entity.EntityFiles;
+import org.wdcode.site.entity.EntityPage;
 
 /**
  * 物品

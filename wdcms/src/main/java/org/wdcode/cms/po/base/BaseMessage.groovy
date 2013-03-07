@@ -2,9 +2,9 @@ package org.wdcode.cms.po.base
 
 import javax.persistence.MappedSuperclass
 
-import org.wdcode.base.entity.EntityIp
-import org.wdcode.base.entity.EntityUser
 import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.EntityIp;
+import org.wdcode.site.entity.EntityUser;
 
 /**
  * 基础留言

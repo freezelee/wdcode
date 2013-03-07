@@ -3,8 +3,8 @@ package org.wdcode.shop.po.base
 
 import javax.persistence.MappedSuperclass
 
-import org.wdcode.base.entity.EntityUser
 import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.EntityUser;
 
 /**
  * 基础账单
