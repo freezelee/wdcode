@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.engine.DataEngine;
+import org.wdcode.core.json.JsonEngine;
 
 /**
  * Entity接口基础实现
@@ -28,7 +28,7 @@ public abstract class BaseEntity implements Entity {
 	 * 重写toString 使用json输出属性
 	 */
 	public String toString() {
-		return DataEngine.toString(this);
+		return JsonEngine.toJson(this);
 	}
 
 	/**

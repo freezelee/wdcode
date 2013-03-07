@@ -3,8 +3,8 @@ package org.wdcode.core.memcache.base;
 import java.util.List;
 
 import org.wdcode.common.lang.Lists;
-import org.wdcode.core.engine.ZipEngine;
 import org.wdcode.core.memcache.Memcache;
+import org.wdcode.core.zip.ZipEngine;
 
 /**
  * MemCacheClient基础抽象

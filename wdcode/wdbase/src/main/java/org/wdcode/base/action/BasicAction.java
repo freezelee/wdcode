@@ -25,8 +25,8 @@ import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.MathUtil;
-import org.wdcode.common.util.StringUtil;
-import org.wdcode.core.engine.DataEngine;
+import org.wdcode.common.util.StringUtil; 
+import org.wdcode.core.json.JsonEngine;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
 import org.wdcode.web.util.RequestUtil;
@@ -537,7 +537,7 @@ public class BasicAction extends ActionSupport {
 			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
 		}
 		// 添加json数据
-		s.append(DataEngine.toString(data));
+		s.append(JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (!EmptyUtil.isEmpty(callback)) {
 			s.append(StringConstants.RIGHT_PARENTHESIS);

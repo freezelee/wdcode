@@ -36,4 +36,6 @@ public final class JsonFactory extends FactoryKey<String, Json> {
 				return new JsonGson();
 		}
 	}
+
+	private JsonFactory() {}
 }

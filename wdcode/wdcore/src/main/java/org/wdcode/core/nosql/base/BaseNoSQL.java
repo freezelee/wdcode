@@ -1,7 +1,7 @@
 package org.wdcode.core.nosql.base;
 
-import org.wdcode.core.engine.ZipEngine;
 import org.wdcode.core.nosql.NoSQL;
+import org.wdcode.core.zip.ZipEngine;
 
 /**
  * NoSQL基类

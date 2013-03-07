@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.constants.FileConstants;
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.constants.ZipConstants;
 
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.lang.Lists;
@@ -216,7 +215,7 @@ public final class HttpUtil {
 		// 获得Accept-Encoding
 		String acceptEncoding = request.getHeader(HttpConstants.HEADER_KEY_ACCEPT_ENCODING);
 		// 判断acceptEncoding是否包含 gzip
-		return StringUtil.contains(acceptEncoding, ZipConstants.GZIP);
+		return StringUtil.contains(acceptEncoding, "gzip");
 	}
 
 	/**

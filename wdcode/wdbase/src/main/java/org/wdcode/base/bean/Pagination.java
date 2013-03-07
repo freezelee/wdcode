@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.wdcode.base.params.BaseParams;
-import org.wdcode.core.engine.DataEngine;
+import org.wdcode.core.json.JsonEngine;
 
 /**
  * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
@@ -101,6 +101,6 @@ public final class Pagination {
 
 	@Override
 	public String toString() {
-		return DataEngine.toString(this);
+		return JsonEngine.toJson(this);
 	}
 }

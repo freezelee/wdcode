@@ -2,7 +2,6 @@ package org.wdcode.site.entity
 
 import java.io.Serializable
 
-import org.wdcode.core.engine.DataEngine
 
 /**
  * 带页面关键字的实体
@@ -17,11 +16,4 @@ final class EntityPage implements Serializable {
 	String				keyWords
 	// 页面描述
 	String				description
-
-	/**
-	 * 重写toString 使用json输出属性
-	 */
-	public String toString() {
-		return DataEngine.toString(this)
-	}
 }

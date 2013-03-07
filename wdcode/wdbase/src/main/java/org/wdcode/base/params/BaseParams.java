@@ -28,7 +28,11 @@ public final class BaseParams {
 	/**
 	 * 静态化配置文件
 	 */
-	public final static String	STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml"); 
+	public final static String	STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml");
+	/**
+	 * 缓存是否有效
+	 */
+	public final static boolean	CACHE_VALID			= Params.getBoolean("cache.valid", true);
 
 	/**
 	 * 私有构造

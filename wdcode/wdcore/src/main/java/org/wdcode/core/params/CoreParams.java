@@ -2,7 +2,6 @@ package org.wdcode.core.params;
 
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.constants.SystemConstants;
-import org.wdcode.common.constants.ZipConstants;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.params.Params;
 
@@ -14,10 +13,6 @@ import org.wdcode.common.params.Params;
  */
 public final class CoreParams {
 	/**
-	 * 数据使用格式
-	 */
-	public final static String	DATA_FORMAT					= Params.getString("data.format");
-	/**
 	 * Xml的根节点名称
 	 */
 	public final static String	XML_ROOT					= Params.getString("xml.root", "root");
@@ -25,10 +20,6 @@ public final class CoreParams {
 	 * Xml的编码格式
 	 */
 	public final static String	XML_ENCODING				= Params.getString("xml.encoding", CommonParams.ENCODING);
-	/**
-	 * 缓存是否有效
-	 */
-	public final static boolean	CACHE_VALID					= Params.getBoolean("cache.valid", true);
 	/**
 	 * 线程池大小
 	 */
@@ -40,7 +31,7 @@ public final class CoreParams {
 	/**
 	 * 压缩算法
 	 */
-	public final static String	ZIP							= Params.getString(ZipConstants.ZIP, ZipConstants.ZLIB);
+	public final static String	ZIP							= Params.getString("zip", "zlib");
 	/**
 	 * BerkeleyDB资源文件
 	 */
