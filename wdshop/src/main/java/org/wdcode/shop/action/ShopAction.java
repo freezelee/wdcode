@@ -11,7 +11,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.pay.bean.Payment;
+import org.wdcode.pay.bean.PayBean;
 import org.wdcode.pay.interfaces.Pay;
 import org.wdcode.pay.lang.Pays;
 import org.wdcode.shop.po.Orders;
@@ -98,7 +98,7 @@ public class ShopAction extends LoginAction<Entity, User> {
 			// 是自己的订单
 			if (order.getUserId() == token.getId()) {
 				// 配置支付属性
-				Payment payment = new Payment();
+				PayBean payment = new PayBean();
 				payment.setBody(StringConstants.EMPTY);
 				payment.setNo(order.getSn());
 				payment.setNotifyUrl(StringConstants.EMPTY);

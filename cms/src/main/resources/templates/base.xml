@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+	<!-- 基础类型-->
+	<base key="textfield" type="textfield" cssClass="text"/>
+	<base key="password" type="password" cssClass="text"/>
+	<base key="submit" type="submit"  cssClass="submit" value="%{getText('ok')}"/>
+	<base key="button" type="button"  cssClass="submit"/>
+	<base key="select" type="select"/>
+	<base key="editor" type="textfield" id="editor" cssClass="editor"/>
+	<base key="textarea" type="textarea" cssClass="formTextarea"/>
+	<base key="file" type="file" name="upload"/>
+	<base key="files" type="file" name="uploads"/>
+	<base key="checkboxlist" type="checkboxlist"/> 	
+	<base key="checkbox" type="checkbox"/> 
+	 
+	<!-- 扩展类型 --> 
+	<base key="querySubmit" ref="submit" value="%{getText('query')}"  />
+	<base key="addSubmit" ref="submit" value="%{getText('add')}" />
+	<base key="editSubmit" ref="submit" value="%{getText('edit')}" />
+	<base key="delButton" id="dels" ref="submit" value="%{getText('del')}"  title="%{getText('dels.info')}" accesskey="%{getText('dels.ok')}" />
+	<base key="trunButton" id="trun" ref="submit" value="%{getText('truncate')}"  title="%{getText('trun.ok')}" />
+	<base key="startDate" ref="textfield"  id="startDate" name="startDate" readonly="true"/>
+	<base key="endDate" ref="textfield"  id="endDate" name="endDate" readonly="true"/>
+	
+	<!-- 应用类型 -->
+	<base key="sexList" ref="select" id="sex" list="#{0:'male',1:'female'}" listKey="key" listValue="%{getText(value)}" name="entity.sex"/>
+	<base key="sexSelect" ref="sexList" headerKey="" headerValue="%{getText('all')}"/> 	
+ 	<base key="stateList" ref="select" id="state" list="#{0:'invalid',1:'avail'}" listKey="key" listValue="%{getText(value)}" name="entity.state" value="1"/>
+ 	<base key="stateSelect" ref="stateList" headerKey="" headerValue="%{getText('all')}"/>
+ 	<base key="displayList" ref="select" id="state" list="#{0:'no',1:'yes'}" listKey="key" listValue="%{getText(value)}" name="entity.display"/>
+	<base key="roleList" ref="select" list="%{#attr.query.list('role')}" listKey="id" listValue="name" name="entity.roleId"/>
+  	<base key="roleSelect" ref="roleList" headerKey="" headerValue="%{getText('all')}"/> 	
+ 	<base key="menuList" ref="select" id="menu" list="%{#attr.query.list('menu')}" listKey="id" listValue="name" name="entity.menuId"/>
+ 	<base key="menuSelect" ref="menuList" headerKey="" headerValue="%{getText('all')}"/>
+   	<base key="menuNone" ref="menuList" headerKey="0" headerValue="%{getText('none')}"/>   	
+   	<base key="corpList" ref="select" id="corp" list="%{#attr.query.list('corp')}" listKey="id" listValue="name" name="entity.corpId"/>
+   	<base key="corpSelect" ref="corpList" headerKey="" headerValue="%{getText('all')}"/>
+ 	<base key="corpNone" ref="corpList" headerKey="0" headerValue="%{getText('none')}"/> 	
+ 	<base key="userList" ref="select" id="user" list="%{#attr.query.list('user')}" listKey="id" listValue="nickName" name="entity.userId"/>
+ 	<base key="userSelect" ref="userList" headerKey="0" headerValue="%{getText('all')}"/>
+ 	<base key="userNone" ref="userList" headerKey="0" headerValue="%{getText('none')}"/>
+ 	<base key="sortList" ref="select" id="sort" list="%{#attr.query.list('sort')}" listKey="id" listValue="name" name="entity.sortId" headerKey="0" headerValue="%{getText('none')}"/>
+ 	<base key="brandList" ref="select" id="brand" list="%{#attr.query.list('brand')}" listKey="id" listValue="name" name="entity.brandId" headerKey="0" headerValue="%{getText('none')}"/>
+ 	<base key="specificationType" ref="select" id="specificationType" list="#{0:'text,type',1:'photo,type'}" listKey="key" listValue="%{getText(value)}"/>
+</templates> 

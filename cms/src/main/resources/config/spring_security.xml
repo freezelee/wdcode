@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+   
+  	<http pattern="/back/verify.*" security="none" />
+  	<http pattern="/back/**.js" security="none" />  
+    <http pattern="/back/**.css" security="none" />  
+    <http pattern="/back/**.jpg" security="none" />
+    <http pattern="/back/**.gif" security="none" />
+    <http pattern="/back/**.png" security="none" />  
+    <http pattern="/back/**.ico" security="none" />
+    <http pattern="/back/favicon.ico" security="none" />
+    <http pattern="/back/index.htm" security="none" />
+    <http auto-config="true" access-denied-page="/back/"> 
+    	<intercept-url pattern="/back/*" access="ROLE_ADMIN"/>
+        <form-login login-page="/back/" login-processing-url="/back/login.htm"
+        	username-parameter="user.name" password-parameter="user.password" 
+            authentication-failure-url="/back/"             
+            default-target-url="/back/main.htm" authentication-success-handler-ref="loginSuccess" />
+         <logout logout-url="/back/logout.htm" logout-success-url="/back/" />   
+         <!-- 验证码 -->
+         <custom-filter before="FORM_LOGIN_FILTER" ref="verifyCodeFilter"/>  
+    </http> 
+
+    <!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
+    我们的所有控制将在这三个类中实现，解释详见具体配置   
+    <beans:bean id="myFilter" class="org.wdcode.site.security.MySecurityFilter">
+        <beans:property name="authenticationManager"
+            ref="authenticationManager" />
+        <beans:property name="accessDecisionManager"
+            ref="myAccessDecisionManager" />
+        <beans:property name="securityMetadataSource"
+            ref="mySecurityMetadataSource" />
+            
+    </beans:bean>
+    -->
+    <!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userService">  
+        	<password-encoder ref="password" />
+        </authentication-provider>
+    </authentication-manager>
+        
+    <!-- UserDetailService 
+    <beans:bean id="myUserDetailService"
+        class="org.wdcode.back.security.BackUserDetailService" />
+-->
+    <!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 
+    <beans:bean id="myAccessDecisionManagerBean"
+        class="org.wdcode.back.security.BackAccessDecisionManager">
+    </beans:bean>
+    -->
+    <!-- 资源源数据定义，即定义某一资源可以被哪些角色访问
+    <beans:bean id="securityMetadataSource"
+        class="org.wdcode.site.security.MySecurityMetadataSource" />
+ -->
+ 
+ 
+ <!-- 
+  <global-method-security pre-post-annotations="enabled">  
+    </global-method-security>  
+   -->
+    <!-- 该路径下的资源不用过滤  
+    <http pattern="/include/js/**" security="none" />  
+    <http pattern="/include/css/**" security="none" />  
+    <http pattern="/include/scripts/**" security="none" />  
+    <http pattern="/include/jsp/**" security="none" />  
+    <http pattern="/images/**" security="none" />  
+    <http pattern="/login.jsp" security="none" />  
+    --> 
+    <!--auto-config = true 则使用from-login. 如果不使用该属性 则默认为http-basic(没有session).-->  
+    <!-- lowercase-comparisons：表示URL比较前先转为小写。-->  
+        <!-- path-type：表示使用Apache Ant的匹配模式。-->  
+    <!--access-denied-page：访问拒绝时转向的页面。-->  
+    <!-- access-decision-manager-ref：指定了自定义的访问策略管理器。   
+    <http use-expressions="true" auto-config="true"  
+        access-denied-page="/include/jsp/timeout.jsp">  
+        -->
+        
+<!--login-page：指定登录页面。  -->  
+<!-- login-processing-url：指定了客户在登录页面中按下 Sign In 按钮时要访问的 URL。-->  
+        <!-- authentication-failure-url：指定了身份验证失败时跳转到的页面。-->  
+        <!-- default-target-url：指定了成功进行身份验证和授权后默认呈现给用户的页面。-->  
+<!-- always-use-default-target：指定了是否在身份验证通过后总是跳转到default-target-url属性指定的URL。 
+          
+<form-login login-page="/login.jsp" default-target-url='/system/default.jsp'  
+        always-use-default-target="true" authentication-failure-url="/login.jsp?login_error=1" />  
+         -->  
+         
+<!--logout-url：指定了用于响应退出系统请求的URL。其默认值为：/j_spring_security_logout。-->  
+        <!-- logout-success-url：退出系统后转向的URL。-->  
+        <!-- invalidate-session：指定在退出系统时是否要销毁Session。
+        <logout invalidate-session="true" logout-success-url="/login.jsp"  
+            logout-url="/j_spring_security_logout" />  
+            -->  
+        <!-- 实现免登陆验证   
+        <remember-me /> 
+        --> 
+  
+        <!-- max-sessions:允许用户帐号登录的次数。范例限制用户只能登录一次。-->  
+<!-- 此值表示：用户第二次登录时，前一次的登录信息都被清空。-->  
+ <!--   exception-if-maximum-exceeded:默认为false，-->  
+<!-- 当exception-if-maximum-exceeded="true"时系统会拒绝第二次登录。
+  
+        <session-management invalid-session-url="/login.jsp"  
+            session-fixation-protection="none">  
+            <concurrency-control max-sessions="1"  
+                error-if-maximum-exceeded="false" />  
+        </session-management>  
+        <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />  
+        <session-management  
+            session-authentication-strategy-ref="sas" />  
+  
+    </http>  
+<beans:bean id="sas"  
+class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">  
+        <beans:constructor-arg name="sessionRegistry"  
+            ref="sessionRegistry" />  
+        <beans:property name="maximumSessions" value="1" />  
+        -->
+        <!-- 防止session攻击   
+        <beans:property name="alwaysCreateSession" value="true" />  
+        <beans:property name="migrateSessionAttributes" value="false" />  
+        -->
+        <!--  同一个帐号 同时只能一个人登录   
+        <beans:property name="exceptionIfMaximumExceeded"  
+            value="false" />  
+    </beans:bean>  
+    <beans:bean id="sessionRegistry"  
+        class="org.springframework.security.core.session.SessionRegistryImpl" />  
+        -->  
+    <!-- 
+事件监听:实现了ApplicationListener监听接口，包括AuthenticationCredentialsNotFoundEvent 事件，-->  
+    <!-- AuthorizationFailureEvent事件，AuthorizedEvent事件， PublicInvocationEvent事件 
+    <beans:bean  
+        class="org.springframework.security.authentication.event.LoggerListener" />  
+        --> 
+    <!-- 自定义资源文件   提示信息 
+    <beans:bean id="messageSource"  
+class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+        <beans:property name="basenames" value="classpath:message_zh_CN">  
+</beans:property>  
+
+    </beans:bean>  
+    -->  
+    <!-- 配置过滤器 
+    <beans:bean id="myFilter"  
+        class="com.taskmanager.web.security.MySecurityFilter">  
+        -->  
+    <!-- 用户拥有的权限 
+    <beans:property name="authenticationManager" ref="myAuthenticationManager" />  
+     --> 
+    <!-- 用户是否拥有所请求资源的权限
+    <beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />  
+     -->  
+    <!-- 资源与权限对应关系  
+    <beans:property name="securityMetadataSource" ref="mySecurityMetadataSource" />  
+    </beans:bean>  
+    --> 
+    <!-- 实现了UserDetailsService的Bean 
+    <authentication-manager alias="myAuthenticationManager">  
+        <authentication-provider user-service-ref="myUserDetailServiceImpl">   
+            <password-encoder hash="md5" ref="passwordEncoder">  
+            </password-encoder>  
+        </authentication-provider>  
+    </authentication-manager>  
+   -->   
+    <!-- 验证用户请求资源  是否拥有权限
+    <beans:bean id="myAccessDecisionManager"  
+        class="com.taskmanager.web.security.MyAccessDecisionManager">  
+    </beans:bean>  
+     -->  
+    <!-- 系统运行时加载 系统要拦截的资源   与用户请求时要过滤的资源 
+    <beans:bean id="mySecurityMetadataSource"  
+        class="com.taskmanager.web.security.MySecurityMetadataSource">  
+        <beans:constructor-arg name="powerService" ref="powerService">  
+</beans:constructor-arg>  
+    </beans:bean>  
+    -->  
+    <!-- 获取用户登入角色信息  
+    <beans:bean id="myUserDetailServiceImpl"  
+        class="com.taskmanager.web.security.MyUserDetailServiceImpl">  
+        <beans:property name="userService" ref="userService"></beans:property>  
+    </beans:bean>  
+  --> 
+    <!-- 用户的密码加密或解密 
+    <beans:bean id="passwordEncoder"  
+class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" /> 
+-->  
+</beans:beans>

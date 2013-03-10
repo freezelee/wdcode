@@ -45,7 +45,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return
 	 */
 	public List<E> list() {
-		return valid ? Lists.getList(mapCache.values()) : emptyValueList;
+		return valid ? Lists.sort(Lists.getList(mapCache.values())) : emptyValueList;
 	}
 
 	/**

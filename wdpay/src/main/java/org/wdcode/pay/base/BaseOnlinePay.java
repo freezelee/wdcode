@@ -10,7 +10,7 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.pay.bean.Payment;
+import org.wdcode.pay.bean.PayBean;
 import org.wdcode.pay.constants.PayConstants;
 import org.wdcode.pay.interfaces.Pay;
 import org.wdcode.pay.params.PayParams;
@@ -36,7 +36,7 @@ public abstract class BaseOnlinePay implements Pay {
 	}
 
 	@Override
-	public Object pay(Payment pay) {
+	public Object pay(PayBean pay) {
 		return HttpUtil.toUrl(getUrl(), getParameters(pay));
 	}
 
@@ -65,7 +65,7 @@ public abstract class BaseOnlinePay implements Pay {
 	 * @param pay 支付实体
 	 * @return 支付参数
 	 */
-	protected Map<String, String> getParameters(Payment pay) {
+	protected Map<String, String> getParameters(PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
 		data.put("service", "create_direct_pay_by_user");

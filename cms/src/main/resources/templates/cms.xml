@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>  
+	<!-- 导航模板 -->
+	<module key="navigation">
+		<template key="add" title="add,navigation" action="navigation_add"> 
+			<node key="field" text="navigation,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="url" ref="textfield"  name="entity.url"/> 
+			<node key="field" text="position" ref="select"  name="entity.state" list="#{0:'top',1:'middle',2:'bottom'}" listKey="key" listValue="%{getText(value)}"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,navigation" action="navigation_edit" ref="add">
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="navigation,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="navigation_theme_add"/>	
+			<node key="submit" ref="delButton" action="navigation_dels"/>
+			<node th="navigation,name;position;url" />	
+			<node td="name;%{getText(#{0:'top',1:'middle',2:'bottom'}.get(`state`))};url"/>  			
+		</template>
+	</module>
+	
+	<!-- 友情链接模板 -->
+	<module key="friendLink">
+		<template key="add" title="add,friendLink" action="friendLink_add" enctype="multipart/form-data"> 
+			<node key="field" text="friendLink,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="url" ref="textfield"  name="entity.url"/> 
+			<node key="field" text="logo" ref="file"  name="upload"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,friendLink" action="friendLink_edit" ref="add">
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="friendLink,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="friendLink_theme_add"/>	
+			<node key="submit" ref="delButton" action="friendLink_dels"/>
+			<node th="friendLink,name;url;logo;date" />	
+			<node td="name;url;logo;date"/> 
+		</template>
+	</module>
+	
+	<!-- 属性模板 -->
+	<module key="property">
+		<template key="add" title="add,property" action="property_add"> 
+			<node key="field" text="property,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="property,value" ref="textfield"  name="entity.value"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,property" action="property_edit">
+			<node key="field" text="property,name" ref="textfield"  name="entity.name" readonly="true"/> 
+			<node key="field" text="property,value" ref="textfield"  name="entity.value"/>
+			<node key="hidden" name="entity.key"/> 
+		</template>
+		<template key="list" title="property,list" edit="true"> 
+			<node key="submit" ref="addSubmit" action="property_theme_add"/>	
+			<node key="submit" ref="delButton" action="property_dels"/>
+			<node th="property,name;property,value" />	
+			<node td="name;substring(value,50)"/> 
+		</template>
+	</module>
+	
+	<!-- 文章模板 -->
+	<module key="article">
+		<template key="add" title="add,article" action="article_add"> 
+			<node key="field" text="article,title" ref="textfield"  name="entity.name"/>
+			<node key="field" text="category" ref="select" list="%{#attr.query.list('category')}" listKey="id" listValue="name" name="entity.categoryId" headerKey="0" headerValue="%{getText('none')}"/>
+			<node key="field" text="content" ref="editor" name="entity.content"/>
+			<node key="field" text="title" ref="textfield" name="entity.title"/>
+			<node key="field" text="keyWords" ref="textfield" name="entity.keyWords"/>
+			<node key="field" text="description" ref="textarea" name="entity.description"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,article" action="article_edit" ref="add">  
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list" title="article,list"  edit="true"> 
+			<node key="submit" ref="addSubmit" action="article_theme_add"/>	
+			<node key="submit" ref="delButton" action="article_dels"/>
+			<node th="title;category;createDate" />	
+			<node td="name;categoryId;date"/> 
+		</template>
+	</module>   
+	
+	<!-- 栏目模板 -->
+	<module key="category">
+		<template key="add" title="add,category" action="category_add"> 
+			<node key="field" text="category,name" ref="textfield"  name="entity.name"/>
+			<node key="field" text="superior,category" ref="select" list="%{#attr.query.list('category')}" listKey="id" listValue="name" name="entity.categoryId" headerKey="0" headerValue="%{getText('none')}"/>
+			<node key="field" text="url" ref="textfield" name="entity.url"/>
+			<node key="field" text="title" ref="textfield" name="entity.title"/>
+			<node key="field" text="keyWords" ref="textfield" name="entity.keyWords"/>
+			<node key="field" text="description" ref="textarea" name="entity.description"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,category" action="category_edit" ref="add">  
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list" title="category,list"  edit="true"> 
+			<node key="submit" ref="addSubmit" action="category_theme_add"/>	
+			<node key="submit" ref="delButton" action="category_dels"/>
+			<node th="category,name;url" />	
+			<node td="name;url"/> 
+		</template>
+	</module>   
+	
+	<!-- 页面日志模板 -->
+	<module key="pageLogs">
+		<template key="list" title="page,logs,list" edit="true" del="true"> 
+			<node key="search" text="start,date" ref="startDate"/>	
+			<node key="search" text="end,date" ref="endDate"/>	
+			<node key="submit" ref="querySubmit" action="pageLogs_page"/>	
+			<node key="submit" ref="delButton" action="pageLogs_dels"/>
+			<node key="submit" ref="trunButton" action="pageLogs_trun"/>
+			<node th="user,name;ip;in,date;out,date;stop,date" />	
+			<node td="userId;ip;date;outDate;(outTime - time)/1000"/> 
+		</template>
+	</module>  
+	
+	<!-- 留言模板 -->
+	<module key="leaves">
+		<template key="list" title="leave,list" edit="true"> 
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="leaveWord_page"/>	
+			<node key="submit" ref="delButton" action="leaveWord_dels"/>
+			<node th="leave,name;sort,name;user;ip;content;date;state" />	
+			<node td="name;%{#attr.query.get('leaveSort',sortId).name};%{#attr.query.get('user',userId).name};ip;content;time;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/>
+		</template>
+	</module>
+	
+	<!-- 回复留言模板 -->
+	<module key="revert">
+		<template key="add" title="add,revert" action="revert_add"> 
+			<node key="field" text="revert,name" ref="textfield"  name="entity.name"/> 
+			<node key="field" text="revert,content" ref="textfield"  name="entity.content"/>
+			<node key="field" text="state" ref="stateList"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,leave" action="revert_edit" ref="add">  
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list" title="leave,list" edit="true"> 
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="revert_page"/>	
+			<node key="submit" ref="delButton" action="revert_dels"/>
+			<node th="leave,name;sort;content;date;state" />	
+			<node td="name;sort;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module>
+	
+	<!-- 留言分类模板 -->
+	<module key="leaveSort">
+		<template key="add" title="add,leave,sort" action="leaveSort_add"> 
+			<node key="field" text="leave,sort,name" ref="textfield"  name="entity.name"/>  >
+			<node key="field" text="state" ref="stateList"/>  
+			<node key="submit" ref="editSubmit" />
+		</template>
+		<template key="edit" title="edit,leave,sort" action="leaveSort_edit" ref="add">  
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list">
+			<node title="leave,sort,list" edit="true"/>	
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="leaveSort_page"/>	
+			<node key="submit" ref="delButton" action="leaveSort_dels"/>
+			<node th="leave,sort,name;state" />	
+			<node td="name;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module> 
+	
+	<!-- 消息类别模板 -->
+	<module key="messageSort">
+		<template key="add" title="add,message,sort" action="messageSort_add"> 
+			<node key="field" text="message,sort,name" ref="textfield"  name="entity.name"/>  
+			<node key="field" text="state" ref="stateList"/>  
+			<node key="submit" ref="submit" />
+		</template>
+		<template key="edit" title="edit,message,sort" action="messageSort_edit" ref="add">  
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list">
+			<node title="message,sort,list" edit="true"/>	
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="messageSort_page"/>	
+			<node key="submit" ref="delButton" action="messageSort_dels"/>
+			<node th="message,sort,name;state" />	
+			<node td="name;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module> 
+	
+	<!-- 消息模板 -->
+	<module key="message">
+		<template key="list" title="message,list" edit="true"> 
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="message_page"/>	
+			<node key="submit" ref="delButton" action="message_dels"/>
+			<node th="message,name;sort;author;content;date;state" />	
+			<node td="name;sort;author;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module>
+	
+	<!-- 系统消息模板 -->
+	<module key="systemMessage" >
+		<template key="add" title="add,system,message" action="systemMessage_add"> 
+			<node key="field" text="system,message,name" ref="textfield"  name="entity.name"/>
+			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
+			<node key="field" text="state" ref="stateList"/>   
+			<node key="submit" ref="addSubmit" />
+		</template>
+		<template key="edit" title="edit,system,message" action="systemMessage_edit" ref="add"> 
+			<node key="hidden" name="entity.key"/>
+		</template>
+		<template key="list" title="system,message,list" edit="true"> 
+			<node key="search" text="state" ref="stateSelect"/>	
+			<node key="submit" ref="querySubmit" action="systemMessage_page"/>	
+			<node key="submit" ref="delButton" action="systemMessage_dels"/>
+			<node th="message,name;sort;content;date;state" />	
+			<node td="name;sort;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
+		</template>
+	</module>     
+	
+	<!-- 静态化模板模板 -->
+	<module key="statics" >
+		<template key="all" title="site,update" action="statics"> 
+			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
+			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
+			<node key="field" text="state" ref="stateList"/>   
+			<node key="submit" ref="addSubmit" />
+		</template> 
+		<template key="goods" title="site,update" action="statics"> 
+			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
+			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
+			<node key="field" text="state" ref="stateList"/>   
+			<node key="submit" ref="addSubmit" />
+		</template> 
+		<template key="article" title="site,update" action="statics"> 
+			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
+			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
+			<node key="field" text="state" ref="stateList"/>   
+			<node key="submit" ref="addSubmit" />
+		</template> 
+	</module>     
+</templates>

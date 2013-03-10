@@ -27,7 +27,7 @@
 		<action name="register" class="userAction" method="register">
 			<result type="freemarker">/WEB-INF/template/shop/index.ftl</result>
 		</action> 	 
-		<!-- 注册 -->
+		<!-- 订单 -->
 		<action name="orderAdd" class="shopAction" method="orderAdd">
 			<result type="freemarker">/WEB-INF/template/shop/orders_result.ftl</result>
 		</action> 	 
@@ -37,9 +37,7 @@
 		<action name="orderTrade" class="shopAction" method="orderTrade">
 			<result type="freemarker">/WEB-INF/template/shop/orders_trade.ftl</result>
 		</action> 	
-		
-		<!-- 验证码 -->
-		<action name="verify" class="shopAction" method="verifyCode" />
+		 
 		<!-- 通用配置 -->
 		<action name="*_*_*" class="shopAction" method="{2}">
 			<result type="freemarker">/WEB-INF/template/shop/${module}_${mode}.ftl</result>

@@ -1,4 +1,62 @@
- 
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2013/3/3 15:28:27                            */
+/*==============================================================*/
+
+
+drop table if exists area;
+
+drop table if exists brand;
+
+drop table if exists comment;
+
+drop table if exists corp;
+
+drop table if exists customer;
+
+drop table if exists dispatch;
+
+drop table if exists favorite;
+
+drop index Index_SN on goods;
+
+drop table if exists goods;
+
+drop table if exists goods_specification;
+
+drop table if exists goods_type_brand;
+
+drop table if exists money;
+
+drop index Index_Date on money_in_detail;
+
+drop index Index_User on money_in_detail;
+
+drop table if exists money_in_detail;
+
+drop index Index_Date on money_out_detail;
+
+drop index Index_User on money_out_detail;
+
+drop table if exists money_out_detail;
+
+drop table if exists notify;
+
+drop table if exists orders;
+
+drop index Index_SN on product;
+
+drop table if exists product;
+
+drop table if exists receiver;
+
+drop table if exists sort;
+
+drop table if exists specification;
+
+drop table if exists trolley;
+
+drop table if exists type;
 
 /*==============================================================*/
 /* Table: area                                                  */
@@ -266,6 +324,7 @@ create table notify
    user_id              int,
    goods_id             int,
    product_id           int,
+   time                 bigint,
    primary key (id)
 );
 

@@ -2,7 +2,7 @@ package org.wdcode.pay.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.wdcode.pay.bean.Payment;
+import org.wdcode.pay.bean.PayBean;
 
 /**
  * 支付接口
@@ -46,7 +46,7 @@ public interface Pay {
 	 * @param pay 支付实体
 	 * @return 如果 isOnline 为 true 返回String url 用于跳转支付 如果 isAuto 为 true 返回是否成功
 	 */
-	Object pay(Payment pay);
+	Object pay(PayBean pay);
 
 	/**
 	 * 支付返回调用方法 用着在线支付才会使用

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="cms" extends="struts-base">
+		<!-- 全局返回 -->	
+		<global-results>
+			<result name="login">/WEB-INF/template/shop/login.ftl</result>
+		</global-results>
+			
+		<!-- 主页-->
+		<action name="index" class="cmsAction">
+			<result type="freemarker">/WEB-INF/template/shop/index.ftl</result>
+		</action> 	
+		<!-- 登录 -->
+		<action name="login" class="cmsAction" method="login">
+			<result>/</result>
+		</action> 		
+		<!-- 验证码  -->
+		<action name="verify" class="cmsAction" method="verifyCode"/>
+		<!-- 登出  -->
+		<action name="logout" class="cmsAction" method="logout">
+			<result type="redirect">/</result>
+		</action>
+		<!-- 注册 -->
+		<action name="register" class="userAction" method="register">
+			<result type="freemarker">/WEB-INF/template/shop/index.ftl</result>
+		</action> 	 
+	   
+		<!-- 通用配置 -->
+		<action name="*_*_*" class="cmsAction" method="{2}">
+			<result type="freemarker">/WEB-INF/template/shop/${module}_${mode}.ftl</result>
+			<result name="list" type="freemarker">/WEB-INF/template/shop/${module}_${mode}.ftl</result>
+		</action> 
+	</package>
+</struts>

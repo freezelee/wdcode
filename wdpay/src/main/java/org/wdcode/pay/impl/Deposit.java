@@ -3,7 +3,7 @@ package org.wdcode.pay.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
-import org.wdcode.pay.bean.Payment; 
+import org.wdcode.pay.bean.PayBean; 
 import org.wdcode.pay.interfaces.Pay;
 
 /**
@@ -40,7 +40,7 @@ public final class Deposit implements Pay {
 	}
 
 	@Override
-	public Object pay(Payment pay) {
+	public Object pay(PayBean pay) {
 		return true;
 	}
 

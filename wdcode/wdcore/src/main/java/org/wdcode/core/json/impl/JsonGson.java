@@ -30,6 +30,6 @@ public final class JsonGson implements Json {
 
 	@Override
 	public <E> List<E> toList(String json, Class<E> clazz) {
-		return GSON.fromJson(json, new TypeToken<List<E>>() {}.getType());
+		return GSON.fromJson(json, new TypeToken<E>() {}.getType());
 	}
 }

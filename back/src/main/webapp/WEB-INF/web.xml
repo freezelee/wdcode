@@ -23,7 +23,7 @@
 	</context-param> 
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>Back</param-value>
+		<param-value>back</param-value>
 	</context-param>	
 
 	<!-- 过滤器 是否登录 

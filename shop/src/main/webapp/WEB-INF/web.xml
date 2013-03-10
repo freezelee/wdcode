@@ -40,7 +40,7 @@
 	</context-param>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>Shop</param-value>
+		<param-value>shop</param-value>
 	</context-param>
 	
 	<!-- 过滤器 是否登录 -->

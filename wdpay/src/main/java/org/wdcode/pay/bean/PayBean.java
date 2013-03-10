@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @since JDK7
  * @version 1.0 2011-11-08
  */
-public final class Payment {
+public final class PayBean {
 	// 订单号
 	private String		no;
 	// 支付总额

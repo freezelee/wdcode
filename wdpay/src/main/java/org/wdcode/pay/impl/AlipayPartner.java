@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.base.BaseOnlinePay;
-import org.wdcode.pay.bean.Payment;
+import org.wdcode.pay.bean.PayBean;
 
 /**
  * 支付宝（担保交易）
@@ -30,7 +30,7 @@ public final class AlipayPartner extends BaseOnlinePay {
 	}
 
 	@Override
-	protected Map<String, String> getParameters(Payment pay) {
+	protected Map<String, String> getParameters(PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = super.getParameters(pay);
 		data.put("service", "create_partner_trade_by_buyer");
