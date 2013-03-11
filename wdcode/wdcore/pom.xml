@@ -139,6 +139,18 @@
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.2</version>
+			<scope>provided</scope>
+		</dependency> 
+		<dependency>
+		    <groupId>net.minidev</groupId>
+		    <artifactId>json-smart</artifactId>
+		    <version>1.1.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.whalin</groupId>
 			<artifactId>Memcached-Java-Client</artifactId>
 			<version>3.0.1</version>
@@ -208,12 +220,6 @@
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase</artifactId>
 			<version>0.94.3</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>

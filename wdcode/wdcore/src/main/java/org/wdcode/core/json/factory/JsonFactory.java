@@ -5,6 +5,7 @@ import org.wdcode.core.json.Json;
 import org.wdcode.core.json.impl.JsonFast;
 import org.wdcode.core.json.impl.JsonGson;
 import org.wdcode.core.json.impl.JsonLib;
+import org.wdcode.core.json.impl.JsonSmart;
 
 /**
  * JSON 解析构建器
@@ -32,6 +33,8 @@ public final class JsonFactory extends FactoryKey<String, Json> {
 				return new JsonFast();
 			case "lib":
 				return new JsonLib();
+			case "smart":
+				return new JsonSmart();
 			default:
 				return new JsonGson();
 		}

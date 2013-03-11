@@ -15,6 +15,14 @@ import org.wdcode.common.lang.Conversion;
  * @version 1.0 2009-09-09
  */
 public final class ArrayUtil {
+	/**
+	 * 判断是否数组
+	 * @param obj 对象
+	 * @return 是否数组
+	 */
+	public static boolean isArray(Object obj) {
+		return !EmptyUtil.isEmpty(obj) && (obj.getClass().isArray());
+	}
 
 	/**
 	 * 把数组转换成列表

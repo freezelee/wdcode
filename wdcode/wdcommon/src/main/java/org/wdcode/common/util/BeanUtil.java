@@ -26,12 +26,13 @@ public final class BeanUtil {
 	 * @param target 目标对象
 	 * @return 目标对象
 	 */
-	public static void copy(Object source, Object target) {
+	public static Object copy(Object source, Object target) {
 		try {
 			BeanUtils.copyProperties(target, source);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
+		return target;
 	}
 
 	/**

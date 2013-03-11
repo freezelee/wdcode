@@ -18,6 +18,15 @@ import org.wdcode.common.util.EmptyUtil;
  */
 public final class Maps {
 	/**
+	 * 判断是否Map
+	 * @param obj 对象
+	 * @return 是否Map
+	 */
+	public static boolean isMap(Object obj) {
+		return !EmptyUtil.isEmpty(obj) && obj instanceof Map<?, ?>;
+	}
+
+	/**
 	 * 获得Map实例 默认初始化大小为10
 	 * @return Map
 	 */

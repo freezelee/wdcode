@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.wdcode.common.util.EmptyUtil;
+
 /**
  * Set的帮助类,获得Set的一些操作
  * @author WD
@@ -14,6 +16,15 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @version 1.0 2009-09-08
  */
 public final class Sets {
+	/**
+	 * 判断是否Set
+	 * @param obj 对象
+	 * @return 是否Set
+	 */
+	public static boolean isSet(Object obj) {
+		return !EmptyUtil.isEmpty(obj) && obj instanceof Set<?>;
+	}
+
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
 	 * @return Set

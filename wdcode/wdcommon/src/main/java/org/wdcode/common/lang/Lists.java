@@ -18,6 +18,24 @@ import org.wdcode.common.util.EmptyUtil;
  */
 public final class Lists {
 	/**
+	 * 判断是否集合
+	 * @param obj 对象
+	 * @return 是否集合
+	 */
+	public static boolean isCollection(Object obj) {
+		return !EmptyUtil.isEmpty(obj) && obj instanceof Collection<?>;
+	}
+
+	/**
+	 * 判断是否列表
+	 * @param obj 对象
+	 * @return 是否列表
+	 */
+	public static boolean isList(Object obj) {
+		return !EmptyUtil.isEmpty(obj) && obj instanceof List<?>;
+	}
+
+	/**
 	 * 获得List实例 默认初始化大小为10
 	 * @return List
 	 */
