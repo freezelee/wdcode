@@ -2,7 +2,7 @@ package org.wdcode.common.util;
 
 import java.math.BigDecimal;
 
-import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.constants.StringConstants; 
 import org.wdcode.common.lang.Conversion;
 
 /**
@@ -25,7 +25,7 @@ public final class MathUtil {
 		BigDecimal result = BigDecimal.ZERO;
 		// 循环相加
 		for (int i = 0; i < values.length; i++) {
-			result = result.add(Conversion.toBigDecimal(values[i]));
+			result = result.add(scale(values[i]));
 		}
 		// 返回结果
 		return result;
@@ -39,7 +39,7 @@ public final class MathUtil {
 	 * @retur 结果
 	 */
 	public static BigDecimal subtract(Object v1, Object v2) {
-		return Conversion.toBigDecimal(v1).subtract(Conversion.toBigDecimal(v2));
+		return scale(v1).subtract(scale(v2));
 
 	}
 
@@ -65,7 +65,7 @@ public final class MathUtil {
 		BigDecimal result = BigDecimal.ONE;
 		// 循环相乘
 		for (int i = 0; i < values.length; i++) {
-			result = result.multiply(Conversion.toBigDecimal(values[i]));
+			result = result.multiply(scale(values[i]));
 		}
 		// 返回结果
 		return result;
@@ -90,7 +90,7 @@ public final class MathUtil {
 	 * @return 两个参数的商
 	 */
 	public static BigDecimal divide(Object v1, Object v2, int scale) {
-		return Conversion.toBigDecimal(v1).divide(Conversion.toBigDecimal(v2), scale, ROUND);
+		return scale(v1).divide(scale(v2), scale, ROUND);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public final class MathUtil {
 	 * @return 字符串
 	 */
 	public static String toString(Object val) {
-		return Conversion.toBigDecimal(val).toPlainString();
+		return scale(val).toPlainString();
 	}
 
 	/**
