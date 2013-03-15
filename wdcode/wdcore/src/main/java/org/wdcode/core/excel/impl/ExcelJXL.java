@@ -1,13 +1,11 @@
 package org.wdcode.core.excel.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 
 import org.wdcode.common.constants.StringConstants;
 
+import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.log.Logs;
-import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.core.excel.base.BaseExcel;
@@ -38,40 +36,20 @@ public final class ExcelJXL extends BaseExcel {
 	private WritableWorkbook	writableWorkbook;
 
 	/**
-	 * 构造方法 构造读Excel实例
-	 * @param in Excel内容流
+	 * 构造方法
+	 * @param file excel文件
 	 */
-	public ExcelJXL(InputStream in) {
+	public ExcelJXL(File file) {
 		try {
 			// 设置索引
 			setIndex(0);
 			// 流获得工作薄
-			workbook = Workbook.getWorkbook(in);
+			workbook = Workbook.getWorkbook(FileUtil.getInputStream(file));
+			// 设置WritableWorkbook对象
+			writableWorkbook = Workbook.createWorkbook(FileUtil.getOutputStream(file));
 		} catch (Exception e) {
 			// 记录日志
 			Logs.error(e);
-		} finally {
-			// 关闭流
-			CloseUtil.close(in);
-		}
-	}
-
-	/**
-	 * 构造方法 构造写Excel实例
-	 * @param out 输出流 @ 获得写Excel实例失败
-	 */
-	public ExcelJXL(OutputStream out) {
-		try {
-			// 设置索引
-			setIndex(0);
-			// 设置WritableWorkbook对象
-			writableWorkbook = Workbook.createWorkbook(out);
-		} catch (IOException e) {
-			// 记录日志
-			Logs.error(e);
-		} finally {
-			// 关闭流
-			CloseUtil.close(out);
 		}
 	}
 

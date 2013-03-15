@@ -2,9 +2,9 @@ package org.wdcode.core.excel.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,29 +25,12 @@ import org.wdcode.core.excel.base.BaseExcel;
  * @version 1.0 2009-03-09
  */
 public final class ExcelPOI extends BaseExcel {
-	// 工作薄
+	// 工作薄 读
 	private Workbook		workbook;
+	// 工作薄 写
+	private Workbook		writer;
 	// 写入文件流
 	private OutputStream	out;
-
-	/**
-	 * 构造方法
-	 * @param in 输入流
-	 */
-	public ExcelPOI(InputStream in) {
-		// 设置为第一个工作薄
-		setIndex(0);
-		try {
-			// 获得工作薄
-			workbook = WorkbookFactory.create(in);
-		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-		} finally {
-			// 关闭流
-			CloseUtil.close(in);
-		}
-	}
 
 	/**
 	 * 构造方法
@@ -56,35 +39,13 @@ public final class ExcelPOI extends BaseExcel {
 	public ExcelPOI(File file) {
 		// 设置为第一个工作薄
 		setIndex(0);
-		// 声明流
-		InputStream in = null;
 		try {
-			// 获得文件流
-			in = FileUtil.getInputStream(file);
+			writer = new HSSFWorkbook();
 			// 如果文件存在
-			workbook = WorkbookFactory.create(in);
-		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-		} finally {
-			// 关闭流
-			CloseUtil.close(in);
-		}
+			workbook = WorkbookFactory.create(file);
+		} catch (Exception e) {}
 		// 获得输出流
 		this.out = FileUtil.getOutputStream(file);
-	}
-
-	/**
-	 * 构造方法
-	 * @param out 输出流
-	 */
-	public ExcelPOI(OutputStream out) {
-		// 设置为第一个工作薄
-		setIndex(0);
-		// 设置流
-		this.out = out;
-		// 实例化工作薄
-		// workbook = WorkbookFactory.create(out);
 	}
 
 	/**
@@ -104,7 +65,7 @@ public final class ExcelPOI extends BaseExcel {
 	 */
 	public void createSheet(String name, int index) {
 		// 创建工作薄
-		workbook.createSheet(name);
+		writer.createSheet(name);
 		// 设置索引
 		setIndex(index);
 	}
@@ -115,7 +76,7 @@ public final class ExcelPOI extends BaseExcel {
 	 */
 	public void createSheet(String name) {
 		// 创建工作薄
-		workbook.createSheet(name);
+		writer.createSheet(name);
 		// 设置索引
 		setIndex(workbook.getSheetIndex(name));
 	}
@@ -139,18 +100,14 @@ public final class ExcelPOI extends BaseExcel {
 	 * @return 单元格内容
 	 */
 	public String readContents(int row, int col) {
-		// 声明 content
-		String content = null;
 		// 获得Sheet
 		Sheet sheet = workbook.getSheetAt(getIndex());
 		// 获得Row
 		Row hRow = sheet.getRow(row);
 		// 获得Cell
 		Cell cell = hRow == null ? null : hRow.getCell(col);
-		// 添加内容到列 列表
-		content = Conversion.toString(cell);
 		// 返回单元格内容
-		return content;
+		return Conversion.toString(cell);
 	}
 
 	/**
@@ -194,11 +151,11 @@ public final class ExcelPOI extends BaseExcel {
 	public void write() {
 		try {
 			// 写Excel
-			workbook.write(out);
+			writer.write(out);
 			// 刷新缓存
 			out.flush();
 		} catch (IOException e) {
-			Logs.error(e);
+			Logs.warn(e);
 		}
 	}
 
@@ -213,10 +170,10 @@ public final class ExcelPOI extends BaseExcel {
 		Sheet sheet = null;
 		try {
 			// 如果Sheet存在获得Sheet
-			sheet = workbook.getSheetAt(getIndex());
+			sheet = writer.getSheetAt(getIndex());
 		} catch (Exception e) {
 			// 不存在创建Sheet
-			sheet = workbook.createSheet();
+			sheet = writer.createSheet();
 		}
 		// 获得Row
 		Row hRow = sheet.getRow(row);
