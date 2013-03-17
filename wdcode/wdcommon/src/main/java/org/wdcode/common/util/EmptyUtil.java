@@ -1,5 +1,6 @@
 package org.wdcode.common.util;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -43,6 +44,15 @@ public final class EmptyUtil {
 		} else {
 			return obj == null;
 		}
+	}
+
+	/**
+	 * 判断文件是否空 判断 file == null || file.exists();
+	 * @param file 对象
+	 * @return true为空,false非空
+	 */
+	public static boolean isEmpty(File file) {
+		return file == null || !file.exists();
 	}
 
 	/**

@@ -12,7 +12,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.cms.po.base.BaseMessage
+import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.EntityIp
+import org.wdcode.site.entity.EntityUser
 import org.wdcode.site.po.User
 
 /**
@@ -25,7 +27,15 @@ import org.wdcode.site.po.User
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-class Message extends BaseMessage {
+class Message extends BaseEntityIdTime implements EntityIp, EntityUser {
+	// IP
+	String				ip
+	// 内容
+	String				content
+	// 用户ID
+	Integer				userId
+	// 名称
+	String				name
 	// 用户列表
 	@ManyToMany
 	@JoinTable(name = "user_message", joinColumns = @JoinColumn(name = "message_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))

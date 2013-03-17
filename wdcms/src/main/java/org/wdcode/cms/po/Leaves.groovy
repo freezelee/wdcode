@@ -7,7 +7,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.cms.po.base.BaseMessage
+import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.EntityIp
+import org.wdcode.site.entity.EntityUser
 
 /**
  * 留言实体
@@ -19,5 +21,13 @@ import org.wdcode.cms.po.base.BaseMessage
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-class Leaves extends BaseMessage {
+class Leaves extends BaseEntityIdTime implements EntityIp, EntityUser {
+	// IP
+	String				ip
+	// 内容
+	String				content
+	// 用户ID
+	Integer				userId
+	// 名称
+	String				name
 }

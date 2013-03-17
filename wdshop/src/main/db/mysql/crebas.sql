@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/3/3 15:28:27                            */
+/* Created on:     2013/3/17 20:59:29                           */
 /*==============================================================*/
 
 
@@ -27,18 +27,6 @@ drop table if exists goods_specification;
 drop table if exists goods_type_brand;
 
 drop table if exists money;
-
-drop index Index_Date on money_in_detail;
-
-drop index Index_User on money_in_detail;
-
-drop table if exists money_in_detail;
-
-drop index Index_Date on money_out_detail;
-
-drop index Index_User on money_out_detail;
-
-drop table if exists money_out_detail;
 
 drop table if exists notify;
 
@@ -244,78 +232,6 @@ create table money
 alter table money comment '金钱表';
 
 /*==============================================================*/
-/* Table: money_in_detail                                       */
-/*==============================================================*/
-create table money_in_detail
-(
-   id                   int not null auto_increment,
-   user_id              int comment '主键',
-   money                decimal(20,2) comment '菜单名',
-   overage              decimal(20,2),
-   amount               decimal(20,2),
-   time                 int default 1 comment '状态',
-   type                 tinyint,
-   op_uid               int,
-   description          varchar(200),
-   detail               varchar(500),
-   primary key (id)
-);
-
-alter table money_in_detail comment '金钱入账表';
-
-/*==============================================================*/
-/* Index: Index_User                                            */
-/*==============================================================*/
-create index Index_User on money_in_detail
-(
-   user_id
-);
-
-/*==============================================================*/
-/* Index: Index_Date                                            */
-/*==============================================================*/
-create index Index_Date on money_in_detail
-(
-   time
-);
-
-/*==============================================================*/
-/* Table: money_out_detail                                      */
-/*==============================================================*/
-create table money_out_detail
-(
-   id                   int not null auto_increment,
-   user_id              int comment '主键',
-   money                decimal(20,2) comment '菜单名',
-   overage              decimal(20,2),
-   amount               decimal(20,2),
-   time                 int default 1 comment '状态',
-   type                 tinyint,
-   op_uid               int,
-   description          varchar(200),
-   detail               varchar(500),
-   primary key (id)
-);
-
-alter table money_out_detail comment '金钱出账表';
-
-/*==============================================================*/
-/* Index: Index_User                                            */
-/*==============================================================*/
-create index Index_User on money_out_detail
-(
-   user_id
-);
-
-/*==============================================================*/
-/* Index: Index_Date                                            */
-/*==============================================================*/
-create index Index_Date on money_out_detail
-(
-   time
-);
-
-/*==============================================================*/
 /* Table: notify                                                */
 /*==============================================================*/
 create table notify
@@ -349,7 +265,7 @@ create table orders
 )
 ENGINE= MYISAM;
 
-alter table orders comment '物品订单';
+alter table orders comment '订单';
 
 /*==============================================================*/
 /* Table: product                                               */

@@ -1,3 +1,4 @@
+<#import "/wd.ftl" as wd>
 <link href="${base}/res/jeecms/css/admin.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/res/common/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/res/common/css/jquery.validate.css" rel="stylesheet" type="text/css"/>

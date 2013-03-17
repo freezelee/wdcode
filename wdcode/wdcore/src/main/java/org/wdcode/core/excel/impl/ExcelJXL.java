@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.wdcode.common.constants.StringConstants;
 
-import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
@@ -43,10 +42,16 @@ public final class ExcelJXL extends BaseExcel {
 		try {
 			// 设置索引
 			setIndex(0);
-			// 流获得工作薄
-			workbook = Workbook.getWorkbook(FileUtil.getInputStream(file));
-			// 设置WritableWorkbook对象
-			writableWorkbook = Workbook.createWorkbook(FileUtil.getOutputStream(file));
+			// 判断文件是否存在
+			if (EmptyUtil.isEmpty(file)) {
+				// 设置WritableWorkbook对象
+				writableWorkbook = Workbook.createWorkbook(file);
+			} else {
+				// 流获得工作薄
+				workbook = Workbook.getWorkbook(file);
+				// 设置WritableWorkbook对象
+				writableWorkbook = Workbook.createWorkbook(file, workbook);
+			}
 		} catch (Exception e) {
 			// 记录日志
 			Logs.error(e);
@@ -160,7 +165,7 @@ public final class ExcelJXL extends BaseExcel {
 	 */
 	public void createSheet(String name) {
 		// 创建工作薄
-		createSheet(name, writableWorkbook.getNumberOfSheets() + 1);
+		createSheet(name, writableWorkbook.getNumberOfSheets());
 	}
 
 	/**

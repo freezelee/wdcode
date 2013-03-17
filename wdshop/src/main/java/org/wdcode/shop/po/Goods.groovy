@@ -16,12 +16,12 @@ import org.hibernate.search.annotations.Indexed
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.wdcode.base.entity.base.BaseEntityIdTime
 import org.wdcode.common.constants.ArrayConstants
 import org.wdcode.common.lang.Lists
 import org.wdcode.common.util.EmptyUtil
-import org.wdcode.shop.po.base.BaseGoods
-import org.wdcode.site.entity.EntityFiles;
-import org.wdcode.site.entity.EntityPage;
+import org.wdcode.site.entity.EntityFiles
+import org.wdcode.site.entity.EntityPage
 
 /**
  * 物品
@@ -34,10 +34,24 @@ import org.wdcode.site.entity.EntityPage;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Indexed
-class Goods extends BaseGoods implements EntityFiles{
+class Goods extends BaseEntityIdTime implements EntityFiles{
 	// 名称
 	@Field
 	String					name
+	// 编号
+	String					sn
+	// 价格
+	BigDecimal				price
+	// 成本价
+	BigDecimal				cost
+	// 市场价
+	BigDecimal				market
+	// 库存
+	Integer					store
+	// 重量
+	Integer					weight
+	// 上架
+	Boolean					markeTable
 	// 类别
 	Integer					sortId
 	// 品牌ID

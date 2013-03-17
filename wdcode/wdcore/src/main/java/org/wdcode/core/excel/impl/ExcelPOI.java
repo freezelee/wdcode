@@ -2,7 +2,6 @@ package org.wdcode.core.excel.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -14,7 +13,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.log.Logs;
-import org.wdcode.common.util.CloseUtil;
+import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.excel.base.BaseExcel;
 
 /**
@@ -26,11 +25,9 @@ import org.wdcode.core.excel.base.BaseExcel;
  */
 public final class ExcelPOI extends BaseExcel {
 	// 工作薄 读
-	private Workbook		workbook;
-	// 工作薄 写
-	private Workbook		writer;
+	private Workbook	workbook;
 	// 写入文件流
-	private OutputStream	out;
+	private File		file;
 
 	/**
 	 * 构造方法
@@ -40,22 +37,19 @@ public final class ExcelPOI extends BaseExcel {
 		// 设置为第一个工作薄
 		setIndex(0);
 		try {
-			writer = new HSSFWorkbook();
 			// 如果文件存在
-			workbook = WorkbookFactory.create(file);
+			workbook = EmptyUtil.isEmpty(file) ? new HSSFWorkbook() : WorkbookFactory.create(file);
+			// 获得输出流
+			this.file = file;
 		} catch (Exception e) {}
-		// 获得输出流
-		this.out = FileUtil.getOutputStream(file);
 	}
 
 	/**
 	 * 关闭Excel
 	 */
 	public void close() {
-		// 关闭工作薄
 		workbook = null;
-		// 关闭流
-		CloseUtil.close(out);
+		file = null;
 	}
 
 	/**
@@ -65,7 +59,7 @@ public final class ExcelPOI extends BaseExcel {
 	 */
 	public void createSheet(String name, int index) {
 		// 创建工作薄
-		writer.createSheet(name);
+		workbook.createSheet(name);
 		// 设置索引
 		setIndex(index);
 	}
@@ -76,7 +70,7 @@ public final class ExcelPOI extends BaseExcel {
 	 */
 	public void createSheet(String name) {
 		// 创建工作薄
-		writer.createSheet(name);
+		workbook.createSheet(name);
 		// 设置索引
 		setIndex(workbook.getSheetIndex(name));
 	}
@@ -151,9 +145,7 @@ public final class ExcelPOI extends BaseExcel {
 	public void write() {
 		try {
 			// 写Excel
-			writer.write(out);
-			// 刷新缓存
-			out.flush();
+			workbook.write(FileUtil.getOutputStream(file));
 		} catch (IOException e) {
 			Logs.warn(e);
 		}
@@ -170,10 +162,10 @@ public final class ExcelPOI extends BaseExcel {
 		Sheet sheet = null;
 		try {
 			// 如果Sheet存在获得Sheet
-			sheet = writer.getSheetAt(getIndex());
+			sheet = workbook.getSheetAt(getIndex());
 		} catch (Exception e) {
 			// 不存在创建Sheet
-			sheet = writer.createSheet();
+			sheet = workbook.createSheet();
 		}
 		// 获得Row
 		Row hRow = sheet.getRow(row);
