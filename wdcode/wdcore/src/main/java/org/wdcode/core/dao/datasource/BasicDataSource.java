@@ -5,10 +5,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
- 
+
 import org.wdcode.core.dao.datasource.impl.DataSourceBonecp;
 import org.wdcode.core.dao.datasource.impl.DataSourceC3P0;
 import org.wdcode.core.dao.datasource.impl.DataSourceDBCP;
+import org.wdcode.core.dao.datasource.impl.DataSourceDruid;
 import org.wdcode.core.dao.datasource.impl.DataSourceProxool;
 
 /**
@@ -39,6 +40,9 @@ public final class BasicDataSource implements DataSource {
 				break;
 			case "bonecp":
 				ds = new DataSourceBonecp();
+				break;
+			case "druid":
+				ds = new DataSourceDruid();
 				break;
 		}
 	}

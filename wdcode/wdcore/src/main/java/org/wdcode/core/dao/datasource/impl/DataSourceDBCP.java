@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.wdcode.common.log.Logs;
-import org.wdcode.core.dao.datasource.DataSource;
+import org.wdcode.core.dao.datasource.base.BaseDataSource;
 
 /**
  * DBCP连接池实现
@@ -12,131 +12,134 @@ import org.wdcode.core.dao.datasource.DataSource;
  * @since JDK7
  * @version 1.0 2010-01-23
  */
-public final class DataSourceDBCP extends BasicDataSource implements DataSource {
+public final class DataSourceDBCP extends BaseDataSource {
+	// BasicDataSource数据源
+	private BasicDataSource	ds = new BasicDataSource();
+
 	/**
 	 * 获得驱动类
 	 */
 	public String getDriver() {
-		return super.getDriverClassName();
+		return ds.getDriverClassName();
 	}
 
 	/**
 	 * 获得多长时间检查一次空闲连接
 	 */
 	public long getIdleTimeout() {
-		return super.getTimeBetweenEvictionRunsMillis();
+		return ds.getTimeBetweenEvictionRunsMillis();
 	}
 
 	/**
 	 * 获得初始化连接数
 	 */
 	public int getInitialPoolSize() {
-		return super.getInitialSize();
+		return ds.getInitialSize();
 	}
 
 	/**
 	 * 获得测试空闲连接时间 超出时间回收
 	 */
 	public long getMaxIdleTime() {
-		return super.getMinEvictableIdleTimeMillis();
+		return ds.getMinEvictableIdleTimeMillis();
 	}
 
 	/**
 	 * 获得连接池最大连接数
 	 */
 	public int getMaxPoolSize() {
-		return super.getMaxIdle();
+		return ds.getMaxIdle();
 	}
 
 	/**
 	 * 获得最大连接数
 	 */
 	public int getMaxSize() {
-		return super.getMaxActive();
+		return ds.getMaxActive();
 	}
 
 	/**
 	 * 获得连接池最小连接数
 	 */
 	public int getMinPoolSize() {
-		return super.getMinIdle();
+		return ds.getMinIdle();
 	}
 
 	/**
 	 * 获得超时等待时间
 	 */
 	public long getTimeout() {
-		return super.getMaxWait();
+		return ds.getMaxWait();
 	}
 
 	/**
 	 * 获得用户名
 	 */
 	public String getUser() {
-		return super.getUsername();
+		return ds.getUsername();
 	}
 
 	/**
 	 * 设置驱动类
 	 */
 	public void setDriver(String driver) {
-		super.setDriverClassName(driver);
+		ds.setDriverClassName(driver);
 	}
 
 	/**
 	 * 设置多长时间检查一次空闲连接
 	 */
 	public void setIdleTimeout(long idleTimeout) {
-		super.setTimeBetweenEvictionRunsMillis(idleTimeout);
+		ds.setTimeBetweenEvictionRunsMillis(idleTimeout);
 	}
 
 	/**
 	 * 设置初始化连接数
 	 */
 	public void setInitialPoolSize(int initialPoolSize) {
-		super.setInitialSize(initialPoolSize);
+		ds.setInitialSize(initialPoolSize);
 	}
 
 	/**
 	 * 设置 测试空闲连接时间 超出时间回收
 	 */
 	public void setMaxIdleTime(long maxIdleTime) {
-		super.setMinEvictableIdleTimeMillis(maxIdleTime);
+		ds.setMinEvictableIdleTimeMillis(maxIdleTime);
 	}
 
 	/**
 	 * 设置连接池最大连接数
 	 */
 	public void setMaxPoolSize(int maxPoolSize) {
-		super.setMaxIdle(maxPoolSize);
+		ds.setMaxIdle(maxPoolSize);
 	}
 
 	/**
 	 * 设置最大连接数
 	 */
 	public void setMaxSize(int maxSize) {
-		super.setMaxActive(maxSize);
+		ds.setMaxActive(maxSize);
 	}
 
 	/**
 	 * 设置连接池最小连接数
 	 */
 	public void setMinPoolSize(int minPoolSize) {
-		super.setMinIdle(minPoolSize);
+		ds.setMinIdle(minPoolSize);
 	}
 
 	/**
 	 * 设置超时等待时间
 	 */
 	public void setTimeout(long timeout) {
-		super.setMaxWait(timeout);
+		ds.setMaxWait(timeout);
 	}
 
 	/**
 	 * 设置用户
 	 */
 	public void setUser(String user) {
-		super.setUsername(user);
+		ds.setUsername(user);
 	}
 
 	/**
@@ -144,9 +147,34 @@ public final class DataSourceDBCP extends BasicDataSource implements DataSource 
 	 */
 	public void close() {
 		try {
-			super.close();
+			ds.close();
 		} catch (SQLException e) {
 			Logs.warn(e);
 		}
+	}
+
+	@Override
+	public String getUrl() {
+		return ds.getUrl();
+	}
+
+	@Override
+	public void setUrl(String url) {
+		ds.setUrl(url);
+	}
+
+	@Override
+	public String getPassword() {
+		return ds.getPassword();
+	}
+
+	@Override
+	public void setPassword(String password) {
+		ds.setPassword(password);
+	}
+
+	@Override
+	protected javax.sql.DataSource getDataSource() {
+		return ds;
 	}
 }

@@ -1,14 +1,8 @@
 package org.wdcode.core.dao.datasource.impl;
 
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.util.logging.Logger;
-
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.log.Logs;
-import org.wdcode.core.dao.datasource.DataSource;
+import org.wdcode.core.dao.datasource.base.BaseDataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -18,16 +12,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  * @since JDK7
  * @version 1.0 2010-01-23
  */
-public final class DataSourceC3P0 implements DataSource {
+public final class DataSourceC3P0 extends BaseDataSource {
 	// C3P0数据源
-	private ComboPooledDataSource	ds;
-
-	/**
-	 * 构造函数
-	 */
-	public DataSourceC3P0() {
-		ds = new ComboPooledDataSource();
-	}
+	private ComboPooledDataSource	ds	= new ComboPooledDataSource();
 
 	/**
 	 * 获得驱动类
@@ -195,64 +182,8 @@ public final class DataSourceC3P0 implements DataSource {
 		ds.setJdbcUrl(url);
 	}
 
-	/**
-	 * 获得连接
-	 */
-	public Connection getConnection() throws SQLException {
-		return ds.getConnection();
-	}
-
-	/**
-	 * 设置连接
-	 */
-	public Connection getConnection(String username, String password) throws SQLException {
-		return ds.getConnection(username, password);
-	}
-
-	/**
-	 * 获得日志写入器
-	 */
-	public PrintWriter getLogWriter() throws SQLException {
-		return ds.getLogWriter();
-	}
-
-	/**
-	 * 获得登录超时时间
-	 */
-	public int getLoginTimeout() throws SQLException {
-		return ds.getLoginTimeout();
-	}
-
-	/**
-	 * 设置日志写入器
-	 */
-	public void setLogWriter(PrintWriter out) throws SQLException {
-		ds.setLogWriter(out);
-	}
-
-	/**
-	 * 设置日志写入器
-	 */
-	public void setLoginTimeout(int seconds) throws SQLException {
-		ds.setLoginTimeout(seconds);
-	}
-
-	/**
-	 * JDK1.6添加 不实现
-	 */
-	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		return false;
-	}
-
-	/**
-	 * JDK1.6添加 不实现
-	 */
-	public <T> T unwrap(Class<T> iface) throws SQLException {
-		return null;
-	}
-
 	@Override
-	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-		return null;
+	protected javax.sql.DataSource getDataSource() {
+		return ds;
 	}
 }

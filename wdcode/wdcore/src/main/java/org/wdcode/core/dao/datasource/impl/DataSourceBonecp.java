@@ -1,7 +1,7 @@
 package org.wdcode.core.dao.datasource.impl;
 
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.core.dao.datasource.DataSource;
+import org.wdcode.core.dao.datasource.base.BaseDataSource;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
@@ -11,16 +11,16 @@ import com.jolbox.bonecp.BoneCPDataSource;
  * @since JDK7
  * @version 1.0 2010-01-30
  */
-public final class DataSourceBonecp extends BoneCPDataSource implements DataSource {
-	// 序列化ID
-	private static final long	serialVersionUID	= 179700811362890870L;
+public final class DataSourceBonecp extends BaseDataSource {
+	// BoneCPDataSource数据源
+	private BoneCPDataSource	ds	= new BoneCPDataSource();
 
 	/**
 	 * 获得 驱动类
 	 * @return 驱动类
 	 */
 	public String getDriver() {
-		return super.getDriverClass();
+		return ds.getDriverClass();
 	}
 
 	/**
@@ -28,7 +28,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 多长时间检查一次空闲连接
 	 */
 	public long getIdleTimeout() {
-		return Conversion.toLong(super.getIdleConnectionTestPeriodInMinutes());
+		return Conversion.toLong(ds.getIdleConnectionTestPeriodInMinutes());
 	}
 
 	/**
@@ -36,7 +36,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 初始化连接数
 	 */
 	public int getInitialPoolSize() {
-		return Conversion.toInt(super.getMinConnectionsPerPartition());
+		return Conversion.toInt(ds.getMinConnectionsPerPartition());
 	}
 
 	/**
@@ -44,7 +44,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 测试空闲连接时间 超出时间回收
 	 */
 	public long getMaxIdleTime() {
-		return Conversion.toLong(super.getIdleMaxAgeInMinutes());
+		return Conversion.toLong(ds.getIdleMaxAgeInMinutes());
 	}
 
 	/**
@@ -52,7 +52,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 连接池最大连接数
 	 */
 	public int getMaxPoolSize() {
-		return Conversion.toInt(super.getMaxConnectionsPerPartition());
+		return Conversion.toInt(ds.getMaxConnectionsPerPartition());
 	}
 
 	/**
@@ -60,7 +60,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 最大连接数
 	 */
 	public int getMaxSize() {
-		return Conversion.toInt(super.getMaxConnectionsPerPartition());
+		return Conversion.toInt(ds.getMaxConnectionsPerPartition());
 	}
 
 	/**
@@ -68,7 +68,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 连接池最小连接数
 	 */
 	public int getMinPoolSize() {
-		return Conversion.toInt(super.getMinConnectionsPerPartition());
+		return Conversion.toInt(ds.getMinConnectionsPerPartition());
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return Url
 	 */
 	public String getUrl() {
-		return super.getJdbcUrl();
+		return ds.getJdbcUrl();
 	}
 
 	/**
@@ -92,7 +92,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @return 用户名
 	 */
 	public String getUser() {
-		return super.getUsername();
+		return ds.getUsername();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param driver 驱动类
 	 */
 	public void setDriver(String driver) {
-		super.setDriverClass(driver);
+		ds.setDriverClass(driver);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param idleTimeout 多长时间检查一次空闲连接
 	 */
 	public void setIdleTimeout(long idleTimeout) {
-		super.setIdleConnectionTestPeriodInMinutes(idleTimeout);
+		ds.setIdleConnectionTestPeriodInMinutes(idleTimeout);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param initialPoolSize 初始化连接数
 	 */
 	public void setInitialPoolSize(int initialPoolSize) {
-		super.setMinConnectionsPerPartition(initialPoolSize);
+		ds.setMinConnectionsPerPartition(initialPoolSize);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param maxIdleTime 测试空闲连接时间 超出时间回收
 	 */
 	public void setMaxIdleTime(long maxIdleTime) {
-		super.setIdleMaxAgeInMinutes(maxIdleTime);
+		ds.setIdleMaxAgeInMinutes(maxIdleTime);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param maxPoolSize 连接池最大连接数
 	 */
 	public void setMaxPoolSize(int maxPoolSize) {
-		super.setMaxConnectionsPerPartition(maxPoolSize);
+		ds.setMaxConnectionsPerPartition(maxPoolSize);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param maxSize 最大连接数
 	 */
 	public void setMaxSize(int maxSize) {
-		super.setMaxConnectionsPerPartition(maxSize);
+		ds.setMaxConnectionsPerPartition(maxSize);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param minPoolSize 连接池最小连接数
 	 */
 	public void setMinPoolSize(int minPoolSize) {
-		super.setMinConnectionsPerPartition(minPoolSize);
+		ds.setMinConnectionsPerPartition(minPoolSize);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param url Url
 	 */
 	public void setUrl(String url) {
-		super.setJdbcUrl(url);
+		ds.setJdbcUrl(url);
 	}
 
 	/**
@@ -170,6 +170,26 @@ public final class DataSourceBonecp extends BoneCPDataSource implements DataSour
 	 * @param user 用户名
 	 */
 	public void setUser(String user) {
-		super.setUsername(user);
+		ds.setUsername(user);
+	}
+
+	@Override
+	public String getPassword() {
+		return ds.getPassword();
+	}
+
+	@Override
+	public void setPassword(String password) {
+		ds.setPassword(password);
+	}
+
+	@Override
+	public void close() {
+		ds.close();
+	}
+
+	@Override
+	protected javax.sql.DataSource getDataSource() {
+		return ds;
 	}
 }

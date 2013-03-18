@@ -1,6 +1,5 @@
 package org.wdcode.core.engine;
- 
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -50,23 +49,10 @@ public final class CsvEngine {
 	 * @return List 所有集合
 	 */
 	public static List<String[]> read(Reader reader) {
-		// 声明csv读取器
-		CSVReader csv = null;
-		try {
-			// 实例化csv读取器
-			csv = new CSVReader(reader);
-			// 返回全部数据列表
+		try (CSVReader csv = new CSVReader(reader)) {
 			return csv.readAll();
 		} catch (Exception e) {
 			Logs.warn(e);
-		} finally {
-			if (csv != null) {
-				try {
-					csv.close();
-				} catch (IOException e) {
-					Logs.warn(e);
-				}
-			}
 		}
 		// 返回空列表
 		return Lists.emptyList();
@@ -134,13 +120,8 @@ public final class CsvEngine {
 	 * @param list
 	 */
 	public static void write(Writer writer, List<String[]> list) {
-		// 实例化csv写入器
-		CSVWriter csv = new CSVWriter(writer);
-		// 写入csv数据
-		csv.writeAll(list);
-		try {
-			// 关闭csv写入器
-			csv.close();
+		try (CSVWriter csv = new CSVWriter(writer)) {
+			csv.writeAll(list);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
