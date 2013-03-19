@@ -153,12 +153,12 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.1.10.Final</version>
+			<version>4.2.0.Final</version>
 		</dependency> 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
-			<version>4.1.10.Final</version>
+			<version>4.2.0.Final</version>
 		</dependency>  
 		<dependency>
 			<groupId>org.hibernate</groupId>

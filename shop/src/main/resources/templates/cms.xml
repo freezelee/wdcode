@@ -223,19 +223,17 @@
 			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
 			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
 			<node key="field" text="state" ref="stateList"/>   
-			<node key="submit" ref="addSubmit" />
+			<node key="submit" ref="submit" />
 		</template> 
-		<template key="goods" title="site,update" action="statics"> 
-			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
-			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
-			<node key="field" text="state" ref="stateList"/>   
-			<node key="submit" ref="addSubmit" />
+		<template key="goods" title="goods,update" action="statics"> 
+			<node key="field" text="goods,sort" ref="stateList"/>
+			<node key="field" text="every,update,number" ref="textfield"  name="entity.content"/>   
+			<node key="submit" ref="submit" />
 		</template> 
-		<template key="article" title="site,update" action="statics"> 
-			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
-			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
-			<node key="field" text="state" ref="stateList"/>   
-			<node key="submit" ref="addSubmit" />
+		<template key="article" title="article,update" action="statics"> 
+			<node key="field" text="article,sort" ref="stateList"/>
+			<node key="field" text="every,update,number" ref="textfield"  name="entity.content"/> 
+			<node key="submit" ref="submit" />
 		</template> 
 	</module>     
 </templates>

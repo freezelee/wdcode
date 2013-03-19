@@ -58,11 +58,12 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>1.7.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.1.10.Final</version>
+			<version>4.2.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

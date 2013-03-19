@@ -12,7 +12,7 @@
 </head>
 <body class="list"> 
 	<div class="bar">
-		${action.getText("title")}&nbsp;总记录数: ${pager.totalSize} (共${pager.totalPage}页)
+		${action.getText(template.get("title"))}&nbsp;总记录数: ${pager.totalSize} (共${pager.totalPage}页)
 	</div>
 	<div class="body">
 		<@s.form id="pagerForm" validate="false" method="post" action="%{#attr.template.get('action')}"> 

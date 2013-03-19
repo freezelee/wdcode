@@ -13,7 +13,7 @@
 </head>
 <body class="input"> 
 	<div class="bar">
-		${action.getText("title")}
+		${action.getText(template.get("title"))}
 	</div> 
 	<div class="body">
 		<@s.form validate="true" method="post" action="${template.get('action')!}" enctype="${template.get('enctype')!}"> 

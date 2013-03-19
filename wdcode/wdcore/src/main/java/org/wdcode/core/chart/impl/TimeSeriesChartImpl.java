@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.time.Day;
+import org.jfree.chart.plot.XYPlot; 
+import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.wdcode.core.chart.TimeSeriesChart;
@@ -43,7 +43,7 @@ public final class TimeSeriesChartImpl extends BaseChart implements TimeSeriesCh
 		// 循环设置数据
 		for (Map.Entry<String, Double> e : data.entrySet()) {
 			// 设置数据点
-			td.add(Day.parseDay(e.getKey()), e.getValue());
+			td.add(Second.parseSecond(e.getKey()), e.getValue());
 		}
 		// 添加到数据源
 		dataset.addSeries(td);
