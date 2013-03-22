@@ -24,6 +24,8 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.action.LoginAction;
+import org.wdcode.web.constants.HttpConstants;
+import org.wdcode.web.util.HttpUtil;
 
 /**
  * 后台Action
@@ -107,6 +109,28 @@ public class BackAction extends LoginAction<Entity, Admin> {
 	}
 
 	/**
+	 * 静态化页面
+	 * @return
+	 * @throws Exception
+	 */
+	public String statics() throws Exception {
+		// 网址
+		String url = HttpConstants.HTTP + getRequest().getLocalAddr() + getRequest().getContextPath() + StringConstants.BACKSLASH;
+		// 保存路径
+		String path = getRealPath(StringConstants.BACKSLASH);
+		String name = entity.getClass().getSimpleName().toLowerCase();
+		// 静态化实体
+		for (Entity e : service.list(entity, 0, 0)) {
+			String f = name + StringConstants.BACKSLASH + e.getKey() + ".html";
+			HttpUtil.saveToFile(url + f, path + f);
+		}
+		// 保存主页
+		HttpUtil.saveToFile(url + "index.htm", path + "index.html");
+		// 返回成功
+		return SUCCESS;
+	}
+
+	/**
 	 * 重置缓存
 	 * @return 跳转
 	 * @throws Exception
@@ -123,7 +147,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 	 * @return 跳转
 	 * @throws Exception
 	 */
-	public String to() throws Exception {
+	public String toThemes() throws Exception {
 		// 获得模版路径
 		String path = getRealPath(File.separator) + "back";
 		// 获得目录文件

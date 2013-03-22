@@ -483,17 +483,18 @@ CREATE TABLE `navigation` (
 -- Records of navigation
 -- ----------------------------
 
--- ----------------------------
--- Table structure for `notify`
--- ----------------------------
-DROP TABLE IF EXISTS `notify`;
-CREATE TABLE `notify` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `goods_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物品缺货记录';
+/*==============================================================*/
+/* Table: notify                                                */
+/*==============================================================*/
+create table notify
+(
+   id                   int not null auto_increment,
+   user_id              int,
+   goods_id             int,
+   product_id           int,
+   time                 bigint,
+   primary key (id)
+);
 
 -- ----------------------------
 -- Records of notify
@@ -656,19 +657,21 @@ CREATE TABLE `receiver` (
 -- Records of receiver
 -- ----------------------------
 
--- ----------------------------
--- Table structure for `revert`
--- ----------------------------
-DROP TABLE IF EXISTS `revert`;
-CREATE TABLE `revert` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_id` int(11) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  `leave_id` int(11) DEFAULT NULL COMMENT '留言ID',
-  `content` text COMMENT '回复内容',
-  `time` int(11) DEFAULT NULL COMMENT '回复时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*==============================================================*/
+/* Table: revert                                                */
+/*==============================================================*/
+create table revert
+(
+   id                   int not null auto_increment comment '主键',
+   name                 varchar(100) comment '留言名称 标题',
+   user_id              int,
+   ip                   char(15),
+   leave_id             int comment '留言ID',
+   content              text comment '回复内容',
+   time                 int comment '回复时间',
+   primary key (id)
+)
+ENGINE= MYISAM;
 
 -- ----------------------------
 -- Records of revert

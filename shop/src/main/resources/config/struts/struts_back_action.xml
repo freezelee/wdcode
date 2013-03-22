@@ -13,12 +13,7 @@
 		<action name="index" class="backAction" method="index">
 			<result type="redirect">/back/main.htm</result>
 		</action>
-		
-		<!-- 静态化 -->
-		<action name="statics" class="shopAction" method="statics">
-			<result type="freemarker">/WEB-INF/template/back/theme.ftl</result>
-		</action> 	
-		  
+		 		  
 		<!-- 登录  -->
 		<action name="login" class="backAction" method="login">
 			<result type="redirect">/back/main.htm</result>
@@ -38,7 +33,7 @@
 			<result type="freemarker">/WEB-INF/template/back/theme.ftl</result> 
 			<result name="dels" type="chain">{1}_page</result>
 			<result name="list" type="freemarker">/WEB-INF/template/back/list.ftl</result> 
-		</action>  
+		</action>   
 		<action name="*" class="backAction" method="main">
 			<result type="freemarker">/WEB-INF/template/back/{1}.ftl</result>
 		</action> 

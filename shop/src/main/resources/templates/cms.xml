@@ -78,6 +78,11 @@
 			<node th="title;category;createDate" />	
 			<node td="name;categoryId;date"/> 
 		</template>
+		<template key="statics" title="article,update" action="article_statics"> 
+			<node key="field" text="article,category" ref="categoryList"/>
+			<node key="field" text="every,update,number" ref="textfield"  name="key"/>
+			<node key="submit" ref="submit" />
+		</template> 
 	</module>   
 	
 	<!-- 栏目模板 -->
@@ -145,47 +150,7 @@
 			<node td="name;sort;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
 		</template>
 	</module>
-	
-	<!-- 留言分类模板 -->
-	<module key="leaveSort">
-		<template key="add" title="add,leave,sort" action="leaveSort_add"> 
-			<node key="field" text="leave,sort,name" ref="textfield"  name="entity.name"/>  >
-			<node key="field" text="state" ref="stateList"/>  
-			<node key="submit" ref="editSubmit" />
-		</template>
-		<template key="edit" title="edit,leave,sort" action="leaveSort_edit" ref="add">  
-			<node key="hidden" name="entity.key"/>
-		</template>
-		<template key="list">
-			<node title="leave,sort,list" edit="true"/>	
-			<node key="search" text="state" ref="stateSelect"/>	
-			<node key="submit" ref="querySubmit" action="leaveSort_page"/>	
-			<node key="submit" ref="delButton" action="leaveSort_dels"/>
-			<node th="leave,sort,name;state" />	
-			<node td="name;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
-		</template>
-	</module> 
-	
-	<!-- 消息类别模板 -->
-	<module key="messageSort">
-		<template key="add" title="add,message,sort" action="messageSort_add"> 
-			<node key="field" text="message,sort,name" ref="textfield"  name="entity.name"/>  
-			<node key="field" text="state" ref="stateList"/>  
-			<node key="submit" ref="submit" />
-		</template>
-		<template key="edit" title="edit,message,sort" action="messageSort_edit" ref="add">  
-			<node key="hidden" name="entity.key"/>
-		</template>
-		<template key="list">
-			<node title="message,sort,list" edit="true"/>	
-			<node key="search" text="state" ref="stateSelect"/>	
-			<node key="submit" ref="querySubmit" action="messageSort_page"/>	
-			<node key="submit" ref="delButton" action="messageSort_dels"/>
-			<node th="message,sort,name;state" />	
-			<node td="name;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
-		</template>
-	</module> 
-	
+	  
 	<!-- 消息模板 -->
 	<module key="message">
 		<template key="list" title="message,list" edit="true"> 
@@ -196,44 +161,14 @@
 			<node td="name;sort;author;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
 		</template>
 	</module>
-	
-	<!-- 系统消息模板 -->
-	<module key="systemMessage" >
-		<template key="add" title="add,system,message" action="systemMessage_add"> 
-			<node key="field" text="system,message,name" ref="textfield"  name="entity.name"/>
-			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
-			<node key="field" text="state" ref="stateList"/>   
-			<node key="submit" ref="addSubmit" />
-		</template>
-		<template key="edit" title="edit,system,message" action="systemMessage_edit" ref="add"> 
-			<node key="hidden" name="entity.key"/>
-		</template>
-		<template key="list" title="system,message,list" edit="true"> 
-			<node key="search" text="state" ref="stateSelect"/>	
-			<node key="submit" ref="querySubmit" action="systemMessage_page"/>	
-			<node key="submit" ref="delButton" action="systemMessage_dels"/>
-			<node th="message,name;sort;content;date;state" />	
-			<node td="name;sort;content;date;%{getText(#{0:'invalid',1:'avail'}.get(`state`))};"/> 
-		</template>
-	</module>     
-	
+	  
 	<!-- 静态化模板模板 -->
 	<module key="statics" >
-		<template key="all" title="site,update" action="statics"> 
+		<template key="all" title="site,update" action="all_statics"> 
 			<node key="field" text="update,select" ref="textfield"  name="entity.name"/>
-			<node key="field" text="system,message,content" ref="textfield"  name="entity.content"/>  
+			<node key="field" text="system,message,content" ref="textfield"  name="key"/>  
 			<node key="field" text="state" ref="stateList"/>   
 			<node key="submit" ref="submit" />
-		</template> 
-		<template key="goods" title="goods,update" action="statics"> 
-			<node key="field" text="goods,sort" ref="stateList"/>
-			<node key="field" text="every,update,number" ref="textfield"  name="entity.content"/>   
-			<node key="submit" ref="submit" />
-		</template> 
-		<template key="article" title="article,update" action="statics"> 
-			<node key="field" text="article,sort" ref="stateList"/>
-			<node key="field" text="every,update,number" ref="textfield"  name="entity.content"/> 
-			<node key="submit" ref="submit" />
-		</template> 
+		</template>   
 	</module>     
 </templates>

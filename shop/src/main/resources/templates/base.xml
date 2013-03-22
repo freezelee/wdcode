@@ -39,7 +39,8 @@
  	<base key="userList" ref="select" id="user" list="%{#attr.query.list('user')}" listKey="id" listValue="nickName" name="entity.userId"/>
  	<base key="userSelect" ref="userList" headerKey="0" headerValue="%{getText('all')}"/>
  	<base key="userNone" ref="userList" headerKey="0" headerValue="%{getText('none')}"/>
- 	<base key="sortList" ref="select" id="sort" list="%{#attr.query.list('sort')}" listKey="id" listValue="name" name="entity.sortId" headerKey="0" headerValue="%{getText('none')}"/>
- 	<base key="brandList" ref="select" id="brand" list="%{#attr.query.list('brand')}" listKey="id" listValue="name" name="entity.brandId" headerKey="0" headerValue="%{getText('none')}"/>
+ 	<base key="sortList" ref="select" id="sort" list="%{#attr.query.list('sort')}" listKey="id" listValue="name" name="entity.sortId" headerKey="" headerValue="%{getText('none')}"/>
+ 	<base key="categoryList" ref="select" id="category" list="%{#attr.query.list('category')}" listKey="id" listValue="name" name="entity.categoryId" headerKey="" headerValue="%{getText('none')}"/>
+ 	<base key="brandList" ref="select" id="brand" list="%{#attr.query.list('brand')}" listKey="id" listValue="name" name="entity.brandId" headerKey="" headerValue="%{getText('none')}"/>
  	<base key="specificationType" ref="select" id="specificationType" list="#{0:'text,type',1:'photo,type'}" listKey="key" listValue="%{getText(value)}"/>
 </templates> 

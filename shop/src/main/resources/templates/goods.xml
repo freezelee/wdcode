@@ -50,6 +50,11 @@
 			<node th="goods,name;goods,sn;sort;price;markeTable;best;newIn;hot;store" />	
 			<node td="name;sn;%{#attr.query.get('goodsSort',sortId).name};price;markeTable;best;newIn;hot;store"/> 
 		</template>
+		<template key="statics" title="goods,update" action="goods_statics"> 
+			<node key="field" text="goods,sort" ref="sortList"/>
+			<node key="field" text="every,update,number" ref="textfield"  name="key"/>    
+			<node key="submit" ref="submit" />
+		</template>
 	</module>
 	
 	<!-- 物品分类模板 -->

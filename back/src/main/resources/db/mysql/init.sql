@@ -11,7 +11,7 @@ INSERT INTO menu(name) VALUES('用户管理');
 				
 /* 系统管理 */ 
 INSERT INTO menu(name,menu_id,url) VALUES('缓存设置',1,'system_theme_setup');
-INSERT INTO menu(name,menu_id,url) VALUES('修改主题',1,'system_to_theme');   
+INSERT INTO menu(name,menu_id,url) VALUES('修改主题',1,'system_toThemes_theme');   
 
 /* 权限管理 */ 
 INSERT INTO menu(name,menu_id,url) VALUES('添加角色',2,'role_theme_add');

@@ -40,29 +40,6 @@ public class ShopAction extends LoginAction<Entity, User> {
 	private Orders				order;
 
 	/**
-	 * 静态化页面
-	 * @return
-	 * @throws Exception
-	 */
-	public String statics() throws Exception {
-		// 网址
-//		String url = WebConstants.URL_HTTP + getRequest().getLocalAddr() + getRequest().getContextPath() + StringConstants.BACKSLASH;
-//		// 保存路径
-//		// 判断静态化类型
-//		String path = getRealPath(StringConstants.BACKSLASH);
-//		switch (Conversion.toString(key)) {
-//			case "goods":
-//				System.out.println("静态化商品");
-//				break;
-//			case "article":
-//				System.out.println("静态化文章");
-//				break;
-//		}
-//		HttpUtil.saveToFile(url + "index.htm", path + "index.html");
-		return SUCCESS;
-	}
-
-	/**
 	 * 添加订单
 	 */
 	@Transactional

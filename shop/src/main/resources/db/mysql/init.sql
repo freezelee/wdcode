@@ -90,8 +90,8 @@ INSERT INTO menu(name,menu_id,url) VALUES('打印模板管理',18,'');
 INSERT INTO menu(name,menu_id,url) VALUES('缓存管理',19,'system_to_cache');
  
 INSERT INTO menu(name,menu_id,url) VALUES('一键网站更新',20,'statics_index_all');
-INSERT INTO menu(name,menu_id,url) VALUES('文章更新',20,'statics_index_article');
-INSERT INTO menu(name,menu_id,url) VALUES('商品更新',20,'statics_index_goods');
+INSERT INTO menu(name,menu_id,url) VALUES('文章更新',20,'article_to_statics');
+INSERT INTO menu(name,menu_id,url) VALUES('商品更新',20,'goods_to_statics');
 
 /* 管理员 */
 INSERT INTO menu(name,menu_id,url) VALUES('管理员列表',21,'admin_page');

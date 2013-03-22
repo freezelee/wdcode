@@ -254,7 +254,7 @@ public final class HttpUtil {
 	 * @param fileName 文件名
 	 */
 	public static void saveToFile(String url, String fileName) {
-		FileUtil.write(fileName, HttpEngine.get(url));
+		FileUtil.write(fileName, StringUtil.toString(HttpEngine.get(url)), false);
 	}
 
 	/**
