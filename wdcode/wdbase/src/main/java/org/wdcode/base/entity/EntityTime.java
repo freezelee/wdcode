@@ -8,11 +8,6 @@ package org.wdcode.base.entity;
  */
 public interface EntityTime {
 	/**
-	 * 时间字段
-	 */
-	public final static String	TIME_FIELD	= "time";
-
-	/**
 	 * 获得创建时间
 	 */
 	Integer getTime();

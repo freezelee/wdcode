@@ -10,8 +10,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntity
 import org.wdcode.common.lang.Conversion
+import org.wdcode.site.entity.base.BaseEntity;
 
 /**
  * 属性信息实体

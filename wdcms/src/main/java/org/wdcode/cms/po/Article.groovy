@@ -8,8 +8,8 @@ import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityIdTime
 import org.wdcode.site.entity.EntityPage;
+import org.wdcode.site.entity.base.BaseEntityIdTime;
 
 /**
  * 文章实体

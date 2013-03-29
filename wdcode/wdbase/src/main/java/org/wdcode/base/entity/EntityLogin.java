@@ -1,6 +1,4 @@
-package org.wdcode.site.entity;
-
-import org.wdcode.base.entity.Entity;
+package org.wdcode.base.entity;
 
 /**
  * 登录接口

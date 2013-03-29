@@ -20,7 +20,7 @@
 	</script>
 <![endif]-->
 </head>
-<body id="goodsContent" class="goodsContent">
+<body id="goodsContent" class="goodsContent"> 
 <@s.hidden id="id" value="%{#attr.entity.id}" />
 	<#include "include/header.ftl" >
 	<div class="body">
@@ -124,15 +124,15 @@
 										<th>${s.name}:</th>
 										<td>
 											<ul>
-												<#list s.specificationValues as v>
-													<#list specificationValues as values>
-														<#if values.contains(v)>
+												<#list s.specificationValues as v> 
+													<#list specificationValues as val>
+														<#if val.name.equals(v.name)>
 															<li title="${v.name}">
 																${v.name}
 																<span title="点击取消选择"></span>
-															</li>
+															</li> 
 															<#break>
-														</#if>
+														</#if> 
 													</#list>
 												</#list>
 											</ul>
@@ -143,9 +143,9 @@
 										<th>${s.name}:</th>
 										<td>
 											<ul>
-												<#list s.specificationValues as v>
-													<#list specificationValues as values>
-														<#if values.contains(v)>
+												<#list s.specificationValues as v>    
+													<#list specificationValues as val>
+														<#if val.name.equals(v.name)>
 															<li title="${v.name}">
 																<#if v.path??>
 																	<img src="${base}${v.path}" alt="${v.name}" />
@@ -153,9 +153,9 @@
 																	<img src="${base}/template/shop/images/default_specification.gif" />
 																</#if>
 																<span title="点击取消选择"></span>
-															</li>
+															</li> 
 															<#break>
-														</#if>
+														</#if> 
 													</#list>
 												</#list>
 											</ul>
@@ -201,7 +201,7 @@
 					${entity.detail}
 				</div>
 				<div class="tabContent goodsAttribute">
-					<table class="goodsParameterTable">
+					<table class="goodsParameterTable"> 
 						<#list entity.params as p> 
 							<tr>
 								<th>

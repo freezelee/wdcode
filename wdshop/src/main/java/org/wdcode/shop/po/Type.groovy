@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
  * 商品类型
@@ -47,8 +47,6 @@ class Type extends BaseEntityIdTime {
 	 * @version 1.0 2012-05-18
 	 */
 	static class GoodsTypeAttribute implements Serializable {
-		// 序列化ID
-		static final long	serialVersionUID	= -1800585332407824878L
 		// 名称
 		String				name
 		// 选项值

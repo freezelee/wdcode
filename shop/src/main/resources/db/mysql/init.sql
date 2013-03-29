@@ -97,8 +97,8 @@ INSERT INTO menu(name,menu_id,url) VALUES('商品更新',20,'goods_to_statics');
 INSERT INTO menu(name,menu_id,url) VALUES('管理员列表',21,'admin_page');
 INSERT INTO menu(name,menu_id,url) VALUES('角色管理',21,'role_page');
 
-INSERT INTO menu(name,menu_id,url) VALUES('系统消息',22,'systemMessage_page');
-INSERT INTO menu(name,menu_id,url) VALUES('用户消息',22,'message_page');
+INSERT INTO menu(name,menu_id,url) VALUES('收件箱',22,'message_page');
+INSERT INTO menu(name,menu_id,url) VALUES('发件箱',22,'message_page');
 
 INSERT INTO menu(name,menu_id,url) VALUES('操作日志',23,'operateLogs_page');
 INSERT INTO menu(name,menu_id,url) VALUES('登录日志',23,'loginLogs_page');

@@ -1,4 +1,4 @@
-package org.wdcode.site.entity;
+package org.wdcode.base.entity;
 
 /**
  * 有上传文件数组的实体接口

@@ -20,7 +20,7 @@ import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.json.JsonEngine; 
+import org.wdcode.core.json.JsonEngine;
 
 /**
  * 超级通用Action
@@ -31,6 +31,8 @@ import org.wdcode.core.json.JsonEngine;
 public class SuperAction<E extends Entity> extends BasicAction {
 	// 序列化ID
 	private static final long		serialVersionUID	= -2886589693379937807L;
+	// 时间字段
+	protected final static String	TIME_FIELD			= "time";
 	// 通用实体
 	protected E						entity;
 	// 实体列表
@@ -206,7 +208,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				endDate = DateUtil.getShortDate();
 			}
 			// 按时间查询
-			entitys = service.between(entity, EntityTime.TIME_FIELD, startDate + StringConstants.BLANK + DateConstants.DATE_DAY_STATR, endDate + StringConstants.BLANK + DateConstants.DATE_DAY_END, pager);
+			entitys = service.between(entity, TIME_FIELD, startDate + StringConstants.BLANK + DateConstants.DATE_DAY_STATR, endDate + StringConstants.BLANK + DateConstants.DATE_DAY_END, pager);
 		}
 		// 返回列表页
 		return callback(entitys);

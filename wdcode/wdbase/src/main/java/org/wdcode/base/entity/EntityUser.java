@@ -1,4 +1,4 @@
-package org.wdcode.site.entity;
+package org.wdcode.base.entity;
 
 /**
  * 用户实体

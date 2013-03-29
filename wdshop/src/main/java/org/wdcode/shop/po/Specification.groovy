@@ -11,10 +11,10 @@ import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.base.entity.EntityFiles
 import org.wdcode.common.constants.ArrayConstants
 import org.wdcode.common.util.EmptyUtil
-import org.wdcode.site.entity.EntityFiles;
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
  * 规格
@@ -63,7 +63,7 @@ class Specification extends BaseEntityIdTime implements EntityFiles {
 	public void setPaths(String[] paths) {
 		// 设置路径
 		for (int i = 0; i < paths.length; i++) {
-			specificationValues.add(new SpecificationValue(paths[i]))
+			specificationValues.get(i).setPath(paths[i])
 		}
 	}
 
@@ -78,36 +78,5 @@ class Specification extends BaseEntityIdTime implements EntityFiles {
 		String				path
 		// 名称
 		String				name
-
-		public SpecificationValue(){}
-
-		public SpecificationValue(String path){
-			this.path = path
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31
-			int result = 1
-			result = prime * result + ((name == null) ? 0 : name.hashCode())
-			return result
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true
-			if (obj == null)
-				return false
-			if (getClass() != obj.getClass())
-				return false
-			SpecificationValue other = (SpecificationValue) obj
-			if (name == null) {
-				if (other.name != null)
-					return false
-			} else if (!name.equals(other.name))
-				return false
-			return true
-		}
 	}
 }

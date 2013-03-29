@@ -3,13 +3,15 @@ package org.wdcode.site.action;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.base.entity.EntityUser;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.engine.LoginEngine;
-import org.wdcode.site.entity.EntityLogin;
-import org.wdcode.site.entity.EntityUser;
 import org.wdcode.site.params.SiteParams;
+import org.wdcode.site.po.Entitys;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.web.util.VerifyCodeUtil;
 
@@ -19,7 +21,7 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-07-14
  */
-public class LoginAction<E extends Entity, L extends EntityLogin> extends SiteAction<E> {
+public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperAction<E> {
 	// 序列化 ID
 	private static final long	serialVersionUID	= 5542364549112574333L;
 	// 用户实体
@@ -43,6 +45,10 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SiteAc
 		}
 		if (entity instanceof EntityUser) {
 			((EntityUser) entity).setUserId(token.getId());
+		}
+		// 如果实体为空 并且 模块名和模式名不同
+		if (isEntity && entity == null && !module.equals(mode)) {
+			entity = (E) new Entitys(module);
 		}
 	}
 

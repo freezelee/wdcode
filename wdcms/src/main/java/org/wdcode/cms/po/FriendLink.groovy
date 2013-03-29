@@ -7,7 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
-import org.wdcode.base.entity.base.BaseEntityId
+import org.wdcode.site.entity.base.BaseEntityId;
 
 /**
  * 友情链接

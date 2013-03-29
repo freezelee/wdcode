@@ -12,7 +12,7 @@ import org.hibernate.search.annotations.Indexed
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
-import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.site.entity.base.BaseEntityIdTime;
 
 /**
  * 通用实体类

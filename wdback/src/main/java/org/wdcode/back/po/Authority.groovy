@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityId
+import org.wdcode.site.entity.base.BaseEntityId
 
 /**
  * 权限实体

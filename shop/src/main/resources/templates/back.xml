@@ -26,6 +26,12 @@
 			<node th="admin,name;email;date" />	
 			<node td="name;email;date"/> 
 		</template>
+		<template key="profile" title="edit,admin" action="admin_edit"> 
+			<node key="field" text="admin,name" type="label" value="%{entity.name}"/> 
+			<node key="field" text="admin,pwd" ref="password"  name="entity.password"/> 
+			<node key="field" text="email" ref="textfield"  name="entity.email"/>  
+			<node key="submit" ref="submit" />
+		</template>
 	</module> 
 	
 	<!-- 操作日志模板 -->

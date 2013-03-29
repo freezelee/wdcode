@@ -38,7 +38,7 @@
 					</li>
 	            </ul>
 	            <div class="info">
-					<a class="profile" href="admin_profile!edit.action" target="main_frame">个人资料</a>
+					<a class="profile" href="<@s.url action='admin_theme_profile'><@s.param name='entity.id' value='${token.id}'/></@s.url>" target="main_frame">个人资料</a>
 					<a class="logout" href="<@s.url action="logout"/>" target="_parent">退出</a>
 				</div>
 			</div>

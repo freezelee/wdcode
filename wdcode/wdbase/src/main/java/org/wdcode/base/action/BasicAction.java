@@ -1,6 +1,7 @@
 package org.wdcode.base.action;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,7 @@ import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.MathUtil;
-import org.wdcode.common.util.StringUtil; 
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
@@ -465,7 +466,7 @@ public class BasicAction extends ActionSupport {
 	 * 获得Action方法
 	 * @return Action方法
 	 */
-	public List<Object> getFields(List<Object> list, String fieldName) {
+	public List<Object> getFields(Collection<Object> list, String fieldName) {
 		return BeanUtil.getFieldValues(list, fieldName);
 	}
 

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -188,12 +189,19 @@ public final class BeanUtil {
 	 * @param fieldName 属性名
 	 * @return 属性值
 	 */
-	public static List<Object> getFieldValues(List<?> list, String fieldName) {
+	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
 		// 声明返回列表
 		List<Object> ls = Lists.getList(list.size());
 		// 循环添加
 		for (Object e : list) {
-			ls.add(BeanUtil.getFieldValue(e, fieldName));
+			// 获得值
+			Object val = BeanUtil.getFieldValue(e, fieldName);
+			// 判断值是否为集合
+			if (val instanceof Collection<?>) {
+				ls.addAll((Collection<?>) val);
+			} else {
+				ls.add(val);
+			}
 		}
 		// 返回列表
 		return ls;

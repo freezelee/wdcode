@@ -7,8 +7,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityIdTime
-import org.wdcode.site.entity.EntityIp;
+import org.wdcode.base.entity.EntityIp;
+import org.wdcode.site.entity.base.BaseEntityIdTime;
 
 /**
  * 商品评论

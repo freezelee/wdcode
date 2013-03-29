@@ -16,12 +16,12 @@ import org.hibernate.search.annotations.Indexed
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.base.BaseEntityIdTime
+import org.wdcode.base.entity.EntityFiles
 import org.wdcode.common.constants.ArrayConstants
 import org.wdcode.common.lang.Lists
 import org.wdcode.common.util.EmptyUtil
-import org.wdcode.site.entity.EntityFiles
 import org.wdcode.site.entity.EntityPage
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
  * 物品
@@ -114,7 +114,7 @@ class Goods extends BaseEntityIdTime implements EntityFiles{
 	public void setPaths(String[] paths) {
 		// 设置路径
 		for (int i = 0; i < paths.length; i++) {
-			images.add(new GoodsImage(paths[i]))
+			images.get(i).setPath(paths[i])
 		}
 	}
 
@@ -155,11 +155,5 @@ class Goods extends BaseEntityIdTime implements EntityFiles{
 		String				path
 		// 描述
 		String				description
-
-		public GoodsImage(){}
-
-		public GoodsImage(String path){
-			this.path = path
-		}
 	}
 }
