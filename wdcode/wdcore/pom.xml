@@ -39,7 +39,7 @@
 		<dependency>
 		    <groupId>com.alibaba</groupId>
 		    <artifactId>druid</artifactId>
-		    <version>0.2.15</version>
+		    <version>0.2.16</version>
 		    <scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.2.0.Final</version>
+			<version>4.2.1.Final</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -227,13 +227,7 @@
 			<artifactId>hbase</artifactId>
 			<version>0.94.3</version>
 			<scope>provided</scope>
-		</dependency> 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.2.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
+		</dependency>  
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
