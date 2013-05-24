@@ -1,8 +1,8 @@
 package org.wdcode.back.security;
 
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.wdcode.common.crypto.Digest; 
+import org.wdcode.common.crypto.Digest;
 
 /**
  * 密码验证
@@ -13,12 +13,12 @@ import org.wdcode.common.crypto.Digest;
 @Component
 public final class Password implements PasswordEncoder {
 	@Override
-	public String encodePassword(String rawPass, Object salt) {
-		return Digest.absolute(rawPass);
+	public String encode(CharSequence rawPassword) {
+		return Digest.absolute(rawPassword.toString());
 	}
 
 	@Override
-	public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
-		return encodePassword(rawPass, salt).equals(encPass);
+	public boolean matches(CharSequence rawPassword, String encodedPassword) {
+		return encode(rawPassword.toString()).equals(encodedPassword);
 	}
 }

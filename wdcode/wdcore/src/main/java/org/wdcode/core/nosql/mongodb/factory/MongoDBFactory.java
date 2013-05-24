@@ -11,6 +11,7 @@ import org.wdcode.core.nosql.mongodb.MongoDB;
 import org.wdcode.core.params.MongoParams;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 
 /**
  * MongoDB 数据库实现
@@ -29,7 +30,7 @@ final class MongoDBFactory extends FactoryKey<String, MongoDB> implements MongoP
 	 */
 	public MongoDBFactory(String host, int port) {
 		try {
-			mongo = new Mongo(host, port);
+			mongo = new MongoClient(host, port);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
