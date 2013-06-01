@@ -104,7 +104,7 @@ public final class Bytes {
 			b = toBytes(Conversion.toShort(obj));
 		} else if (obj instanceof String) {
 			// String
-			b = Conversion.toString(obj).getBytes();
+			b = toBytes(Conversion.toString(obj));
 		} else if (obj instanceof File) {
 			// File
 			b = FileUtil.read((File) obj);
