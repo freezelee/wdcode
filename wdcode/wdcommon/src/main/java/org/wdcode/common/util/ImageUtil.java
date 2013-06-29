@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
@@ -37,6 +40,17 @@ public final class ImageUtil {
 		font = new Font(fontName, Font.PLAIN, 15);
 		color = Color.WHITE;
 		formatName = ImageConstants.JPEG;
+	}
+
+	/**
+	 * 抓屏保存图片
+	 * @param formatName 保存格式
+	 * @param out 输出流
+	 */
+	public static void captureScreen(String formatName, OutputStream out) {
+		try {
+			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())), formatName, out);
+		} catch (Exception ex) {}
 	}
 
 	/**
