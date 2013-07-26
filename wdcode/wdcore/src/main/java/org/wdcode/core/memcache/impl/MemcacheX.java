@@ -33,8 +33,8 @@ public final class MemcacheX extends BaseMemcache {
 	/**
 	 * 构造方法
 	 */
-	public MemcacheX(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
-		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
+	public MemcacheX(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
+		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
 	}
 
 	/**
@@ -136,11 +136,13 @@ public final class MemcacheX extends BaseMemcache {
 	/**
 	 * 初始化
 	 */
-	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
+	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		try {
 			MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(ArrayUtil.toString(servers)), ArrayUtil.toInt(weights));
 			// 添加下面这行，采用BinaryCommandFactory即可使用二进制协议
-			builder.setCommandFactory(new BinaryCommandFactory());
+			if (binary) {
+				builder.setCommandFactory(new BinaryCommandFactory());
+			}
 			builder.setConnectionPoolSize(maxConn);
 			builder.setConnectTimeout(socketConnectTO);
 			builder.setOpTimeout(socketTO);

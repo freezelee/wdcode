@@ -24,8 +24,8 @@ public final class MemcacheWhalin extends BaseMemcache {
 	/**
 	 * 构造方法
 	 */
-	public MemcacheWhalin(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
-		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
+	public MemcacheWhalin(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
+		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 	/**
 	 * 初始化方法
 	 */
-	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
+	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		// 获得池
 		pool = SockIOPool.getInstance(name);
 		// 设置服务器
@@ -106,7 +106,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 		// 池初始化
 		pool.initialize();
 		// 实例化client
-		client = new MemCachedClient(name);
+		client = new MemCachedClient(name, binary);
 	}
 
 	/**

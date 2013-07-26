@@ -61,7 +61,7 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	public Memcache newInstance(String name) {
 		return newInstance(
 			name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name), MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name),
-			MemcacheParams.getConnectTO(name));
+			MemcacheParams.getConnectTO(name),MemcacheParams.getBinary(name));
 	}
 
 	/**
@@ -78,12 +78,12 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 * @param socketConnectTO 连接超时
 	 * @return MemCache
 	 */
-	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
+	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO,boolean binary) {
 		switch (MemcacheParams.getParse(name)) {
 			case "x":
-				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
+				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO,binary);
 			default:
-				return new MemcacheWhalin(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
+				return new MemcacheWhalin(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO,binary);
 		}
 	}
 

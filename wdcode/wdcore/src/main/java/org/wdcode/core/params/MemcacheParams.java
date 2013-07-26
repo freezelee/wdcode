@@ -17,6 +17,18 @@ public final class MemcacheParams {
 	public final static String[]	NAMES	= Params.getStringArray("memcache.names", ArrayConstants.STRING_EMPTY);
 
 	/**
+	 * 获得MemCache是否使用binary(二进制协议)<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: memcache.binary = ? <br/>
+	 * XML: {@literal <memcache><binary>?</binary></memcache>}</h2>
+	 * @return MemCache是否使用binary(二进制协议)
+	 */
+	public static boolean getBinary(String name) {
+		return Params.getBoolean(getKey(name, "binary"), false);
+	}
+
+	/**
 	 * 获得MemCache使用的包<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>

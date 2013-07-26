@@ -28,8 +28,8 @@ public abstract class BaseMemcache implements Memcache {
 	 * @param socketTO 超时读取
 	 * @param socketConnectTO 连接超时
 	 */
-	public BaseMemcache(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO) {
-		init(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO);
+	public BaseMemcache(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
+		init(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
 	}
 
 	/**
@@ -78,6 +78,7 @@ public abstract class BaseMemcache implements Memcache {
 	 * @param maintSleep 睡眠时间
 	 * @param socketTO 超时读取
 	 * @param socketConnectTO 连接超时
+	 * @param binary 是否使用binary(二进制协议)
 	 */
-	protected abstract void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO);
+	protected abstract void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary);
 }
