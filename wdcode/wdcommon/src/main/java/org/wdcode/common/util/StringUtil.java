@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.HtmlConstants;
 
@@ -570,15 +569,6 @@ public final class StringUtil {
 		}
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
-	}
-
-	/**
-	 * 随机返回指定长度 包含所有字母与数字的字符串
-	 * @param length 字符串长度
-	 * @return 字符串
-	 */
-	public static String random(int length) {
-		return RandomStringUtils.randomAlphanumeric(length);
 	}
 
 	/**

@@ -4,7 +4,7 @@ import java.security.Key;
 
 import javax.crypto.Cipher;
 
-import org.wdcode.common.codec.Codes;
+import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
 import org.wdcode.common.params.CommonParams;
@@ -24,7 +24,7 @@ public final class Decrypts extends BaseCrypt {
 	 * @return 解密后的字符串
 	 */
 	public static String decrypt(String text) {
-		return StringUtil.toString(decrypt(Codes.decodeHex(text)));
+		return StringUtil.toString(decrypt(Hex.decode(text)));
 	}
 
 	/**

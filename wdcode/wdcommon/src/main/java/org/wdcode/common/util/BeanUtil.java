@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.lang.Lists;
@@ -21,21 +20,6 @@ import org.wdcode.common.log.Logs;
  * @version 1.0 2010-06-24
  */
 public final class BeanUtil {
-	/**
-	 * 拷贝属性
-	 * @param source 原对象
-	 * @param target 目标对象
-	 * @return 目标对象
-	 */
-	public static Object copy(Object source, Object target) {
-		try {
-			BeanUtils.copyProperties(target, source);
-		} catch (Exception e) {
-			Logs.warn(e);
-		}
-		return target;
-	}
-
 	/**
 	 * 拷贝属性
 	 * @param source 原对象

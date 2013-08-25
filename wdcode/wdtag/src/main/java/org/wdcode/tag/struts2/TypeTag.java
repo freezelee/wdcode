@@ -148,7 +148,7 @@ public final class TypeTag extends AbstractUITag {
 		// 判断标签不为空
 		if (!EmptyUtil.isEmpty(tag)) {
 			// 对标签赋值
-			BeanUtil.copy(map, tag);
+			BeanUtil.copyProperties(tag, map);
 		}
 	}
 }

@@ -30,22 +30,16 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.8</version>
-			<scope>provided</scope>
-		</dependency> 
-		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>druid</artifactId>
-		    <version>0.2.22</version>
-		    <scope>provided</scope>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>0.2.24</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -88,25 +82,25 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.1.32</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
-		    <groupId>net.minidev</groupId>
-		    <artifactId>json-smart</artifactId>
-		    <version>1.1.1</version>
-		    <scope>provided</scope>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 			<version>2.0.5</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -152,7 +146,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.2.3.Final</version>
+			<version>4.2.4.Final</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -164,39 +158,39 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.2.4.RELEASE</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -206,13 +200,13 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.2.4</version>
+			<version>4.2.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore-nio</artifactId>
-			<version>4.2.4</version>
+			<version>4.2.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -220,7 +214,7 @@
 			<artifactId>httpasyncclient</artifactId>
 			<version>4.0-beta3</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
@@ -232,7 +226,7 @@
 			<artifactId>xwork-core</artifactId>
 			<version>2.3.15</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
 			<artifactId>mina-core</artifactId>
@@ -244,7 +238,7 @@
 			<artifactId>Memcached-Java-Client</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>com.googlecode.xmemcached</groupId>
 			<artifactId>xmemcached</artifactId>
@@ -274,13 +268,13 @@
 			<artifactId>asynchbase</artifactId>
 			<version>1.4.1</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
 			<version>1.1.2</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
@@ -292,13 +286,13 @@
 			<artifactId>avro</artifactId>
 			<version>1.7.4</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>3.5.2</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.xsocket</groupId>
 			<artifactId>xSocket</artifactId>
@@ -334,7 +328,7 @@
 			<artifactId>netty</artifactId>
 			<version>3.6.6.Final</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
@@ -346,7 +340,7 @@
 			<artifactId>jcommon</artifactId>
 			<version>1.0.17</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -358,13 +352,13 @@
 			<artifactId>commons-compress</artifactId>
 			<version>1.5</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
 			<version>4.4.0</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
@@ -411,8 +405,8 @@
 								<source>wdcommon/src/main/java</source>
 								<source>wdcore/src/main/java</source>
 								<source>wdweb/src/main/java</source>
-								<source>wdbase/src/main/java</source> 
-								<source>wdtag/src/main/java</source> 
+								<source>wdbase/src/main/java</source>
+								<source>wdtag/src/main/java</source>
 							</sources>
 						</configuration>
 					</execution>

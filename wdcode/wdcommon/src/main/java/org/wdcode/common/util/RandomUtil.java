@@ -83,15 +83,22 @@ public final class RandomUtil {
 
 	/**
 	 * 获取指定位数的随机数
+	 * @param len 随机长度
 	 * @return 字符串格式的随机数
 	 */
-	public static String getRandom(int num) {
+	public static String random(int len) {
 		// 声明字符缓存
 		StringBuilder veryfy = new StringBuilder();
 		// 循环位数
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < len; i++) {
+			// 随机获得整数
+			int n = nextInt(48, 123);
+			// 判断不在a-z A-Z中
+			if ((n > 91 && n < 97) || (n > 57 && n < 65)) {
+				n += nextInt(7, 16);
+			}
 			// 添加到字符缓存中
-			veryfy.append(nextInt(10));
+			veryfy.append((char) n);
 		}
 		// 返回
 		return veryfy.toString();

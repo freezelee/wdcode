@@ -1,6 +1,8 @@
 package org.wdcode.common.codec;
 
-import org.apache.commons.codec.net.URLCodec;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -10,9 +12,6 @@ import org.wdcode.common.params.CommonParams;
  * @version 1.0 2012-2-17
  */
 public final class URLCode {
-	// URLCodec
-	private final static URLCodec	CODEC	= new URLCodec();
-
 	/**
 	 * url编码
 	 * @param url 要编码的URL
@@ -30,7 +29,7 @@ public final class URLCode {
 	 */
 	public static String encode(String url, String encoding) {
 		try {
-			return CODEC.encode(url, encoding);
+			return URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
 			return url;
 		}
@@ -53,7 +52,7 @@ public final class URLCode {
 	 */
 	public static String decode(String url, String encoding) {
 		try {
-			return CODEC.decode(url, encoding);
+			return URLDecoder.decode(url, encoding);
 		} catch (Exception e) {
 			return url;
 		}

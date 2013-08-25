@@ -7,7 +7,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.wdcode.common.codec.Codes;
+import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
 import org.wdcode.common.log.Logs;
@@ -35,7 +35,7 @@ public final class Encrypts extends BaseCrypt {
 			// 初始化算法
 			mac.init(secretKey);
 			// 返回加密串
-			return Codes.encodeBase64(mac.doFinal(text.getBytes()));
+			return Hex.encode(mac.doFinal(text.getBytes()));
 		} catch (Exception e) {
 			// 记录日志
 			Logs.warn(e);
@@ -50,7 +50,7 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 加密后的字节数组
 	 */
 	public static String encrypt(String text) {
-		return Codes.encodeHex(encrypt(StringUtil.toBytes(text)));
+		return Hex.encode(encrypt(StringUtil.toBytes(text)));
 	}
 
 	/**

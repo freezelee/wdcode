@@ -3,20 +3,24 @@ package org.wdcode.common.lang;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.io.ChannelUtil;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
+import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 
@@ -116,7 +120,7 @@ public final class Bytes {
 			b = ChannelUtil.read((ReadableByteChannel) obj, false);
 		} else if (obj instanceof Serializable) {
 			// Serializable
-			b = serialize((Serializable) obj);
+			b = toBytes((Serializable) obj);
 		} else {
 			// Object调用toString()然后转换成byte[]
 			b = StringUtil.toBytes(obj.toString());
@@ -459,8 +463,24 @@ public final class Bytes {
 	 * @param s 序列化对象
 	 * @return 字节数组
 	 */
-	public static byte[] serialize(Serializable s) {
-		return SerializationUtils.serialize(s);
+	public static byte[] toBytes(Serializable s) {
+		// 声明512字节的数组对象流
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
+		// 声明对象流
+		ObjectOutputStream out = null;
+		try {
+			// 实例化一个对象流并写入对象
+			out = new ObjectOutputStream(baos);
+			out.writeObject(s);
+			// 返回对象的序列化字节数组
+			return baos.toByteArray();
+		} catch (IOException ex) {
+			Logs.warn(ex);
+		} finally {
+			CloseUtil.close(baos, out);
+		}
+		// 返回空字节数组
+		return ArrayConstants.BYTES_EMPTY;
 	}
 
 	/**
@@ -468,8 +488,26 @@ public final class Bytes {
 	 * @param b 字节数组
 	 * @return 镀锡
 	 */
-	public static Object deserialize(byte[] b) {
-		return SerializationUtils.deserialize(b);
+	public static Object toObject(byte[] b) {
+		// 如果字节数组为空 返回null
+		if (EmptyUtil.isEmpty(b)) {
+			return null;
+		}
+		// 声明字节数组输入流
+		ByteArrayInputStream bais = new ByteArrayInputStream(b);
+		// 声明对象输入流
+		ObjectInputStream in = null;
+		try {
+			// 声明对象输入流
+			in = new ObjectInputStream(bais);
+			// 返回对象
+			return in.readObject();
+		} catch (Exception ex) {
+			// 返回null
+			return null;
+		} finally {
+			CloseUtil.close(bais, in);
+		}
 	}
 
 	/**

@@ -2,7 +2,7 @@ package org.wdcode.common.crypto;
 
 import java.security.MessageDigest;
 
-import org.wdcode.common.codec.Codes;
+import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 
 import org.wdcode.common.log.Logs;
@@ -40,7 +40,7 @@ public final class Digest {
 	 * @return 获得摘要后的字节数组的hex后字符串
 	 */
 	public static String digest(String text) {
-		return Codes.encodeHex(digest(StringUtil.toBytes(text)));
+		return Hex.encode(digest(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class Digest {
 	 * @return MD2后的字节数组的hex后字符串
 	 */
 	public static String md2(String text) {
-		return Codes.encodeHex(md2(StringUtil.toBytes(text)));
+		return Hex.encode(md2(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public final class Digest {
 	 * @return MD5后的字节数组的hex后字符串
 	 */
 	public static String md5(String text) {
-		return Codes.encodeHex(md5(StringUtil.toBytes(text)));
+		return Hex.encode(md5(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class Digest {
 	 * @return SHA-256后的字节数组的hex后字符串
 	 */
 	public static String sha256(String text) {
-		return Codes.encodeHex(sha256(StringUtil.toBytes(text)));
+		return Hex.encode(sha256(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public final class Digest {
 	 * @return SHA-384后的字节数组的hex后字符串
 	 */
 	public static String sha384(String text) {
-		return Codes.encodeHex(sha384(StringUtil.toBytes(text)));
+		return Hex.encode(sha384(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public final class Digest {
 	 * @return SHA-512后的字节数组的hex后字符串
 	 */
 	public static String sha512(String text) {
-		return Codes.encodeHex(sha512(StringUtil.toBytes(text)));
+		return Hex.encode(sha512(StringUtil.toBytes(text)));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public final class Digest {
 	 * @return SHA-1后的字节数组的hex后字符串
 	 */
 	public static String sha1(String text) {
-		return Codes.encodeHex(sha1(StringUtil.toBytes(text)));
+		return Hex.encode(sha1(StringUtil.toBytes(text)));
 	}
 
 	/**
