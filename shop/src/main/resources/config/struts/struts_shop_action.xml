@@ -43,5 +43,8 @@
 			<result type="freemarker">/WEB-INF/template/shop/${module}_${mode}.ftl</result>
 			<result name="list" type="freemarker">/WEB-INF/template/shop/${module}_${mode}.ftl</result>
 		</action> 
+		<action name="*" class="shopAction" method="{1}">
+			<result type="freemarker">/WEB-INF/template/back/{1}.ftl</result>
+		</action> 
 	</package>
 </struts>

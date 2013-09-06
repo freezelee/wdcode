@@ -51,7 +51,7 @@ public final class CoreParams {
 	/**
 	 * 解析JSON所需要的包
 	 */
-	public final static String	JSON_PARSE					= Params.getString("json.parse", "json-lib");
+	public final static String	JSON_PARSE					= Params.getString("json.parse", "fast");
 	/**
 	 * Lucene索引保存位置
 	 */

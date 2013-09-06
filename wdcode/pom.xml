@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.1.32</version>
+			<version>1.1.36</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>net.minidev</groupId>
 			<artifactId>json-smart</artifactId>
-			<version>1.1.1</version>
+			<version>1.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

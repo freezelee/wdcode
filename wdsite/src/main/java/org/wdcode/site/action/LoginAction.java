@@ -152,6 +152,22 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 	}
 
 	/**
+	 * 是否登录
+	 * @return 是否自动登录
+	 */
+	public String isLogin() throws Exception{
+		return callback(token.isLogin());
+	}
+	
+	/**
+	 * 是否登录
+	 * @return 是否自动登录
+	 */
+	public String token() throws Exception{
+		return callback(token);
+	}
+
+	/**
 	 * 是否自动登录
 	 * @return 是否自动登录
 	 */

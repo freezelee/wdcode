@@ -1,17 +1,18 @@
-package org.wdcode.site.action;
+package org.wdcode.cms.action;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
+import org.wdcode.cms.po.User;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Decrypts;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
+import org.wdcode.site.action.LoginAction;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
-import org.wdcode.site.po.User;
 import org.wdcode.web.engine.EmailEngine;
 
 /***

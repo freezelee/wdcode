@@ -29,7 +29,7 @@ class Trolley extends BaseEntityIdTime implements EntityUser {
 	// 购买物品数量
 	Integer				count
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 价格
 	BigDecimal			price
 	// 总价格

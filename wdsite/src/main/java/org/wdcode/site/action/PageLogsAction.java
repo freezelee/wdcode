@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
+import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.po.PageLogs;
-import org.wdcode.site.po.User;
 import org.wdcode.web.util.RequestUtil;
 
 /**
@@ -22,7 +22,7 @@ import org.wdcode.web.util.RequestUtil;
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class PageLogsAction extends LoginAction<PageLogs, User> {
+public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	// 序列化ID
 	private static final long	serialVersionUID	= -9081711038252503304L;
 

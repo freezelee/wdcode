@@ -8,11 +8,11 @@ import javax.persistence.Id
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityIp;
-import org.wdcode.base.entity.EntityUser;
+import org.wdcode.base.entity.EntityIp
+import org.wdcode.base.entity.EntityUser
 import org.wdcode.common.lang.Conversion
 import org.wdcode.common.util.EmptyUtil
-import org.wdcode.site.entity.base.BaseEntityTime;
+import org.wdcode.site.entity.base.BaseEntityTime
 
 /**
  * 页面统计实体
@@ -28,7 +28,7 @@ class PageStatistics extends BaseEntityTime implements EntityIp, EntityUser {
 	@Id
 	String				page
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 登录次数
 	Integer				count
 	// 登录IP

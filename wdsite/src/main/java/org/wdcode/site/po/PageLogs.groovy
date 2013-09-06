@@ -33,7 +33,7 @@ class PageLogs extends BaseEntityIdTime implements EntityUser, EntityIp {
 	// 语言
 	String				language
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 名称
 	String				name
 }

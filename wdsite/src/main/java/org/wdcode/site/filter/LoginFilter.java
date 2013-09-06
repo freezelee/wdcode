@@ -61,6 +61,8 @@ public final class LoginFilter<L extends EntityLogin> implements Filter {
 		boolean find = true;
 		// 获得当前页面
 		String paths = httpRequest.getServletPath();
+//		//如果路径为""或者"/"不检查
+//		if(){}
 		// 有数组
 		if (!EmptyUtil.isEmpty(special)) {
 			// 循环数组

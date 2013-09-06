@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/3/17 20:59:29                           */
+/* Created on:     2013/9/6 13:42:04                            */
 /*==============================================================*/
 
 
@@ -165,7 +165,7 @@ create table goods
    cost                 decimal(16,2),
    market               decimal(16,2) comment ' 打折价格',
    store                int,
-   time                 int,
+   time                 bigint,
    marke_table          boolean,
    best                 boolean,
    new_in               boolean,
@@ -279,7 +279,7 @@ create table product
    cost                 decimal(16,2),
    market               decimal(16,2) comment ' 打折价格',
    store                int,
-   time                 int,
+   time                 bigint,
    marke_table          boolean,
    weight               int,
    specification_values text,

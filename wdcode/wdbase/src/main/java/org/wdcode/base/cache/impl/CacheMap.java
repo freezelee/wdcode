@@ -1,4 +1,4 @@
-package org.wdcode.base.cache.map;
+package org.wdcode.base.cache.impl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.wdcode.base.cache.base.BaseCache;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.wdcode.base.entity.Entity;
-import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -28,14 +27,11 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	private ConcurrentMap<Serializable, E>	mapCache;
 	// 空缓存V的List
 	private List<E>							emptyValueList;
-	// 是否有效
-	private boolean							valid;
 
 	/**
 	 * 构造函数
 	 */
 	public CacheMap() {
-		this.valid = BaseParams.CACHE_VALID;
 		this.mapCache = Maps.getConcurrentMap();
 		this.emptyValueList = Lists.emptyList();
 	}
@@ -45,7 +41,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return
 	 */
 	public List<E> list() {
-		return valid ? Lists.sort(Lists.getList(mapCache.values())) : emptyValueList;
+		return isValid() ? Lists.sort(Lists.getList(mapCache.values())) : emptyValueList;
 	}
 
 	/**
@@ -54,7 +50,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return 缓存Value
 	 */
 	public E get(Serializable key) {
-		return valid ? mapCache.get(key) : null;
+		return isValid() ? mapCache.get(key) : null;
 	}
 
 	/**
@@ -192,14 +188,6 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 */
 	public boolean isEmpty() {
 		return EmptyUtil.isEmpty(mapCache);
-	}
-
-	/**
-	 * 获得缓存是否有效
-	 * @return 是否有效
-	 */
-	public boolean isValid() {
-		return valid;
 	}
 
 	@Override

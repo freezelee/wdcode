@@ -1,4 +1,4 @@
-package org.wdcode.site.po
+package org.wdcode.cms.po
 
 import javax.persistence.Entity
 

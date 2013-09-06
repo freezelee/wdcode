@@ -147,7 +147,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
+			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.2</version>
 		</dependency>
 		<dependency>
@@ -180,6 +180,11 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>4.2.4.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.9</version> 
+		</dependency>  
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

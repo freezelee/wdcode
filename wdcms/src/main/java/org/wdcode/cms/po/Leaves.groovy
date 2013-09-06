@@ -27,7 +27,7 @@ class Leaves extends BaseEntityIdTime implements EntityIp, EntityUser {
 	// 内容
 	String				content
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 名称
 	String				name
 }

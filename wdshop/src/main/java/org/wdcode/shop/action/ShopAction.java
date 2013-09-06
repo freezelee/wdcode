@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.cms.po.User;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.ArrayUtil;
@@ -18,7 +19,6 @@ import org.wdcode.shop.po.Orders;
 import org.wdcode.shop.po.Receiver;
 import org.wdcode.shop.po.Trolley;
 import org.wdcode.site.action.LoginAction;
-import org.wdcode.site.po.User; 
 
 /**
  * 商店Action

@@ -3,7 +3,9 @@ package org.wdcode.back.listener;
 import java.io.File;
 
 import javax.servlet.ServletContextEvent;
- 
+
+import org.wdcode.back.constants.BackConstants;
+import org.wdcode.back.params.BackParams;
 import org.wdcode.back.template.TemplateEngine;
 import org.wdcode.site.listener.InitListener;
 
@@ -19,7 +21,9 @@ public class BackInitListener extends InitListener {
 	 */
 	public void contextInitialized(ServletContextEvent event) {
 		// 执行父方法
-		super.contextInitialized(event); 
+		super.contextInitialized(event);
+		// 设置后台主题路径
+		event.getServletContext().setAttribute(BackConstants.THEME_BACK, BackParams.BACK_THEME);
 		// 设置ClassPath
 		TemplateEngine.classPath = event.getServletContext().getRealPath("WEB-INF/classes") + File.separator;
 		// 加载后台模板

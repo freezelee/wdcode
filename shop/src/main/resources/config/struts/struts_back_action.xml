@@ -31,6 +31,7 @@
 		<!-- 通用配置 -->		
 		<action name="*_*_*" class="backAction" method="{2}">
 			<result type="freemarker">/WEB-INF/template/back/theme.ftl</result> 
+			<result name="input" type="freemarker">/WEB-INF/template/back/theme.ftl</result>
 			<result name="dels" type="chain">{1}_page</result>
 			<result name="list" type="freemarker">/WEB-INF/template/back/list.ftl</result> 
 		</action>   

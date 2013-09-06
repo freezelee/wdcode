@@ -8,12 +8,12 @@ import javax.persistence.Id
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityIp;
+import org.wdcode.base.entity.EntityIp
 import org.wdcode.common.constants.StringConstants
 import org.wdcode.common.lang.Conversion
 import org.wdcode.common.util.DateUtil
 import org.wdcode.common.util.EmptyUtil
-import org.wdcode.site.entity.base.BaseEntityTime;
+import org.wdcode.site.entity.base.BaseEntityTime
 
 /**
  * 登录统计实体
@@ -27,7 +27,7 @@ import org.wdcode.site.entity.base.BaseEntityTime;
 class LoginStatistics extends BaseEntityTime implements EntityIp {
 	// 用户ID
 	@Id
-	int					userId
+	Serializable	 	userId
 	// 上次登录时间
 	Integer				lastTime
 	// 上次登录IP

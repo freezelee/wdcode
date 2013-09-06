@@ -5,12 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.token.LoginToken;
-import org.wdcode.web.util.AttributeUtil;
-import org.wdcode.web.util.SessionUtil;
+import org.wdcode.web.util.AttributeUtil; 
 
 /**
  * 登录信息Bean
@@ -20,9 +18,9 @@ import org.wdcode.web.util.SessionUtil;
  */
 public final class LoginEngine {
 	// 空登录信息
-	private final static LoginToken	LOGIN_INFO	= new LoginToken();
+	private final static LoginToken	EMPTY	= new LoginToken();
 	// 登录信息标识
-	private final static String		INFO		= "_info";
+	private final static String		INFO	= "_info";
 
 	/**
 	 * 是否登录
@@ -42,7 +40,7 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 */
 	public static void addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login.getId(), login.getName(), DateUtil.getTime()), maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login), maxAge);
 	}
 
 	/**
@@ -55,7 +53,15 @@ public final class LoginEngine {
 		// 读取用户信息
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 返回实体
-		return EmptyUtil.isEmpty(info) ? LOGIN_INFO : JsonEngine.toBean(info, LoginToken.class);
+		return EmptyUtil.isEmpty(info) ? EMPTY : JsonEngine.toBean(info, LoginToken.class);
+	}
+
+	/**
+	 * 获得一样空登录信息
+	 * @return
+	 */
+	public static LoginToken empty() {
+		return EMPTY;
 	}
 
 	/**
@@ -66,7 +72,7 @@ public final class LoginEngine {
 	 */
 	public static void removeLogin(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 销毁用户session
-		SessionUtil.close(request.getSession());
+//		SessionUtil.close(request.getSession());
 		// 写入用户信息
 		AttributeUtil.remove(request, response, key + INFO);
 	}

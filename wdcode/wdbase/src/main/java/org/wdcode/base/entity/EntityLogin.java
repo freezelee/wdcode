@@ -8,18 +8,6 @@ package org.wdcode.base.entity;
  */
 public interface EntityLogin extends Entity {
 	/**
-	 * 获得ID
-	 * @return ID
-	 */
-	int getId();
-
-	/**
-	 * 设置Id
-	 * @param id ID
-	 */
-	void setId(int id);
-
-	/**
 	 * 获得名称
 	 */
 	String getName();

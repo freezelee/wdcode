@@ -21,6 +21,7 @@ import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.web.constants.HttpConstants;
 
 /**
  * 超级通用Action
@@ -69,15 +70,25 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		orders = Maps.getMap();
 		// 获得实体类
 		entityClass = context.getClass(module);
-		// 是否初始化实体
-		for (Map.Entry<String, String[]> e : getRequest().getParameterMap().entrySet()) {
-			if (e.getKey().indexOf("entity") > -1) {
-				isEntity = true;
-				// 获得实体
-				entity = entityClass == null ? null : context.getBean(module, entityClass);
-				break;
+		// 获得ContentType
+		String contentType = getRequest().getContentType();
+		// 判断为上传文件表单
+		if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
+			isEntity = true;
+			// 获得实体
+			entity = entityClass == null ? null : context.getBean(module, entityClass);
+		} else {
+			// 是否初始化实体
+			for (Map.Entry<String, String[]> e : getRequest().getParameterMap().entrySet()) {
+				if (e.getKey().indexOf("entity") > -1) {
+					isEntity = true;
+					// 获得实体
+					entity = entityClass == null ? null : context.getBean(module, entityClass);
+					break;
+				}
 			}
 		}
+
 	}
 
 	/**

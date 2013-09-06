@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wdcode.base.cache.Cache;
-import org.wdcode.base.cache.empty.CacheEmpty;
+import org.wdcode.base.cache.impl.CacheEmpty;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
 import org.wdcode.base.entity.Entity;

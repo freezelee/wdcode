@@ -1,5 +1,6 @@
 package org.wdcode.back.security;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +130,7 @@ public final class AdminToken implements UserDetails, AuthToken {
 	}
 
 	@Override
-	public int getId() {
+	public Serializable getId() {
 		return id;
 	}
 

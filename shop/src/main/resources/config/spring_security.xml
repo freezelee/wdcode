@@ -22,7 +22,7 @@
         	username-parameter="user.name" password-parameter="user.password" 
             authentication-failure-url="/back/"             
             default-target-url="/back/main.htm" authentication-success-handler-ref="loginSuccess" />
-         <logout logout-url="/back/logout.htm" logout-success-url="/back/" />   
+         <logout logout-url="/back/logout.htm" success-handler-ref="logoutSuccess" />   
          <!-- 验证码 -->
          <custom-filter before="FORM_LOGIN_FILTER" ref="verifyCodeFilter"/>  
     </http> 

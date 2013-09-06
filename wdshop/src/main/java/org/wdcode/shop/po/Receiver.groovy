@@ -24,7 +24,7 @@ class Receiver extends BaseEntityId implements EntityUser {
 	// 名称
 	String				name
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 地区ID
 	Integer				areaId
 	// 手机

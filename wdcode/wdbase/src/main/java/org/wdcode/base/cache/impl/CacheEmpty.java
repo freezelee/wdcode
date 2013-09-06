@@ -1,4 +1,4 @@
-package org.wdcode.base.cache.empty;
+package org.wdcode.base.cache.impl;
 
 import java.io.Serializable;
 import java.util.List;

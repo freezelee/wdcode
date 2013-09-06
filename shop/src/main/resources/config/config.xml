@@ -5,50 +5,55 @@
 		<!-- 保存属性的方式 -->
 		<attribute>cookie</attribute>
 	</save>
-	
+
 	<!-- 后台action命名空间 -->
 	<namespace>
 		<back>/back</back>
 	</namespace>
-	
+
 	<!-- 关于权限的配置 -->
 	<role>
 		<!-- 所有权限的角色ID -->
 		<all>1</all>
 	</role>
-	  
+
 	<!-- 加密配置 -->
 	<encrypt>
 		<!-- 加密Key -->
 		<key>http://www.wdcode.org</key>
-	</encrypt>	
-	  
+	</encrypt>
+
 	<!-- 登录 -->
 	<login>
-		<user> 
-			<special>login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave</special> 
+		<User>
+			<special>register,isLogin,login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave
+			</special>
 			<index>/</index>
-		</user> 
+		</User>
 		<logs>true</logs>
 		<statistics>true</statistics>
 	</login>
-	
+
 	<back>
 		<login>Admin</login>
 	</back>
-	
+
 	<!-- 操作 -->
-	<operate><logs>true</logs></operate>
-	
+	<operate>
+		<logs>true</logs>
+	</operate>
+
 	<!-- 页面 -->
 	<page>
 		<logs>true</logs>
 		<statistics>true</statistics>
-	</page> 
-	
+	</page>
+
 	<!-- 缓存 -->
-	<cache><valid>true</valid></cache> 
-	
+	<cache>
+		<valid>true</valid>
+	</cache>
+
 	<!-- 支付 -->
 	<pay>
 		<alipayPartner>

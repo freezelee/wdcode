@@ -36,7 +36,7 @@ public final class CookieUtil {
 	 */
 	public static void add(HttpServletResponse response, String name, String value, int maxAge) {
 		// 实例化Cookie
-		Cookie cookie = new Cookie(getEncrypt(name), getEncrypt(value));
+		Cookie cookie = new Cookie(name, getEncrypt(value));
 		// 设置Cookie过期时间
 		cookie.setMaxAge(maxAge);
 		// 设置目录
@@ -74,14 +74,12 @@ public final class CookieUtil {
 		}
 		// 声明一个Cookie,用户保存临时Cookie
 		Cookie cookie = null;
-		// 加密name
-		String key = getEncrypt(name);
 		// 循环Cookie
 		for (int i = 0; i < cookies.length; i++) {
 			// 获得Cookie
 			cookie = cookies[i];
 			// 判断Cookie
-			if (cookie.getName().equals(key)) {
+			if (cookie.getName().equals(name)) {
 				// 相等返回Cookie
 				return cookie;
 			}

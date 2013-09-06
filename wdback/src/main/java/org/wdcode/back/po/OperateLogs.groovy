@@ -21,7 +21,7 @@ class OperateLogs extends BaseEntityIdTime implements EntityUser {
 	// 内容
 	String				content
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 状态
 	Integer				state
 	// 名称

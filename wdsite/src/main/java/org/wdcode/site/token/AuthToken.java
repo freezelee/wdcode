@@ -1,5 +1,7 @@
 package org.wdcode.site.token;
 
+import java.io.Serializable;
+
 /**
  * 获得当前网站用户 可获得是是否登录 和用户基本信息接口
  * @author WD
@@ -17,7 +19,7 @@ public interface AuthToken {
 	 * 获得用户ID
 	 * @return 用户ID
 	 */
-	int getId();
+	Serializable getId();
 
 	/**
 	 * 获得用户名

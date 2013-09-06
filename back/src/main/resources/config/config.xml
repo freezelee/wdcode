@@ -19,7 +19,7 @@
 	</encrypt>	
 	
 	<!-- 主题 -->	
-	<back><theme>houtai</theme></back>
+	<back><theme>default</theme></back>
 	
 	<!-- 登录 -->
 	<login>

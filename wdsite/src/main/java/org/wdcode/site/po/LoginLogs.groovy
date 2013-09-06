@@ -26,7 +26,7 @@ class LoginLogs extends BaseEntityIdTime implements EntityUser, EntityIp {
 	// 语言
 	String				language
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 状态
 	Integer				state
 	// 名称

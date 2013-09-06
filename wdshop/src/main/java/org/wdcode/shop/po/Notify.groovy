@@ -22,7 +22,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 class Notify extends BaseEntityIdTime implements EntityUser {
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 商品ID
 	Integer				goodsId
 	// 产品ID

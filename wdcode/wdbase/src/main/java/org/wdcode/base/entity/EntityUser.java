@@ -1,5 +1,7 @@
 package org.wdcode.base.entity;
 
+import java.io.Serializable;
+
 /**
  * 用户实体
  * @author WD
@@ -11,11 +13,11 @@ public interface EntityUser {
 	 * 获得用户ID
 	 * @return 用户ID
 	 */
-	Integer getUserId();
+	Serializable getUserId();
 
 	/**
 	 * 设置用户ID
 	 * @param userId 用户ID
 	 */
-	void setUserId(Integer userId);
+	void setUserId(Serializable userId);
 }

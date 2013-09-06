@@ -130,7 +130,7 @@
 		<template key="edit" title="edit,brand" action="brand_edit" ref="add">
 			<node key="hidden" name="entity.key"/>
 		</template>		
-		<template key="list" title="brand,list" edit="true"> 
+		<template key="list" title="brand,list" edit="true" action="brand_page"> 
 			<node key="submit" ref="addSubmit" action="brand_theme_add"/>	
 			<node key="submit" ref="delButton" action="brand_dels"/>
 			<node th="brand,name;url;logo" />	

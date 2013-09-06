@@ -22,7 +22,7 @@ import org.wdcode.site.entity.base.BaseEntityId;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 class Favorite extends BaseEntityId implements EntityUser {
 	// 用户ID
-	Integer				userId
+	Serializable				userId
 	// 商品ID
 	Integer				goodsId
 }

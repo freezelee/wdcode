@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.lang.Lists;
 
 /**
@@ -54,11 +55,23 @@ public abstract class BaseCache<E extends Entity> implements Cache<E> {
 	 * @return 缓存的Value
 	 */
 	public List<E> remove(List<E> entitys) {
+		// 获得数量
+		int size = entitys.size();
+		// 键数组
+		Serializable[] keys = new Serializable[size];
 		// 循环删除
-		for (E entity : entitys) {
-			remove(entity);
+		for (int i = 0; i < size; i++) {
+			keys[i] = entitys.get(i).getKey();
 		}
 		// 返回列表
-		return entitys;
+		return remove(keys);
+	}
+
+	/**
+	 * 获得缓存是否有效
+	 * @return 是否有效
+	 */
+	public boolean isValid() {
+		return BaseParams.CACHE_VALID;
 	}
 }

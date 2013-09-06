@@ -24,6 +24,7 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.action.LoginAction;
+import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.util.HttpUtil;
 
@@ -52,13 +53,22 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		// 获得认证凭证
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		// 认证不为空
-		if (auth != null) {
+		if (auth == null) {
+			LoginEngine.removeLogin(getRequest(), getResponse(), getLoginKey());
+		} else {
 			// 获得登录管理员
 			Object principal = auth.getPrincipal();
 			if (principal instanceof AdminToken) {
 				token = ((AdminToken) principal);
+				LoginEngine.addLogin(getRequest(), getResponse(), ((AdminToken) token).getAdmin(), getLoginTime());
 			}
 		}
+		// else if (token != null) {
+		// token = new AdminToken(service.get(Admin.class, token.getId()), service,
+		// token.getTime());
+		// SecurityContextHolder.getContext().setAuthentication(new
+		// UsernamePasswordAuthenticationToken(token, null));
+		// }
 	}
 
 	/**

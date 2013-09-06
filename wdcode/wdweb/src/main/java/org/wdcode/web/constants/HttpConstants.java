@@ -92,6 +92,11 @@ public final class HttpConstants {
 	 */
 	public final static String	CONTENT_TYPE_BYE				= "application/octet-stream";
 	/**
+	 * 上传文件
+	 */
+	public final static String	CONTENT_TYPE_FILE				= "multipart/form-data";
+
+	/**
 	 * Header 获得 User-Agent "User-Agent"
 	 */
 	public final static String	HEADER_USER_AGENT				= "User-Agent";

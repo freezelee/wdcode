@@ -14,7 +14,7 @@ import org.wdcode.web.params.WebParams;
  */
 public final class AttributeUtil {
 	// 保存属性方式
-	private final static boolean	IS_COOKIE	= "session".equalsIgnoreCase(WebParams.SAVE_ATTRIBUTE);
+	private final static boolean	IS_COOKIE	= "cookie".equalsIgnoreCase(WebParams.SAVE_ATTRIBUTE);
 
 	/**
 	 * 设置属性 如果是Cookie保存是浏览器进程
