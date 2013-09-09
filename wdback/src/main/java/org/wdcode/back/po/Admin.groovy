@@ -1,6 +1,7 @@
 package org.wdcode.back.po
 
 import javax.persistence.Entity
+import javax.validation.constraints.Size
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
@@ -23,6 +24,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 class Admin extends BaseEntityIdTime implements EntityLogin {
 	// 名称
+	@Size(min=5)
 	String				name
 	// 密码
 	String				password

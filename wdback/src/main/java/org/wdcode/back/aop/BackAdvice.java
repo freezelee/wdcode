@@ -97,7 +97,7 @@ public final class BackAdvice {
 			// 添加日志
 			OperateLogs logs = new OperateLogs();
 			// 设置用户ID
-			// logs.setUserId(userId);
+			logs.setUserId(action.getToken().getId());
 			logs.setTime(DateUtil.getTime());
 			logs.setState(state);
 			// 判断操作

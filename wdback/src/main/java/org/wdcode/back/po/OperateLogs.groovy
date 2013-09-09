@@ -17,11 +17,11 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-class OperateLogs extends BaseEntityIdTime implements EntityUser {
+class OperateLogs extends BaseEntityIdTime {
 	// 内容
 	String				content
 	// 用户ID
-	Serializable				userId
+	Serializable		userId
 	// 状态
 	Integer				state
 	// 名称

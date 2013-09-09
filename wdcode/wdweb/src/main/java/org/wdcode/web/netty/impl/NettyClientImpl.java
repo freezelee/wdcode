@@ -1,15 +1,12 @@
 package org.wdcode.web.netty.impl;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.jboss.netty.bootstrap.ClientBootstrap;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.ChannelFactory;
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelHandler;
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
-import org.wdcode.common.lang.Bytes;
 import org.wdcode.web.netty.NettyClient;
 import org.wdcode.web.params.NettyParams;
 
@@ -21,11 +18,11 @@ import org.wdcode.web.params.NettyParams;
  */
 public final class NettyClientImpl implements NettyClient {
 	// 名称
-	private String			name;
-	// ClientBootstrap
-	private ClientBootstrap	bootstrap;
+	private String		name;
+	// Bootstrap
+	private Bootstrap	bootstrap;
 	// ChannelFuture
-	private ChannelFuture	future;
+	ChannelFuture		future;
 
 	/**
 	 * 构造方法
@@ -33,13 +30,12 @@ public final class NettyClientImpl implements NettyClient {
 	 */
 	public NettyClientImpl(String name) {
 		this.name = name;
-		// 实例化公测
-		ChannelFactory factory = new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
-		// 实例化ClientBootstrap
-		bootstrap = new ClientBootstrap(factory);
+		// // 实例化ClientBootstrap
+		bootstrap = new Bootstrap();
 		// 设置属性
-		bootstrap.setOption("tcpNoDelay", true);
-		bootstrap.setOption("keepAlive", true);
+		bootstrap.group(new NioEventLoopGroup()).channel(NioSocketChannel.class);
+		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 	}
 
 	/**
@@ -57,7 +53,7 @@ public final class NettyClientImpl implements NettyClient {
 	 * @param port 端口
 	 */
 	public void connect(String host, int port) {
-		future = bootstrap.connect(new InetSocketAddress(host, port)).awaitUninterruptibly();
+		future = bootstrap.connect(host, port);
 	}
 
 	/**
@@ -65,7 +61,7 @@ public final class NettyClientImpl implements NettyClient {
 	 * @param handler 处理器
 	 */
 	public void setHandler(ChannelHandler handler) {
-		bootstrap.getPipeline().addLast("handler", handler);
+		bootstrap.handler(handler);
 	}
 
 	/**
@@ -73,14 +69,14 @@ public final class NettyClientImpl implements NettyClient {
 	 * @param mess 信息
 	 */
 	public void send(Object mess) {
-		future.getChannel().write(ChannelBuffers.wrappedBuffer(Bytes.toBytes(mess)));
+		future.channel().write(mess);
 	}
 
 	/**
 	 * 关闭资源
 	 */
 	public void close() {
-		future.cancel();
+		future.cancel(true);
 		future = null;
 		bootstrap = null;
 	}

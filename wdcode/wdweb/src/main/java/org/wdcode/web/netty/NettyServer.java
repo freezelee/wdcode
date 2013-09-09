@@ -1,6 +1,7 @@
 package org.wdcode.web.netty;
+ 
+import io.netty.channel.ChannelHandler;
 
-import org.jboss.netty.channel.ChannelHandler;
 import org.wdcode.common.interfaces.Close;
 
 /**

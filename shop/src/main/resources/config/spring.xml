@@ -10,4 +10,11 @@
 	<!-- 加载配置文件 -->
 	<import resource="classpath:spring_base.xml" /> 
 	<import resource="classpath:config/spring_security.xml" />    
+	
+	<!--注册Bean验证后处理器
+	<bean class="org.springframework.validation.beanvalidation.BeanValidationPostProcessor"/>
+	-->  
+	<!--注册方法验证的后处理器
+	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
+	-->  
 </beans>

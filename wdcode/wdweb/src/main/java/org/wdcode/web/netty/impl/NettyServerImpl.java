@@ -1,12 +1,10 @@
 package org.wdcode.web.netty.impl;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelHandler;
 
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.channel.ChannelFactory;
-import org.jboss.netty.channel.ChannelHandler;
-import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import java.net.InetSocketAddress;
+
 import org.wdcode.web.netty.NettyServer;
 import org.wdcode.web.params.NettyParams;
 
@@ -29,11 +27,10 @@ public final class NettyServerImpl implements NettyServer {
 	public NettyServerImpl(String name) {
 		this.name = name;
 		// 实例化工厂
-		ChannelFactory factory = new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
-		bootstrap = new ServerBootstrap(factory);
+		bootstrap = new ServerBootstrap();
 		// 设置属性
-		bootstrap.setOption("child.tcpNoDelay", true);
-		bootstrap.setOption("child.keepAlive", true);
+		// bootstrap.setOption("child.tcpNoDelay", true);
+		// bootstrap.setOption("child.keepAlive", true);
 	}
 
 	/**
@@ -56,7 +53,7 @@ public final class NettyServerImpl implements NettyServer {
 	 * @param handler 处理器
 	 */
 	public void setHandler(ChannelHandler handler) {
-		bootstrap.getPipeline().addLast("handler", handler);
+		bootstrap.handler(handler);
 	}
 
 	/**

@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.base.entity.EntityFile;
+import org.wdcode.base.entity.EntityFiles;
 import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
@@ -450,6 +452,12 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 判断实体类型
 		if (e instanceof EntityTime) {
 			((EntityTime) e).setTime(DateUtil.getTime());
+		}
+		if (e instanceof EntityFile) {
+			((EntityFile) e).setPath(upload());
+		}
+		if (e instanceof EntityFiles) {
+			((EntityFiles) e).setPaths(uploads());
 		}
 		// 返回E
 		return e;

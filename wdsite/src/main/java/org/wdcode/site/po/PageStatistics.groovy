@@ -23,12 +23,12 @@ import org.wdcode.site.entity.base.BaseEntityTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-class PageStatistics extends BaseEntityTime implements EntityIp, EntityUser {
+class PageStatistics extends BaseEntityTime {
 	// 页面
 	@Id
 	String				page
 	// 用户ID
-	Serializable				userId
+	Serializable		userId
 	// 登录次数
 	Integer				count
 	// 登录IP

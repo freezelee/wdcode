@@ -24,7 +24,7 @@ import org.wdcode.site.entity.base.BaseEntityTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-class LoginStatistics extends BaseEntityTime implements EntityIp {
+class LoginStatistics extends BaseEntityTime {
 	// 用户ID
 	@Id
 	Serializable	 	userId

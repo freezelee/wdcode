@@ -5,9 +5,9 @@ import javax.persistence.Entity
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityIp;
-import org.wdcode.base.entity.EntityUser;
-import org.wdcode.site.entity.base.BaseEntityIdTime;
+import org.wdcode.base.entity.EntityIp
+import org.wdcode.base.entity.EntityUser
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
  * 登录日志实体
@@ -18,7 +18,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-class LoginLogs extends BaseEntityIdTime implements EntityUser, EntityIp {
+class LoginLogs extends BaseEntityIdTime{
 	// 登录IP
 	String				ip
 	// 用户User_Agent
@@ -26,7 +26,7 @@ class LoginLogs extends BaseEntityIdTime implements EntityUser, EntityIp {
 	// 语言
 	String				language
 	// 用户ID
-	Serializable				userId
+	Serializable		userId
 	// 状态
 	Integer				state
 	// 名称

@@ -107,7 +107,10 @@ public class SuperService {
 	 */
 	@Transactional
 	public <E extends Entity> List<E> delete(E... entitys) {
-		return getCache(entitys).remove(dao.delete(entitys));
+		// 删除
+		List<E> list = dao.delete(entitys);
+		// 返回结果
+		return isCache(entitys[0].getClass()) ? getCache(entitys).remove(list) : list;
 	}
 
 	/**
@@ -118,7 +121,10 @@ public class SuperService {
 	 */
 	@Transactional
 	public <E extends Entity> List<E> delete(Class<E> entity, Serializable... pk) {
-		return getCache(entity).remove(dao.delete(newInstance(entity, pk)));
+		// 删除
+		List<E> entitys = dao.delete(newInstance(entity, pk));
+		// 返回结果
+		return isCache(entity) ? getCache(entity).remove(entitys) : entitys;
 	}
 
 	/**

@@ -37,7 +37,7 @@
 				<#else> 
 					<tr>
 					<th class="check">
-						<@s.checkbox id="all" name="all" /> 
+						<input type="checkbox" id="all"/> 
 					</th> 
 					<#list template.get('th').split(';') as th> 
 						 <th>
