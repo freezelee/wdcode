@@ -72,7 +72,7 @@ public final class Validate {
 	 * @return true false
 	 */
 	public static boolean isDate(String str) {
-		return is(RegexConstants.DATE, str);
+		return is(new String[] { RegexConstants.DATE_YYYYMMDD, RegexConstants.DATE_YYYY_MM_DD, RegexConstants.DATE_Y_M_D_H_M_S, RegexConstants.DATE_Y_M_D_H_M, RegexConstants.DATE_YMD_H_M_S, RegexConstants.DATE_HH_MM_SS }, str);
 	}
 
 	/**
@@ -82,16 +82,6 @@ public final class Validate {
 	 */
 	public static boolean isEmail(String str) {
 		return is(RegexConstants.EMAIL, str);
-	}
-
-	/**
-	 * 日期带时分秒 正则表达式为 ^(\\d{4})\\-(0[1-9]|1[0-2])\\-(0[1-9]|1[0-9]|2[0-9]|3[0-1])
-	 * (0[0-9]|1[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9])$
-	 * @param str 要验证的字符串
-	 * @return true false
-	 */
-	public static boolean isDateTime(String str) {
-		return is(RegexConstants.DATETIME, str);
 	}
 
 	/**
@@ -210,6 +200,25 @@ public final class Validate {
 	 */
 	public static boolean is(String regex, String str) {
 		return EmptyUtil.isEmpty(regex) || EmptyUtil.isEmpty(str) ? false : Pattern.compile(regex).matcher(str).matches();
+	}
+
+	/**
+	 * 校验字符串
+	 * @param regex 正则表达式
+	 * @param str 要验证的字符串 校验的字符串
+	 * @return true false
+	 */
+	public static boolean is(String[] regexs, String str) {
+		// 如果为空返回false
+		if (EmptyUtil.isEmpty(regexs) || EmptyUtil.isEmpty(str)) {
+			return false;
+		} else {
+			// 循环判断正则 只要有一个符合就返回true
+			for (String regex : regexs) {
+				return Pattern.compile(regex).matcher(str).matches();
+			}
+		}
+		return false;
 	}
 
 	/**

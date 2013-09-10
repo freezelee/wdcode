@@ -27,7 +27,7 @@ import org.wdcode.site.entity.base.BaseEntityTime
 class LoginStatistics extends BaseEntityTime {
 	// 用户ID
 	@Id
-	Serializable	 	userId
+	Integer			 	userId
 	// 上次登录时间
 	Integer				lastTime
 	// 上次登录IP

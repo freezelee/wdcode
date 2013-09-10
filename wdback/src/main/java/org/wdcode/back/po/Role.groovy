@@ -29,7 +29,7 @@ class Role extends BaseEntityId {
 	String				name
 	// 操作列表
 	@ManyToMany
-	@JoinTable(name = "role_operate", joinColumns = @JoinColumn(name = "operate_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "role_operate", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "operate"))
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	List<Operate>		operates
 	// 菜单

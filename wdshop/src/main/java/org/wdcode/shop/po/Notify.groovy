@@ -7,8 +7,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser;
-import org.wdcode.site.entity.base.BaseEntityIdTime;
+import org.wdcode.base.entity.EntityUser
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
  * 收藏夹
@@ -22,7 +22,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 class Notify extends BaseEntityIdTime implements EntityUser {
 	// 用户ID
-	Serializable				userId
+	Integer				userId
 	// 商品ID
 	Integer				goodsId
 	// 产品ID

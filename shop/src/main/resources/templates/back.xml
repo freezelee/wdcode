@@ -73,7 +73,8 @@
 	<!-- 角色模板 -->
 	<module key="role">
 		<template key="add" title="add,role" action="role_add"> 
-			<node key="field" text="role,name" ref="textfield"  name="entity.name"/>   
+			<node key="field" text="role" ref="textfield"  name="entity.name"/>   
+			<node key="field" text="operate" ref="checkboxlist" list="%{#attr.query.list('operate')}" value="%{entity.operates!=null?entity.operates.{link}:''}" listKey="link" listValue="name" name="entity.operates.link" div="specificationSelect"/>
 			<node key="submit" ref="submit" />
 		</template>
 		<template key="edit" title="edit,role" action="role_edit" ref="add"> 

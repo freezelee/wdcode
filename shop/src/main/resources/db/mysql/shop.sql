@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50522
+Source Server Version : 50613
 Source Host           : 127.0.0.1:3306
 Source Database       : shop
 
 Target Server Type    : MYSQL
-Target Server Version : 50522
+Target Server Version : 50613
 File Encoding         : 65001
 
-Date: 2013-01-11 10:54:05
+Date: 2013-09-10 17:54:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,19 +71,20 @@ CREATE TABLE `article` (
 -- Records of article
 -- ----------------------------
 
-/*==============================================================*/
-/* Table: authority                                             */
-/*==============================================================*/
-create table authority
-(
-   id                   int not null auto_increment comment '主键',
-   authority            varchar(50) comment '角色名',
-   name                 varchar(50),
-   primary key (id)
-)
-ENGINE = MYISAM;
+-- ----------------------------
+-- Table structure for `authority`
+-- ----------------------------
+DROP TABLE IF EXISTS `authority`;
+CREATE TABLE `authority` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `authority` varchar(50) DEFAULT NULL COMMENT '角色名',
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='权限表';
 
-alter table authority comment '权限表';
+-- ----------------------------
+-- Records of authority
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `brand`
@@ -260,7 +261,7 @@ CREATE TABLE `goods` (
   `cost` decimal(16,2) DEFAULT NULL,
   `market` decimal(16,2) DEFAULT NULL COMMENT ' 打折价格',
   `store` int(11) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL,
+  `time` bigint(20) DEFAULT NULL,
   `marke_table` tinyint(1) DEFAULT NULL,
   `best` tinyint(1) DEFAULT NULL,
   `new_in` tinyint(1) DEFAULT NULL,
@@ -397,6 +398,7 @@ CREATE TABLE `message` (
   `content` text COMMENT '手机',
   `time` int(11) DEFAULT NULL,
   `ip` char(15) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='信息表';
 
@@ -420,54 +422,6 @@ CREATE TABLE `money` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `money_in_detail`
--- ----------------------------
-DROP TABLE IF EXISTS `money_in_detail`;
-CREATE TABLE `money_in_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL COMMENT '主键',
-  `money` decimal(20,2) DEFAULT NULL COMMENT '菜单名',
-  `overage` decimal(20,2) DEFAULT NULL,
-  `amount` decimal(20,2) DEFAULT NULL,
-  `time` int(11) DEFAULT '1' COMMENT '状态',
-  `type` tinyint(4) DEFAULT NULL,
-  `op_uid` int(11) DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
-  `detail` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_User` (`user_id`),
-  KEY `Index_Date` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='金钱入账表';
-
--- ----------------------------
--- Records of money_in_detail
--- ----------------------------
-
--- ----------------------------
--- Table structure for `money_out_detail`
--- ----------------------------
-DROP TABLE IF EXISTS `money_out_detail`;
-CREATE TABLE `money_out_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL COMMENT '主键',
-  `money` decimal(20,2) DEFAULT NULL COMMENT '菜单名',
-  `overage` decimal(20,2) DEFAULT NULL,
-  `amount` decimal(20,2) DEFAULT NULL,
-  `time` int(11) DEFAULT '1' COMMENT '状态',
-  `type` tinyint(4) DEFAULT NULL,
-  `op_uid` int(11) DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
-  `detail` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_User` (`user_id`),
-  KEY `Index_Date` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='金钱出账表';
-
--- ----------------------------
--- Records of money_out_detail
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `navigation`
 -- ----------------------------
 DROP TABLE IF EXISTS `navigation`;
@@ -483,18 +437,18 @@ CREATE TABLE `navigation` (
 -- Records of navigation
 -- ----------------------------
 
-/*==============================================================*/
-/* Table: notify                                                */
-/*==============================================================*/
-create table notify
-(
-   id                   int not null auto_increment,
-   user_id              int,
-   goods_id             int,
-   product_id           int,
-   time                 bigint,
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for `notify`
+-- ----------------------------
+DROP TABLE IF EXISTS `notify`;
+CREATE TABLE `notify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `goods_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `time` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物品缺货记录';
 
 -- ----------------------------
 -- Records of notify
@@ -505,10 +459,9 @@ create table notify
 -- ----------------------------
 DROP TABLE IF EXISTS `operate`;
 CREATE TABLE `operate` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `link` varchar(50) NOT NULL COMMENT '操作连接',
   `name` varchar(50) DEFAULT NULL COMMENT '操作名称 用于显示',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`link`),
   KEY `Index_ID` (`link`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='操作信息表';
 
@@ -551,7 +504,7 @@ CREATE TABLE `orders` (
   `status` tinyint(4) DEFAULT '0',
   `total` decimal(16,2) DEFAULT NULL,
   PRIMARY KEY (`sn`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='物品订单';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单';
 
 -- ----------------------------
 -- Records of orders
@@ -610,7 +563,7 @@ CREATE TABLE `product` (
   `cost` decimal(16,2) DEFAULT NULL,
   `market` decimal(16,2) DEFAULT NULL COMMENT ' 打折价格',
   `store` int(11) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL,
+  `time` bigint(20) DEFAULT NULL,
   `marke_table` tinyint(1) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
   `specification_values` text,
@@ -657,21 +610,20 @@ CREATE TABLE `receiver` (
 -- Records of receiver
 -- ----------------------------
 
-/*==============================================================*/
-/* Table: revert                                                */
-/*==============================================================*/
-create table revert
-(
-   id                   int not null auto_increment comment '主键',
-   name                 varchar(100) comment '留言名称 标题',
-   user_id              int,
-   ip                   char(15),
-   leave_id             int comment '留言ID',
-   content              text comment '回复内容',
-   time                 int comment '回复时间',
-   primary key (id)
-)
-ENGINE= MYISAM;
+-- ----------------------------
+-- Table structure for `revert`
+-- ----------------------------
+DROP TABLE IF EXISTS `revert`;
+CREATE TABLE `revert` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(100) DEFAULT NULL COMMENT '留言名称 标题',
+  `user_id` int(11) DEFAULT NULL,
+  `ip` char(15) DEFAULT NULL,
+  `leave_id` int(11) DEFAULT NULL COMMENT '留言ID',
+  `content` text COMMENT '回复内容',
+  `time` int(11) DEFAULT NULL COMMENT '回复时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of revert
@@ -728,7 +680,7 @@ CREATE TABLE `role_menu` (
 DROP TABLE IF EXISTS `role_operate`;
 CREATE TABLE `role_operate` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `operate_id` int(11) DEFAULT '0',
+  `operate` varchar(50) DEFAULT '0',
   `role_id` int(11) DEFAULT '0' COMMENT '角色ID',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色与操作关系表';
@@ -785,24 +737,6 @@ CREATE TABLE `specification` (
 
 -- ----------------------------
 -- Records of specification
--- ----------------------------
-
--- ----------------------------
--- Table structure for `system_message`
--- ----------------------------
-DROP TABLE IF EXISTS `system_message`;
-CREATE TABLE `system_message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(200) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `content` text COMMENT '手机',
-  `time` int(11) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='系统信息表';
-
--- ----------------------------
--- Records of system_message
 -- ----------------------------
 
 -- ----------------------------

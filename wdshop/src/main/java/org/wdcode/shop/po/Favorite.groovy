@@ -7,8 +7,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser;
-import org.wdcode.site.entity.base.BaseEntityId;
+import org.wdcode.base.entity.EntityUser
+import org.wdcode.site.entity.base.BaseEntityId
 
 /**
  * 收藏夹
@@ -22,7 +22,7 @@ import org.wdcode.site.entity.base.BaseEntityId;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 class Favorite extends BaseEntityId implements EntityUser {
 	// 用户ID
-	Serializable				userId
+	Integer				userId
 	// 商品ID
 	Integer				goodsId
 }

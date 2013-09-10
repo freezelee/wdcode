@@ -29,7 +29,7 @@ class Revert extends BaseEntityIdTime implements EntityIp, EntityUser {
 	// 内容
 	String				content
 	// 用户ID
-	Serializable				userId
+	Integer				userId
 	// 名称
 	String				name
 }

@@ -1,7 +1,5 @@
 package org.wdcode.site.aop;
 
-import java.io.Serializable;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,7 +47,7 @@ public class SiteAdvice {
 			// 获得页面
 			String page = Conversion.toString((action.getEntity()).getKey());
 			// 获得用户ID
-			Serializable uid = action.getToken().getId();
+			int uid = action.getToken().getId();
 			// 获得IP
 			String ip = action.getIp();
 			// 根据用户ID获得统计数据
@@ -81,7 +79,7 @@ public class SiteAdvice {
 		// 获得登录Login
 		LoginAction<?, ?> login = (LoginAction<?, ?>) point.getTarget();
 		// 获得用户ID
-		Serializable uid = login.getToken().getId();
+		int uid = login.getToken().getId();
 		// 获得登录key
 		String key = login.getLoginKey();
 		// 获得IP

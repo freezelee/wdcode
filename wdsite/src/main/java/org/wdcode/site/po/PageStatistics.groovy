@@ -28,7 +28,7 @@ class PageStatistics extends BaseEntityTime {
 	@Id
 	String				page
 	// 用户ID
-	Serializable		userId
+	Integer				userId
 	// 登录次数
 	Integer				count
 	// 登录IP

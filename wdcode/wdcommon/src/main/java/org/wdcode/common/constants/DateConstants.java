@@ -20,6 +20,10 @@ public final class DateConstants {
 	 */
 	public final static String	FORMAT_Y_M_D_H_M_S	= "yyyy-MM-dd HH:mm:ss";
 	/**
+	 * 日期格式 yyyy-MM-dd HH:mm:ss
+	 */
+	public final static String	FORMAT_Y_M_D_H_M	= "yyyy-MM-dd HH:mm";
+	/**
 	 * 日期格式 yyyyMMdd HH:mm:ss
 	 */
 	public final static String	FORMAT_YMD_H_M_S	= "yyyyMMdd HH:mm:ss";

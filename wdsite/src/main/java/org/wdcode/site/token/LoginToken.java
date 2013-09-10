@@ -1,7 +1,5 @@
 package org.wdcode.site.token;
 
-import java.io.Serializable;
-
 import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -15,11 +13,11 @@ import org.wdcode.core.json.JsonEngine;
  */
 public final class LoginToken implements AuthToken {
 	// 用户ID
-	private Serializable	id;
+	private int		id;
 	// 用户名
-	private String			name;
+	private String	name;
 	// 登录时间
-	private int				time;
+	private int		time;
 
 	/**
 	 * 构造方法
@@ -34,7 +32,7 @@ public final class LoginToken implements AuthToken {
 	 * @param ip 登录IP
 	 */
 	public LoginToken(EntityLogin login) {
-		this.id = login.getKey();
+		this.id = login.getId();
 		this.name = login.getName();
 		this.time = DateUtil.getTime();
 	}
@@ -44,14 +42,14 @@ public final class LoginToken implements AuthToken {
 	 * @return 是否登录
 	 */
 	public boolean isLogin() {
-		return id != null && !EmptyUtil.isEmpty(name) && time > 0;
+		return id > 0 && !EmptyUtil.isEmpty(name) && time > 0;
 	}
 
 	/**
 	 * 获得用户ID
 	 * @return 用户ID
 	 */
-	public Serializable getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -75,7 +73,7 @@ public final class LoginToken implements AuthToken {
 	 * 设置ID
 	 * @param id ID
 	 */
-	public void setId(Serializable id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

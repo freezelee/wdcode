@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013-1-14 19:51:45                           */
+/* Created on:     2013/9/10 17:52:56                           */
 /*==============================================================*/
 
 
@@ -55,10 +55,9 @@ alter table menu comment '菜单表';
 /*==============================================================*/
 create table operate
 (
-   id                   int not null auto_increment,
    link                 varchar(50) not null comment '操作连接',
    name                 varchar(50) comment '操作名称 用于显示',
-   primary key (id)
+   primary key (link)
 )
 ENGINE = MYISAM;
 
@@ -152,7 +151,7 @@ create index Index_Menu on role_menu
 create table role_operate
 (
    id                   int not null auto_increment comment '主键',
-   operate_id           int default 0,
+   operate              varchar(50) default '0',
    role_id              int default 0 comment '角色ID',
    primary key (id)
 )

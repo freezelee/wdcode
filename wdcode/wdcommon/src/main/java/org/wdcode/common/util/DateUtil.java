@@ -6,10 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.wdcode.common.constants.DateConstants;
+import org.wdcode.common.constants.RegexConstants;
 
 import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Validate;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
@@ -22,6 +24,29 @@ import org.wdcode.common.params.CommonParams;
 public final class DateUtil {
 	// Calendar实例
 	private final static Calendar	CALENDAR	= Calendar.getInstance();
+
+	/**
+	 * 根据给定的日期字符串返回它的日期Format
+	 * @param date 日期
+	 * @return Format
+	 */
+	public static String getFormat(String date) {
+		// 开始判断格式
+		if (Validate.is(RegexConstants.DATE_YYYYMMDD, date)) {
+			return DateConstants.FORMAT_YYYYMMDD;
+		} else if (Validate.is(RegexConstants.DATE_YYYY_MM_DD, date)) {
+			return DateConstants.FORMAT_YYYY_MM_DD;
+		} else if (Validate.is(RegexConstants.DATE_Y_M_D_H_M_S, date)) {
+			return DateConstants.FORMAT_Y_M_D_H_M_S;
+		} else if (Validate.is(RegexConstants.DATE_Y_M_D_H_M, date)) {
+			return DateConstants.FORMAT_Y_M_D_H_M;
+		} else if (Validate.is(RegexConstants.DATE_YMD_H_M_S, date)) {
+			return DateConstants.FORMAT_YMD_H_M_S;
+		} else if (Validate.is(RegexConstants.DATE_HH_MM_SS, date)) {
+			return DateConstants.FORMAT_HH_MM_SS;
+		}
+		return null;
+	}
 
 	/**
 	 * 获得Calendar
@@ -187,7 +212,7 @@ public final class DateUtil {
 	 * @return Date 转换后的日期
 	 */
 	public static Date toDate(String dateString) {
-		return toDate(dateString, CommonParams.DATE_FORMAT);
+		return toDate(dateString, getFormat(dateString));
 	}
 
 	/**
@@ -217,7 +242,7 @@ public final class DateUtil {
 	 * @return 返回两个日期相差的天数
 	 */
 	public static int marginDay(String oneDate, String twoDate) {
-		return marginDay(oneDate, twoDate, CommonParams.DATE_FORMAT);
+		return marginDay(oneDate, twoDate, getFormat(oneDate));
 	}
 
 	/**
@@ -248,7 +273,7 @@ public final class DateUtil {
 	 * @return 返回两个日期相隔几个月
 	 */
 	public static int marginMonth(String oneDate, String twoDate) {
-		return marginMonth(oneDate, twoDate, CommonParams.DATE_FORMAT);
+		return marginMonth(oneDate, twoDate, getFormat(oneDate));
 	}
 
 	/**
@@ -305,7 +330,7 @@ public final class DateUtil {
 	 * @return 返回星期几
 	 */
 	public static int getDayOfWeek(String date) {
-		return getDayOfWeek(date, CommonParams.DATE_FORMAT);
+		return getDayOfWeek(date, getFormat(date));
 	}
 
 	/**
@@ -341,7 +366,7 @@ public final class DateUtil {
 	 * @return 本周的日期
 	 */
 	public static String[] getDayOfWeeks(String date) {
-		return getDayOfWeeks(date, CommonParams.DATE_FORMAT);
+		return getDayOfWeeks(date, getFormat(date));
 	}
 
 	/**
@@ -397,7 +422,7 @@ public final class DateUtil {
 	 * @return 返回第N周
 	 */
 	public static int getWeek(String date) {
-		return getWeek(date, CommonParams.DATE_FORMAT);
+		return getWeek(date, getFormat(date));
 	}
 
 	/**
@@ -433,7 +458,7 @@ public final class DateUtil {
 	 * @return 返回第N天
 	 */
 	public static int getDayOfYear(String date) {
-		return getDayOfYear(date, CommonParams.DATE_FORMAT);
+		return getDayOfYear(date, getFormat(date));
 	}
 
 	/**
@@ -481,7 +506,7 @@ public final class DateUtil {
 	 * @return N天的日期
 	 */
 	public static String getDate(String date, int number) {
-		return getDate(date, number, CommonParams.DATE_FORMAT);
+		return getDate(date, number, getFormat(date));
 	}
 
 	/**

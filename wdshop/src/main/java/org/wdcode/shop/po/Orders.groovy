@@ -32,7 +32,7 @@ class Orders extends BaseEntityTime implements EntityUser {
 	@GeneratedValue(generator = "uuid")
 	String				sn
 	// 用户ID
-	Serializable				userId
+	Integer				userId
 	// 配送方式
 	Integer				dispatchId
 	// 支付类型

@@ -28,22 +28,16 @@ public final class BeanUtil {
 	 */
 	public static <T> T copyProperties(T source, T target) {
 		// 判读对象为空
-		if (EmptyUtil.isEmpty(source) || EmptyUtil.isEmpty(target)) {
+		if (source == null || target == null) {
 			return target;
 		}
-		// 反射对象属性
-		Field[] fields = source.getClass().getFields();
-		// 声明字段
-		Field field = null;
 		// 循环字段
-		for (int i = 0; i < fields.length; i++) {
+		for (Field field : source.getClass().getDeclaredFields()) {
 			try {
-				// 获得字段
-				field = fields[i];
 				// 强行设置Field可访问.
 				makeAccessible(field);
 				// 设置字段值
-				setFieldValue(target, field.getName(), field.get(target));
+				setFieldValue(target, field.getName(), field.get(source));
 			} catch (Exception e) {
 				Logs.warn(e);
 			}
@@ -229,7 +223,7 @@ public final class BeanUtil {
 		// 获得字段
 		Field field = getDeclaredField(object, fieldName);
 		// 判断字段为空 返回
-		if (EmptyUtil.isEmpty(field)) {
+		if (EmptyUtil.isEmpty(field) || EmptyUtil.isEmpty(value)) {
 			return;
 		}
 		// 强行设置Field可访问.

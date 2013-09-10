@@ -667,6 +667,7 @@ body.menu {
 	height: 100px;
 	padding: 5px;
 	overflow-y: scroll;
+	float: left;
 	border: 1px solid #cccccc;
 }
 
