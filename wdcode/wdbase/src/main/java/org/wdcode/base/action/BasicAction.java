@@ -560,7 +560,7 @@ public class BasicAction extends ActionSupport {
 			return data(obj instanceof List<?> ? ((List<?>) obj).size() > 1 ? obj : ((List<?>) obj).get(0) : obj);
 		} else {
 			if (obj == null) {
-				return ERROR;
+				return addMessage(ERROR);
 			} else if (obj instanceof String) {
 				return addMessage(Conversion.toString(obj));
 			} else if (obj instanceof List<?>) {
@@ -568,7 +568,7 @@ public class BasicAction extends ActionSupport {
 			} else if (obj instanceof Boolean) {
 				return addMessage(Conversion.toBoolean(obj) ? SUCCESS : ERROR);
 			} else {
-				return SUCCESS;
+				return addMessage(SUCCESS);
 			}
 		}
 	}

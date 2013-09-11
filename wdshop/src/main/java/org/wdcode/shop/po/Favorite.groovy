@@ -4,10 +4,12 @@ import javax.persistence.Entity
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser
+import org.wdcode.base.entity.EntityUserId
 import org.wdcode.site.entity.base.BaseEntityId
 
 /**
@@ -20,7 +22,9 @@ import org.wdcode.site.entity.base.BaseEntityId
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-class Favorite extends BaseEntityId implements EntityUser {
+@DynamicInsert
+@DynamicUpdate
+class Favorite extends BaseEntityId implements EntityUserId {
 	// 用户ID
 	Integer				userId
 	// 商品ID

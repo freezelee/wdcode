@@ -136,7 +136,7 @@ style='cursor:pointer;*cursor:hand;'/>
 		<@s.checkbox cssClass=field.cssClass!null value=field.value!null id=field.id!null name=field.name!null/> 
 		<#break>
 	<#case "checkboxlist">
-		<@s.checkboxlist name=field.name!null cssClass=field.cssClass!null value=field.value!null id=field.id!null headerKey=field.headerKey!null headerValue=field.headerValue!null list=field.list!null listKey=field.listKey!null listValue=field.listValue!null/>
+		<@s.checkboxlist name=field.name!null cssClass=field.cssClass!null value=field.value!null id=field.id!null headerKey=field.headerKey!null headerValue=field.headerValue!null list=field.list!null listKey=field.listKey!null listValue=field.listValue!null accesskey=field.accesskey!null/>
 		<#break>
 	<#case "submit"> 
 		<@s.submit cssClass=field.cssClass!null value=field.value!null accesskey=field.accesskey!null id=field.id!null action=field.action!null/>

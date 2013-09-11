@@ -1,21 +1,27 @@
 package org.wdcode.base.entity;
 
 /**
- * 用户实体
+ * 用户实体接口
  * @author WD
  * @since JDK7
  * @version 1.0 2012-07-18
  */
-public interface EntityUser {
+public interface EntityUser extends EntityLogin, EntityIp, EntityTime {
 	/**
-	 * 获得用户ID
-	 * @return 用户ID
+	 * 获得Email
+	 * @return Email
 	 */
-	Integer getUserId();
+	String getEmail();
 
 	/**
-	 * 设置用户ID
-	 * @param userId 用户ID
+	 * 设置Email
+	 * @param email Email
 	 */
-	void setUserId(Integer userId);
+	void setEmail(String email);
+
+	/**
+	 * 设置状态
+	 * @param state
+	 */
+	void setState(Integer state);
 }

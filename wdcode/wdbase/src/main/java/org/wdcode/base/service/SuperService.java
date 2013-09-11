@@ -306,9 +306,10 @@ public class SuperService {
 		if (cache.isValid()) {
 			// 返回新列表
 			return Lists.subList(cache.list(), firstResult, maxResults);
+		} else {
+			// 查询数据库
+			return Lists.toString(dao.list(entityClass, firstResult, maxResults));
 		}
-		// 查询数据库
-		return dao.list(entityClass, firstResult, maxResults);
 	}
 
 	/**

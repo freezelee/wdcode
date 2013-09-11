@@ -7,6 +7,8 @@ import javax.persistence.Entity
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type
 import org.hibernate.search.annotations.Indexed
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -25,6 +27,8 @@ import org.wdcode.site.entity.base.BaseEntityIdTime;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Indexed
+@DynamicInsert
+@DynamicUpdate
 class Entitys extends BaseEntityIdTime {
 	// 实体名
 	String				entity

@@ -14,6 +14,9 @@
 <body class="input"> 
 	<div class="bar">
 		${action.getText(template.get("title"))}
+		<@s.actionmessage/>
+		<@s.fielderror />
+		<@s.actionerror/>
 	</div> 
 	<div class="body">
 		<@s.form validate="true" method="post" action="${template.get('action')!}" enctype="${template.get('enctype')!}"> 

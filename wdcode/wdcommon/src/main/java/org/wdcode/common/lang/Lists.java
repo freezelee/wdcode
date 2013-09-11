@@ -187,6 +187,20 @@ public final class Lists {
 	}
 
 	/**
+	 * 调用每个元素的toString()方法
+	 * @param list
+	 * @return
+	 */
+	public static <E> List<E> toString(List<E> list) {
+		// 循环调用
+		for (E e : list) {
+			e.toString();
+		}
+		// 返回list
+		return list;
+	}
+
+	/**
 	 * 把一个列表变成数组
 	 * @return 一个不可变的空List
 	 */

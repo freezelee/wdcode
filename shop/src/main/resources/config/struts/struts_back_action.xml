@@ -7,7 +7,7 @@
 		<!-- 全局返回 -->	
 		<global-results>
 			<result name="login" type="freemarker">/WEB-INF/template/back/login.ftl</result>
-		</global-results>
+		</global-results> 
 		 
 		<!-- 进入框价页 -->
 		<action name="index" class="backAction" method="index">

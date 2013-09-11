@@ -7,12 +7,14 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser
+import org.wdcode.base.entity.EntityUserId
 import org.wdcode.common.lang.Conversion
 import org.wdcode.site.entity.base.BaseEntityTime
 
@@ -25,7 +27,9 @@ import org.wdcode.site.entity.base.BaseEntityTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-class Orders extends BaseEntityTime implements EntityUser {
+@DynamicInsert
+@DynamicUpdate
+class Orders extends BaseEntityTime implements EntityUserId {
 	// 编号
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid")

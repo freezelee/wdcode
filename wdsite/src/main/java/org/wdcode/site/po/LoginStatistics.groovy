@@ -5,6 +5,8 @@ import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.Id
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -24,6 +26,8 @@ import org.wdcode.site.entity.base.BaseEntityTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 class LoginStatistics extends BaseEntityTime {
 	// 用户ID
 	@Id

@@ -100,15 +100,16 @@ public final class BackAdvice {
 			logs.setUserId(action.getToken().getId());
 			logs.setTime(DateUtil.getTime());
 			logs.setState(state);
+			logs.setName(operate == null ? link : operate.getName());
 			// 判断操作
 			if (EmptyUtil.isEmpty(keys)) {
 				// 判断实体不为空
 				if (!EmptyUtil.isEmpty(entity)) {
-					logs.setContent((operate == null ? link : operate.getName()) + StringConstants.BLANK + entity.toString());
+					logs.setContent(entity.toString());
 				}
 			} else {
 				// 删除多个数据
-				logs.setContent((operate == null ? link : operate.getName()) + StringConstants.BLANK + Arrays.toString((keys)));
+				logs.setContent(Arrays.toString((keys)));
 			}
 			// 记录日志
 			service.insert(logs);

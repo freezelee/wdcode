@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.entity.EntityLogin;
-import org.wdcode.base.entity.EntityUser;
+import org.wdcode.base.entity.EntityUserId;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.site.engine.LoginEngine;
@@ -40,11 +40,11 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 		// 获得登录信息
 		token = LoginEngine.getLoginBean(context.getRequest(), getLoginKey());
 		// 如果查询自己的数据 添加登录用户名
-		if (entity == null && entityClass != null && EntityUser.class.isAssignableFrom(entityClass)) {
+		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
 			entity = context.getBean(module, entityClass);
 		}
-		if (entity instanceof EntityUser) {
-			((EntityUser) entity).setUserId(token.getId());
+		if (entity instanceof EntityUserId) {
+			((EntityUserId) entity).setUserId(token.getId());
 		}
 		// 如果实体为空 并且 模块名和模式名不同
 		if (isEntity && entity == null && !module.equals(mode)) {
@@ -68,8 +68,8 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 	protected E add(E e) {
 		e = super.add(e);
 		// 判断实体类型
-		if (e instanceof EntityUser) {
-			((EntityUser) e).setUserId(token.getId());
+		if (e instanceof EntityUserId) {
+			((EntityUserId) e).setUserId(token.getId());
 		}
 		// 返回E
 		return e;

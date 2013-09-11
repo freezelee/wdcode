@@ -24,7 +24,9 @@
 	<div class="body">
 		<@s.form action="login" method="post" validate="true">
 			<input type="hidden" name="url" value="welcome"/>			
-			<@s.fielderror />
+			<@s.actionmessage/>
+				<@s.fielderror />
+				<@s.actionerror/>
             <table class="loginTable"> 
             	<tr> 
             		<td rowspan="3"> 

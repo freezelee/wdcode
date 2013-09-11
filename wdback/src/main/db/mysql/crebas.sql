@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/9/10 17:52:56                           */
+/* Created on:     2013/9/11 11:22:33                           */
 /*==============================================================*/
 
 
@@ -80,7 +80,7 @@ create table operate_logs
    name                 varchar(50),
    user_id              int comment '用户主键',
    time                 int comment '操作时间',
-   content              varchar(500),
+   content              text,
    state                tinyint,
    primary key (id)
 )

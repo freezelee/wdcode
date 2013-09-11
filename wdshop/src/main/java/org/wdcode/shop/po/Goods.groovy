@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
@@ -34,6 +36,8 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Indexed
+@DynamicInsert
+@DynamicUpdate
 class Goods extends BaseEntityIdTime implements EntityFiles{
 	// 名称
 	@Field

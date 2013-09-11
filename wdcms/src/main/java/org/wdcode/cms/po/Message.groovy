@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityIp
-import org.wdcode.base.entity.EntityUser
+import org.wdcode.base.entity.EntityUserId
 import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
@@ -26,7 +26,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-class Message extends BaseEntityIdTime implements EntityIp, EntityUser {
+class Message extends BaseEntityIdTime implements EntityIp, EntityUserId {
 	// IP
 	String				ip
 	// 内容
