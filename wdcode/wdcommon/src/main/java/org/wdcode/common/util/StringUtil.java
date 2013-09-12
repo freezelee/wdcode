@@ -10,6 +10,7 @@ import org.wdcode.common.constants.HtmlConstants;
 
 import org.wdcode.common.constants.StringConstants;
 
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Validate;
 import org.wdcode.common.log.Logs;
@@ -569,6 +570,15 @@ public final class StringUtil {
 		}
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
+	}
+
+	/**
+	 * 去除两边空格
+	 * @param s 要处理的字符串
+	 * @return 处理后的字符串
+	 */
+	public static String trim(String s) {
+		return Conversion.toString(s).trim();
 	}
 
 	/**

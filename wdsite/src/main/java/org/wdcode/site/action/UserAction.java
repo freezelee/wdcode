@@ -1,16 +1,14 @@
-package org.wdcode.cms.action;
+package org.wdcode.site.action;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.wdcode.cms.po.User;
+import org.wdcode.base.entity.Entity;
+import org.wdcode.base.entity.EntityUser;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Decrypts;
+import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
-import org.wdcode.site.action.LoginAction;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.web.engine.EmailEngine;
@@ -21,9 +19,7 @@ import org.wdcode.web.engine.EmailEngine;
  * @since JDK7
  * @version 1.0 2011-11-02
  */
-@Controller
-@Scope(WebApplicationContext.SCOPE_REQUEST)
-public class UserAction extends LoginAction<User, User> {
+public class UserAction<E extends Entity, U extends EntityUser> extends LoginAction<E, U> {
 	// 序列化ID
 	private static final long	serialVersionUID	= 847404521518587435L;
 
@@ -37,56 +33,26 @@ public class UserAction extends LoginAction<User, User> {
 	private String				activeCoding;
 
 	/**
-	 * 修改用户
-	 * @return
-	 * @throws Exception
-	 */
-	public String edit() throws Exception {
-		// 设置密码
-		entity.setPassword(newPwd);
-		// 执行父方法
-		return super.edit();
-	}
-
-	/**
 	 * 修改个人密码
 	 * @return
 	 * @throws Exception
 	 */
 	public String changePwd() throws Exception {
-		// 获得原Bean
-		entity = service.get(User.class, entity.getId());
-		// 判断是否原始密码
-		if (oldPwd.equals(entity.getPassword())) {
-			// 设置新密码
-			entity.setPassword(newPwd);
-			// 修改
-			service.update(entity);
-			// 返回成功
-			return callback(SUCCESS);
-		} else {
-			// 返回失败
-			return callback(ERROR);
+		if (newPwd.equals(echoPwd)) {
+			// 获得原Bean
+			user = service.get(user);
+			// 判断是否原始密码
+			if (oldPwd.equals(user.getPassword())) {
+				// 设置新密码
+				user.setPassword(Digest.absolute(newPwd));
+				// 修改
+				service.update(entity);
+				// 返回成功
+				return callback(SUCCESS);
+			}
 		}
-	}
-
-	/**
-	 * 重置密码
-	 * @return
-	 * @throws Exception
-	 */
-	public String resetPwd() throws Exception {
-		// 设置密码
-		entity.setPassword(newPwd);
-		// 获得原Bean
-		entity = service.get(User.class, entity.getId());
-		// 判断是否原始密码
-		// 设置新密码
-		entity.setPassword(newPwd);
-		// 修改
-		service.update(entity);
-		// 返回成功
-		return callback(SUCCESS);
+		// 返回失败
+		return callback(ERROR);
 	}
 
 	/**
@@ -96,36 +62,36 @@ public class UserAction extends LoginAction<User, User> {
 	 */
 	public String register() throws Exception {
 		// 注册ip
-		entity.setRegisterIp(getIp());
+		user.setIp(getIp());
 		// 创建时间
-		entity.setTime(DateUtil.getTime());
+		user.setTime(DateUtil.getTime());
 		// 是否Email验证
 		if (SiteParams.USER_VERIFY_EMAIL) {
 			// 设置状态无效
-			entity.setState(0);
+			user.setState(0);
 			// 发生激活信
 		}
 		// 添加
-		service.insert(entity);
+		service.insert(user);
 		// 获得用户ID
-		int id = entity.getId();
+		int id = user.getId();
 		// 注册成功
 		if (id > 0) {
 			// 是否Email验证
 			if (SiteParams.USER_VERIFY_EMAIL) {
 				// 获得激活码
-				String activeCoding = Encrypts.encrypt(entity.getId() + StringConstants.AMP + entity.getEmail());
+				String activeCoding = Encrypts.encrypt(user.getId() + StringConstants.AMP + user.getEmail());
 				// 邮件标题
-				String subject = SiteParams.USER_VERIFY_EMAIL_SUBJECT.replaceAll(SiteParams.USER_VERIFY_EMAIL_NAME, entity.getName());
+				String subject = SiteParams.USER_VERIFY_EMAIL_SUBJECT.replaceAll(SiteParams.USER_VERIFY_EMAIL_NAME, user.getName());
 				// 获得Url
 				String url = SiteParams.USER_VERIFY_EMAIL_ACTION + activeCoding;
 				// 邮件正文
 				String content = SiteParams.USER_VERIFY_EMAIL_CONTENT.replaceAll(SiteParams.USER_VERIFY_EMAIL_URL, url);
 				// 发生激活信
-				EmailEngine.send(entity.getEmail(), subject, content);
+				EmailEngine.send(user.getEmail(), subject, content);
 			} else {
 				// 添加用户登录信息
-				LoginEngine.addLogin(getRequest(), getResponse(), entity, getLoginTime());
+				LoginEngine.addLogin(getRequest(), getResponse(), user, getLoginTime());
 			}
 		}
 		// 返回
@@ -147,35 +113,20 @@ public class UserAction extends LoginAction<User, User> {
 		// 根据id获得用户实体
 		if (userId > 0) {
 			// 获得用户实体
-			User user = new User();
 			// 设置属性
 			user.setId(userId);
 			user.setEmail(email);
-			// 返回用户实体
-			entity = user;
 		}
 		// 判断激活码是否正确
-		if (entity != null && entity.getId() > 0) {
+		if (user != null && user.getId() > 0) {
 			// 设置状态为有效
-			entity.setState(1);
+			user.setState(1);
 			// 修改用户实体
 			return callback(EmptyUtil.isEmpty(service.update(entity)) ? SUCCESS : ERROR);
 		} else {
 			// 验证码错误 返回到错误页
 			return callback(ERROR);
 		}
-	}
-
-	/**
-	 * 添加用户
-	 * @return
-	 * @throws Exception
-	 */
-	public String add() throws Exception {
-		// 加密密码
-		((User) entity).setPassword(((User) entity).getPassword());
-		// 返回到成功页
-		return super.add();
 	}
 
 	/**

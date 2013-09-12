@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -24,6 +26,8 @@ import org.wdcode.site.entity.base.BaseEntityId
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@DynamicInsert
+@DynamicUpdate
 class Role extends BaseEntityId {
 	// 名称
 	String				name

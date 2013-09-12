@@ -1,4 +1,4 @@
-package org.wdcode.site.po
+package org.wdcode.logs.po
 
 import javax.persistence.Entity
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityIp
 import org.wdcode.base.entity.EntityUserId
+import org.wdcode.common.util.DateUtil
 import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
@@ -22,7 +23,13 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Entity
 @DynamicInsert
 @DynamicUpdate
-class LoginLogs extends BaseEntityIdTime{
+class PageLogs extends BaseEntityIdTime {
+	// 页面
+	String				page
+	// 来源
+	String				referrer
+	// 离开时间
+	Integer				outTime
 	// 登录IP
 	String				ip
 	// 用户User_Agent
@@ -31,8 +38,6 @@ class LoginLogs extends BaseEntityIdTime{
 	String				language
 	// 用户ID
 	Integer				userId
-	// 状态
-	Integer				state
 	// 名称
 	String				name
 }

@@ -4,6 +4,8 @@ import javax.persistence.Entity
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -21,6 +23,8 @@ import org.wdcode.site.entity.base.BaseEntityId;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@DynamicInsert
+@DynamicUpdate
 class Category extends BaseEntityId {
 	// 上级栏目ID
 	Integer				categoryId

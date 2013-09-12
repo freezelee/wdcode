@@ -1,36 +1,38 @@
-package org.wdcode.shop.po
+package org.wdcode.logs.po
 
 import javax.persistence.Entity
 
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityFile;
-import org.wdcode.site.entity.base.BaseEntityIdTime;
+import org.wdcode.base.entity.EntityIp
+import org.wdcode.base.entity.EntityUserId
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
- * 品牌
+ * 登录日志实体
  * @author WD
  * @since JDK7
- * @version 1.0 2012-01-10
+ * @version 1.0 2011-04-03
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @DynamicInsert
 @DynamicUpdate
-class Brand extends BaseEntityIdTime implements EntityFile {
-	// 网址
-	String				url
-	// LOGO
-	String				path
-	// 描述
-	String				detail
+class LoginLogs extends BaseEntityIdTime{
+	// 登录IP
+	String				ip
+	// 用户User_Agent
+	String				userAgent
+	// 语言
+	String				language
+	// 用户ID
+	Integer				userId
+	// 状态
+	Integer				state
 	// 名称
 	String				name
 }

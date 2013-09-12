@@ -5,6 +5,8 @@ import javax.validation.constraints.Size
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -22,6 +24,8 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@DynamicInsert
+@DynamicUpdate
 class Admin extends BaseEntityIdTime implements EntityLogin {
 	// 名称
 	@Size(min=5)

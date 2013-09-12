@@ -1,4 +1,4 @@
-package org.wdcode.site.po
+package org.wdcode.logs.po
 
 import java.io.Serializable
 

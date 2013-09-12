@@ -4,10 +4,13 @@ import javax.persistence.Entity
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityLogin
+import org.wdcode.base.entity.EntityUser
 import org.wdcode.common.crypto.Digest
 import org.wdcode.site.entity.base.BaseEntityIdTime
 
@@ -21,7 +24,9 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-class User extends BaseEntityIdTime implements EntityLogin {
+@DynamicInsert
+@DynamicUpdate
+class User extends BaseEntityIdTime implements EntityUser {
 	// 密码
 	String				password
 	// 昵称
@@ -33,7 +38,7 @@ class User extends BaseEntityIdTime implements EntityLogin {
 	// 用户性别
 	Integer				sex
 	// 注册IP
-	String				registerIp
+	String				ip
 	// 用户电话
 	String				phone
 	// 用户照片
@@ -42,4 +47,12 @@ class User extends BaseEntityIdTime implements EntityLogin {
 	Integer				state
 	// 名称
 	String				name
+
+	/**
+	 * 设置用户密码
+	 * @param password 用户密码
+	 */
+	public void setPassword(String password){
+		this.password = Digest.absolute(password)
+	}
 }

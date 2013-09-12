@@ -24,6 +24,7 @@ import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.web.constants.HttpConstants;
 
@@ -389,7 +390,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @param startDate 开始时间
 	 */
 	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+		this.startDate = StringUtil.trim(startDate);
 	}
 
 	/**
@@ -405,7 +406,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @param endDate 结束时间
 	 */
 	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+		this.endDate = StringUtil.trim(endDate);
 	}
 
 	/**

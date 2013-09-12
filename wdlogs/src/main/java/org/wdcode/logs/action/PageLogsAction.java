@@ -1,4 +1,4 @@
-package org.wdcode.site.action;
+package org.wdcode.logs.action;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,9 +9,10 @@ import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.common.util.DateUtil;
-import org.wdcode.site.params.SiteParams;
-import org.wdcode.site.po.PageLogs;
+import org.wdcode.common.util.DateUtil;   
+import org.wdcode.logs.params.LogsParams;
+import org.wdcode.logs.po.PageLogs;
+import org.wdcode.site.action.LoginAction;
 import org.wdcode.web.util.RequestUtil;
 
 /**
@@ -33,7 +34,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	 */
 	public String in() throws Exception {
 		// 判断是否开启页面访问日志记录
-		if (SiteParams.PAGE_LOGS && !isFilter()) {
+		if (LogsParams.PAGE_LOGS && !isFilter()) {
 			// 获得request
 			HttpServletRequest request = getRequest();
 			// 设置日志属性
@@ -58,7 +59,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	 */
 	public String out() throws Exception {
 		// 判断是否开启页面访问日志记录
-		if (SiteParams.PAGE_LOGS && !isFilter()) {
+		if (LogsParams.PAGE_LOGS && !isFilter()) {
 			// 获得日志实体
 			PageLogs pageLogs = service.get(PageLogs.class, entity.getKey());
 			// 设置离开时间
@@ -76,7 +77,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	 */
 	private boolean isFilter() {
 		// 获得不过滤IP
-		String[] ips = SiteParams.PAGE_LOGS_IP;
+		String[] ips = LogsParams.PAGE_LOGS_IP;
 		// 获得提交IP
 		String ip = getIp();
 		// 数组不为空

@@ -21,17 +21,18 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-07-14
  */
-public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperAction<E> {
+public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperAction<E> {
 	// 序列化 ID
 	private static final long	serialVersionUID	= 5542364549112574333L;
 	// 用户实体
-	private L					user;
+	protected U					user;
+	// 验证登录标识
+	protected AuthToken			token;
+	
 	// 验证码
 	private String				verifyCode;
 	// 保存属性时间
 	private boolean				autoLogin;
-	// 验证登录标识
-	protected AuthToken			token;
 
 	@PostConstruct
 	protected void init() {
@@ -108,7 +109,7 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 			return callback(INPUT);
 		}
 		// 查询获得用户实体
-		L bean = service.get(user);
+		U bean = service.get(user);
 		// 登录标识
 		boolean is = false;
 		// 获得用户ID
@@ -187,7 +188,7 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 	 * 获得用户实体
 	 * @return 用户实体
 	 */
-	public L getUser() {
+	public U getUser() {
 		return user;
 	}
 
@@ -196,7 +197,7 @@ public class LoginAction<E extends Entity, L extends EntityLogin> extends SuperA
 	 * @param user 登录实体
 	 */
 	@Autowired
-	public void setUser(L user) {
+	public void setUser(U user) {
 		this.user = user;
 	}
 

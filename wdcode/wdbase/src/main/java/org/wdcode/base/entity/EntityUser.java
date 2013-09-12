@@ -18,6 +18,12 @@ public interface EntityUser extends EntityLogin, EntityIp, EntityTime {
 	 * @param email Email
 	 */
 	void setEmail(String email);
+	
+	/**
+	 * 获得状态
+	 * @param state
+	 */
+	Integer getState();
 
 	/**
 	 * 设置状态

@@ -1,4 +1,4 @@
-package org.wdcode.site.aop;
+package org.wdcode.logs.aop;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +11,12 @@ import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.logs.action.PageLogsAction;
+import org.wdcode.logs.params.LogsParams;
+import org.wdcode.logs.po.LoginLogs;
+import org.wdcode.logs.po.LoginStatistics;
+import org.wdcode.logs.po.PageStatistics;
 import org.wdcode.site.action.LoginAction;
-import org.wdcode.site.action.PageLogsAction;
-import org.wdcode.site.params.SiteParams;
-import org.wdcode.site.po.LoginLogs;
-import org.wdcode.site.po.LoginStatistics;
-import org.wdcode.site.po.PageStatistics;
 import org.wdcode.web.util.RequestUtil;
 import com.opensymphony.xwork2.Action;
 
@@ -28,7 +28,7 @@ import com.opensymphony.xwork2.Action;
  */
 @Component
 @Aspect
-public class SiteAdvice {
+public class LogsAdvice {
 	// 业务
 	@Resource
 	private SuperService	service;
@@ -41,7 +41,7 @@ public class SiteAdvice {
 	@AfterReturning(pointcut = "execution(* org.wdcode.site.action.PageLogsAction.in())", returning = "retVal")
 	public void page(JoinPoint point, Object retVal) {
 		// 登录统计
-		if (SiteParams.PAGE_STATISTICS) {
+		if (LogsParams.PAGE_STATISTICS) {
 			// 获得页面日志Action
 			PageLogsAction action = (PageLogsAction) point.getTarget();
 			// 获得页面
@@ -85,7 +85,7 @@ public class SiteAdvice {
 		// 获得IP
 		String ip = login.getIp();
 		// 判断是否开启登录日志记录
-		if (SiteParams.LOGIN_LOGS) {
+		if (LogsParams.LOGIN_LOGS) {
 			// 获得request
 			HttpServletRequest request = login.getRequest();
 			// 获得登录状态
@@ -104,7 +104,7 @@ public class SiteAdvice {
 			service.insert(logs);
 		}
 		// 登录统计
-		if (SiteParams.LOGIN_STATISTICS) {
+		if (LogsParams.LOGIN_STATISTICS) {
 			// 根据用户ID获得统计数据
 			LoginStatistics statistics = service.get(LoginStatistics.class, uid);
 			// 如果统计实体为null

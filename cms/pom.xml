@@ -61,6 +61,12 @@
 			<version>1.0</version>
 		</dependency>   
 		<dependency>
+			<groupId>org.wdcode</groupId>
+			<artifactId>wdlogs</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency> 
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>3.2.4.RELEASE</version>

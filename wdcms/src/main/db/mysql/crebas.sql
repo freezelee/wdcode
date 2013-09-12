@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/3/25 星期一 9:51:29                        */
+/* Created on:     2013/9/12 17:52:41                           */
 /*==============================================================*/
 
 
@@ -147,6 +147,46 @@ create table screen
 ENGINE = MYISAM;
 
 alter table screen comment '屏蔽词';
+
+/*==============================================================*/
+/* Table: user                                                  */
+/*==============================================================*/
+create table user
+(
+   id                   int not null auto_increment comment '主键',
+   name                 varchar(50) comment '用户名',
+   password             char(40) comment '用户密码',
+   nick_name            varchar(50) comment '用于显示',
+   mobile               char(11) comment '手机',
+   email                varchar(50) comment 'Email',
+   time                 int default 0,
+   state                tinyint default 1 comment '用户状态 0 无效 1 有效 2 已删除',
+   sex                  tinyint default 0,
+   phone                varchar(20) comment '电话',
+   ip                   char(15),
+   photo                varchar(100),
+   primary key (id)
+)
+ENGINE = MYISAM;
+
+alter table user comment '用户表';
+
+/*==============================================================*/
+/* Index: Index_Name_Password                                   */
+/*==============================================================*/
+create index Index_Name_Password on user
+(
+   name,
+   password
+);
+
+/*==============================================================*/
+/* Index: INDEX_Email                                           */
+/*==============================================================*/
+create index INDEX_Email on user
+(
+   email
+);
 
 /*==============================================================*/
 /* Table: user_message                                          */

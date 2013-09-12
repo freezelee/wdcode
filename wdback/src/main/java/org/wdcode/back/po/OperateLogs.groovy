@@ -2,6 +2,8 @@ package org.wdcode.back.po
 
 import javax.persistence.Entity
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -17,6 +19,8 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 class OperateLogs extends BaseEntityIdTime {
 	// 内容
 	String				content

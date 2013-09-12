@@ -18,7 +18,7 @@ import org.wdcode.pay.lang.Pays;
 import org.wdcode.shop.po.Orders;
 import org.wdcode.shop.po.Receiver;
 import org.wdcode.shop.po.Trolley;
-import org.wdcode.site.action.LoginAction;
+import org.wdcode.site.action.UserAction;
 
 /**
  * 商店Action
@@ -28,7 +28,7 @@ import org.wdcode.site.action.LoginAction;
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class ShopAction extends LoginAction<Entity, User> {
+public class ShopAction extends UserAction<Entity, User> {
 	// 序列化ID
 	private static final long	serialVersionUID	= 1509252817532163575L;
 	// 支付构造器
