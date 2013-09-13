@@ -45,6 +45,14 @@ public final class SiteParams {
 	 */
 	public final static int		LOGIN_MIN_AGE				= Params.getInt("login.minAge", Conversion.toInt(DateConstants.TIME_HOUR / 1000) / 2);
 	/**
+	 * 登录游客名称
+	 */
+	public final static String	LOGIN_GUEST_NAME			= Params.getString("login.guest.name", "游客");
+	/**
+	 * 登录游客ID下标开始
+	 */
+	public final static int		LOGIN_GUEST_ID				= Params.getInt("login.guest.id", -1);
+	/**
 	 * 是否静态化
 	 */
 	public final static boolean	IS_STATICS_POWER			= Params.getBoolean("staics.power", false);

@@ -7,12 +7,19 @@ import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.base.entity.EntityUserId;
+import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.crypto.Decrypts;
+import org.wdcode.common.crypto.Digest;
+import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
+import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.po.Entitys;
 import org.wdcode.site.token.AuthToken;
+import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.VerifyCodeUtil;
 
 /**
@@ -28,7 +35,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	protected U					user;
 	// 验证登录标识
 	protected AuthToken			token;
-	
+
 	// 验证码
 	private String				verifyCode;
 	// 保存属性时间
@@ -39,7 +46,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 父类初始化
 		super.init();
 		// 获得登录信息
-		token = LoginEngine.getLoginBean(context.getRequest(), getLoginKey());
+		token = LoginEngine.getLoginBean(getRequest(), getResponse(), getLoginKey());
 		// 如果查询自己的数据 添加登录用户名
 		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
 			entity = context.getBean(module, entityClass);
@@ -161,11 +168,43 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	}
 
 	/**
+	 * 获得登录凭证
+	 * @return 获得登录凭证
+	 */
+	public String token() throws Exception {
+		// 获得登录凭证字符串
+		String info = token.toString();
+		// 返回加密字符串
+		return callback(Digest.absolute(info) + StringConstants.MIDLINE + Encrypts.encrypt(info));
+	}
+
+	/**
 	 * 是否登录
 	 * @return 是否自动登录
 	 */
-	public String token() throws Exception {
-		return callback(token);
+	public LoginToken verifyToken(String info) {
+		try {
+			// 验证去掉"""
+			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
+			// 判断验证串是否符合标准
+			if (!EmptyUtil.isEmpty(info) && info.length() > 40 && info.indexOf(StringConstants.MIDLINE) == 40) {
+				// 分解信息
+				String[] temp = info.split(StringConstants.MIDLINE);
+				// 分解的信息不为空并且只有2组
+				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+					// 验证串
+					String verify = temp[0];
+					// 实体Bean串
+					String bean = Decrypts.decrypt(temp[1]);
+					// 判断校验串是否合法
+					if (verify.equals(Digest.absolute(bean))) {
+						return JsonEngine.toBean(bean, LoginToken.class);
+					}
+				}
+			}
+		} catch (Exception ex) {}
+		// 返回一个空的登录凭证
+		return LoginEngine.empty();
 	}
 
 	/**

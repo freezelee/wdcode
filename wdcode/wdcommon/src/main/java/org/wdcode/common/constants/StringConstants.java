@@ -32,6 +32,10 @@ public final class StringConstants {
 	 */
 	public final static String	MIDLINE				= "-";
 	/**
+	 * 常量字符串 "|"
+	 */
+	public final static String	LINE				= "|";
+	/**
 	 * 常量字符串 "="
 	 */
 	public final static String	EQ					= "=";
@@ -71,7 +75,7 @@ public final class StringConstants {
 	 * 常量字符串 "&"
 	 */
 	public final static String	AMP					= "&";
-	/**
+/**
 	 * 常量字符串 "<"
 	 */
 	public final static String	LT					= "<";
@@ -87,6 +91,10 @@ public final class StringConstants {
 	 * 常量字符串"'"
 	 */
 	public final static String	SINGLE_QUOT			= "'";
+	/**
+	 * 常量字符串"""
+	 */
+	public final static String	DOUBLE_QUOT			= "\"";
 	/**
 	 * 常量字符串"''"
 	 */

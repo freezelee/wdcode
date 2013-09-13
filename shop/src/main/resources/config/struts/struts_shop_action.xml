@@ -24,7 +24,7 @@
 			<result type="redirect">/</result>
 		</action>
 		<!-- 注册 -->
-		<action name="register" class="userAction" method="register">
+		<action name="register" class="shopAction" method="register">
 			<result type="freemarker">/WEB-INF/template/shop/index.ftl</result>
 		</action> 	 
 		<!-- 订单 -->

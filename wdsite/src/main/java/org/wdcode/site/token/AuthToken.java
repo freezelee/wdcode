@@ -30,4 +30,16 @@ public interface AuthToken {
 	 * @return 登录时间
 	 */
 	int getTime();
+
+	/**
+	 * 获得IP
+	 * @return IP
+	 */
+	String getIp();
+
+	/**
+	 * 设置IP
+	 * @param ip IP
+	 */
+	void setIp(String ip);
 }

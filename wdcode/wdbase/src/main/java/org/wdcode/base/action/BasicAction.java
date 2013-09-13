@@ -557,7 +557,7 @@ public class BasicAction extends ActionSupport {
 	protected String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
-			return data(obj instanceof List<?> ? ((List<?>) obj).size() > 1 ? obj : ((List<?>) obj).get(0) : obj);
+			return ajax(obj);
 		} else {
 			if (obj == null) {
 				return addMessage(ERROR);
@@ -571,6 +571,15 @@ public class BasicAction extends ActionSupport {
 				return addMessage(SUCCESS);
 			}
 		}
+	}
+
+	/**
+	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * @param s 字符串标识
+	 * @return 返回标识
+	 */
+	protected String ajax(Object obj) throws Exception {
+		return data(obj instanceof List<?> ? ((List<?>) obj).size() > 1 ? obj : ((List<?>) obj).get(0) : obj);
 	}
 
 	/**

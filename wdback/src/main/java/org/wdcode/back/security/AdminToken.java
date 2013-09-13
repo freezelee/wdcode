@@ -17,6 +17,7 @@ import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.token.AuthToken;
+import org.wdcode.site.token.LoginToken;
 
 /**
  * Spring Security 登录凭证
@@ -24,12 +25,8 @@ import org.wdcode.site.token.AuthToken;
  * @since JDK7
  * @version 1.0 2013-1-7
  */
-public final class AdminToken implements UserDetails, AuthToken {
+public final class AdminToken extends LoginToken implements UserDetails, AuthToken {
 	private static final long			serialVersionUID	= -3399985197865994512L;
-	// 主键
-	private int							id;
-	// 名称
-	private String						name;
 	// 密码
 	private String						password;
 	// 权限
@@ -38,8 +35,6 @@ public final class AdminToken implements UserDetails, AuthToken {
 	private Map<Integer, List<Menu>>	menus;
 	// 操作
 	private List<Operate>				operates;
-	// 登录时间
-	private int							time;
 	// 是否启用
 	private boolean						enabled;
 	// 管理员实体
