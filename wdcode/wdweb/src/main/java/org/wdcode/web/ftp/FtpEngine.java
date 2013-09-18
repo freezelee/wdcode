@@ -1,14 +1,13 @@
-package org.wdcode.web.engine;
+package org.wdcode.web.ftp;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.wdcode.web.ftp.Ftp;
 import org.wdcode.web.ftp.factory.FtpFactory;
 
 /**
- * FTP 客户端 使用工厂默认对象
+ * FTP 处理引擎
  * @author WD
  * @since JDK7
  * @version 1.0 2012-08-28

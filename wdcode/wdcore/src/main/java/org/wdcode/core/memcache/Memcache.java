@@ -35,6 +35,13 @@ public interface Memcache extends Close, Clear {
 	boolean set(String key, Object value);
 
 	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	boolean append(String key, Object value);
+
+	/**
 	 * 根据键获得值
 	 * @param key 键
 	 * @return 值

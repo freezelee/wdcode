@@ -38,7 +38,7 @@ public class LogsAdvice {
 	 * @param point aop切点信息
 	 * @param retVal 返回值
 	 */
-	@AfterReturning(pointcut = "execution(* org.wdcode.site.action.PageLogsAction.in())", returning = "retVal")
+	@AfterReturning(pointcut = "execution(* org.wdcode.logs.action.PageLogsAction.in())", returning = "retVal")
 	public void page(JoinPoint point, Object retVal) {
 		// 登录统计
 		if (LogsParams.PAGE_STATISTICS) {

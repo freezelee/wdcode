@@ -114,6 +114,27 @@ public final class MemcacheArray extends BaseMemcache {
 	}
 
 	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	public boolean append(final String key, final Object value) {
+		// 循环执行
+		for (int i = 0; i < clients.length; i++) {
+			// 声明下标
+			final int n = i;
+			// 线程执行
+			service.execute(new Runnable() {
+				public void run() {
+					clients[n].append(key, value);
+				}
+			});
+		}
+		// 返回成功
+		return true;
+	}
+
+	/**
 	 * 关闭资源
 	 */
 	public void close() {

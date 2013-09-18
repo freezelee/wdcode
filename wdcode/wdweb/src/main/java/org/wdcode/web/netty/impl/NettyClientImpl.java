@@ -53,7 +53,9 @@ public final class NettyClientImpl implements NettyClient {
 	 * @param port 端口
 	 */
 	public void connect(String host, int port) {
-		future = bootstrap.connect(host, port);
+		try {
+			future = bootstrap.connect(host, port).sync();
+		} catch (InterruptedException e) {}
 	}
 
 	/**
@@ -76,8 +78,10 @@ public final class NettyClientImpl implements NettyClient {
 	 * 关闭资源
 	 */
 	public void close() {
+		future.channel().close();
 		future.cancel(true);
 		future = null;
+		bootstrap.group().shutdownGracefully();
 		bootstrap = null;
 	}
 

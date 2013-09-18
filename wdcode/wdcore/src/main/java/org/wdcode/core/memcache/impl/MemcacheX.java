@@ -110,6 +110,22 @@ public final class MemcacheX extends BaseMemcache {
 	}
 
 	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	public boolean append(String key, Object value) {
+		try {
+			return client.append(key, value);
+		} catch (Exception e) {
+			// 记录日志
+			Logs.warn(e);
+			// 返回false
+			return false;
+		}
+	}
+
+	/**
 	 * 关闭资源方法
 	 */
 	public void close() {

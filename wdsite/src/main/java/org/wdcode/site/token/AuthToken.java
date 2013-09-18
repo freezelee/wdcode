@@ -32,14 +32,26 @@ public interface AuthToken {
 	int getTime();
 
 	/**
-	 * 获得IP
+	 * 获得登录IP
 	 * @return IP
 	 */
-	String getIp();
+	String getLoginIp();
 
 	/**
-	 * 设置IP
+	 * 设置登录IP
 	 * @param ip IP
 	 */
-	void setIp(String ip);
+	void setLoginIp(String ip);
+
+	/**
+	 * 获得服务器IP
+	 * @return IP
+	 */
+	String getServerIp();
+
+	/**
+	 * 设置服务器IP
+	 * @param ip IP
+	 */
+	void setServerIp(String ip);
 }

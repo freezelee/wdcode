@@ -19,8 +19,10 @@ public class LoginToken implements AuthToken {
 	protected String	name;
 	// 登录时间
 	protected int		time;
-	// IP
-	protected String	ip;
+	// 登录IP
+	protected String	loginIp;
+	// 服务器IP
+	protected String	serverIp;
 
 	/**
 	 * 构造方法
@@ -32,10 +34,11 @@ public class LoginToken implements AuthToken {
 	 * @param id 登录用户ID
 	 * @param name 用户名
 	 * @param time 登录时间
-	 * @param ip 登录IP
+	 * @param loginIp 登录IP
+	 * @param serverIp 服务器IP
 	 */
-	public LoginToken(EntityLogin login, String ip) {
-		this(login.getId(), login.getName(), ip);
+	public LoginToken(EntityLogin login, String loginIp, String serverIp) {
+		this(login.getId(), login.getName(), loginIp, serverIp);
 	}
 
 	/**
@@ -43,13 +46,15 @@ public class LoginToken implements AuthToken {
 	 * @param id 登录用户ID
 	 * @param name 用户名
 	 * @param time 登录时间
-	 * @param ip 登录IP
+	 * @param loginIp 登录IP
+	 * @param serverIp 服务器IP
 	 */
-	public LoginToken(int id, String name, String ip) {
+	public LoginToken(int id, String name, String loginIp, String serverIp) {
 		this.id = id;
 		this.name = name;
 		this.time = DateUtil.getTime();
-		this.ip = ip;
+		this.loginIp = loginIp;
+		this.serverIp = serverIp;
 	}
 
 	/**
@@ -108,20 +113,20 @@ public class LoginToken implements AuthToken {
 		this.time = time;
 	}
 
-	/**
-	 * 获得IP
-	 * @return IP
-	 */
-	public String getIp() {
-		return ip;
+	public String getLoginIp() {
+		return loginIp;
 	}
 
-	/**
-	 * 设置IP
-	 * @param ip IP
-	 */
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
+	}
+
+	public String getServerIp() {
+		return serverIp;
+	}
+
+	public void setServerIp(String serverIp) {
+		this.serverIp = serverIp;
 	}
 
 	/**

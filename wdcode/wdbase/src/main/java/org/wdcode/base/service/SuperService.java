@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheEmpty;
+import org.wdcode.base.cache.impl.CacheMap; 
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
 import org.wdcode.base.entity.Entity;
@@ -65,7 +66,10 @@ public class SuperService {
 			// 声明Class
 			Class<? extends Entity> c = (Class<? extends Entity>) e.getValue().getClass();
 			// 设置有缓存的实体Map
-			caches.put(c, context.getBean(Cache.class));
+			// CacheMemcached<? extends Entity> mem = context.getBean(CacheMemcached.class);
+			// mem.setClass(c);
+			// caches.put(c, mem);
+			caches.put(c, context.getBean(CacheMap.class));
 			loads.put(c, false);
 		}
 	}

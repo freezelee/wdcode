@@ -26,7 +26,7 @@
 	<!-- 登录 -->
 	<login>
 		<User>
-			<special>v,token,register,isLogin,login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave
+			<special>userKey,v,token,register,isLogin,login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave
 			</special>
 			<index>/</index>
 		</User>
@@ -53,6 +53,13 @@
 	<cache>
 		<valid>true</valid>
 	</cache>
+	
+	<!-- memcache设置 -->
+	<memcache> 
+		<cache>
+			<server>127.0.0.1:11211</server>  
+		</cache>
+	</memcache>
 
 	<!-- 支付 -->
 	<pay>

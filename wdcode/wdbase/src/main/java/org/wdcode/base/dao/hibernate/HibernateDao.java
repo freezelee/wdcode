@@ -64,11 +64,9 @@ public final class HibernateDao implements Dao {
 		tables = Maps.getConcurrentMap();
 		// 循环获得表名
 		for (Class<? extends Entity> c : context.getClasss()) {
-			try{
+			try {
 				tables.put(c, ((SingleTableEntityPersister) sessionFactory.getClassMetadata(c)).getTableName());
-			}catch(Exception e){
-				System.out.println("null="+c);
-			}
+			} catch (Exception e) {}
 		}
 		// 创建索引
 		createIndex();

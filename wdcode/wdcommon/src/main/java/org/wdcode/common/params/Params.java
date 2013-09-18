@@ -1,5 +1,5 @@
 package org.wdcode.common.params;
- 
+
 import java.util.concurrent.ConcurrentMap;
 
 import org.wdcode.common.constants.StringConstants;
@@ -54,7 +54,9 @@ public final class Params {
 		// 判断value为null
 		if (value == null) {
 			// 读取配置
-			value = EmptyUtil.isEmpty(config) ? defaultValue : config.getProperty(key);
+			try {
+				value = config.getProperty(key);
+			} catch (Exception e) {}
 			// 添加到Map中
 			MAP.put(key, value == null ? value = defaultValue : value);
 		}
@@ -74,9 +76,11 @@ public final class Params {
 		// 判断value为null
 		if (value == null) {
 			// 读取配置
-			value = EmptyUtil.isEmpty(config) ? defaultValue : config.getStringArray(key);
+			try {
+				value = config.getStringArray(key);
+			} catch (Exception e) {}
 			// 添加到Map中
-			MAP.put(key, value);
+			MAP.put(key, EmptyUtil.isEmpty(value) ? value = defaultValue : value);
 		}
 		// 返回值
 		return value;

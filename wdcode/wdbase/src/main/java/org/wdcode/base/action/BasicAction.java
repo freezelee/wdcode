@@ -579,7 +579,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 返回标识
 	 */
 	protected String ajax(Object obj) throws Exception {
-		return data(obj instanceof List<?> ? ((List<?>) obj).size() > 1 ? obj : ((List<?>) obj).get(0) : obj);
+		return data(EmptyUtil.isEmpty(obj) ? StringConstants.EMPTY : obj);
 	}
 
 	/**

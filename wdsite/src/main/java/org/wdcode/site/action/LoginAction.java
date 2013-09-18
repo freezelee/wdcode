@@ -179,32 +179,11 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	}
 
 	/**
-	 * 是否登录
-	 * @return 是否自动登录
+	 * 获得用户主键加密KEY
+	 * @return 用户主键加密KEY
 	 */
-	public LoginToken verifyToken(String info) {
-		try {
-			// 验证去掉"""
-			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
-			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > 40 && info.indexOf(StringConstants.MIDLINE) == 40) {
-				// 分解信息
-				String[] temp = info.split(StringConstants.MIDLINE);
-				// 分解的信息不为空并且只有2组
-				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-					// 验证串
-					String verify = temp[0];
-					// 实体Bean串
-					String bean = Decrypts.decrypt(temp[1]);
-					// 判断校验串是否合法
-					if (verify.equals(Digest.absolute(bean))) {
-						return JsonEngine.toBean(bean, LoginToken.class);
-					}
-				}
-			}
-		} catch (Exception ex) {}
-		// 返回一个空的登录凭证
-		return LoginEngine.empty();
+	public String userKey() throws Exception {
+		return callback(Encrypts.encrypt(Conversion.toString(token.getId())));
 	}
 
 	/**
@@ -254,5 +233,43 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	protected int getLoginTime() {
 		return autoLogin ? SiteParams.LOGIN_MAX_AGE : SiteParams.LOGIN_MIN_AGE;
+	}
+
+	/**
+	 * 用户KEY
+	 * @param info
+	 * @return
+	 */
+	protected int verifyUserKey(String info) {
+		return Conversion.toInt(Decrypts.decrypt(info));
+	}
+
+	/**
+	 * 是否登录
+	 * @return 是否自动登录
+	 */
+	protected LoginToken verifyToken(String info) {
+		try {
+			// 验证去掉"""
+			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
+			// 判断验证串是否符合标准
+			if (!EmptyUtil.isEmpty(info) && info.length() > 40 && info.indexOf(StringConstants.MIDLINE) == 40) {
+				// 分解信息
+				String[] temp = info.split(StringConstants.MIDLINE);
+				// 分解的信息不为空并且只有2组
+				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+					// 验证串
+					String verify = temp[0];
+					// 实体Bean串
+					String bean = Decrypts.decrypt(temp[1]);
+					// 判断校验串是否合法
+					if (verify.equals(Digest.absolute(bean))) {
+						return JsonEngine.toBean(bean, LoginToken.class);
+					}
+				}
+			}
+		} catch (Exception ex) {}
+		// 返回一个空的登录凭证
+		return LoginEngine.empty();
 	}
 }

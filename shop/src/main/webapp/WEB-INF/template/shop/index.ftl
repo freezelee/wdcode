@@ -20,6 +20,7 @@
 <![endif]-->
 </head>
 <body class="index">
+--${token}--
 	<#include "include/header.ftl" > 
 	<div class="body">
 		<div class="bodyLeft">

@@ -2,6 +2,9 @@ package org.wdcode.web.netty.impl;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
 
@@ -28,9 +31,13 @@ public final class NettyServerImpl implements NettyServer {
 		this.name = name;
 		// 实例化工厂
 		bootstrap = new ServerBootstrap();
+		// 设置group
+		bootstrap.group(new NioEventLoopGroup(), new NioEventLoopGroup());
+		// 设置channel
+		bootstrap.channel(NioServerSocketChannel.class);
 		// 设置属性
-		// bootstrap.setOption("child.tcpNoDelay", true);
-		// bootstrap.setOption("child.keepAlive", true);
+		bootstrap.option(ChannelOption.TCP_NODELAY, true);
+		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 	}
 
 	/**
@@ -45,7 +52,9 @@ public final class NettyServerImpl implements NettyServer {
 	 * @param port 端口
 	 */
 	public void bind(int port) {
-		bootstrap.bind(new InetSocketAddress(port));
+		try {
+			bootstrap.bind(new InetSocketAddress(port)).sync();
+		} catch (InterruptedException e) {}
 	}
 
 	/**
@@ -53,6 +62,7 @@ public final class NettyServerImpl implements NettyServer {
 	 * @param handler 处理器
 	 */
 	public void setHandler(ChannelHandler handler) {
+		bootstrap.childHandler(handler);
 		bootstrap.handler(handler);
 	}
 

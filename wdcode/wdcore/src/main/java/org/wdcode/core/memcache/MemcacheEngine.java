@@ -46,6 +46,15 @@ public final class MemcacheEngine {
 	}
 
 	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	public static boolean append(String key, Object value) {
+		return MEMCACHE.append(key, value);
+	}
+
+	/**
 	 * 删除键值
 	 * @param key 键
 	 */

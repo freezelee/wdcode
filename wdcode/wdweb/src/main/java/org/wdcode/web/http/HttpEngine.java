@@ -1,8 +1,7 @@
-package org.wdcode.web.engine;
+package org.wdcode.web.http;
 
 import java.util.Map;
 
-import org.wdcode.web.http.Http;
 import org.wdcode.web.http.factory.HttpFactory;
 
 /**

@@ -11,7 +11,7 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
-import org.wdcode.web.engine.EmailEngine;
+import org.wdcode.web.email.EmailEngine;
 
 /***
  * 用户Action基础实现

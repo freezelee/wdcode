@@ -73,8 +73,7 @@
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdlogs</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
+			<version>1.0</version> 
 		</dependency> 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -256,5 +255,10 @@
 		    <artifactId>json-smart</artifactId>
 		    <version>1.2</version> 
 		</dependency>
+		<dependency>
+			<groupId>com.whalin</groupId>
+			<artifactId>Memcached-Java-Client</artifactId>
+			<version>3.0.1</version> 
+		</dependency> 
 	</dependencies> 
 </project>

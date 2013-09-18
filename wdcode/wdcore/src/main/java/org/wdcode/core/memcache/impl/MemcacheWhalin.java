@@ -71,6 +71,15 @@ public final class MemcacheWhalin extends BaseMemcache {
 	}
 
 	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	public boolean append(String key, Object value) {
+		return client.append(key, value);
+	}
+
+	/**
 	 * 根据键获得值
 	 * @param key 键
 	 * @return 值

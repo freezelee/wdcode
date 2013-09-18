@@ -20,7 +20,7 @@ import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.constants.HttpConstants;
-import org.wdcode.web.engine.HttpEngine;
+import org.wdcode.web.http.HttpEngine;
 
 /**
  * HTTP一些相关操作类

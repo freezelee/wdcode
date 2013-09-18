@@ -1,10 +1,9 @@
-package org.wdcode.web.engine;
+package org.wdcode.web.email;
 
-import org.wdcode.web.email.Email;
 import org.wdcode.web.email.factory.EmailFactory;
 
 /**
- * Email 发送处理 使用工厂默认对象
+ * Email 处理引擎
  * @author WD
  * @since JDK7
  * @version 1.0 2012-08-28

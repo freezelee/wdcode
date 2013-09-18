@@ -20,7 +20,7 @@ import org.wdcode.common.util.ClearUtil;
 import org.wdcode.core.params.QuartzParams;
 
 /**
- * Quartz 封装
+ * Quartz 处理引擎
  * @author WD
  * @since JDK7
  * @version 1.0 2011-05-25

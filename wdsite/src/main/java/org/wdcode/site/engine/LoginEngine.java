@@ -44,7 +44,7 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 */
 	public static void addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login, RequestUtil.getIp(request)), maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login, RequestUtil.getIp(request), request.getLocalAddr()), maxAge);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class LoginEngine {
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
-			LoginToken token = new LoginToken(getGuestId(), "游客", RequestUtil.getIp(request));
+			LoginToken token = new LoginToken(getGuestId(), "游客", RequestUtil.getIp(request), request.getLocalAddr());
 			AttributeUtil.set(request, response, key + INFO, token, -1);
 			return token;
 		} else {
