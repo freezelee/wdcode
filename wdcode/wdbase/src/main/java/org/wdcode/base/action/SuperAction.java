@@ -102,7 +102,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String add() throws Exception {
-		return callback(service.insert(add(entity)).get(0));
+		return callback(entity = service.insert(add(entity)).get(0));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 获得要更像的实体
 		E e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return e == null ? ERROR : callback(service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
+		return e == null ? ERROR : callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
 	}
 
 	/**

@@ -383,7 +383,7 @@ public final class Conversion {
 	public static boolean toBoolean(Object obj, boolean defaultValue) {
 		try {
 			// 判断类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Boolean) {
 				// Boolean

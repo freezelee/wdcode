@@ -130,6 +130,18 @@ public final class RequestUtil {
 	}
 
 	/**
+	 * 获得IP详细信息
+	 * @param ip 要查询的IP
+	 * @return 对应信息的键值
+	 */
+	public static Map<String, String> getIpInfo(String ip) {
+		// http://ip.taobao.com/service/getIpInfo.php?ip=?
+		// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=?
+		// http://ip.qq.com/cgi-bin/searchip?searchip1=?
+		return Maps.emptyMap();
+	}
+
+	/**
 	 * 获得客户连接IP数组 一般通过代理的可或则所以IP
 	 * @param request Request
 	 * @return 客户连接IP

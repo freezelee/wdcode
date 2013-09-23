@@ -538,7 +538,7 @@ public class BasicAction extends ActionSupport {
 			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
 		}
 		// 添加json数据
-		s.append(JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (!EmptyUtil.isEmpty(callback)) {
 			s.append(StringConstants.RIGHT_PARENTHESIS);
@@ -558,6 +558,8 @@ public class BasicAction extends ActionSupport {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
 			return ajax(obj);
+		} else if ("sign".equals(mode)) {
+			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else {
 			if (obj == null) {
 				return addMessage(ERROR);

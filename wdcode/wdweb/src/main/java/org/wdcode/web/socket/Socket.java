@@ -16,26 +16,8 @@ public interface Socket extends Close {
 	Session getSession();
 
 	/**
-	 * 设置要连接的主机
-	 * @param host 要连接的主机
+	 * 服务器绑定端口
+	 * @param port 端口
 	 */
-	void setHost(String host);
-
-	/**
-	 * 获得要连接的主机
-	 * @return 要连接的主机
-	 */
-	String getHost();
-
-	/**
-	 * 设置连接主机端口
-	 * @param port 连接主机端口
-	 */
-	void setPort(int port);
-
-	/**
-	 * 获得连接主机端口
-	 * @return 连接主机端口
-	 */
-	int getPort();
+	void bind(int port);
 }

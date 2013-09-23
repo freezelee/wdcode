@@ -35,12 +35,14 @@ public final class EmptyUtil {
 			return isEmpty((Object[]) obj);
 		} else if (obj instanceof int[]) {
 			return isEmpty((int[]) obj);
-		} else if (obj instanceof CharSequence) {
-			return isEmpty((CharSequence) obj);
 		} else if (obj instanceof String) {
 			return isEmpty((String) obj);
+		} else if (obj instanceof CharSequence) {
+			return isEmpty((CharSequence) obj);
 		} else if (obj instanceof Integer) {
 			return Conversion.toInt(obj) == 0;
+		} else if (obj instanceof Boolean) {
+			return !Conversion.toBoolean(obj);
 		} else {
 			return obj == null;
 		}

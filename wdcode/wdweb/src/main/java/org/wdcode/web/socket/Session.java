@@ -7,5 +7,5 @@ package org.wdcode.web.socket;
  * @version 1.0 2013-9-18
  */
 public interface Session {
-
+	
 }
