@@ -79,6 +79,7 @@ public final class MinaClientImpl implements MinaClient {
 	 * 关闭资源
 	 */
 	public void close() {
+		future.cancel();
 		connector.dispose();
 	}
 

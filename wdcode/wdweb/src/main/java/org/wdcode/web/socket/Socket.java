@@ -20,4 +20,11 @@ public interface Socket extends Close {
 	 * @param port 端口
 	 */
 	void bind(int port);
+
+	/**
+	 * 连接到服务器
+	 * @param host 服务器地址
+	 * @param port 服务器端口
+	 */
+	void connect(String host, int port);
 }
