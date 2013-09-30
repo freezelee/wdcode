@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheEmpty;
-import org.wdcode.base.cache.impl.CacheMap; 
+import org.wdcode.base.cache.impl.CacheMap;
+import org.wdcode.base.cache.impl.CacheMemcached;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.base.params.BaseParams;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
@@ -65,11 +67,14 @@ public class SuperService {
 		for (Map.Entry<String, Object> e : map.entrySet()) {
 			// 声明Class
 			Class<? extends Entity> c = (Class<? extends Entity>) e.getValue().getClass();
+			// 声明cached
+			Cache<? extends Entity> cache = context.getBean(CacheMap.class);
 			// 设置有缓存的实体Map
-			// CacheMemcached<? extends Entity> mem = context.getBean(CacheMemcached.class);
-			// mem.setClass(c);
-			// caches.put(c, mem);
-			caches.put(c, context.getBean(CacheMap.class));
+			if ("memcached".equals(BaseParams.CACHE_TYPE)) {
+				cache = context.getBean(CacheMemcached.class);
+				((CacheMemcached<? extends Entity>) cache).setClass(c);
+			}
+			caches.put(c, cache);
 			loads.put(c, false);
 		}
 	}
@@ -312,7 +317,7 @@ public class SuperService {
 			return Lists.subList(cache.list(), firstResult, maxResults);
 		} else {
 			// 查询数据库
-			return Lists.toString(dao.list(entityClass, firstResult, maxResults));
+			return Lists.load(dao.list(entityClass, firstResult, maxResults));
 		}
 	}
 

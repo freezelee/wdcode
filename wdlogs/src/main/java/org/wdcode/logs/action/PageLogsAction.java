@@ -9,10 +9,11 @@ import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.common.util.DateUtil;   
+import org.wdcode.common.util.DateUtil;
 import org.wdcode.logs.params.LogsParams;
 import org.wdcode.logs.po.PageLogs;
 import org.wdcode.site.action.LoginAction;
+import org.wdcode.web.util.IpUtil;
 import org.wdcode.web.util.RequestUtil;
 
 /**
@@ -38,7 +39,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 			// 获得request
 			HttpServletRequest request = getRequest();
 			// 设置日志属性
-			entity.setIp(RequestUtil.getIp(request));
+			entity.setIp(IpUtil.getIp(request));
 			entity.setLanguage(RequestUtil.getLanguage(request));
 			entity.setUserAgent(RequestUtil.getUserAgent(request));
 			entity.setUserId(token.getId());

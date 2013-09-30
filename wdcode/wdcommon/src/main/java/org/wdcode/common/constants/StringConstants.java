@@ -24,6 +24,10 @@ public final class StringConstants {
 	 */
 	public final static String	POINT				= ".";
 	/**
+	 * 常量字符串 "\\."
+	 */
+	public final static String	DOT					= "\\.";
+	/**
 	 * 常量字符串 "_"
 	 */
 	public final static String	UNDERLINE			= "_";

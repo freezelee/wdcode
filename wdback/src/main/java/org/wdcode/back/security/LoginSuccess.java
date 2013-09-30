@@ -25,6 +25,6 @@ public final class LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 		// 写入登录凭证
 		LoginEngine.addLogin(request, response, ((AdminToken) authentication.getPrincipal()).getAdmin(), -1);
 		setDefaultTargetUrl(BackParams.BACK_PATH);
-		super.onAuthenticationSuccess(request, response, authentication);		
+		super.onAuthenticationSuccess(request, response, authentication);
 	}
 }

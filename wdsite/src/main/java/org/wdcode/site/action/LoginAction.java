@@ -111,7 +111,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 验证验证码 判断验证码都为空 跳过验证码检查
 		if (!VerifyCodeUtil.check(getRequest(), getResponse(), verifyCode)) {
 			// 添加错误信息
-//			addFieldError("verify.code.error");
+			// addFieldError("verify.code.error");
 			// 返回登陆页
 			return callback(INPUT);
 		}
@@ -137,7 +137,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 			return callback(SUCCESS);
 		} else {
 			// 添加错误信息
-//			addFieldError("login.fail");
+			// addFieldError("login.fail");
 			// 登录失败
 			return callback(LOGIN);
 		}

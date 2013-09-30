@@ -1,68 +1,88 @@
 package org.wdcode.web.params;
 
+import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.params.Params;
 
 /**
- * Mina读取配置
+ * Quartz任务读取参数
  * @author WD
  * @since JDK7
- * @version 1.0 2011-07-07
+ * @version 1.0 2012-02-26
  */
 public final class MinaParams {
-	/* Mina使用 */
-	private final static String	PREFIX; // 前缀
-	private final static String	HOST;	// 主机
-	private final static String	PORT;	// 端口
-
+	// 前缀
+	private final static String		PREFIX	= "mina";
 	/**
-	 * 静态初始化
+	 * Mina服务器开关
 	 */
-	static {
-		/* Mina使用 */
-		PREFIX = "mina"; // 前缀
-		HOST = "host"; // 主机
-		PORT = "port"; // 端口
-	}
-
-	/* Mina使用 */
-	private static String		host;	// 主机
-	private static int			port;	// 端口
-
+	public final static boolean		POWER	= Params.getBoolean(PREFIX + ".power", false);
 	/**
-	 * 静态初始化
+	 * Mina服务器名称数组
 	 */
-	static {
-		/* Mina使用 */
-		host = "127.0.0.1"; // 主机
-		port = 6666; // 端口
-	}
+	public final static String[]	NAMES	= Params.getStringArray(PREFIX + ".names", ArrayConstants.STRING_EMPTY);
 
 	/**
-	 * 获得Mina连接服务器<br/>
+	 * 获得Mina连接监听端口<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: mina.host = ? <br/>
-	 * XML: {@literal <mina><host>?</host></mina>}</h2>
-	 * @return 获得Mina连接服务器
-	 */
-	public static String getHost(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, HOST), host);
-	}
-
-	/**
-	 * 获得Mina连接端口<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mina.port = ? <br/>
-	 * XML: {@literal <mina><port>?</port></mina>}</h2>
-	 * @return 获得Mina连接端口
+	 * Properties: mina.*.port = ? <br/>
+	 * XML: {@literal <mina><*><port>?</port></*></mina>}</h2>
+	 * @return Mina连接监听端口
 	 */
 	public static int getPort(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, PORT), port);
+		return Params.getInt(Params.getKey(PREFIX, name, "port"), 0);
 	}
 
 	/**
-	 * 私有构造
+	 * 获得Mina客户端连接服务器<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mina.*.host = ? <br/>
+	 * XML: {@literal <mina><*><host>?</host></*></mina>}</h2>
+	 * @return Mina客户端连接服务器
+	 */
+	public static String getHost(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "host"));
+	}
+
+	/**
+	 * 获得Mina类型server或则client 只有host和type=client是才是客户端<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mina.*.type = ? <br/>
+	 * XML: {@literal <mina><*><type>?</type></*></mina>}</h2>
+	 * @return Mina客户端连接服务器
+	 */
+	public static String getType(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "type"));
+	}
+
+	/**
+	 * 获得Mina处理handler<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mina.*.handler = ? <br/>
+	 * XML: {@literal <mina><*><handler>?</handler></*></mina>}</h2>
+	 * @return Mina处理handler
+	 */
+	public static String getHandler(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "handler"));
+	}
+
+	/**
+	 * 获得Mina编码器<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mina.*.codec = ? <br/>
+	 * XML: {@literal <mina><*><codec>?</codec></*></mina>}</h2>
+	 * @return Mina编码器
+	 */
+	public static String getCodec(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "codec"));
+	}
+
+	/**
+	 * 构造方法
 	 */
 	private MinaParams() {}
 }

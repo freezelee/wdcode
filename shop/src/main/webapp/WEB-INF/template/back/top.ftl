@@ -28,7 +28,7 @@
 			</div>
 			<div id="menu" class="menu">
 				<ul>    
-					<#list token.getMenus().get(0?int) as menu> 
+					<#list query.list("menu","menuId",0?int) as menu> 
 						<li class="menuItem">
 							<a href="<@s.url action='menu'><@s.param name='entity.id' value='${menu.id}'/></@s.url>" target="left_frame">${menu.name}</a>
 						</li>

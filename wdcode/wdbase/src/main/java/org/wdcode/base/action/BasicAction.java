@@ -30,7 +30,7 @@ import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
-import org.wdcode.web.util.RequestUtil;
+import org.wdcode.web.util.IpUtil;
 import org.wdcode.web.util.ResponseUtil;
 import org.wdcode.web.util.VerifyCodeUtil;
 
@@ -304,7 +304,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 提交IP
 	 */
 	public String getIp() {
-		return RequestUtil.getIp(getRequest());
+		return IpUtil.getIp(getRequest());
 	}
 
 	/**
@@ -564,11 +564,11 @@ public class BasicAction extends ActionSupport {
 			if (obj == null) {
 				return addMessage(ERROR);
 			} else if (obj instanceof String) {
-				return addMessage(Conversion.toString(obj));
+				return Conversion.toString(obj);
 			} else if (obj instanceof List<?>) {
 				return LIST;
 			} else if (obj instanceof Boolean) {
-				return addMessage(Conversion.toBoolean(obj) ? SUCCESS : ERROR);
+				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
 			} else {
 				return addMessage(SUCCESS);
 			}

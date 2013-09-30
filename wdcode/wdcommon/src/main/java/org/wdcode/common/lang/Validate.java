@@ -125,7 +125,7 @@ public final class Validate {
 	 * @param str 要验证的字符串
 	 * @return true false
 	 */
-	public static boolean isIP(String str) {
+	public static boolean isIp(String str) {
 		return is(RegexConstants.IP, str);
 	}
 

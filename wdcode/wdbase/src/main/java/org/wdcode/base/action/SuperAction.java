@@ -239,6 +239,15 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entity() throws Exception {
+		return entity == null ? SUCCESS : callback(entity = service.get(entity));
+	}
+
+	/**
+	 * 实体条件查询出所有
+	 * @return 跳转list
+	 * @throws Exception
+	 */
+	public String entitys() throws Exception {
 		return entity == null ? LIST : callback(entitys = service.list(entity, -1, -1));
 	}
 
@@ -257,7 +266,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String theme() throws Exception {
-		return EmptyUtil.isEmpty(entity) ? SUCCESS : callback(theme(entity = service.get(entityClass, entity.getKey())));
+		return EmptyUtil.isEmpty(entity) ? SUCCESS : callback(EmptyUtil.isEmpty(theme(entity = service.get(entityClass, entity.getKey()))) ? ERROR : SUCCESS);
 	}
 
 	/**

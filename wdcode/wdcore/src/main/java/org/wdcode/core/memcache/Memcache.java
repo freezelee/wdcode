@@ -74,4 +74,11 @@ public interface Memcache extends Close, Clear {
 	 * @return 值
 	 */
 	List<byte[]> extract(String... keys);
+
+	/**
+	 * 判断键是否存在
+	 * @param key
+	 * @return
+	 */
+	boolean exists(String key);
 }

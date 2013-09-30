@@ -142,6 +142,15 @@ public final class MemcacheArray extends BaseMemcache {
 	}
 
 	/**
+	 * 判断键是否存在
+	 * @param key
+	 * @return
+	 */
+	public boolean exists(final String key) {
+		return clients[0].exists(key);
+	}
+
+	/**
 	 * 清除数据
 	 */
 	public void clear() {

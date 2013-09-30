@@ -19,8 +19,7 @@
 	</script>
 <![endif]-->
 </head>
-<body class="index">
---${token}--
+<body class="index"> 
 	<#include "include/header.ftl" > 
 	<div class="body">
 		<div class="bodyLeft">

@@ -3,8 +3,6 @@ package org.wdcode.common.util;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.wdcode.common.log.Logs;
-
 /**
  * 关于Class的一些操作
  * @author WD
@@ -61,7 +59,6 @@ public final class ClassUtil {
 					// 使用当前类获得类
 					theClass = ClassUtil.class.getClassLoader().loadClass(className);
 				} catch (ClassNotFoundException e3) {
-					Logs.warn(e3);
 					return null;
 				}
 			}
@@ -79,9 +76,6 @@ public final class ClassUtil {
 		try {
 			return Class.forName(className);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}
@@ -95,9 +89,6 @@ public final class ClassUtil {
 		try {
 			return forName(className).newInstance();
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}
@@ -111,9 +102,6 @@ public final class ClassUtil {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}

@@ -10,7 +10,7 @@
 <link href="${base}/back/css/admin.css" rel="stylesheet" type="text/css" />
 <@wd.css name="datetimepicker" /> 
 </head>
-<body class="list"> 
+<body class="list">  
 	<div class="bar">
 		${action.getText(template.get("title"))}&nbsp;总记录数: ${pager.totalSize} (共${pager.totalPage}页)
 		<@s.actionmessage/>

@@ -16,6 +16,12 @@ public interface Socket extends Close {
 	Session getSession();
 
 	/**
+	 * 添加Handler
+	 * @param handler Handler
+	 */
+	void addHandler(Handler handler);
+
+	/**
 	 * 服务器绑定端口
 	 * @param port 端口
 	 */

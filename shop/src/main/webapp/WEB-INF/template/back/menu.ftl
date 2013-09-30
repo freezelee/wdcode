@@ -6,14 +6,13 @@
 </head>
 
 <body class="menu"> 
-	<div class="body"> 
-		<#assign menus=token.getMenus()>
-		<#list menus.get(entity.id) as menu>
+	<div class="body">  
+		<#list query.list("menu","menuId",entity.id) as menu>
 			<dl>
 				<dt>
 					<span>${menu.name}</span>
 				</dt>
-				<#list menus.get(menu.id) as m>
+				<#list query.list("menu","menuId",menu.id) as m>
 					<dd>
 						<a href="<@s.url action='${m.url}'/>" target="main_frame">${m.name}</a>
 					</dd>

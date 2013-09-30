@@ -10,7 +10,7 @@ import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.AttributeUtil;
-import org.wdcode.web.util.RequestUtil;
+import org.wdcode.web.util.IpUtil;
 
 /**
  * 登录信息Bean
@@ -44,7 +44,7 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 */
 	public static void addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login, RequestUtil.getIp(request), request.getLocalAddr()), maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login, IpUtil.getIp(request), request.getLocalAddr()), maxAge);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class LoginEngine {
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
-			LoginToken token = new LoginToken(getGuestId(), "游客", RequestUtil.getIp(request), request.getLocalAddr());
+			LoginToken token = new LoginToken(getGuestId(), "游客", IpUtil.getIp(request), request.getLocalAddr());
 			AttributeUtil.set(request, response, key + INFO, token, -1);
 			return token;
 		} else {

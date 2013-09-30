@@ -1,7 +1,7 @@
 package org.wdcode.core.engine;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
@@ -12,8 +12,8 @@ import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
+import org.wdcode.common.lang.Sets;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.ClearUtil;
@@ -27,11 +27,11 @@ import org.wdcode.core.params.QuartzParams;
  */
 public final class QuartzEngine {
 	// 任务执行器工厂
-	private final static SchedulerFactory				FACTORY;
+	private final static SchedulerFactory						FACTORY;
 	// 保存任务列表
-	private final static Map<JobDetail, List<Trigger>>	MAP_JOB;
+	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB;
 	// 任务执行器
-	private static Scheduler							scheduler;
+	private static Scheduler									scheduler;
 
 	static {
 		FACTORY = new StdSchedulerFactory();
@@ -70,13 +70,13 @@ public final class QuartzEngine {
 		// 获得任务
 		JobDetail job = JobBuilder.newJob(jobClass).build();
 		// 声明任务执行时间列表
-		List<Trigger> list = Lists.getList(trigger.length);
+		Set<Trigger> triggers = Sets.getSet(trigger.length);
 		// 循环获得任务执行时间对象
 		for (int i = 0; i < trigger.length; i++) {
-			list.add(TriggerBuilder.newTrigger().withSchedule(CronScheduleBuilder.cronSchedule(trigger[i])).build());
+			triggers.add(TriggerBuilder.newTrigger().withSchedule(CronScheduleBuilder.cronSchedule(trigger[i])).build());
 		}
 		// 添加到任务列表中
-		MAP_JOB.put(job, list);
+		MAP_JOB.put(job, triggers);
 	}
 
 	/**

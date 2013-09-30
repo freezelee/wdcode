@@ -76,13 +76,7 @@
 			<artifactId>mina-core</artifactId>
 			<version>2.0.7</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.xerial.snappy</groupId>
-			<artifactId>snappy-java</artifactId>
-			<version>1.0.4.1</version>
-			<scope>provided</scope>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>

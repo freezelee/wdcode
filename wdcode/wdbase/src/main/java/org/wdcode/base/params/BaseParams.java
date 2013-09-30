@@ -33,6 +33,10 @@ public final class BaseParams {
 	 * 缓存是否有效
 	 */
 	public final static boolean	CACHE_VALID			= Params.getBoolean("cache.valid", true);
+	/**
+	 * 缓存类型
+	 */
+	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
 
 	/**
 	 * 私有构造

@@ -15,27 +15,23 @@ public final class BackParams {
 	/**
 	 * 创建者ID
 	 */
-	public final static String	ADMIN			= Params.getString("admin", "admin");
-	/**
-	 * 操作日志是否开启
-	 */
-	public final static boolean	OPERATE_LOGS	= Params.getBoolean("operate.logs", false);
+	public final static String	ADMIN		= Params.getString("admin", "admin");
 	/**
 	 * 后台页面记录是否开启
 	 */
-	public final static boolean	BACK_URL		= Params.getBoolean("back.url", false);
+	public final static boolean	BACK_URL	= Params.getBoolean("back.url", false);
 	/**
 	 * 后台主题
 	 */
-	public final static String	BACK_THEME		= Params.getString(BackConstants.BACK_THEME_KEY, StringConstants.DEFAULT);
+	public final static String	BACK_THEME	= Params.getString(BackConstants.BACK_THEME_KEY, StringConstants.DEFAULT);
 	/**
 	 * 后台登录Key
 	 */
-	public final static String	BACK_LOGIN		= Params.getString("back.login", Admin.class.getSimpleName());
+	public final static String	BACK_LOGIN	= Params.getString("back.login", Admin.class.getSimpleName());
 	/**
 	 * 后台路径
 	 */
-	public final static String	BACK_PATH		= Params.getString("back.path", "/back/");
+	public final static String	BACK_PATH	= Params.getString("back.path", "/back/");
 
 	/**
 	 * 构造方法

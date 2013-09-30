@@ -14,12 +14,13 @@ import org.springframework.stereotype.Component;
 import org.wdcode.base.action.BasicAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.service.SuperService;
-import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.security.exception.SecurityException;
 import org.wdcode.security.params.SecurityParams;
 import org.wdcode.security.po.Operate;
 import org.wdcode.security.po.OperateLogs;
+import org.wdcode.security.po.Role;
 import org.wdcode.site.action.LoginAction;
 import org.wdcode.site.token.AuthToken;
 
@@ -39,19 +40,37 @@ public final class SecurityAdvice {
 	 * 验证权限方法
 	 * @param point
 	 */
-	@Before("execution(* org.wdcode.back.action.BackAction.add(..)) or execution(* org.wdcode.back.action.BackAction.edit(..)) or execution(* org.wdcode.back.action.BackAction.dels(..)) or execution(* org.wdcode.back.action.BackAction.del(..)) or execution(* org.wdcode.back.action.BackAction.trun(..))")
-	public void rights(JoinPoint point) {
-		// 获得后台Action
-		LoginAction<?, ?> action = (LoginAction<?, ?>) point.getTarget();
-		// 获得登录凭证
-		AuthToken token = action.getToken();
-		// URL
-		String url = action.getActionName();
-		// 获得自己的权限列表
-		List<Operate> lsOperate = Lists.getList(token.getId());// token.getOperates();
-		// 不是所有权限 继续判断
-		if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(service.get(Operate.class, url))) {
-			// throw new RightsException();
+	@Before("execution(* org.wdcode.base.action.SuperAction.add(..)) or execution(* org.wdcode.base.action.SuperAction.adds(..)) or execution(* org.wdcode.base.action.SuperAction.edit(..)) or execution(* org.wdcode.base.action.SuperAction.dels(..)) or execution(* org.wdcode.base.action.SuperAction.del(..)) or execution(* org.wdcode.base.action.SuperAction.trun(..))")
+	public void security(JoinPoint point) {
+		// 判断是否开启权限验证
+		if (SecurityParams.SECURITY) {
+			// 获得后台Action
+			LoginAction<?, ?> action = (LoginAction<?, ?>) point.getTarget();
+			// 获得登录凭证
+			AuthToken token = action.getToken();
+			// URL
+			String url = action.getActionName();
+			// 获得操作
+			Operate operate = service.get(Operate.class, url);
+			// 如果操作为空 直接异常
+			if (operate == null) {
+				throw new SecurityException();
+			}
+			// 判断是否开启角色权限验证
+			if (SecurityParams.SECURITY_ROLE) {
+				// 获得角色
+				Role role = service.get(Role.class, token.getId());
+				// 如果角色为空
+				if (role == null) {
+					throw new SecurityException();
+				}
+				// 获得自己的权限列表
+				List<Operate> lsOperate = role.getOperates();
+				// 不是所有权限 继续判断
+				if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
+					throw new SecurityException();
+				}
+			}
 		}
 	}
 
@@ -60,7 +79,7 @@ public final class SecurityAdvice {
 	 * @param point aop切点信息
 	 * @param retVal 返回值
 	 */
-	@AfterReturning(pointcut = "execution(* org.wdcode.back.action.BackAction.add(..)) or execution(* org.wdcode.back.action.BackAction.edit(..)) or execution(* org.wdcode.back.action.BackAction.dels(..)) or execution(* org.wdcode.back.action.BackAction.del(..)) or execution(* org.wdcode.back.action.BackAction.trun(..))", returning = "retVal")
+	@AfterReturning(pointcut = "execution(* org.wdcode.base.action.SuperAction.add(..)) or execution(* org.wdcode.base.action.SuperAction.adds(..)) or execution(* org.wdcode.base.action.SuperAction.edit(..)) or execution(* org.wdcode.base.action.SuperAction.dels(..)) or execution(* org.wdcode.base.action.SuperAction.del(..)) or execution(* org.wdcode.base.action.SuperAction.trun(..))", returning = "retVal")
 	public void logs(JoinPoint point, Object retVal) {
 		// 判断是否开启操作日志记录
 		if (SecurityParams.OPERATE_LOGS) {

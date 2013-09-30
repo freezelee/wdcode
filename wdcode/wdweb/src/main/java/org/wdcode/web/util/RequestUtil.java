@@ -7,7 +7,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -115,57 +114,6 @@ public final class RequestUtil {
 		if (!EmptyUtil.isEmpty(request)) {
 			request.setAttribute(key, value);
 		}
-	}
-
-	/**
-	 * 获得客户连接IP
-	 * @param request Request
-	 * @return 客户连接IP
-	 */
-	public static String getIp(HttpServletRequest request) {
-		// 获得ip列表
-		String[] ips = getIps(request);
-		// 返回第一个ip
-		return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
-	}
-
-	/**
-	 * 获得IP详细信息
-	 * @param ip 要查询的IP
-	 * @return 对应信息的键值
-	 */
-	public static Map<String, String> getIpInfo(String ip) {
-		// http://ip.taobao.com/service/getIpInfo.php?ip=?
-		// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=?
-		// http://ip.qq.com/cgi-bin/searchip?searchip1=?
-		return Maps.emptyMap();
-	}
-
-	/**
-	 * 获得客户连接IP数组 一般通过代理的可或则所以IP
-	 * @param request Request
-	 * @return 客户连接IP
-	 */
-	public static String[] getIps(HttpServletRequest request) {
-		// 判断不为空
-		if (!EmptyUtil.isEmpty(request)) {
-			// 获得IP
-			String ip = request.getHeader(HttpConstants.HEADER_IP_X_FORWARDED_FOR);
-			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip)) {
-				// 为空换方法获得
-				ip = request.getHeader(HttpConstants.HEADER_IP_X_REAL_IP);
-			}
-			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip)) {
-				// 为空换方法获得
-				ip = request.getRemoteAddr();
-			}
-			// 返回IP
-			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[] { ip } : ip.split(StringConstants.COMMA);
-		}
-		// 返回""
-		return ArrayConstants.STRING_EMPTY;
 	}
 
 	/**

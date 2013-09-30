@@ -52,14 +52,19 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		super.init();
 		// 获得认证凭证
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		// 凭证置空
-		token = LoginEngine.empty();
 		// 认证不为空
-		if (auth != null) {
+		if (auth == null) {
+			// 清除登录凭证
+			LoginEngine.removeLogin(getRequest(), getResponse(), getLoginKey());
+		} else {
+			// 凭证置空
+			token = LoginEngine.empty();
 			// 获得登录管理员
 			Object principal = auth.getPrincipal();
 			if (principal instanceof AdminToken) {
 				token = ((AdminToken) principal);
+				// 如果显示未登录 添加新登录凭证
+				LoginEngine.addLogin(getRequest(), getResponse(), ((AdminToken) principal).getAdmin(), -1);
 			}
 		}
 	}

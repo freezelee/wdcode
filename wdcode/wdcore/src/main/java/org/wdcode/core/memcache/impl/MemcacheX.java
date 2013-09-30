@@ -18,6 +18,7 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.ArrayUtil;
+import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.memcache.base.BaseMemcache;
 
 /**
@@ -136,6 +137,15 @@ public final class MemcacheX extends BaseMemcache {
 		} finally {
 			client = null;
 		}
+	}
+
+	/**
+	 * 判断键是否存在
+	 * @param key
+	 * @return
+	 */
+	public boolean exists(String key) {
+		return !EmptyUtil.isEmpty(get(key));
 	}
 
 	/**

@@ -35,14 +35,16 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	public E set(E entity) {
 		// 获得键
 		String key = getKey(entity.getKey());
-		// 添加到memcached
-		if (MEMCACHE.set(key, entity.toString())) {
+		// 判断键是否存在 不存在更新键 并且添加到memcached成功
+		if (!MEMCACHE.exists(key) && MEMCACHE.set(key, entity.toString())) {
 			// 获得保存键值
 			String k = getKey();
 			// 追加到memcace
 			if (!MEMCACHE.append(k, StringConstants.COMMA + key)) {
 				// 没追加到 第一个直接set
 				MEMCACHE.set(k, key);
+				// 加数量
+				MEMCACHE.set(getKeySize(), size() + 1);
 			}
 		}
 		// 返回实体
@@ -82,6 +84,14 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 		E e = get(key);
 		// 删除键
 		MEMCACHE.remove(getKey(key));
+		// 减数量
+		MEMCACHE.set(getKeySize(), size() - 1);
+		// 减key
+		List<String> keys = Lists.getList(getKeys());
+		// 删除key
+		keys.remove(key);
+		// 重新写入key
+		MEMCACHE.set(getKey(), Lists.toString(keys));
 		// 返回实体
 		return e;
 	}
@@ -101,7 +111,7 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	@Override
 	public List<E> list() {
 		// 获得全部key
-		String[] keys = StringUtil.split(Conversion.toString(MEMCACHE.get(getKey())), StringConstants.COMMA);
+		String[] keys = getKeys();
 		// 获得键
 		List<Serializable> list = Lists.getList(keys.length);
 		// 循环键
@@ -114,12 +124,19 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 
 	@Override
 	public int size() {
-		return list().size();
+		return Conversion.toInt(MEMCACHE.get(getKeySize()));
 	}
 
 	@Override
 	public void clear() {
-		MEMCACHE.clear();
+		// 循环删除key
+		for (String key : getKeys()) {
+			MEMCACHE.remove(key);
+		}
+		// 删除数量
+		MEMCACHE.remove(getKeySize());
+		// 删除key集合
+		MEMCACHE.remove(getKey());
 	}
 
 	@Override
@@ -160,11 +177,27 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	}
 
 	/**
+	 * 获得memcached保存笨类型的数量
+	 * @return memcached使用键
+	 */
+	private String getKeySize() {
+		return getKey("size");
+	}
+
+	/**
 	 * 根据单个key获得memcached中保存的键
 	 * @param key 原实体键
 	 * @return memcached使用键
 	 */
 	private String getKey(Serializable key) {
 		return Conversion.toString(key).startsWith(clazz.getSimpleName()) ? Conversion.toString(key) : clazz.getSimpleName() + StringConstants.UNDERLINE + key;
+	}
+
+	/**
+	 * 获得本类型全部Keys
+	 * @return keys
+	 */
+	private String[] getKeys() {
+		return StringUtil.split(Conversion.toString(MEMCACHE.get(getKey())), StringConstants.COMMA);
 	}
 }

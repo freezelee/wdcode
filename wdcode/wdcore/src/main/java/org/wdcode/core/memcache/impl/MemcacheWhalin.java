@@ -71,6 +71,15 @@ public final class MemcacheWhalin extends BaseMemcache {
 	}
 
 	/**
+	 * 判断键是否存在
+	 * @param key
+	 * @return
+	 */
+	public boolean exists(String key) {
+		return client.keyExists(key);
+	}
+
+	/**
 	 * 追加键值
 	 * @param key 键
 	 * @param value 值
