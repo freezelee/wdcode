@@ -4,10 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.common.codec.Hex;
+import org.wdcode.common.crypto.Decrypts;
+import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.params.SiteParams;
+import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.IpUtil;
@@ -44,7 +47,7 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 */
 	public static void addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, new LoginToken(login, IpUtil.getIp(request), request.getLocalAddr()), maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, encrypt(new LoginToken(login, IpUtil.getIp(request), request.getLocalAddr())), maxAge);
 	}
 
 	/**
@@ -59,10 +62,10 @@ public final class LoginEngine {
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
 			LoginToken token = new LoginToken(getGuestId(), "游客", IpUtil.getIp(request), request.getLocalAddr());
-			AttributeUtil.set(request, response, key + INFO, token, -1);
+			AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 			return token;
 		} else {
-			return JsonEngine.toBean(info, LoginToken.class);
+			return decrypt(info);
 		}
 	}
 
@@ -77,6 +80,24 @@ public final class LoginEngine {
 		// SessionUtil.close(request.getSession());
 		// 写入用户信息
 		AttributeUtil.remove(request, response, key + INFO);
+	}
+
+	/**
+	 * 加密信息
+	 * @param token 登录凭证
+	 * @return 加密信息
+	 */
+	public static String encrypt(AuthToken token) {
+		return Hex.encode(Encrypts.rc4(token.toBytes()));
+	}
+
+	/**
+	 * 解密信息
+	 * @param value 登录信息
+	 * @return 解析后的对象
+	 */
+	public static LoginToken decrypt(String value) {
+		return new LoginToken().toBean(Decrypts.rc4(Hex.decode(value)));
 	}
 
 	/**

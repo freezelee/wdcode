@@ -1,5 +1,7 @@
 package org.wdcode.common.util;
 
+import java.io.OutputStream;
+
 import org.wdcode.common.interfaces.Close;
 import org.wdcode.common.log.Logs;
 
@@ -51,6 +53,10 @@ public final class CloseUtil {
 					c = cs[i];
 					// 判断不为空
 					if (!EmptyUtil.isEmpty(c)) {
+						// 是输出流
+						if (c instanceof OutputStream) {
+							((OutputStream) c).flush();
+						}
 						// 关闭
 						c.close();
 					}

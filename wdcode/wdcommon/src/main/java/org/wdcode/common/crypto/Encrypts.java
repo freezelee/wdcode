@@ -10,6 +10,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
+import org.wdcode.common.lang.Bytes;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.KeyUtil;
@@ -45,12 +47,30 @@ public final class Encrypts extends BaseCrypt {
 	}
 
 	/**
-	 * 加密字符串
+	 * 加密
+	 * @param obj 要加密的对象
+	 * @return 加密后的字节数组
+	 */
+	public static String encrypt(Object obj) {
+		return obj instanceof String ? encrypt(Conversion.toString(obj)) : Hex.encode(encrypt(Bytes.toBytes(obj)));
+	}
+
+	/**
+	 * 加密字符串 Hex编码
 	 * @param text 要加密的字符串
 	 * @return 加密后的字节数组
 	 */
 	public static String encrypt(String text) {
 		return Hex.encode(encrypt(StringUtil.toBytes(text)));
+	}
+
+	/**
+	 * 加密字符串 Hex编码
+	 * @param b 要加密的字节数组
+	 * @return 加密后的Hex编码的字符串
+	 */
+	public static String encryptHex(byte[] b) {
+		return Hex.encode(encrypt(b));
 	}
 
 	/**

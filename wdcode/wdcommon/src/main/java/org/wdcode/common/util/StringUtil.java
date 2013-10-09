@@ -524,9 +524,6 @@ public final class StringUtil {
 		try {
 			return EmptyUtil.isEmpty(b) ? StringConstants.EMPTY : new String(b, charsetName);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回空字节数组
 			return StringConstants.EMPTY;
 		}
 	}
@@ -550,9 +547,6 @@ public final class StringUtil {
 		try {
 			return EmptyUtil.isEmpty(s) ? ArrayConstants.BYTES_EMPTY : s.getBytes(charsetName);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

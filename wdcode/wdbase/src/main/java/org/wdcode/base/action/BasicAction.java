@@ -18,6 +18,7 @@ import org.wdcode.base.context.Context;
 import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Conversion;
@@ -28,6 +29,7 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
 import org.wdcode.web.util.IpUtil;
@@ -284,11 +286,20 @@ public class BasicAction extends ActionSupport {
 
 	/**
 	 * 获得程序路径
-	 * @param path 路径
+	 * @param name 文件名
 	 * @return 程序路径
 	 */
-	public String getRealPath(String path) {
-		return getServletContext().getRealPath(path);
+	public String getRealPath(String name) {
+		return getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
+	}
+
+	/**
+	 * 获得域名路径
+	 * @param name 文件名
+	 * @return 域名路径
+	 */
+	public String getServerPath(String name) {
+		return HttpConstants.HTTP + getRequest().getServerName() + StringConstants.BACKSLASH + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**
@@ -405,7 +416,7 @@ public class BasicAction extends ActionSupport {
 	 * @param value CookieValue
 	 */
 	public void addCookie(String name, String value) {
-		CookieUtil.add(getResponse(), name, value);
+		CookieUtil.add(getResponse(), name, Encrypts.encrypt(value));
 	}
 
 	/**
@@ -486,12 +497,8 @@ public class BasicAction extends ActionSupport {
 		String[] names = new String[size];
 		// 循环文件名
 		for (int i = 0; i < size; i++) {
-			try {
-				// 获得路径
-				names[i] = getFileName(uploadsFileName[i]);
-				// 上传文件
-				FileUtil.write(getPath(names[i]), uploads[i]);
-			} catch (Exception e) {}
+			// 获得路径
+			names[i] = upload(uploads[i], uploadsFileName[i]);
 		}
 		// 返回路径
 		return names;
@@ -503,24 +510,34 @@ public class BasicAction extends ActionSupport {
 	 * @return 文件路径
 	 */
 	protected String upload() {
+		return upload(upload, uploadFileName);
+	}
+
+	/**
+	 * 上传文件
+	 * @param file 上传文件
+	 * @param fileName 文件名
+	 * @return 文件路径
+	 */
+	protected String upload(File file, String fileName) {
 		// 如果没有文件跳出
-		if (EmptyUtil.isEmpty(upload)) {
+		if (EmptyUtil.isEmpty(file)) {
 			return null;
 		}
 		// 获得上次路径
-		String name = getFileName(uploadFileName);
+		String name = getFileName(fileName);
 		// 上传文件
-		FileUtil.write(getPath(name), upload);
+		FileUtil.write(getRealPath(name), file);
 		// 返回路径
-		return name;
+		return getServerPath(name);
 	}
 
 	/**
 	 * 输出数据到客户端方法
 	 * @param json 对象
 	 */
-	protected String data(Object data) throws Exception {
-		return data(data, CommonParams.ENCODING);
+	protected String ajax(Object data) throws Exception {
+		return ajax(data, CommonParams.ENCODING);
 	}
 
 	/**
@@ -528,7 +545,7 @@ public class BasicAction extends ActionSupport {
 	 * @param json 对象
 	 * @param charsetName 编码
 	 */
-	protected String data(Object data, String charsetName) throws Exception {
+	protected String ajax(Object data, String charsetName) throws Exception {
 		// 清除缓存
 		ResponseUtil.noCache(getResponse());
 		// 声明返回字符串
@@ -576,29 +593,18 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
-	 * 方法回调 所有直接Action回调的方法 一边统一处理
-	 * @param s 字符串标识
-	 * @return 返回标识
-	 */
-	protected String ajax(Object obj) throws Exception {
-		return data(EmptyUtil.isEmpty(obj) ? StringConstants.EMPTY : obj);
-	}
-
-	/**
 	 * 获得文件名
 	 * @param fileName 文件名
 	 * @return 文件名
 	 */
 	private String getFileName(String fileName) {
-		return BaseParams.UPLOAD_PATH + (DateUtil.getTime()) + StringConstants.UNDERLINE + fileName;
-	}
-
-	/**
-	 * 获得路径
-	 * @param upload 文件
-	 * @return 路径
-	 */
-	private String getPath(String fileName) {
-		return getRealPath(StringConstants.BACKSLASH) + fileName;
+		// 获得文件名
+		String name = BaseParams.UPLOAD_PATH + fileName;
+		// 文件是否存在
+		if (FileUtil.exists(getRealPath(name))) {
+			return getFileName((DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
+		}
+		// 返回文件名
+		return name;
 	}
 }

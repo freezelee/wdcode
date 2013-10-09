@@ -1,10 +1,12 @@
 package org.wdcode.site.token;
 
 import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.params.SiteParams;
+import org.wdcode.web.util.IpUtil;
 
 /**
  * 登录信息封装
@@ -134,5 +136,24 @@ public class LoginToken implements AuthToken {
 	 */
 	public String toString() {
 		return JsonEngine.toJson(this);
+	}
+
+	@Override
+	public byte[] toBytes() {
+		return Bytes.toBytes(id, time, IpUtil.encode(loginIp), IpUtil.encode(serverIp), name);
+	}
+
+	@Override
+	public LoginToken toBean(byte[] b) {
+		// 判断字节数组不为空
+		if (!EmptyUtil.isEmpty(b)) {
+			this.id = Bytes.toInt(b);
+			this.time = Bytes.toInt(b, 4);
+			this.loginIp = IpUtil.decode(Bytes.toInt(b, 8));
+			this.serverIp = IpUtil.decode(Bytes.toInt(b, 12));
+			this.name = Bytes.toString(b, 16);
+		}
+		// 返回自身
+		return this;
 	}
 }

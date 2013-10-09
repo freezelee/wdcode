@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.common.io.ChannelUtil;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.StreamUtil;
@@ -109,6 +110,9 @@ public final class Bytes {
 		} else if (obj instanceof String) {
 			// String
 			b = toBytes(Conversion.toString(obj));
+		} else if (obj instanceof BytesBean) {
+			// File
+			b = toBytes((BytesBean) obj);
 		} else if (obj instanceof File) {
 			// File
 			b = FileUtil.read((File) obj);
@@ -127,6 +131,15 @@ public final class Bytes {
 		}
 		// 返回字节数组
 		return b;
+	}
+
+	/**
+	 * 转换BytesBean变成字节数组
+	 * @param bean BytesBean类型
+	 * @return 字节数组
+	 */
+	public static byte[] toBytes(BytesBean bean) {
+		return EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.toBytes();
 	}
 
 	/**
@@ -438,23 +451,23 @@ public final class Bytes {
 	}
 
 	/**
-	 * 把字节数组转换成long
+	 * 把字节数组转换成字符串
 	 * @param b 字节数组
-	 * @param length 长度
-	 * @return long
+	 * @param offset 偏移
+	 * @return 字符串
 	 */
-	public static String toString(byte[] b, int length) {
-		return toString(b, length, 0);
+	public static String toString(byte[] b, int offset) {
+		return toString(b, offset, b.length);
 	}
 
 	/**
-	 * 把字节数组转换成long
+	 * 把字节数组转换成字符串
 	 * @param b 字节数组
-	 * @param length 长度
 	 * @param offset 偏移
-	 * @return long
+	 * @param length 长度
+	 * @return 字符串
 	 */
-	public static String toString(byte[] b, int length, int offset) {
+	public static String toString(byte[] b, int offset, int length) {
 		return StringUtil.toString(Arrays.copyOfRange(b, offset, offset + length));
 	}
 
@@ -484,9 +497,19 @@ public final class Bytes {
 	}
 
 	/**
+	 * 把字节数组转换为BytesBean
+	 * @param obj BytesBean对象
+	 * @param b 字节数组
+	 * @return 转换后的对象
+	 */
+	public static BytesBean toBean(BytesBean bean, byte[] b) {
+		return EmptyUtil.isEmpty(bean) || EmptyUtil.isEmpty(b) ? null : bean.toBean(b);
+	}
+
+	/**
 	 * 读取字节数组变成对象
 	 * @param b 字节数组
-	 * @return 镀锡
+	 * @return 对象
 	 */
 	public static Object toObject(byte[] b) {
 		// 如果字节数组为空 返回null

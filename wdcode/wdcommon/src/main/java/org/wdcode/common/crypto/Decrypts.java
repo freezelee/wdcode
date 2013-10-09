@@ -23,8 +23,17 @@ public final class Decrypts extends BaseCrypt {
 	 * @param text 要解密的字符串
 	 * @return 解密后的字符串
 	 */
-	public static String decrypt(String text) {
-		return StringUtil.toString(decrypt(Hex.decode(text)));
+	public static String decryptString(String text) {
+		return StringUtil.toString(decrypt(text));
+	}
+
+	/**
+	 * 解密字符串
+	 * @param text 要解密的字符串
+	 * @return 解密后的字符串
+	 */
+	public static byte[] decrypt(String text) {
+		return decrypt(Hex.decode(text));
 	}
 
 	/**

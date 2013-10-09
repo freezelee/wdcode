@@ -35,6 +35,32 @@ public final class Digest {
 	}
 
 	/**
+	 * 先普通加密 在获得摘要 无法解密
+	 * @param text 要加密的文本
+	 * @param len 要返回字符串的长度
+	 * @return 加密后的文本
+	 */
+	public static String absolute(String text, int len) {
+		// 加密
+		String val = absolute(text);
+		// 如果字符串长度大于要返回的长度
+		if (val.length() > len) {
+			// 声明字符串缓存
+			StringBuilder sb = new StringBuilder(len);
+			// 获得分解份数
+			int size = val.length() / len;
+			// 循环累加字符串
+			for (int i = 0; i < len; i++) {
+				sb.append(val.charAt(i * size));
+			}
+			// 赋值
+			val = sb.toString();
+		}
+		// 返回加密字符串
+		return val;
+	}
+
+	/**
 	 * 获得字符串摘要
 	 * @param text 要获得摘要的字符串
 	 * @return 获得摘要后的字节数组的hex后字符串

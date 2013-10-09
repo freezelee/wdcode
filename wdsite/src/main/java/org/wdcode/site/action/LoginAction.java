@@ -14,7 +14,6 @@ import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.po.Entitys;
@@ -172,10 +171,18 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String token() throws Exception {
-		// 获得登录凭证字符串
-		String info = token.toString();
+		// 加密登录凭证字符串
+		String info = LoginEngine.encrypt(token);
 		// 返回加密字符串
-		return callback(Digest.absolute(info) + StringConstants.MIDLINE + Encrypts.encrypt(info));
+		return ajax(Digest.absolute(info, 5) + StringConstants.MIDLINE + info);
+	}
+
+	/**
+	 * 获得登录凭证
+	 * @return 获得登录凭证
+	 */
+	public String verifyToken() throws Exception {
+		return callback(verifyToken(Conversion.toString(key)).isLogin());
 	}
 
 	/**
@@ -241,30 +248,26 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return
 	 */
 	protected int verifyUserKey(String info) {
-		return Conversion.toInt(Decrypts.decrypt(info));
+		return Conversion.toInt(Decrypts.decryptString(info));
 	}
 
 	/**
-	 * 是否登录
-	 * @return 是否自动登录
+	 * 验证登录凭证
+	 * @return 登录实体
 	 */
 	protected LoginToken verifyToken(String info) {
 		try {
 			// 验证去掉"""
 			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
 			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > 40 && info.indexOf(StringConstants.MIDLINE) == 40) {
+			if (!EmptyUtil.isEmpty(info) && info.length() > 5 && info.indexOf(StringConstants.MIDLINE) == 5) {
 				// 分解信息
 				String[] temp = info.split(StringConstants.MIDLINE);
 				// 分解的信息不为空并且只有2组
 				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-					// 验证串
-					String verify = temp[0];
-					// 实体Bean串
-					String bean = Decrypts.decrypt(temp[1]);
 					// 判断校验串是否合法
-					if (verify.equals(Digest.absolute(bean))) {
-						return JsonEngine.toBean(bean, LoginToken.class);
+					if (temp[0].equals(Digest.absolute(temp[1], 5))) {
+						return LoginEngine.decrypt(temp[1]);
 					}
 				}
 			}

@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.crypto.Decrypts;
-import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.web.params.WebParams;
 
@@ -36,7 +34,7 @@ public final class CookieUtil {
 	 */
 	public static void add(HttpServletResponse response, String name, String value, int maxAge) {
 		// 实例化Cookie
-		Cookie cookie = new Cookie(name, getEncrypt(value));
+		Cookie cookie = new Cookie(name, value);
 		// 设置Cookie过期时间
 		cookie.setMaxAge(maxAge);
 		// 设置目录
@@ -98,25 +96,7 @@ public final class CookieUtil {
 		// 根据name获得Cookie
 		Cookie cookie = getCookie(request, name);
 		// 如果Cookie为空返回空串,不为空返回Value
-		return EmptyUtil.isEmpty(cookie) ? StringConstants.EMPTY : getDecrypt(cookie.getValue());
-	}
-
-	/**
-	 * 获得加密数据
-	 * @param text
-	 * @return
-	 */
-	private static String getEncrypt(String text) {
-		return Encrypts.encrypt(text);
-	}
-
-	/**
-	 * 获得解密数据
-	 * @param text
-	 * @return
-	 */
-	private static String getDecrypt(String text) {
-		return Decrypts.decrypt(text);
+		return EmptyUtil.isEmpty(cookie) ? StringConstants.EMPTY : cookie.getValue();
 	}
 
 	/**

@@ -17,7 +17,10 @@ import javax.imageio.ImageIO;
 import org.wdcode.common.constants.ImageConstants;
 
 import org.wdcode.common.io.FileUtil;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.log.Logs;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
 
 /**
  * 对普通图片处理。
@@ -43,14 +46,83 @@ public final class ImageUtil {
 	}
 
 	/**
+	 * 压缩图片
+	 * @param input 图片文件
+	 * @param out 输出流
+	 * @param rate 比例
+	 * @param isClose 是否关闭流
+	 */
+	public static void compress(File input, OutputStream out, double rate, boolean isClose) {
+		try {
+			// 读取文件
+			Image img = ImageIO.read(input);
+			// 判断图片格式是否正确
+			if (img.getWidth(null) == -1) {
+				return;
+			} else {
+				// 根据缩放比率大的进行缩放控制
+				compress(input, out, Conversion.toInt(img.getWidth(null) / rate), Conversion.toInt(img.getHeight(null) / rate), isClose);
+			}
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
+			// 是否关闭流
+			if (isClose) {
+				CloseUtil.close(out);
+			}
+		}
+	}
+
+	/**
+	 * 压缩图片
+	 * @param input 图片文件
+	 * @param out 输出流
+	 * @param width 宽度
+	 * @param height 高度
+	 * @param isClose 是否关闭流
+	 */
+	public static void compress(File input, OutputStream out, int width, int height, boolean isClose) {
+		try {
+			// 读取文件
+			Image img = ImageIO.read(input);
+			// 判断图片格式是否正确
+			if (img.getWidth(null) == -1) {
+				return;
+			} else {
+				// 声明缓存图片
+				BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				// Image.SCALE_SMOOTH 的缩略算法 生成缩略图片的平滑度的 优先级比速度高 生成的图片质量比较好 但速度慢
+				tag.getGraphics().drawImage(img.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
+				// JPEGImageEncoder可适用于其他图片类型的转换
+				JPEGCodec.createJPEGEncoder(out).encode(tag);
+			}
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
+			// 是否关闭流
+			if (isClose) {
+				CloseUtil.close(out);
+			}
+		}
+	}
+
+	/**
 	 * 抓屏保存图片
 	 * @param formatName 保存格式
 	 * @param out 输出流
+	 * @param isClose 是否关闭流
 	 */
-	public static void captureScreen(String formatName, OutputStream out) {
+	public static void captureScreen(String formatName, OutputStream out, boolean isClose) {
 		try {
 			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())), formatName, out);
-		} catch (Exception ex) {}
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
+			// 是否关闭流
+			if (isClose) {
+				CloseUtil.close(out);
+			}
+		}
 	}
 
 	/**

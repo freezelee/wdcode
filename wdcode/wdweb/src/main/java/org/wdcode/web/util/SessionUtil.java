@@ -6,7 +6,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 
 /**
@@ -37,11 +36,7 @@ public final class SessionUtil {
 				}
 				// 销毁Session
 				session.invalidate();
-			} catch (Exception e) {
-				Logs.error(e);
-			} finally {
-				session = null;
-			}
+			} catch (Exception e) {}
 		}
 	}
 
