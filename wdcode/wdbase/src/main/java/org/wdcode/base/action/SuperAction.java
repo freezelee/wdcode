@@ -261,6 +261,15 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
+	 * 直接跳转
+	 * @return
+	 * @throws Exception
+	 */
+	public String tos() throws Exception {
+		return LIST;
+	}
+
+	/**
 	 * 跳转到修改页
 	 * @return 跳转
 	 * @throws Exception
@@ -514,7 +523,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	protected E upload(E e) {
 		if (e instanceof EntityFile) {
 			// 上次文件
-			String path = upload();
+			String path = upload(upload, uploadFileName);
 			// 路径不为空
 			if (!EmptyUtil.isEmpty(path)) {
 				((EntityFile) e).setPath(path);
@@ -522,7 +531,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		}
 		if (e instanceof EntityFiles) {
 			// 上次文件
-			String[] paths = uploads();
+			String[] paths = uploads(uploads, uploadsFileName);
 			// 路径不为空
 			if (!EmptyUtil.isEmpty(paths)) {
 				((EntityFiles) e).setPaths(paths);

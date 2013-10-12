@@ -10,8 +10,8 @@ import javax.persistence.ManyToMany
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.Type
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed

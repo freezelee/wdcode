@@ -2,7 +2,7 @@ package org.wdcode.cms.po
 
 import java.util.List
 
-import javax.persistence.Entity
+import javax.persistence.Entity 
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany

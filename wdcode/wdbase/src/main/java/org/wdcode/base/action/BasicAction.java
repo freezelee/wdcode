@@ -299,7 +299,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 域名路径
 	 */
 	public String getServerPath(String name) {
-		return HttpConstants.HTTP + getRequest().getServerName() + StringConstants.BACKSLASH + getBase() + StringConstants.BACKSLASH + name;
+		return HttpConstants.HTTP + getRequest().getServerName() + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**
@@ -486,7 +486,7 @@ public class BasicAction extends ActionSupport {
 	 * @param fileName 文件名
 	 * @return 文件路径
 	 */
-	protected String[] uploads() {
+	protected String[] uploads(File[] uploads, String[] uploadsFileName) {
 		// 如果没有文件跳出
 		if (EmptyUtil.isEmpty(uploads)) {
 			return ArrayConstants.STRING_EMPTY;
@@ -506,11 +506,20 @@ public class BasicAction extends ActionSupport {
 
 	/**
 	 * 上传文件
-	 * @param fileName 文件名
-	 * @return 文件路径
+	 * @return
+	 * @throws Exception
 	 */
-	protected String upload() {
-		return upload(upload, uploadFileName);
+	public String upload() throws Exception {
+		return ajax(upload(upload, uploadFileName));
+	}
+
+	/**
+	 * 上传文件
+	 * @return
+	 * @throws Exception
+	 */
+	public String uploads() throws Exception {
+		return ajax(uploads(uploads, uploadsFileName));
 	}
 
 	/**

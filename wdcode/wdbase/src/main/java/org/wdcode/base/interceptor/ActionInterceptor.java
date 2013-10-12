@@ -22,13 +22,21 @@ public abstract class ActionInterceptor extends AbstractInterceptor {
 		// 验证是否拦截Action
 		if (action.contains(invocation.getProxy().getActionName())) {
 			// 前置方法
-			before(invocation);
-			// 执行方法
-			String result = invocation.invoke();
-			// 后置方法
-			after(invocation);
-			// 返回结果
-			return result;
+			if (before(invocation)) {
+				// 执行方法
+				try {
+					String result = invocation.invoke();
+					// 后置方法
+					if (after(invocation)) {
+						// 返回结果
+						return result;
+					}
+				} catch (Exception e) {
+					exception(invocation, e);
+				}
+			}
+			// 返回空地址
+			return StringConstants.EMPTY;
 		} else {
 			return invocation.invoke();
 		}
@@ -54,11 +62,19 @@ public abstract class ActionInterceptor extends AbstractInterceptor {
 	 * 前置通知方法
 	 * @param invocation
 	 */
-	protected abstract void before(ActionInvocation invocation);
+	protected abstract boolean before(ActionInvocation invocation);
+
+	/**
+	 * 异常处理
+	 * @param invocation
+	 * @param e
+	 * @return
+	 */
+	protected abstract boolean exception(ActionInvocation invocation, Exception e);
 
 	/**
 	 * 后置通知方法
 	 * @param invocation
 	 */
-	protected abstract void after(ActionInvocation invocation);
+	protected abstract boolean after(ActionInvocation invocation);
 }

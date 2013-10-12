@@ -171,10 +171,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String token() throws Exception {
-		// 加密登录凭证字符串
-		String info = LoginEngine.encrypt(token);
-		// 返回加密字符串
-		return ajax(Digest.absolute(info, 5) + StringConstants.MIDLINE + info);
+		return ajax(token(token));
 	}
 
 	/**
@@ -249,6 +246,18 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	protected int verifyUserKey(String info) {
 		return Conversion.toInt(Decrypts.decryptString(info));
+	}
+
+	/**
+	 * 获得登录凭证
+	 * @param token
+	 * @return
+	 */
+	protected String token(AuthToken token) {
+		// 加密登录凭证字符串
+		String info = LoginEngine.encrypt(token);
+		// 返回加密字符串
+		return Digest.absolute(info, 5) + StringConstants.MIDLINE + info;
 	}
 
 	/**

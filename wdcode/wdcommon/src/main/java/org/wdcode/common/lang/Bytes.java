@@ -457,7 +457,7 @@ public final class Bytes {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset) {
-		return toString(b, offset, b.length);
+		return toString(b, offset, b.length - offset);
 	}
 
 	/**

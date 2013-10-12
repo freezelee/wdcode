@@ -788,8 +788,10 @@ public final class HibernateDao implements Dao {
 				// 提交事务
 				tx.commit();
 			}
-			//toString() 为了使关联生效
-			t.toString();
+			// toString() 为了使关联生效
+			if (!EmptyUtil.isEmpty(t)) {
+				t.toString();
+			}
 			// 返回对象
 			return t;
 		} catch (Exception e) {
