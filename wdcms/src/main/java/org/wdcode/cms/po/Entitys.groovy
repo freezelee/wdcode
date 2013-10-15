@@ -1,4 +1,4 @@
-package org.wdcode.site.po
+package org.wdcode.cms.po
 
 import java.util.List
 import java.util.Map

@@ -16,7 +16,6 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
-import org.wdcode.site.po.Entitys;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.VerifyCodeUtil;
@@ -52,10 +51,6 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		}
 		if (entity instanceof EntityUserId) {
 			((EntityUserId) entity).setUserId(token.getId());
-		}
-		// 如果实体为空 并且 模块名和模式名不同
-		if (isEntity && entity == null && !module.equals(mode)) {
-			entity = (E) new Entitys(module);
 		}
 	}
 
