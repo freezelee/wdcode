@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/9/12 17:52:41                           */
+/* Created on:     2013/10/15 12:10:28                          */
 /*==============================================================*/
 
 
@@ -39,6 +39,40 @@ create table category
 ENGINE = MYISAM;
 
 alter table category comment '信息表';
+
+/*==============================================================*/
+/* Table: entitys                                               */
+/*==============================================================*/
+create table entitys
+(
+   id                   int not null auto_increment,
+   entity               varchar(50),
+   name                 varchar(50),
+   time                 int,
+   state                int,
+   list                 text,
+   map                  text,
+   primary key (id)
+)
+ENGINE = MYISAM;
+
+alter table entitys comment '通用实体表';
+
+/*==============================================================*/
+/* Index: Index_Time                                            */
+/*==============================================================*/
+create index Index_Time on entitys
+(
+   time
+);
+
+/*==============================================================*/
+/* Index: Index_Name                                            */
+/*==============================================================*/
+create index Index_Name on entitys
+(
+   name
+);
 
 /*==============================================================*/
 /* Table: friend_link                                           */
