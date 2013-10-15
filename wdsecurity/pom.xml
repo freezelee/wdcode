@@ -7,22 +7,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.wdcode</groupId>
-			<artifactId>wdcommon</artifactId>
+			<artifactId>wdcode</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
-		</dependency> 
-		<dependency>
-			<groupId>org.wdcode</groupId>
-			<artifactId>wdweb</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency> 
-		<dependency>
-			<groupId>org.wdcode</groupId>
-			<artifactId>wdbase</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdsite</artifactId>

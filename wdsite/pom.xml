@@ -14,28 +14,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.wdcode</groupId>
-			<artifactId>wdcommon</artifactId>
+			<artifactId>wdcode</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.wdcode</groupId>
-			<artifactId>wdcore</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.wdcode</groupId>
-			<artifactId>wdbase</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.wdcode</groupId>
-			<artifactId>wdweb</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>    
+		</dependency>   
 		<dependency>
 			<groupId>org.apache.struts.xwork</groupId>
 			<artifactId>xwork-core</artifactId>
