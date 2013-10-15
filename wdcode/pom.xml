@@ -402,6 +402,9 @@
 								<source>wdbase/src/main/java</source>
 								<source>wdtag/src/main/java</source>
 							</sources>
+							<resources>
+								<resource>wdtag/src/main/resources</resource>								
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
