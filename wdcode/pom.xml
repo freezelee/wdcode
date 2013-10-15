@@ -362,6 +362,11 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>wdtag/src/main/resources</directory> 
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -401,10 +406,7 @@
 								<source>wdweb/src/main/java</source>
 								<source>wdbase/src/main/java</source>
 								<source>wdtag/src/main/java</source>
-							</sources>
-							<resources>
-								<resource>wdtag/src/main/resources</resource>								
-							</resources>
+							</sources> 
 						</configuration>
 					</execution>
 				</executions>
