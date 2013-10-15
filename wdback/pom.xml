@@ -84,6 +84,12 @@
 			<version>3.1.4.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>  
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>2.1.5</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -114,12 +120,7 @@
 						<groupId>org.codehaus.plexus</groupId>
 						<artifactId>plexus-compiler-api</artifactId>
 						<version>2.3</version>
-					</dependency>
-					<dependency>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy</artifactId>
-						<version>2.1.5</version> 
-					</dependency>
+					</dependency> 
 				</dependencies>
 			</plugin> 
 		</plugins>

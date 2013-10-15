@@ -16,7 +16,7 @@
 			<artifactId>wdsite</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -46,9 +46,15 @@
 			<artifactId>struts2-core</artifactId>
 			<version>2.3.15.2</version>
 			<scope>provided</scope>
-		</dependency>  
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>2.1.5</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -78,17 +84,13 @@
 						<artifactId>plexus-compiler-api</artifactId>
 						<version>2.3</version>
 					</dependency>
-					<dependency>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy</artifactId>
-						<version>2.1.5</version> 
-					</dependency>
 				</dependencies>
-			</plugin> 
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
