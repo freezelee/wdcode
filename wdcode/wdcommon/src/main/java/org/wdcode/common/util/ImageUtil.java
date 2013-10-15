@@ -20,8 +20,6 @@ import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.log.Logs;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-
 /**
  * 对普通图片处理。
  * @author WD
@@ -46,10 +44,10 @@ public final class ImageUtil {
 	}
 
 	/**
-	 * 压缩图片
+	 * 压缩图片 rate 比例 * rate / 100
 	 * @param input 图片文件
 	 * @param out 输出流
-	 * @param rate 比例
+	 * @param rate 缩小比例
 	 * @param isClose 是否关闭流
 	 */
 	public static void compress(File input, OutputStream out, double rate, boolean isClose) {
@@ -61,7 +59,7 @@ public final class ImageUtil {
 				return;
 			} else {
 				// 根据缩放比率大的进行缩放控制
-				compress(input, out, Conversion.toInt(img.getWidth(null) / rate), Conversion.toInt(img.getHeight(null) / rate), isClose);
+				compress(input, out, Conversion.toInt(img.getWidth(null) * rate / 100), Conversion.toInt(img.getHeight(null) * rate / 100), isClose);
 			}
 		} catch (Exception e) {
 			Logs.warn(e);
@@ -93,8 +91,10 @@ public final class ImageUtil {
 				BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 				// Image.SCALE_SMOOTH 的缩略算法 生成缩略图片的平滑度的 优先级比速度高 生成的图片质量比较好 但速度慢
 				tag.getGraphics().drawImage(img.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
+				// 写入图片
+				write(tag, formatName, out, isClose);
 				// JPEGImageEncoder可适用于其他图片类型的转换
-				JPEGCodec.createJPEGEncoder(out).encode(tag);
+				// JPEGCodec.createJPEGEncoder(out).encode(tag);
 			}
 		} catch (Exception e) {
 			Logs.warn(e);

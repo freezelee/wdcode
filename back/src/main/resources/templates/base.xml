@@ -7,8 +7,8 @@
 	<base key="select" type="select" cssClass="select"/>
 	<base key="editor" type="textfield" id="editor" cssClass="editor"/>
 	<base key="textarea" type="textarea" cssClass="textarea"/> 
-	<base key="file" type="file" name="upload"/>
-	<base key="files" type="file" name="uploads"/>
+	<base key="file" type="file" name="file"/>
+	<base key="files" type="file" name="files"/>
 	<base key="checkboxlist" type="checkboxlist"/>
 	<base key="password" type="password" cssClass="text"/>
 	

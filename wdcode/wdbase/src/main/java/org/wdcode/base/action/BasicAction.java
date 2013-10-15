@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import org.wdcode.base.bean.Inform;
 import org.wdcode.base.context.Context;
+import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -55,18 +57,18 @@ public class BasicAction extends ActionSupport {
 	protected String				callback;
 
 	// 上传文件
-	protected File					upload;
+	protected File					file;
 	// 上传文件类型
-	protected String				uploadContentType;
+	protected String				fileContentType;
 	// 上传文件名
-	protected String				uploadFileName;
+	protected String				fileFileName;
 
 	// 上传文件数组
-	protected File[]				uploads;
+	protected File[]				files;
 	// 上传文件数组类型
-	protected String[]				uploadsContentType;
+	protected String[]				filesContentType;
 	// 上传文件数组名
-	protected String[]				uploadsFileName;
+	protected String[]				filesFileName;
 
 	// 模板名
 	protected String				module;
@@ -75,6 +77,10 @@ public class BasicAction extends ActionSupport {
 	// 全局Context
 	@Resource
 	protected Context				context;
+	// 消息回执体
+	protected Inform				info;
+	// 要回执消息的字段
+	protected String				field;
 
 	/**
 	 * 初始化方法
@@ -137,96 +143,96 @@ public class BasicAction extends ActionSupport {
 	 * 获得文件
 	 * @return 文件
 	 */
-	public File getUpload() {
-		return upload;
+	public File getFile() {
+		return file;
 	}
 
 	/**
 	 * 设置文件
-	 * @param upload 文件
+	 * @param file 文件
 	 */
-	public void setUpload(File upload) {
-		this.upload = upload;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	/**
 	 * 获得文件数组
 	 * @return 文件数组
 	 */
-	public File[] getUploads() {
-		return uploads;
+	public File[] getFiles() {
+		return files;
 	}
 
 	/**
 	 * 设置文件数组
-	 * @param uploads 文件数组
+	 * @param files 文件数组
 	 */
-	public void setUploads(File[] uploads) {
-		this.uploads = uploads;
+	public void setFiles(File[] files) {
+		this.files = files;
 	}
 
 	/**
 	 * 获得上传文件类型
 	 * @return 上传文件类型
 	 */
-	public String getUploadContentType() {
-		return uploadContentType;
+	public String getFileContentType() {
+		return fileContentType;
 	}
 
 	/**
 	 * 设置上传文件类型
-	 * @param uploadContentType 上传文件类型
+	 * @param fileContentType 上传文件类型
 	 */
-	public void setUploadContentType(String uploadContentType) {
-		this.uploadContentType = uploadContentType;
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
 	}
 
 	/**
 	 * 获得上传文件名
 	 * @return 上传文件名
 	 */
-	public String getUploadFileName() {
-		return uploadFileName;
+	public String getFileFileName() {
+		return fileFileName;
 	}
 
 	/**
 	 * 设置上传文件名
-	 * @param uploadFileName 上传文件名
+	 * @param fileFileName 上传文件名
 	 */
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
 	}
 
 	/**
 	 * 获得上传文件数组类型
 	 * @return 上传文件数组类型
 	 */
-	public String[] getUploadsContentType() {
-		return uploadsContentType;
+	public String[] getFilesContentType() {
+		return filesContentType;
 	}
 
 	/**
 	 * 设置上传文件数组类型
-	 * @param uploadsContentType 上传文件数组类型
+	 * @param filesContentType 上传文件数组类型
 	 */
-	public void setUploadsContentType(String[] uploadsContentType) {
-		this.uploadsContentType = uploadsContentType;
+	public void setFilesContentType(String[] filesContentType) {
+		this.filesContentType = filesContentType;
 	}
 
 	/**
 	 * 获得上传文件数组名
 	 * @return 上传文件数组名
 	 */
-	public String[] getUploadsFileName() {
-		return uploadsFileName;
+	public String[] getFilesFileName() {
+		return filesFileName;
 	}
 
 	/**
 	 * 设置上传文件数组名
-	 * @param uploadsFileName 上传文件数组名
+	 * @param filesFileName 上传文件数组名
 	 */
-	public void setUploadsFileName(String[] uploadsFileName) {
-		this.uploadsFileName = uploadsFileName;
+	public void setFilesFileName(String[] filesFileName) {
+		this.filesFileName = filesFileName;
 	}
 
 	/**
@@ -272,7 +278,7 @@ public class BasicAction extends ActionSupport {
 		// 循环
 		for (int i = 0; i < val.length; i++) {
 			// 添加内容
-			sb.append(super.getText(val[i], StringConstants.EMPTY));
+			sb.append(super.getText(val[i], val[i]));
 		}
 		return sb.toString();
 	}
@@ -455,6 +461,24 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 上传文件
+	 * @return
+	 * @throws Exception
+	 */
+	public String upload() throws Exception {
+		return ajax(upload(file, fileFileName));
+	}
+
+	/**
+	 * 上传文件
+	 * @return
+	 * @throws Exception
+	 */
+	public String uploads() throws Exception {
+		return ajax(uploads(files, filesFileName));
+	}
+
+	/**
 	 * 截取字符串
 	 * @param str 要截取的字符串
 	 * @param len 截取长度
@@ -482,6 +506,22 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 获得要显示的字段
+	 * @return 要显示的字段
+	 */
+	public String getField() {
+		return field;
+	}
+
+	/**
+	 * 设置要显示的字段
+	 * @param field 要显示的字段
+	 */
+	public void setField(String field) {
+		this.field = field;
+	}
+
+	/**
 	 * 上传文件
 	 * @param fileName 文件名
 	 * @return 文件路径
@@ -502,24 +542,6 @@ public class BasicAction extends ActionSupport {
 		}
 		// 返回路径
 		return names;
-	}
-
-	/**
-	 * 上传文件
-	 * @return
-	 * @throws Exception
-	 */
-	public String upload() throws Exception {
-		return ajax(upload(upload, uploadFileName));
-	}
-
-	/**
-	 * 上传文件
-	 * @return
-	 * @throws Exception
-	 */
-	public String uploads() throws Exception {
-		return ajax(uploads(uploads, uploadsFileName));
 	}
 
 	/**
@@ -580,12 +602,27 @@ public class BasicAction extends ActionSupport {
 	 * @param s 字符串标识
 	 * @return 返回标识
 	 */
-	protected String callback(Object obj) throws Exception {
+	public String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
 			return ajax(obj);
 		} else if ("sign".equals(mode)) {
 			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+		} else if ("key".equals(mode)) {
+			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
+		} else if ("info".equals(mode)) {
+			// 如果消息体为空
+			if (obj instanceof Inform) {
+				info = (Inform) obj;
+			} else if (info == null) {
+				// 实例化并给予消息体相关信息
+				info = new Inform();
+				// 设置标识
+				info.setType(EmptyUtil.isEmpty(obj) ? Inform.FAIL : Inform.SUCCESS);
+				// 设置消息
+				info.setParam(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(field) ? obj.toString() : Conversion.toString(BeanUtil.getFieldValue(obj, field)));
+			}
+			return ajax(info);
 		} else {
 			if (obj == null) {
 				return addMessage(ERROR);

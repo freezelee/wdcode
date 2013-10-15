@@ -25,7 +25,7 @@ public final class Lucene {
 	public static void createIndex() {
 		try {
 			dir = FSDirectory.open(FileUtil.getFile(""));
-			analyzer = new StandardAnalyzer(Version.LUCENE_44);
+			analyzer = new StandardAnalyzer(Version.LUCENE_45);
 		} catch (IOException e) {} finally {
 			CloseUtil.close(dir, analyzer);
 		}

@@ -12,7 +12,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
  * 拦截指定Action
  * @author WD 2013-9-22
  */
-public abstract class ActionInterceptor extends AbstractInterceptor {
+public class ActionInterceptor extends AbstractInterceptor {
 	private static final long	serialVersionUID	= 7385133486187055501L;
 	// 包含的Action
 	protected List<String>		action				= Lists.emptyList();
@@ -25,12 +25,8 @@ public abstract class ActionInterceptor extends AbstractInterceptor {
 			if (before(invocation)) {
 				// 执行方法
 				try {
-					String result = invocation.invoke();
-					// 后置方法
-					if (after(invocation)) {
-						// 返回结果
-						return result;
-					}
+					// 后置方法 返回结果
+					return after(invocation, invocation.invoke());
 				} catch (Exception e) {
 					exception(invocation, e);
 				}
@@ -62,7 +58,9 @@ public abstract class ActionInterceptor extends AbstractInterceptor {
 	 * 前置通知方法
 	 * @param invocation
 	 */
-	protected abstract boolean before(ActionInvocation invocation);
+	protected boolean before(ActionInvocation invocation) {
+		return true;
+	}
 
 	/**
 	 * 异常处理
@@ -70,11 +68,13 @@ public abstract class ActionInterceptor extends AbstractInterceptor {
 	 * @param e
 	 * @return
 	 */
-	protected abstract boolean exception(ActionInvocation invocation, Exception e);
+	protected void exception(ActionInvocation invocation, Exception e) {}
 
 	/**
 	 * 后置通知方法
 	 * @param invocation
 	 */
-	protected abstract boolean after(ActionInvocation invocation);
+	protected String after(ActionInvocation invocation, String result) {
+		return result;
+	}
 }

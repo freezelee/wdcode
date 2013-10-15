@@ -186,7 +186,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String all() throws Exception {
-		return callback(entitys = (entity == null ? service.all(entityClass) : service.list(entity, -1, -1)));
+		return callback(entitys = service.all(entityClass));
 	}
 
 	/**
@@ -523,7 +523,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	protected E upload(E e) {
 		if (e instanceof EntityFile) {
 			// 上次文件
-			String path = upload(upload, uploadFileName);
+			String path = upload(file, fileFileName);
 			// 路径不为空
 			if (!EmptyUtil.isEmpty(path)) {
 				((EntityFile) e).setPath(path);
@@ -531,7 +531,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		}
 		if (e instanceof EntityFiles) {
 			// 上次文件
-			String[] paths = uploads(uploads, uploadsFileName);
+			String[] paths = uploads(files, filesFileName);
 			// 路径不为空
 			if (!EmptyUtil.isEmpty(paths)) {
 				((EntityFiles) e).setPaths(paths);
