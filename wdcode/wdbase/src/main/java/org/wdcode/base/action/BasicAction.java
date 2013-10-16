@@ -606,11 +606,11 @@ public class BasicAction extends ActionSupport {
 	public String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
-			return ajax(obj);
+			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(field) ? obj.toString() : Conversion.toString(BeanUtil.getFieldValue(obj, field)));
 		} else if ("sign".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else if ("key".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
+			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
 		} else if ("info".equals(mode)) {
 			// 如果消息体为空
 			if (obj instanceof Inform) {
