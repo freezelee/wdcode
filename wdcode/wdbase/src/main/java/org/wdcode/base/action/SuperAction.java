@@ -16,8 +16,7 @@ import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.lang.Lists;
+import org.wdcode.common.constants.StringConstants; 
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
@@ -146,7 +145,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				// 实体主键为空
 				if (EmptyUtil.isEmpty(entity.getKey())) {
 					// 按实体查询出相关列表 在删除
-					size = service.delete(Lists.toArray(service.list(entity, -1, -1))).size();
+					size = service.delete(entity).size();
 				} else {
 					// 按实体主键删除
 					size = service.delete(entityClass, entity.getKey()).size();

@@ -9,14 +9,10 @@ import org.wdcode.core.json.JsonEngine;
  * @version 1.0 2013-10-14
  */
 public final class Inform {
-	// 1：成功
-	public static final int	SUCCESS	= 1;
-	// 2：失败
-	public static final int	FAIL	= 2;
 	// 1：成功 2：失败
-	private int				type;
+	private int		type;
 	// 返回的消息参数
-	private String			param;
+	private String	param;
 
 	/**
 	 * 构造方法

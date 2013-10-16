@@ -9,7 +9,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.bean.Inform;
+import org.wdcode.base.constants.InformConstants;
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.util.StringUtil;
 
 /**
  * 回执消息处理
@@ -38,6 +40,6 @@ public class InformAdvice {
 			}
 		}
 		// 回执消息
-		action.callback(new Inform(Inform.FAIL, sb.toString()));
+		action.callback(new Inform(InformConstants.FAIL, StringUtil.subString(sb.toString(), 0, sb.length() - 1)));
 	}
 }

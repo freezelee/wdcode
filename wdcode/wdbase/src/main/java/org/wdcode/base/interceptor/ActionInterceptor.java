@@ -2,6 +2,7 @@ package org.wdcode.base.interceptor;
 
 import java.util.List;
 
+import org.wdcode.base.action.BasicAction;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 
@@ -32,7 +33,7 @@ public class ActionInterceptor extends AbstractInterceptor {
 				}
 			}
 			// 返回空地址
-			return StringConstants.EMPTY;
+			return BasicAction.ERROR;
 		} else {
 			return invocation.invoke();
 		}

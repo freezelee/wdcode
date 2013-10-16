@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.wdcode.base.bean.Inform;
+import org.wdcode.base.constants.InformConstants;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
@@ -618,7 +619,7 @@ public class BasicAction extends ActionSupport {
 				// 实例化并给予消息体相关信息
 				info = new Inform();
 				// 设置标识
-				info.setType(EmptyUtil.isEmpty(obj) ? Inform.FAIL : Inform.SUCCESS);
+				info.setType(EmptyUtil.isEmpty(obj) ? InformConstants.FAIL : InformConstants.SUCCESS);
 				// 设置消息
 				info.setParam(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(field) ? obj.toString() : Conversion.toString(BeanUtil.getFieldValue(obj, field)));
 			}
@@ -632,6 +633,13 @@ public class BasicAction extends ActionSupport {
 				return LIST;
 			} else if (obj instanceof Boolean) {
 				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
+			} else if (obj instanceof Inform) {
+				// 转换消息实体
+				Inform inform = (Inform) obj;
+				// 添加消息
+				addActionMessage(inform.getParam());
+				// 返回成功失败
+				return inform.getType() == InformConstants.SUCCESS ? SUCCESS : ERROR;
 			} else {
 				return addMessage(SUCCESS);
 			}
@@ -645,7 +653,7 @@ public class BasicAction extends ActionSupport {
 	 */
 	private String getFileName(String fileName) {
 		// 获得文件名
-		String name = BaseParams.UPLOAD_PATH + fileName;
+		String name = BaseParams.UPLOAD_PATH + (EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH) + fileName;
 		// 文件是否存在
 		if (FileUtil.exists(getRealPath(name))) {
 			return getFileName((DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);

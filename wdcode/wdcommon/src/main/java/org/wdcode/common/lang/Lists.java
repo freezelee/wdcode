@@ -216,7 +216,7 @@ public final class Lists {
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
 		if (EmptyUtil.isEmpty(list)) {
-			emptyList();
+			return ArrayUtil.getArray();
 		}
 		// 返回数组
 		return (E[]) list.toArray(ArrayUtil.getArray(list.get(0).getClass(), list.size()));

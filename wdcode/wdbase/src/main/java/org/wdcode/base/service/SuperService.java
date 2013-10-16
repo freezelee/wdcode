@@ -115,6 +115,25 @@ public class SuperService {
 	 * @return 是否成功
 	 */
 	@Transactional
+	public <E extends Entity> List<E> delete(E entity) {
+		// 查询出符合删除实体列表
+		List<E> list = list(entity, -1, -1);
+		// 删除列表为空
+		if (EmptyUtil.isEmpty(list)) {
+			return Lists.emptyList();
+		}
+		// 删除
+		list = dao.delete(Lists.toArray(list));
+		// 返回结果
+		return isCache(entity.getClass()) ? getCache(entity).remove(list) : list;
+	}
+
+	/**
+	 * 删除
+	 * @param list 实体列表
+	 * @return 是否成功
+	 */
+	@Transactional
 	public <E extends Entity> List<E> delete(E... entitys) {
 		// 删除
 		List<E> list = dao.delete(entitys);
