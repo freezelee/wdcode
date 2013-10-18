@@ -33,13 +33,31 @@ public class InformAdvice {
 		// 声明消息字符串
 		StringBuilder sb = new StringBuilder();
 		// 判断是JavaBean验证框架的异常
-		if (error.getCause() instanceof ConstraintViolationException) {
-			// 设置验证消息
-			for (ConstraintViolation<?> c : ((ConstraintViolationException) error.getCause()).getConstraintViolations()) {
-				sb.append(action.getText(c.getMessageTemplate())).append(StringConstants.COMMA);
-			}
+		if (error instanceof ConstraintViolationException) {
+			sb.append(violation(action, error));
+		} else if (error.getCause() instanceof ConstraintViolationException) {
+			sb.append(violation(action, error.getCause()));
+		} else {
+			sb.append(error.getMessage());
 		}
 		// 回执消息
-		action.callback(new Inform(InformConstants.FAIL, StringUtil.subString(sb.toString(), 0, sb.length() - 1)));
+		action.callback(new Inform(InformConstants.FAIL, sb.toString()));
+	}
+
+	/**
+	 * JavaBean验证框架返回异常信息
+	 * @param action
+	 * @param error
+	 * @return
+	 */
+	private String violation(SuperAction<?> action, Throwable error) {
+		// 声明消息字符串
+		StringBuilder sb = new StringBuilder();
+		// 设置验证消息
+		for (ConstraintViolation<?> c : ((ConstraintViolationException) error).getConstraintViolations()) {
+			sb.append(action.getText(c.getMessageTemplate())).append(StringConstants.COMMA);
+		}
+		// 返回错误消息
+		return StringUtil.subString(sb.toString(), 0, sb.length() - 1);
 	}
 }
