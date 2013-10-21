@@ -1,7 +1,9 @@
 package org.wdcode.web.util;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.lang.Validate;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.core.constants.IpConstants;
 import org.wdcode.web.constants.HttpConstants;
 
 /**
@@ -26,10 +30,41 @@ public final class IpUtil {
 	 * @return 本机IP
 	 */
 	public static String getIp() {
+		// 获得ip列表
+		String[] ips = getIps();
+		// 返回第一个ip
+		return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+	}
+
+	/**
+	 * 获得本机IP数组
+	 * @param request Request
+	 * @return 客户连接IP
+	 */
+	public static String[] getIps() {
 		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			return StringConstants.EMPTY;
+			// 声明IP列表
+			List<String> list = Lists.getList();
+			// 获得网络接口迭代
+			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+			// 循环所以网络接口 获得IP
+			while (netInterfaces.hasMoreElements()) {
+				// 获得IP迭代
+				Enumeration<InetAddress> ips = netInterfaces.nextElement().getInetAddresses();
+				// 循环获得IP
+				while (ips.hasMoreElements()) {
+					// 获得IP
+					String ip = ips.nextElement().getHostAddress();
+					// 判断不是IP和本机IP
+					if (Validate.isIp(ip) && !IpConstants.LOCAL_IP.equals(ip)) {
+						list.add(ip);
+					}
+				}
+			}
+			// 返回IP数组
+			return Lists.toArray(list);
+		} catch (Exception e) {
+			return ArrayConstants.STRING_EMPTY;
 		}
 	}
 
