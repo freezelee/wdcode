@@ -845,7 +845,7 @@ public class SuperService {
 	/**
 	 * 加载所有缓存
 	 */
-	public void load() {
+	public void cache() {
 		// 循环加载所以缓存
 		for (Class<? extends Entity> c : caches.keySet()) {
 			// 加载缓存
@@ -854,15 +854,28 @@ public class SuperService {
 	}
 
 	/**
-	 * 加载指定类的所有缓存
+	 * 加载所有数据
+	 */
+	public void load() {
+		// 循环加载所以缓存
+		for (Class<? extends Entity> c : context.getClasss()) {
+			// 加载缓存
+			load(c);
+		}
+	}
+
+	/**
+	 * 加载指定类的所有数据
 	 * @param entityClass 实体类
 	 */
 	public <E extends Entity> void load(Class<E> entityClass) {
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
+		// 获得所有数据列表
+		List<E> beans = dao.list(entityClass, -1, -1);
 		// 判断有缓存
 		if (cache.isValid()) {
-			cache.set(Lists.sort(dao.list(entityClass, -1, -1)));
+			cache.set(Lists.sort(beans));
 			loads.put(entityClass, true);
 		}
 	}

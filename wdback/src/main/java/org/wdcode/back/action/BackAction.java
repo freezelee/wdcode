@@ -143,9 +143,21 @@ public class BackAction extends LoginAction<Entity, Admin> {
 	 * @return 跳转
 	 * @throws Exception
 	 */
-	public String cache() throws Exception {
+	public String load() throws Exception {
 		// 重载全部缓存
 		service.load();
+		// 返回到成功页
+		return callback(SUCCESS);
+	}
+
+	/**
+	 * 重置缓存
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String cache() throws Exception {
+		// 重载全部缓存
+		service.cache();
 		// 返回到成功页
 		return callback(SUCCESS);
 	}

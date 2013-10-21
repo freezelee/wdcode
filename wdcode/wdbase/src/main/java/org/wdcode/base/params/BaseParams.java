@@ -22,6 +22,10 @@ public final class BaseParams {
 	 */
 	public final static String	UPLOAD_PATH			= Params.getString("upload.path", "upload/");
 	/**
+	 * 是否使用服务器地址保存文件路径
+	 */
+	public final static boolean	UPLOAD_SERVER		= Params.getBoolean("upload.server", true);
+	/**
 	 * 数据源配置
 	 */
 	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "classpath:db/db.properties");

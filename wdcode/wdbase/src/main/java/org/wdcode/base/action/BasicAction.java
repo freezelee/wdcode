@@ -306,7 +306,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 域名路径
 	 */
 	public String getServerPath(String name) {
-		return HttpConstants.HTTP + getRequest().getServerName() + getBase() + StringConstants.BACKSLASH + name;
+		return HttpConstants.HTTP + IpUtil.getIp() + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**
@@ -561,7 +561,7 @@ public class BasicAction extends ActionSupport {
 		// 上传文件
 		FileUtil.write(getRealPath(name), file);
 		// 返回路径
-		return getServerPath(name);
+		return BaseParams.UPLOAD_SERVER ? getServerPath(name) : name;
 	}
 
 	/**

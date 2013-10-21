@@ -1,5 +1,7 @@
 package org.wdcode.web.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,18 @@ import org.wdcode.web.constants.HttpConstants;
  * @version 1.0 2013-09-27
  */
 public final class IpUtil {
+	/**
+	 * 获得本机IP
+	 * @return 本机IP
+	 */
+	public static String getIp() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			return StringConstants.EMPTY;
+		}
+	}
+
 	/**
 	 * 编码IP为int
 	 * @param ip 要编码的IP
