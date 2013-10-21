@@ -1,7 +1,9 @@
 package org.wdcode.core.json.impl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.wdcode.common.util.BeanUtil;
 import org.wdcode.core.json.Json;
 
 import com.google.gson.Gson;
@@ -30,6 +32,9 @@ public final class JsonGson implements Json {
 
 	@Override
 	public <E> List<E> toList(String json, Class<E> clazz) {
-		return GSON.fromJson(json, new TypeToken<E>() {}.getType());
+		// 转换成list
+		List<Map<String, Object>> list = GSON.fromJson(json, new TypeToken<List<Map<String, Object>>>() {}.getType());
+		// 返回列表
+		return BeanUtil.copyProperties(clazz, list);
 	}
 }

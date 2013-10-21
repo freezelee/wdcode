@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.wdcode.common.constants.StringConstants;
 
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.log.Logs;
 
@@ -230,7 +231,7 @@ public final class BeanUtil {
 		makeAccessible(field);
 		// 设置字段值
 		try {
-			field.set(object, value);
+			field.set(object, Conversion.to(value, field.getType()));
 		} catch (IllegalAccessException e) {
 			Logs.warn(e);
 		}

@@ -306,7 +306,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 域名路径
 	 */
 	public String getServerPath(String name) {
-		return HttpConstants.HTTP + getRequest().getServerName() + getBase() + StringConstants.BACKSLASH + name;
+		return HttpConstants.HTTP + getRequest().getLocalAddr() + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**

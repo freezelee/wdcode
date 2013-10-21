@@ -20,7 +20,7 @@ public final class BaseParams {
 	/**
 	 * 上传文件路径
 	 */
-	public final static String	UPLOAD_PATH			= Params.getString("upload.path", "upload/images/");
+	public final static String	UPLOAD_PATH			= Params.getString("upload.path", "upload/");
 	/**
 	 * 数据源配置
 	 */

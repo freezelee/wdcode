@@ -49,10 +49,6 @@ public final class CoreParams {
 	 */
 	public final static String	EXCEL_PARSE					= Params.getString("excel.parse", "poi");
 	/**
-	 * 解析JSON所需要的包
-	 */
-	public final static String	JSON_PARSE					= Params.getString("json.parse", "gson");
-	/**
 	 * Lucene索引保存位置
 	 */
 	public final static String	LUCENE_INDEX_PATH			= Params.getString("lucene.index.path");
