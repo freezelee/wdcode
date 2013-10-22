@@ -280,11 +280,10 @@ public final class HibernateDao implements Dao {
 	 * @return 持久化对象
 	 */
 	public <E> E get(final E entity) {
-		return execute(new HibernateCallback<E>() {
-			public E doInHibernate(Session session) {
-				return (E) session.createCriteria(entity.getClass()).add(Example.create(entity)).uniqueResult();
-			}
-		});
+		// 获得结果
+		List<E> list = list(entity, 0, 1);
+		// 返回结果
+		return EmptyUtil.isEmpty(list) ? null : list.get(0);
 	}
 
 	/**

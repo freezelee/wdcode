@@ -19,8 +19,10 @@ import org.wdcode.base.constants.InformConstants;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
+import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.StreamUtil;
@@ -557,9 +559,12 @@ public class BasicAction extends ActionSupport {
 			return null;
 		}
 		// 获得上次路径
-		String name = getFileName(fileName);
+		String name = getFileName(file, fileName);
 		// 上传文件
-		FileUtil.write(getRealPath(name), file);
+		String fn = getRealPath(name);
+		if (!FileUtil.exists(fn)) {
+			FileUtil.write(fn, file);
+		}
 		// 返回路径
 		return BaseParams.UPLOAD_SERVER ? getServerPath(name) : name;
 	}
@@ -651,12 +656,17 @@ public class BasicAction extends ActionSupport {
 	 * @param fileName 文件名
 	 * @return 文件名
 	 */
-	private String getFileName(String fileName) {
+	private String getFileName(File file, String fileName) {
 		// 获得文件名
 		String name = BaseParams.UPLOAD_PATH + (EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH) + fileName;
 		// 文件是否存在
 		if (FileUtil.exists(getRealPath(name))) {
-			return getFileName((DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
+			// 验证MD5 相同文件不上传 直接返回文件名
+			if (Hex.encode(Digest.md5(FileUtil.read(getRealPath(name)))).equals(Hex.encode(Digest.md5(FileUtil.read(file))))) {
+				return name;
+			} else {
+				return getFileName(file, (DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
+			}
 		}
 		// 返回文件名
 		return name;
