@@ -86,36 +86,6 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		return SUCCESS;
 	}
 
-	@Override
-	public String page() throws Exception {
-		return super.page();
-	}
-
-	@Override
-	public String add() throws Exception {
-		return super.add();
-	}
-
-	@Override
-	public String edit() throws Exception {
-		return super.edit();
-	}
-
-	@Override
-	public String del() throws Exception {
-		return super.del();
-	}
-
-	@Override
-	public String dels() throws Exception {
-		return super.dels();
-	}
-
-	@Override
-	public String trun() throws Exception {
-		return super.trun();
-	}
-
 	/**
 	 * 静态化页面
 	 * @return
@@ -147,7 +117,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		// 重载全部缓存
 		service.load();
 		// 返回到成功页
-		return callback(SUCCESS);
+		return addMessage(SUCCESS);
 	}
 
 	/**
@@ -159,7 +129,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		// 重载全部缓存
 		service.cache();
 		// 返回到成功页
-		return callback(SUCCESS);
+		return addMessage(SUCCESS);
 	}
 
 	/**

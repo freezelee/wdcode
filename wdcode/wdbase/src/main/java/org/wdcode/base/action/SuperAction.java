@@ -16,7 +16,7 @@ import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
@@ -226,7 +226,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				endDate = DateUtil.getShortDate();
 			}
 			// 按时间查询
-			entitys = service.between(entity, TIME_FIELD, startDate + StringConstants.BLANK + DateConstants.DATE_DAY_STATR, endDate + StringConstants.BLANK + DateConstants.DATE_DAY_END, pager);
+			entitys = service.between(entity, TIME_FIELD, DateUtil.getTime(startDate), DateUtil.getTime(endDate) + Conversion.toInt(DateConstants.TIME_DAY / DateConstants.TIME_SECOND), pager);
 		}
 		// 返回列表页
 		return callback(entitys);
