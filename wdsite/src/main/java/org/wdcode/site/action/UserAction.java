@@ -9,6 +9,7 @@ import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
+import org.wdcode.site.constants.SiteConstants;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.web.email.EmailEngine;
@@ -68,8 +69,10 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 		// 是否Email验证
 		if (SiteParams.USER_VERIFY_EMAIL) {
 			// 设置状态无效
-			user.setState(0);
-			// 发生激活信
+			user.setState(SiteConstants.STATE_INAVAIL);
+		} else {
+			// 设置状态有效
+			user.setState(SiteConstants.STATE_AVAIL);
 		}
 		// 添加
 		service.insert(user);
@@ -120,7 +123,7 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 		// 判断激活码是否正确
 		if (user != null && user.getId() > 0) {
 			// 设置状态为有效
-			user.setState(1);
+			user.setState(SiteConstants.STATE_AVAIL);
 			// 修改用户实体
 			return callback(EmptyUtil.isEmpty(service.update(entity)) ? SUCCESS : ERROR);
 		} else {

@@ -28,25 +28,29 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @DynamicUpdate
 class User extends BaseEntityIdTime implements EntityUser {
 	// 密码
-	String				password
+	String			password
 	// 昵称
-	String				nickName
+	String			nickName
 	// Email
-	String				email
+	String			email
 	// 用户手机
-	String				mobile
+	String			mobile
 	// 用户性别
-	Integer				sex
+	Integer			sex
 	// 注册IP
-	String				ip
+	String			ip
 	// 用户电话
-	String				phone
+	String			phone
 	// 用户照片
-	String				photo
+	String			photo
 	// 状态
-	Integer				state
+	Integer			state
 	// 名称
-	String				name
+	String			name
+	//登录IP
+	String			loginIp
+	//登录时间
+	Integer			loginTime
 
 	/**
 	 * 设置用户密码

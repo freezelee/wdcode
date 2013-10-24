@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/10/15 12:10:28                          */
+/* Created on:     2013/10/23 19:51:27                          */
 /*==============================================================*/
 
 
@@ -199,6 +199,8 @@ create table user
    phone                varchar(20) comment '电话',
    ip                   char(15),
    photo                varchar(100),
+   login_ip             char(15),
+   login_time           int,
    primary key (id)
 )
 ENGINE = MYISAM;

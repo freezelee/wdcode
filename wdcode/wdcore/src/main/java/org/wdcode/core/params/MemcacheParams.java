@@ -2,8 +2,7 @@ package org.wdcode.core.params;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.params.Params;
-import org.wdcode.common.util.ArrayUtil;
-import org.wdcode.core.constants.IpConstants;
+import org.wdcode.common.util.ArrayUtil; 
 
 /**
  * MemCache配置读取
@@ -50,7 +49,7 @@ public final class MemcacheParams {
 	 * @return 获得MemCached服务器
 	 */
 	public static String[] getServers(String name) {
-		return Params.getStringArray(getKey(name, "server"), new String[] { IpConstants.LOCAL_IP + ":11211" });
+		return Params.getStringArray(getKey(name, "server"), new String[] { "127.0.0.1:11211" });
 	}
 
 	/**

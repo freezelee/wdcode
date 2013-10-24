@@ -15,7 +15,6 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.lang.Validate;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.constants.IpConstants;
 import org.wdcode.web.constants.HttpConstants;
 
 /**
@@ -25,6 +24,9 @@ import org.wdcode.web.constants.HttpConstants;
  * @version 1.0 2013-09-27
  */
 public final class IpUtil {
+	// 本机IP 127.0.0.1
+	private final static String	LOCAL_IP	= "127.0.0.1";
+
 	/**
 	 * 获得本机IP
 	 * @return 本机IP
@@ -56,7 +58,7 @@ public final class IpUtil {
 					// 获得IP
 					String ip = ips.nextElement().getHostAddress();
 					// 判断不是IP和本机IP
-					if (Validate.isIp(ip) && !IpConstants.LOCAL_IP.equals(ip)) {
+					if (Validate.isIp(ip) && !LOCAL_IP.equals(ip)) {
 						list.add(ip);
 					}
 				}

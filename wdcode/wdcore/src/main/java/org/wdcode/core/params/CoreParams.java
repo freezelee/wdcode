@@ -3,8 +3,7 @@ package org.wdcode.core.params;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.params.CommonParams;
-import org.wdcode.common.params.Params;
-import org.wdcode.core.constants.IpConstants;
+import org.wdcode.common.params.Params; 
 
 /**
  * WdCore包所用参数读取类
@@ -40,7 +39,7 @@ public final class CoreParams {
 	/**
 	 * MongoDB主机
 	 */
-	public final static String	NOSQL_HBASE_HOST			= Params.getString("nosql.hbase.host", IpConstants.LOCAL_IP);
+	public final static String	NOSQL_HBASE_HOST			= Params.getString("nosql.hbase.host", "127.0.0.1");
 	/**
 	 * MongoDB端口
 	 */

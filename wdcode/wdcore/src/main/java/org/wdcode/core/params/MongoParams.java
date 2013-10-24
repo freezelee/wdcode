@@ -1,7 +1,6 @@
 package org.wdcode.core.params;
 
-import org.wdcode.common.params.Params;
-import org.wdcode.core.constants.IpConstants;
+import org.wdcode.common.params.Params; 
 
 /**
  * MongoDB配置读取
@@ -36,7 +35,7 @@ public final class MongoParams {
 	 * 静态初始化
 	 */
 	static {
-		host = IpConstants.LOCAL_IP; // 服务器地址
+		host = "127.0.0.1"; // 服务器地址
 		port = 27017; // 服务器端口
 		db = "wdcode";// 数据库名
 	}

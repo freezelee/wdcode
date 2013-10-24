@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/9/11 11:22:33                           */
+/* Created on:     2013/10/23 19:51:20                          */
 /*==============================================================*/
 
 
@@ -15,6 +15,8 @@ create table admin
    state                tinyint default 1 comment 'Email',
    time                 int default 0,
    role_id              int comment '用户状态 0 无效 1 有效 2 已删除',
+   login_ip             char(15),
+   login_time           int,
    primary key (id)
 )
 ENGINE = MYISAM;

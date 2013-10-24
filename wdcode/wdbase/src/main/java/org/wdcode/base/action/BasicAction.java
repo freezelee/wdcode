@@ -1,6 +1,7 @@
 package org.wdcode.base.action;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,8 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.wdcode.base.bean.Inform;
-import org.wdcode.base.constants.InformConstants;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
@@ -80,8 +79,6 @@ public class BasicAction extends ActionSupport {
 	// 全局Context
 	@Resource
 	protected Context				context;
-	// 消息回执体
-	protected Inform				info;
 	// 要回执消息的字段
 	protected String				field;
 
@@ -525,6 +522,47 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 写数据到前端
+	 * @param str 要写的字符串
+	 * @param charsetName 编码
+	 * @param isClose 是否关闭流
+	 * @throws IOException
+	 */
+	public void write(String str, String charsetName, boolean isClose) throws IOException {
+		StreamUtil.write(getResponse().getOutputStream(), str, charsetName, isClose);
+	}
+
+	/**
+	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * @param s 字符串标识
+	 * @return 返回标识
+	 */
+	protected String callback(Object obj) throws Exception {
+		// 判断使用哪种模式
+		if ("ajax".equals(mode)) {
+			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
+		} else if ("sign".equals(mode)) {
+			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+		} else if ("key".equals(mode)) {
+			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
+		} else if ("info".equals(mode)) {
+			return info(obj, field);
+		} else {
+			if (obj == null) {
+				return addMessage(ERROR);
+			} else if (obj instanceof String) {
+				return Conversion.toString(obj);
+			} else if (obj instanceof List<?>) {
+				return LIST;
+			} else if (obj instanceof Boolean) {
+				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
+			} else {
+				return addMessage(SUCCESS);
+			}
+		}
+	}
+
+	/**
 	 * 上传文件
 	 * @param fileName 文件名
 	 * @return 文件路径
@@ -597,58 +635,21 @@ public class BasicAction extends ActionSupport {
 		if (!EmptyUtil.isEmpty(callback)) {
 			s.append(StringConstants.RIGHT_PARENTHESIS);
 		}
-		// 写出
-		StreamUtil.write(getResponse().getOutputStream(), s.toString(), charsetName);
+		// 写字符串
+		write(s.toString(), charsetName, false);
 		// 返回空
 		return null;
 	}
 
 	/**
-	 * 方法回调 所有直接Action回调的方法 一边统一处理
-	 * @param s 字符串标识
-	 * @return 返回标识
+	 * 自定义消息体
+	 * @param obj
+	 * @param field
+	 * @return
+	 * @throws Exception
 	 */
-	public String callback(Object obj) throws Exception {
-		// 判断使用哪种模式
-		if ("ajax".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
-		} else if ("sign".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
-		} else if ("key".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
-		} else if ("info".equals(mode)) {
-			// 如果消息体为空
-			if (obj instanceof Inform) {
-				info = (Inform) obj;
-			} else if (info == null) {
-				// 实例化并给予消息体相关信息
-				info = new Inform();
-				// 设置标识
-				info.setType(EmptyUtil.isEmpty(obj) ? InformConstants.FAIL : InformConstants.SUCCESS);
-				// 设置消息
-				info.setParam(obj instanceof String || obj instanceof Number ? Conversion.toString(obj) : EmptyUtil.isEmpty(field) ? obj.toString() : Conversion.toString(BeanUtil.getFieldValue(obj, field)));
-			}
-			return ajax(info);
-		} else {
-			if (obj == null) {
-				return addMessage(ERROR);
-			} else if (obj instanceof String) {
-				return Conversion.toString(obj);
-			} else if (obj instanceof List<?>) {
-				return LIST;
-			} else if (obj instanceof Boolean) {
-				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
-			} else if (obj instanceof Inform) {
-				// 转换消息实体
-				Inform inform = (Inform) obj;
-				// 添加消息
-				addActionMessage(inform.getParam());
-				// 返回成功失败
-				return inform.getType() == InformConstants.SUCCESS ? SUCCESS : ERROR;
-			} else {
-				return addMessage(SUCCESS);
-			}
-		}
+	protected String info(Object obj, String field) throws Exception {
+		return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
 	}
 
 	/**

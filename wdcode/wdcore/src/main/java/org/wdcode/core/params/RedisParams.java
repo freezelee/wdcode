@@ -1,7 +1,6 @@
 package org.wdcode.core.params;
 
-import org.wdcode.common.params.Params;
-import org.wdcode.core.constants.IpConstants;
+import org.wdcode.common.params.Params; 
 
 /**
  * Redis配置读取
@@ -42,7 +41,7 @@ public final class RedisParams {
 	 * 静态初始化
 	 */
 	static {
-		host = IpConstants.LOCAL_IP; // 服务器地址
+		host = "127.0.0.1"; // 服务器地址
 		port = 6379; // 服务器端口
 		maxActive = 100; // 最大活动数
 		maxIdle = 30; // 最大空闲数

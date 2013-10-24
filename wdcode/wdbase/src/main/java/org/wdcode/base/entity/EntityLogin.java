@@ -40,4 +40,38 @@ public interface EntityLogin extends Entity {
 	 * @return 用户密码
 	 */
 	String getPassword();
+
+	/**
+	 * 设置登录IP
+	 * @param ip 登录IP
+	 */
+	void setLoginIp(String ip);
+
+	/**
+	 * 获得登录IP
+	 * @return 登录IP
+	 */
+	String getLoginIp();
+
+	/**
+	 * 获得登录时间
+	 */
+	Integer getLoginTime();
+
+	/**
+	 * 设置登录时间
+	 */
+	void setLoginTime(Integer time);
+
+	/**
+	 * 获得状态
+	 * @param state
+	 */
+	Integer getState();
+
+	/**
+	 * 设置状态
+	 * @param state
+	 */
+	void setState(Integer state);
 }

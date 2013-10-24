@@ -96,6 +96,30 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
+	 * 重置缓存
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String load() throws Exception {
+		// 重载全部缓存
+		service.load();
+		// 返回到成功页
+		return addMessage(SUCCESS);
+	}
+
+	/**
+	 * 重置缓存
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String cache() throws Exception {
+		// 重载全部缓存
+		service.cache();
+		// 返回到成功页
+		return addMessage(SUCCESS);
+	}
+
+	/**
 	 * 添加
 	 * @return 跳转
 	 * @throws Exception

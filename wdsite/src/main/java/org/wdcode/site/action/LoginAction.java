@@ -12,8 +12,10 @@ import org.wdcode.common.crypto.Decrypts;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
+import org.wdcode.site.constants.SiteConstants;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.AuthToken;
@@ -119,14 +121,26 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		if (!EmptyUtil.isEmpty(bean) && uid > 0) {
 			// 判断用户名和密码相等
 			if (user.getPassword().equals(bean.getPassword())) {
-				// 返回成功
-				is = true;
+				// 判断是否验证状态
+				if (SiteParams.USER_VERIFY_STATE) {
+					if (Conversion.toInt(bean.getState()) == SiteConstants.STATE_AVAIL) {
+						// 设置登录成功
+						is = true;
+					}
+				} else {
+					// 设置登录成功
+					is = true;
+				}
 			}
 		}
 		// 登录验证
 		if (is) {
 			// 添加用户登录信息
 			LoginEngine.addLogin(getRequest(), getResponse(), bean, getLoginTime());
+			// 添加登录信息
+			bean.setLoginIp(getIp());
+			bean.setLoginTime(DateUtil.getTime());
+			service.update(bean);
 			// 登录成功
 			return callback(SUCCESS);
 		} else {

@@ -26,6 +26,8 @@ CREATE TABLE `admin` (
   `state` tinyint(4) DEFAULT '1' COMMENT 'Email',
   `time` int(11) DEFAULT '0',
   `role_id` int(11) DEFAULT NULL COMMENT '用户状态 0 无效 1 有效 2 已删除',
+   loginIp              char(15),
+   loginTime            int,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
@@ -793,6 +795,8 @@ CREATE TABLE `user` (
   `phone` varchar(20) DEFAULT NULL COMMENT '电话',
   `register_ip` char(15) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
+  loginIp              char(15),
+   loginTime            int,
   PRIMARY KEY (`id`),
   KEY `Index_Name_Password` (`name`,`password`),
   KEY `INDEX_Email` (`email`)

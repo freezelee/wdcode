@@ -29,11 +29,15 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 class Admin extends BaseEntityIdTime implements EntityLogin {
 	// 名称
 	@Size(min=5)
-	String				name
+	String		name
 	// 密码
-	String				password
-	// 是否启用
-	Integer				state
+	String		password
+	// 状态
+	Integer		state
 	// 权限
-	Integer				roleId
+	Integer		roleId
+	//登录IP
+	String		loginIp
+	//登录时间
+	Integer		loginTime
 }
