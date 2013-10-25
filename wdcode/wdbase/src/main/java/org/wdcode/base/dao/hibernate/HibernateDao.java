@@ -654,11 +654,10 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表
 	 */
 	private <E> E getCriteria(final DetachedCriteria criteria) {
-		return execute(new HibernateCallback<E>() {
-			public E doInHibernate(Session session) {
-				return (E) criteria.getExecutableCriteria(session).uniqueResult();
-			}
-		});
+		// 获得结果
+		List<E> list = queryCriteria(criteria, 0, 1);
+		// 返回结果
+		return EmptyUtil.isEmpty(list) ? null : list.get(0);
 	}
 
 	/**

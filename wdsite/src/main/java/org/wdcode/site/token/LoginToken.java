@@ -5,7 +5,6 @@ import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
-import org.wdcode.site.params.SiteParams;
 import org.wdcode.web.util.IpUtil;
 
 /**
@@ -64,7 +63,7 @@ public class LoginToken implements AuthToken {
 	 * @return 是否登录
 	 */
 	public boolean isLogin() {
-		return id > 0 && !EmptyUtil.isEmpty(name) && !SiteParams.LOGIN_GUEST_NAME.equals(name) && time > 0;
+		return id > 0 && !EmptyUtil.isEmpty(name) && time > 0;
 	}
 
 	/**
