@@ -111,7 +111,7 @@ INSERT INTO menu(name,menu_id,url) VALUES('在线客服',24,'customer_page');
 INSERT INTO menu(name,menu_id,url) VALUES('支付方式',25,'payment_page');
 
 INSERT INTO menu(name,menu_id,url) VALUES('配送方式',26,'dispatch_page');
-INSERT INTO menu(name,menu_id,url) VALUES('地区管理',26,'area_entity');
+INSERT INTO menu(name,menu_id,url) VALUES('地区管理',26,'area_tos');
 INSERT INTO menu(name,menu_id,url) VALUES('物流公司',26,'corp_page');
 
 /* 操作信息 */

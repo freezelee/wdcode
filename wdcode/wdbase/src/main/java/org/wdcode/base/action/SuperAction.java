@@ -129,6 +129,15 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
+	 * 添加或修改
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String addOrUpdata() throws Exception {
+		return callback(entity = service.insertOrUpdate(add(entity)).get(0));
+	}
+
+	/**
 	 * 添加
 	 * @return 跳转
 	 * @throws Exception
