@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheEmpty;
-import org.wdcode.base.cache.impl.CacheMap;
-import org.wdcode.base.cache.impl.CacheMemcached;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
 import org.wdcode.base.entity.Entity;
-import org.wdcode.base.params.BaseParams;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
@@ -68,12 +65,9 @@ public class SuperService {
 			// 声明Class
 			Class<? extends Entity> c = (Class<? extends Entity>) e.getValue().getClass();
 			// 声明cached
-			Cache<? extends Entity> cache = context.getBean(CacheMap.class);
+			Cache<? extends Entity> cache = context.getCache();
+			cache.setClass(c);
 			// 设置有缓存的实体Map
-			if ("memcached".equals(BaseParams.CACHE_TYPE)) {
-				cache = context.getBean(CacheMemcached.class);
-				((CacheMemcached<? extends Entity>) cache).setClass(c);
-			}
 			caches.put(c, cache);
 			loads.put(c, false);
 		}

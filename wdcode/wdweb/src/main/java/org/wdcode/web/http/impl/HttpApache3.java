@@ -17,11 +17,13 @@ import org.apache.commons.httpclient.params.HostParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.http.base.BaseHttp;
 import org.wdcode.web.params.HttpParams;
 
@@ -97,7 +99,7 @@ public final class HttpApache3 extends BaseHttp {
 	 * @param referer referer地址
 	 * @return byte[] 提交后的流
 	 */
-	public byte[] get(String url, String referer) {
+	public byte[] download(String url) {
 		// 声明Get方法
 		GetMethod get = null;
 		try {
@@ -110,13 +112,13 @@ public final class HttpApache3 extends BaseHttp {
 			// 判断状态
 			if (status == 302 || status == 301) {
 				// 如果是302重定向 那么重新提交
-				return get(get.getURI().toString(), referer);
+				return download(get.getURI().toString());
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
 				return StreamUtil.read(get.getResponseBodyAsStream());
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
 			// 关闭连接
 			if (get != null) {
@@ -136,7 +138,7 @@ public final class HttpApache3 extends BaseHttp {
 	 * @param encoding 提交参数的编码格式
 	 * @return byte[] 提交失败
 	 */
-	public byte[] post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, String> data, String referer, String encoding) {
 		// 声明Post方法
 		PostMethod post = null;
 		try {
@@ -172,10 +174,10 @@ public final class HttpApache3 extends BaseHttp {
 				return post(post.getURI().toString(), data, referer);
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
-				return StreamUtil.read(post.getResponseBodyAsStream());
+				return StringUtil.toString(StreamUtil.read(post.getResponseBodyAsStream()), encoding);
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
 			// 关闭连接
 			if (post != null) {
@@ -184,16 +186,7 @@ public final class HttpApache3 extends BaseHttp {
 			}
 		}
 		// 返回空字节数组
-		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	/**
-	 * 获得HttpContext的属性
-	 * @param id 属性ID
-	 * @return 获得的对象
-	 */
-	public Object getAttribute(String id) {
-		return client.getParams().getParameter(id);
+		return StringConstants.EMPTY;
 	}
 
 	/**

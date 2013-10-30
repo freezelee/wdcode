@@ -47,26 +47,18 @@ public interface Http extends Close {
 	String getCookieValue(String name);
 
 	/**
-	 * 获得HttpContext的属性
-	 * @param id 属性ID
-	 * @return 获得的对象
+	 * 下载二进制文件
+	 * @param url get提交地址
+	 * @return 二进制数据
 	 */
-	Object getAttribute(String id);
+	byte[] download(String url);
 
 	/**
 	 * 模拟get提交
 	 * @param url get提交地址
-	 * @return InputStream 提交后的流
+	 * @return 响应字符串
 	 */
-	byte[] get(String url);
-
-	/**
-	 * 模拟get提交
-	 * @param url get提交地址
-	 * @param referer referer地址
-	 * @return byte[] 提交后的流
-	 */
-	byte[] get(String url, String referer);
+	String get(String url);
 
 	/**
 	 * 模拟post提交 默认使用UTF-8格式
@@ -74,7 +66,7 @@ public interface Http extends Close {
 	 * @param data 提交参数
 	 * @return byte[] 提交后的流
 	 */
-	byte[] post(String url, Map<String, String> data);
+	String post(String url, Map<String, String> data);
 
 	/**
 	 * 模拟post提交
@@ -83,7 +75,7 @@ public interface Http extends Close {
 	 * @param referer referer地址
 	 * @return byte[] 提交后的流
 	 */
-	byte[] post(String url, Map<String, String> data, String referer);
+	String post(String url, Map<String, String> data, String referer);
 
 	/**
 	 * 模拟post提交
@@ -93,5 +85,5 @@ public interface Http extends Close {
 	 * @param encoding 提交参数的编码格式
 	 * @return byte[] 提交失败
 	 */
-	byte[] post(String url, Map<String, String> data, String referer, String encoding);
+	String post(String url, Map<String, String> data, String referer, String encoding);
 }

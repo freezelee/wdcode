@@ -12,6 +12,7 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.log.Logs;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.http.base.BaseHttp;
 
@@ -57,10 +58,10 @@ public final class HttpJava extends BaseHttp {
 	 * @param referer referer地址
 	 * @return byte[] 提交后的流
 	 */
-	public byte[] get(String url, String referer) {
+	public byte[] download(String url) {
 		try {
 			// 获得连接
-			HttpURLConnection connection = getConnection(url, referer);
+			HttpURLConnection connection = getConnection(url, null);
 			// 连接
 			connection.connect();
 			// 返回字节数组
@@ -81,7 +82,7 @@ public final class HttpJava extends BaseHttp {
 	 * @param referer referer地址
 	 * @return byte[] 提交后的流
 	 */
-	public byte[] post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, String> data, String referer, String encoding) {
 		try {
 			// 获得连接
 			HttpURLConnection connection = getConnection(url, referer);
@@ -106,23 +107,14 @@ public final class HttpJava extends BaseHttp {
 			// 连接
 			connection.connect();
 			// 返回字节数组
-			return StreamUtil.read(connection.getInputStream());
+			return StringUtil.toString(StreamUtil.read(connection.getInputStream()), encoding);
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
 			close();
 		}
 		// 返回空字节数组
-		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	/**
-	 * 获得HttpContext的属性
-	 * @param id 属性ID
-	 * @return 获得的对象
-	 */
-	public Object getAttribute(String id) {
-		return connection.getRequestProperty(id);
+		return StringConstants.EMPTY;
 	}
 
 	/**

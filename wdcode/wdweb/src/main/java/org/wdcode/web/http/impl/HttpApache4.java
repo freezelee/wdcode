@@ -1,26 +1,29 @@
 package org.wdcode.web.http.impl;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.config.ConnectionConfig;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.CoreConnectionPNames;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -29,7 +32,9 @@ import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.log.Logs;
+import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.http.Http;
 import org.wdcode.web.http.base.BaseHttp;
 import org.wdcode.web.params.HttpParams;
@@ -41,8 +46,14 @@ import org.wdcode.web.params.HttpParams;
  * @version 1.0 2009-06-03
  */
 public final class HttpApache4 extends BaseHttp implements Http {
+	// HttpClientBuilder
+	private HttpClientBuilder		builder;
 	// Http客户端
-	private DefaultHttpClient	client;
+	private CloseableHttpClient		client;
+	// CookieStore
+	private CookieStore				cookie;
+	// DefaultRedirectStrategy
+	private DefaultRedirectStrategy	strategy;
 
 	/**
 	 * 构造方法
@@ -51,30 +62,26 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	public HttpApache4(String encoding) {
 		super(encoding);
 		// Http连接池
-		PoolingClientConnectionManager pool = new PoolingClientConnectionManager();
+		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
 		pool.setDefaultMaxPerRoute(HttpParams.POOL);
 		pool.setMaxTotal(HttpParams.POOL);
+		// 设置请求参数
+		RequestConfig.Builder config = RequestConfig.custom();
+		config.setSocketTimeout(HttpParams.TIMEOUT);
+		config.setConnectTimeout(HttpParams.TIMEOUT);
+		config.setCircularRedirectsAllowed(false);
+		config.setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY);
+		// client.getParams().setParameter(COOKIE_HEADER, true);
+		// HttpClientBuilder
+		builder = HttpClientBuilder.create();
+		builder.setDefaultRequestConfig(config.build());
+		builder.setConnectionManager(pool);
+		builder.setDefaultHeaders(Lists.getList(new BasicHeader(USER_AGENT_KEY, USER_AGENT_VAL)));
+		builder.setDefaultCookieStore(cookie = new BasicCookieStore());
+		builder.setRedirectStrategy(strategy = DefaultRedirectStrategy.INSTANCE);
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(encoding)).build());
 		// 实例化客户端
-		client = new DefaultHttpClient(pool);
-		// 设置参数
-		client.getParams().setIntParameter(CoreConnectionPNames.SO_TIMEOUT, HttpParams.TIMEOUT);
-		client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, HttpParams.TIMEOUT);
-		client.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
-		client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
-		client.getParams().setParameter(ClientPNames.DEFAULT_HEADERS, Lists.getList(new BasicHeader(USER_AGENT_KEY, USER_AGENT_VAL)));
-		client.getParams().setParameter(CONTENT_CHARSET, encoding);
-		client.getParams().setParameter(COOKIE_HEADER, true);
-		// 设置CookieStore对象
-		client.setCookieStore(new BasicCookieStore());
-	}
-
-	/**
-	 * 获得HttpContext的属性
-	 * @param id 属性ID
-	 * @return 获得的对象
-	 */
-	public Object getAttribute(String id) {
-		return client.getParams().getParameter(id);
+		client = builder.build();
 	}
 
 	/**
@@ -91,7 +98,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	 * @param value Cookie值
 	 */
 	public void addCookie(String name, String value) {
-		client.getCookieStore().addCookie(new BasicClientCookie(name, value));
+		cookie.addCookie(new BasicClientCookie(name, value));
 	}
 
 	/**
@@ -139,7 +146,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	 */
 	public List<Map<String, String>> getCookies() {
 		// 获得Cookie列表
-		List<Cookie> lsCookie = client.getCookieStore().getCookies();
+		List<Cookie> lsCookie = cookie.getCookies();
 		// 获得列表大小
 		int size = lsCookie.size();
 		// 声明Map列表
@@ -169,23 +176,20 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	 */
 	public void close() {
 		// 关闭连接
-		client.getConnectionManager().shutdown();
+		CloseUtil.close(client);
 	}
 
 	/**
 	 * 模拟get提交
 	 * @param url get提交地址
-	 * @param referer referer地址
 	 * @return InputStream 提交后的流
 	 */
-	public byte[] get(String url, String referer) {
+	public byte[] download(String url) {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
-			// 设置头信息
-			setHeaders(get, referer);
 			// 获得HttpResponse
 			HttpResponse response = client.execute(get);
 			// 更新Url
@@ -193,7 +197,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			// 判断状态
 			if (response.getStatusLine().getStatusCode() == 302) {
 				// 如果是302重定向 那么重新提交
-				return get(((DefaultRedirectStrategy) client.getRedirectStrategy()).getLocationURI(get, response, null).toString(), referer);
+				return download(strategy.getLocationURI(get, response, null).toString());
 			} else {
 				// 其它状态获得字节数组
 				byte[] b = StreamUtil.read(response.getEntity().getContent());
@@ -202,7 +206,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			}
 		} catch (Exception e) {
 			// 记录日志
-			Logs.error(e);
+			Logs.warn(e);
 			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		} finally {
@@ -219,7 +223,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	 * @param encoding 提交参数的编码格式
 	 * @return InputStream 提交后的流
 	 */
-	public byte[] post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, String> data, String referer, String encoding) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -250,22 +254,22 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			// 判断状态
 			if (status == 302 || status == 301) {
 				// 如果是302重定向 那么重新提交
-				return post(((DefaultRedirectStrategy) client.getRedirectStrategy()).getLocationURI(post, response, null).toString(), data, referer);
+				return post(strategy.getLocationURI(post, response, null).toString(), data, referer);
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
-				return StreamUtil.read(response.getEntity().getContent());
+				return StringUtil.toString(StreamUtil.read(response.getEntity().getContent()), encoding);
 			}
 		} catch (Exception e) {
 			// 记录日志
-			Logs.error(e);
+			Logs.warn(e);
 			// 返回空字节数组
-			return ArrayConstants.BYTES_EMPTY;
+			return StringConstants.EMPTY;
 		} finally {
 			// 销毁post
 			post.abort();
 		}
 		// 返回空字节数组
-		return ArrayConstants.BYTES_EMPTY;
+		return StringConstants.EMPTY;
 	}
 
 	/**

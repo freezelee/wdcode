@@ -43,6 +43,18 @@ public final class BaseParams {
 	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
 
 	/**
+	 * 获得是否使用缓存<br/>
+	 * 需在配置文件中配置,如果不配置或配置不对将优先使用CACHE_VALID<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: cache.valid.xxx = ? <br/>
+	 * XML: {@literal <cache><valid><xxx>?</xxx></valid></cache>}</h2>
+	 * @return 是否使用缓存
+	 */
+	public static boolean getCache(String name) {
+		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID);
+	}
+
+	/**
 	 * 私有构造
 	 */
 	private BaseParams() {}

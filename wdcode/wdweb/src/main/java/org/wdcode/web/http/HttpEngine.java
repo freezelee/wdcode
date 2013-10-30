@@ -22,11 +22,20 @@ public final class HttpEngine {
 	}
 
 	/**
+	 * 下载二进制文件
+	 * @param url get提交地址
+	 * @return 二进制数据
+	 */
+	public static byte[] download(String url) {
+		return HTTP.download(url);
+	}
+
+	/**
 	 * 模拟get提交
 	 * @param url get提交地址
 	 * @return InputStream 提交后的流
 	 */
-	public static byte[] get(String url) {
+	public static String get(String url) {
 		return HTTP.get(url);
 	}
 
@@ -36,7 +45,7 @@ public final class HttpEngine {
 	 * @param data 提交参数
 	 * @return byte[] 提交后的流
 	 */
-	public static byte[] post(String url, Map<String, String> data) {
+	public static String post(String url, Map<String, String> data) {
 		return HTTP.post(url, data);
 	}
 

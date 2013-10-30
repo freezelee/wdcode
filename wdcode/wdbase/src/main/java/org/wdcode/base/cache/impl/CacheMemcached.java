@@ -28,8 +28,6 @@ import org.wdcode.core.memcache.factory.MemcacheFactory;
 public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	// memcached
 	private final static Memcache	MEMCACHE	= MemcacheFactory.getMemcache("cache");
-	// Key
-	private Class<?>				clazz;
 
 	@Override
 	public E set(E entity) {
@@ -145,14 +143,6 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	}
 
 	/**
-	 * 设置Key
-	 * @param key 键
-	 */
-	public void setClass(Class<?> clazz) {
-		this.clazz = clazz;
-	}
-
-	/**
 	 * 根据键列表获得memcached使用键列表
 	 * @param key 键
 	 * @return 键
@@ -190,7 +180,7 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	 * @return memcached使用键
 	 */
 	private String getKey(Serializable key) {
-		return Conversion.toString(key).startsWith(clazz.getSimpleName()) ? Conversion.toString(key) : clazz.getSimpleName() + StringConstants.UNDERLINE + key;
+		return Conversion.toString(key).startsWith(name) ? Conversion.toString(key) : name + StringConstants.UNDERLINE + key;
 	}
 
 	/**

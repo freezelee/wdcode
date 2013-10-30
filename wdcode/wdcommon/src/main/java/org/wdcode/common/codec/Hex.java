@@ -69,4 +69,6 @@ public final class Hex {
 		// 返回字节数组
 		return out;
 	}
+
+	private Hex() {}
 }

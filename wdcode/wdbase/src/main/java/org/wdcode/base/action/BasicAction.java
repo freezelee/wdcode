@@ -304,8 +304,20 @@ public class BasicAction extends ActionSupport {
 	 * @param name 文件名
 	 * @return 域名路径
 	 */
-	public String getServerPath(String name) {
-		return HttpConstants.HTTP + IpUtil.getIp() + getBase() + StringConstants.BACKSLASH + name;
+	public String getServerPath() {
+		// 获得path
+		String path = getRequest().getServletPath();
+		// 返回域名路径
+		return IpUtil.LOCAL_IP.equals(path) ? IpUtil.getIp() : path;
+	}
+
+	/**
+	 * 获得域名路径
+	 * @param name 文件名
+	 * @return 域名路径
+	 */
+	public String getDomain(String name) {
+		return HttpConstants.HTTP + getServerPath() + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**
@@ -453,11 +465,24 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
-	 * 获得Action方法
-	 * @return Action方法
+	 * 获得Action方法名
+	 * @return Action方法名
 	 */
 	public String getActionName() {
 		return context.getActionMapping().getName();
+	}
+
+	/**
+	 * 获得Action方法名 只保留x_x
+	 * @return Action方法名
+	 */
+	public String getLink() {
+		// 获得提交Action地址
+		String actionName = getActionName();
+		// 分解名称
+		String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
+		// 返回链接名
+		return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
 	}
 
 	/**
@@ -540,9 +565,9 @@ public class BasicAction extends ActionSupport {
 	protected String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
+			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
 		} else if ("sign".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+			return ajax(EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else if ("key".equals(mode)) {
 			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
 		} else if ("info".equals(mode)) {
@@ -604,7 +629,7 @@ public class BasicAction extends ActionSupport {
 			FileUtil.write(fn, file);
 		}
 		// 返回路径
-		return BaseParams.UPLOAD_SERVER ? getServerPath(name) : name;
+		return BaseParams.UPLOAD_SERVER ? getDomain(name) : name;
 	}
 
 	/**

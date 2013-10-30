@@ -16,11 +16,19 @@ public final class SecurityParams {
 	/**
 	 * 判断是否开启权限认证
 	 */
-	public final static boolean	SECURITY		= Params.getBoolean("security", true);
+	public final static boolean	SECURITY_POWER	= Params.getBoolean("security.power", true);
+	/**
+	 * 判断是否开启IP认证
+	 */
+	public final static boolean	SECURITY_IP		= Params.getBoolean("security.ip", false);
 	/**
 	 * 判断是否开启权限角色认证
 	 */
 	public final static boolean	SECURITY_ROLE	= Params.getBoolean("security.role", false);
+	/**
+	 * 判断是否开启操作类型认证
+	 */
+	public final static int		SECURITY_TYPE	= Params.getInt("security.type", 0);
 
 	/**
 	 * 构造方法

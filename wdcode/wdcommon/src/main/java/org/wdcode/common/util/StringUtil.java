@@ -13,7 +13,6 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Validate;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -435,9 +434,6 @@ public final class StringUtil {
 		try {
 			return new String(source.getBytes(), tChar);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回空字节数组
 			return StringConstants.EMPTY;
 		}
 	}
@@ -457,25 +453,22 @@ public final class StringUtil {
 		try {
 			return new String(source.getBytes(sChar), tChar);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回空字节数组
 			return StringConstants.EMPTY;
 		}
 	}
 
 	/**
-	 * 把输入的列名变成属性名,如 User_Id --> userId
-	 * @param colName 列名
+	 * 把输入的其它命名法变成驼峰命名法,如 User_Id --> userId User --> user
+	 * @param name 属性名
 	 * @return 转换后的字符串
 	 */
-	public static String colToAttr(String colName) {
+	public static String convert(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(colName)) {
-			return colName;
+		if (EmptyUtil.isEmpty(name)) {
+			return name;
 		}
 		// 分解_个字段
-		String[] strs = colName.toLowerCase().split(StringConstants.UNDERLINE);
+		String[] strs = name.toLowerCase().split(StringConstants.UNDERLINE);
 		// 实例一个字符串缓存
 		StringBuilder buf = new StringBuilder();
 		// 保存字符
@@ -493,16 +486,6 @@ public final class StringUtil {
 		}
 		// 返回新的字符串
 		return buf.toString();
-	}
-
-	/**
-	 * 获得方法名
-	 * @param prefix 方法前缀 比如set get
-	 * @param name 方法的后缀名 比如字段名
-	 * @return 方法名
-	 */
-	public static String getMethodName(String prefix, String name) {
-		return colToAttr(prefix + StringConstants.UNDERLINE + name);
 	}
 
 	/**
@@ -594,6 +577,16 @@ public final class StringUtil {
 	 */
 	public static String[] split(String s, String regex) {
 		return EmptyUtil.isEmpty(s) ? ArrayConstants.STRING_EMPTY : s.split(regex);
+	}
+
+	/**
+	 * 获得方法名
+	 * @param prefix 方法前缀 比如set get
+	 * @param name 方法的后缀名 比如字段名
+	 * @return 方法名
+	 */
+	public static String getMethodName(String prefix, String name) {
+		return convert(prefix + StringConstants.UNDERLINE + name);
 	}
 
 	/**

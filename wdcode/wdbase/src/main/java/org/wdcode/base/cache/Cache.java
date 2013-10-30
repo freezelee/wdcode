@@ -94,4 +94,10 @@ public interface Cache<E extends Entity> extends Clear, Empty {
 	 * @return 是否有效
 	 */
 	boolean isValid();
+
+	/**
+	 * 设置Class
+	 * @param clazz Class
+	 */
+	void setClass(Class<?> clazz);
 }

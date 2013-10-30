@@ -104,7 +104,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 重载全部缓存
 		service.load();
 		// 返回到成功页
-		return addMessage(SUCCESS);
+		return callback(SUCCESS);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 重载全部缓存
 		service.cache();
 		// 返回到成功页
-		return addMessage(SUCCESS);
+		return callback(SUCCESS);
 	}
 
 	/**

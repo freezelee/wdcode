@@ -53,7 +53,7 @@ public abstract class BaseOnlinePay implements Pay {
 		// 校验URL
 		String veryfyUrl = PayConstants.PAY_ALIPAY_VERIFY_URL + PayConstants.PAY_ALIPAY_KEY_PARTNER + StringConstants.EQ + PayParams.PAY_ALIPAY_ID + StringConstants.AMP + PayConstants.PAY_KEY_NOTIFY_ID + StringConstants.EQ + notifyId;
 		// 获得交易网站验证
-		boolean verifyResponse = Conversion.toBoolean(StringUtil.toString(HttpEngine.get(veryfyUrl)));
+		boolean verifyResponse = Conversion.toBoolean(HttpEngine.get(veryfyUrl));
 		// 获得交易状态
 		boolean status = PayConstants.PAY_ALIPAY_TRADE_FINISHED.equals(tradeStatus) || PayConstants.PAY_ALIPAY_TRADE_SUCCESS.equals(tradeStatus);
 		// 返回实体

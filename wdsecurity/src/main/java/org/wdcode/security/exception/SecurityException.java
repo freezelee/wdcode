@@ -9,4 +9,16 @@ package org.wdcode.security.exception;
 public final class SecurityException extends RuntimeException {
 	// 序列化ID
 	private static final long	serialVersionUID	= -5051653856175182140L;
+
+	public SecurityException() {
+		super();
+	}
+
+	public SecurityException(String message) {
+		super(message);
+	}
+
+	public SecurityException(Throwable cause) {
+		super(cause);
+	}
 }

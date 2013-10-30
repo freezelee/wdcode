@@ -15,6 +15,10 @@ import org.wdcode.common.lang.Lists;
  * @version 1.0 2012-07-18
  */
 public abstract class BaseCache<E extends Entity> implements Cache<E> {
+	// Class
+	protected Class<?>	clazz;
+	// name
+	protected String	name;
 
 	/**
 	 * 获得缓存数据
@@ -72,6 +76,15 @@ public abstract class BaseCache<E extends Entity> implements Cache<E> {
 	 * @return 是否有效
 	 */
 	public boolean isValid() {
-		return BaseParams.CACHE_VALID;
+		return BaseParams.getCache(name);
+	}
+
+	/**
+	 * 设置Class
+	 * @param clazz Class
+	 */
+	public void setClass(Class<?> clazz) {
+		this.clazz = clazz;
+		this.name = clazz.getSimpleName();// StringUtil.convert(clazz.getSimpleName());
 	}
 }

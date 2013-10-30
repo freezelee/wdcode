@@ -81,4 +81,7 @@ public final class CacheEmpty implements Cache<Entity> {
 	public boolean isValid() {
 		return false;
 	}
+
+	@Override
+	public void setClass(Class<?> clazz) {}
 }

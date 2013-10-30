@@ -4,8 +4,8 @@ import javax.persistence.Entity
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -25,9 +25,11 @@ import org.wdcode.site.entity.base.BaseEntityId
 @DynamicUpdate
 class Menu extends BaseEntityId {
 	// 上级菜单ID
-	Integer				menuId
+	Integer		menuId
 	// 链接
-	String				url
+	String		url
 	// 名称
-	String				name
+	String		name
+	//类型
+	Integer		type
 }

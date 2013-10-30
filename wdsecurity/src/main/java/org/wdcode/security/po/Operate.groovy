@@ -7,8 +7,8 @@ import javax.persistence.Id
 
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -30,21 +30,23 @@ import org.wdcode.site.entity.base.BaseEntity
 class Operate extends BaseEntity {
 	// 操作连接
 	@Id
-	String				link
+	String		link
 	// 名称
-	String				name
+	String		name
+	//类型
+	Integer		type
 
 	/**
 	 * 获得主键
 	 */
 	public Serializable getKey() {
-		return getLink()
+		return link
 	}
 
 	/**
 	 * 设置主键
 	 */
 	public void setKey(Serializable key) {
-		setLink(Conversion.toString(link))
+		link = Conversion.toString(key)
 	}
 }

@@ -79,8 +79,6 @@ public final class MinaEngine {
 		if (codec != null) {
 			service.getFilterChain().addLast("codec", new ProtocolCodecFilter(codec));
 		}
-		// 注册日志管理
-		// chain.addLast("logger", new LoggingFilter());
 		// 获得Session配置
 		SocketSessionConfig sc = (SocketSessionConfig) service.getSessionConfig();
 		// 设置每一个非主监听连接的端口可以重用

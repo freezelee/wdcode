@@ -618,7 +618,7 @@ public final class DataBaseImpl implements DataBase {
 			// 循环列
 			for (int i = 0; i < colCount; i++) {
 				// 获得列名
-				colName[i] = StringUtil.colToAttr(rsmd.getColumnName(i + 1));
+				colName[i] = StringUtil.convert(rsmd.getColumnName(i + 1));
 			}
 			// 返回列名
 			return colName;

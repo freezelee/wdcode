@@ -16,7 +16,11 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.wdcode.base.entity.Entity; 
+import org.wdcode.base.cache.Cache;
+import org.wdcode.base.cache.impl.CacheMap;
+import org.wdcode.base.cache.impl.CacheMemcached;
+import org.wdcode.base.entity.Entity;
+import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 
@@ -90,6 +94,15 @@ public final class Context {
 	 */
 	public <E> E getBean(Class<E> requiredType) {
 		return applicationContext.getBean(requiredType);
+	}
+
+	/**
+	 * 根据类获得缓存
+	 * @param type 实体类型
+	 * @return 缓存
+	 */
+	public <E extends Entity> Cache<E> getCache() {
+		return "memcached".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMemcached.class) : getBean(CacheMap.class);
 	}
 
 	/**

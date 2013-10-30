@@ -25,7 +25,7 @@ import org.wdcode.web.constants.HttpConstants;
  */
 public final class IpUtil {
 	// 本机IP 127.0.0.1
-	private final static String	LOCAL_IP	= "127.0.0.1";
+	public final static String	LOCAL_IP	= "127.0.0.1";
 
 	/**
 	 * 获得本机IP
