@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.wdcode.common.interfaces.Clear;
-import org.wdcode.common.log.Logs;
 
 /**
  * 关闭各种资源方法
@@ -25,9 +24,7 @@ public final class ClearUtil {
 				for (int i = 0; i < cs.length; i++) {
 					cs[i].clear();
 				}
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			} catch (Exception e) {}
 		}
 	}
 
@@ -43,9 +40,7 @@ public final class ClearUtil {
 				for (int i = 0; i < c.length; i++) {
 					c[i].clear();
 				}
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			} catch (Exception e) {}
 		}
 	}
 
@@ -61,9 +56,7 @@ public final class ClearUtil {
 				for (int i = 0; i < m.length; i++) {
 					m[i].clear();
 				}
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			} catch (Exception e) {}
 		}
 	}
 

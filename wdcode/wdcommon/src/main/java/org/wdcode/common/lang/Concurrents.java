@@ -8,7 +8,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.wdcode.common.constants.SystemConstants;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -68,9 +67,7 @@ public final class Concurrents {
 			// 等待
 			try {
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				Logs.warn(e);
-			}
+			} catch (InterruptedException e) {}
 		}
 	}
 
@@ -123,9 +120,7 @@ public final class Concurrents {
 		for (Future<T> f : list) {
 			try {
 				ls.add(f.get(timeout, TimeUnit.MILLISECONDS));
-			} catch (Exception e) {
-				Logs.warn(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 关闭线程池
 		es.shutdown();

@@ -3,7 +3,6 @@ package org.wdcode.common.util;
 import java.io.OutputStream;
 
 import org.wdcode.common.interfaces.Close;
-import org.wdcode.common.log.Logs;
 
 /**
  * 关闭各种资源方法
@@ -30,9 +29,7 @@ public final class CloseUtil {
 					if (!EmptyUtil.isEmpty(c)) {
 						c.close();
 					}
-				} catch (Exception e) {
-					Logs.debug(e);
-				}
+				} catch (Exception e) {}
 			}
 		}
 	}
@@ -60,9 +57,7 @@ public final class CloseUtil {
 						// 关闭
 						c.close();
 					}
-				} catch (Exception e) {
-					Logs.debug(e);
-				}
+				} catch (Exception e) {}
 			}
 		}
 	}

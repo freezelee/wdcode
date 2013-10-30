@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import org.dom4j.io.XMLWriter;
 
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.core.xml.Document;
 import org.wdcode.core.xml.impl.dom4j.DocumentDom4J;

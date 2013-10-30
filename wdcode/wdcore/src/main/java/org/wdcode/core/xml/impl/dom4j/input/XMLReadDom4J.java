@@ -7,7 +7,7 @@ import java.io.StringReader;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.core.xml.Document;
 import org.wdcode.core.xml.impl.dom4j.DocumentDom4J;

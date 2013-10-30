@@ -3,7 +3,7 @@ package org.wdcode.core.dao.datasource.impl;
 import java.sql.SQLException;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.core.dao.datasource.base.BaseDataSource;
 
 /**

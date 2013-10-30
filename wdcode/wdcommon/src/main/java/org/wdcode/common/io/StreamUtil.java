@@ -1,7 +1,7 @@
 package org.wdcode.common.io;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter; 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,6 @@ import java.nio.channels.Channels;
 
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -452,9 +451,7 @@ public final class StreamUtil {
 					buffer.append(line);
 					buffer.append(StringConstants.NEWLINE);
 				}
-			} catch (IOException e) {
-				Logs.warn(e);
-			} finally {
+			} catch (IOException e) {} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(br, in);
@@ -492,9 +489,7 @@ public final class StreamUtil {
 					// 把字节数组添加到缓存里
 					out.write(buffer, 0, length);
 				}
-			} catch (IOException e) {
-				Logs.warn(e);
-			} finally {
+			} catch (IOException e) {} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(in);
@@ -544,9 +539,7 @@ public final class StreamUtil {
 				bw.flush();
 				// 返回成功
 				return true;
-			} catch (IOException e) {
-				Logs.warn(e);
-			} finally {
+			} catch (IOException e) {} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(bw, out);
@@ -613,9 +606,7 @@ public final class StreamUtil {
 				out.flush();
 				// 返回成功
 				return true;
-			} catch (IOException e) {
-				Logs.warn(e);
-			} finally {
+			} catch (IOException e) {} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(out, in);

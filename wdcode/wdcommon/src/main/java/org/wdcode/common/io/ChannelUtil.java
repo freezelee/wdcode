@@ -10,7 +10,6 @@ import java.nio.channels.WritableByteChannel;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.lang.Bytes;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.CloseUtil;
 
@@ -52,9 +51,7 @@ public final class ChannelUtil {
 				// 清除缓存
 				buffer.clear();
 			}
-		} catch (IOException e) {
-			Logs.warn(e);
-		} finally {
+		} catch (IOException e) {} finally {
 			// 关闭资源
 			if (isClose) {
 				CloseUtil.close(ch);
@@ -127,10 +124,7 @@ public final class ChannelUtil {
 			}
 			// 返回成功
 			return true;
-		} catch (IOException e) {
-			// 包装异常
-			Logs.warn(e);
-		} finally {
+		} catch (IOException e) {} finally {
 			// 关闭资源
 			if (isClose) {
 				CloseUtil.close(wbc, rbc, in);

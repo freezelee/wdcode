@@ -11,7 +11,6 @@ import java.nio.channels.FileChannel;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
 import org.wdcode.common.util.StringUtil;
@@ -121,13 +120,9 @@ public final class FileUtil {
 					channel.read(buf);
 					// 返回字节数组
 					return buf.array();
-				} catch (Exception e) {
-					Logs.warn(e);
-				}
+				} catch (Exception e) {}
 			}
-		} catch (IOException e) {
-			Logs.warn(e);
-		}
+		} catch (IOException e) {}
 		// 返回空字节数组
 		return ArrayConstants.BYTES_EMPTY;
 	}
@@ -209,13 +204,9 @@ public final class FileUtil {
 				try (FileChannel channel = file.getChannel();) {
 					// 写字节数组
 					channel.write(ByteBuffer.wrap(b), pos);
-				} catch (Exception e) {
-					Logs.warn(e);
-				}
+				} catch (Exception e) {}
 			}
-		} catch (IOException e) {
-			Logs.warn(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -292,9 +283,7 @@ public final class FileUtil {
 			file = new RandomAccessFile(f, mode);
 			// 设置偏移量
 			file.seek(pos);
-		} catch (Exception e) {
-			Logs.warn(e);
-		}
+		} catch (Exception e) {}
 		// 返回RandomAccessFile
 		return file;
 	}
@@ -336,9 +325,6 @@ public final class FileUtil {
 		try {
 			return file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}
@@ -367,9 +353,6 @@ public final class FileUtil {
 			}
 			return new FileOutputStream(file, append);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}

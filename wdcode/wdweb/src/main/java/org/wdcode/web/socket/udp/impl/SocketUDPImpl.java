@@ -9,7 +9,7 @@ import java.net.SocketException;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.lang.Bytes;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.SocketClient;

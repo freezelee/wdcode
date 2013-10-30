@@ -1,4 +1,4 @@
-package org.wdcode.common.log;
+package org.wdcode.core.log;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

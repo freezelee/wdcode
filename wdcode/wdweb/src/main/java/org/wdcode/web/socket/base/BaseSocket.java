@@ -6,7 +6,7 @@ import java.net.Socket;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Bytes;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 
 /**
  * 基础Socket

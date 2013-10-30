@@ -43,24 +43,26 @@ public final class Decrypts extends BaseCrypt {
 	 */
 	public static byte[] decrypt(byte[] b) {
 		// 判断解密方式
-		if (EncryptConstants.ALGO_AES.equals(CommonParams.ENCRYPT_ALGO)) {
-			// AES解密
-			return aes(b);
-		} else if (EncryptConstants.ALGO_DES.equals(CommonParams.ENCRYPT_ALGO)) {
-			// DES解密
-			return des(b);
-		} else if (EncryptConstants.ALGO_RC2.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RC2解密
-			return rc2(b);
-		} else if (EncryptConstants.ALGO_RC4.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RC4解密
-			return rc4(b);
-		} else if (EncryptConstants.ALGO_RSA.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RSA解密
-			return rsa(b);
+		switch (CommonParams.ENCRYPT_ALGO) {
+			case EncryptConstants.ALGO_AES:
+				// AES解密
+				return aes(b);
+			case EncryptConstants.ALGO_DES:
+				// DES解密
+				return des(b);
+			case EncryptConstants.ALGO_RC2:
+				// RC2解密
+				return rc2(b);
+			case EncryptConstants.ALGO_RC4:
+				// RC4解密
+				return rc4(b);
+			case EncryptConstants.ALGO_RSA:
+				// RSA解密
+				return rsa(b);
+			default:
+				// 默认返回AES
+				return aes(b);
 		}
-		// 默认返回AES
-		return aes(b);
 	}
 
 	/**

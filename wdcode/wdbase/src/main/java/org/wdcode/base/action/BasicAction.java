@@ -567,7 +567,7 @@ public class BasicAction extends ActionSupport {
 		if ("ajax".equals(mode)) {
 			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
 		} else if ("sign".equals(mode)) {
-			return ajax(EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else if ("key".equals(mode)) {
 			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
 		} else if ("info".equals(mode)) {

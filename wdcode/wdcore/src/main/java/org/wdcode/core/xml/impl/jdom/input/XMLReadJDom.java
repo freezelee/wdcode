@@ -10,7 +10,7 @@ import org.wdcode.core.xml.Document;
 import org.wdcode.core.xml.impl.jdom.DocumentJDom;
 import org.wdcode.core.xml.input.XMLRead;
 
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 
 /**

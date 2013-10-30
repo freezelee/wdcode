@@ -71,8 +71,7 @@ public final class CommonParams {
 	/**
 	 * 加密使用的算法
 	 */
-	public final static String	ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
-
+	public final static String	ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES); 
 	/**
 	 * 加密使用摘要算法
 	 */

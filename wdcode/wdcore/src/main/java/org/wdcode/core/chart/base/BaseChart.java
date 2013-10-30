@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.wdcode.core.chart.Chart;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.params.Params;
 import org.wdcode.common.util.EmptyUtil;
 

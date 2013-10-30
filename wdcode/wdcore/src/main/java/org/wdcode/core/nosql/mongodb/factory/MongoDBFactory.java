@@ -3,7 +3,7 @@ package org.wdcode.core.nosql.mongodb.factory;
 import java.util.List;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.mongodb.MongoPool;

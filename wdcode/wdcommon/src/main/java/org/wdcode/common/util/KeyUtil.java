@@ -7,7 +7,6 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 
 import org.wdcode.common.constants.EncryptConstants;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -58,9 +57,6 @@ public final class KeyUtil {
 			// 返回密钥对
 			return keyPairGenerator.genKeyPair();
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回null
 			return null;
 		}
 	}

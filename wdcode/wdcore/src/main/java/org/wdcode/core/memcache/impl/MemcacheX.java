@@ -16,7 +16,7 @@ import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.memcache.base.BaseMemcache;

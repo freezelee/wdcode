@@ -32,7 +32,7 @@ import org.wdcode.base.entity.Entity;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.SqlUtil;
 

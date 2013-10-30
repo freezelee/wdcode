@@ -7,8 +7,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.wdcode.common.constants.ArrayConstants;
 
-import org.wdcode.common.log.Logs;
-
 /**
  * 加密解密基础类 内部使用
  * @author WD
@@ -49,8 +47,6 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
 			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		}

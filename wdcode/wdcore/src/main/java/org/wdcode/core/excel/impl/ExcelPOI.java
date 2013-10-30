@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.excel.base.BaseExcel;
 

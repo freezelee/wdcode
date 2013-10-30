@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.CloseUtil;
 

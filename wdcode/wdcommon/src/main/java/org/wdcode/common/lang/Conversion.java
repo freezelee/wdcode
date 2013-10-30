@@ -3,7 +3,6 @@ package org.wdcode.common.lang;
 import java.math.BigDecimal;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.EmptyUtil;
 
@@ -98,9 +97,6 @@ public final class Conversion {
 				return Math.round(toFloat(obj, defaultValue));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -137,9 +133,6 @@ public final class Conversion {
 				return Math.round(toDouble(obj, defaultValue));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回defaultValue
 			return defaultValue;
 		}
 	}
@@ -180,9 +173,6 @@ public final class Conversion {
 				return Float.parseFloat(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -223,9 +213,6 @@ public final class Conversion {
 				return Double.parseDouble(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -266,9 +253,6 @@ public final class Conversion {
 				return Short.parseShort(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -309,9 +293,6 @@ public final class Conversion {
 				return Byte.parseByte(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -358,9 +339,6 @@ public final class Conversion {
 				return new BigDecimal(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}
@@ -399,9 +377,6 @@ public final class Conversion {
 				return Boolean.parseBoolean(toString(obj));
 			}
 		} catch (RuntimeException re) {
-			// 警告
-			Logs.debug(re);
-			// 如果失败返回num
 			return defaultValue;
 		}
 	}

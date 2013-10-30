@@ -19,7 +19,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.EmptyUtil;

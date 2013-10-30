@@ -12,7 +12,6 @@ import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Validate;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -228,9 +227,6 @@ public final class DateUtil {
 			// 返回转换后的日期
 			return df.parse(dateString);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回null
 			return null;
 		}
 	}

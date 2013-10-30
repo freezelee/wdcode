@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.wdcode.common.io.FileUtil;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.web.ftp.Ftp;
 import org.wdcode.web.params.WebParams;

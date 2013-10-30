@@ -10,7 +10,7 @@ import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.constants.HttpConstants;

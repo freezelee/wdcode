@@ -1,7 +1,7 @@
 package org.wdcode.core.dao.datasource.impl;
 
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.core.dao.datasource.base.BaseDataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;

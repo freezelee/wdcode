@@ -12,7 +12,6 @@ import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.KeyUtil;
 import org.wdcode.common.util.StringUtil;
@@ -39,9 +38,6 @@ public final class Encrypts extends BaseCrypt {
 			// 返回加密串
 			return Hex.encode(mac.doFinal(text.getBytes()));
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回文本
 			return text;
 		}
 	}
@@ -80,24 +76,26 @@ public final class Encrypts extends BaseCrypt {
 	 */
 	public static byte[] encrypt(byte[] b) {
 		// 判断加密方式
-		if (EncryptConstants.ALGO_AES.equals(CommonParams.ENCRYPT_ALGO)) {
-			// AES加密
-			return aes(b);
-		} else if (EncryptConstants.ALGO_DES.equals(CommonParams.ENCRYPT_ALGO)) {
-			// DES加密
-			return des(b);
-		} else if (EncryptConstants.ALGO_RC2.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RC2加密
-			return rc2(b);
-		} else if (EncryptConstants.ALGO_RC4.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RC4加密
-			return rc4(b);
-		} else if (EncryptConstants.ALGO_RSA.equals(CommonParams.ENCRYPT_ALGO)) {
-			// RSA加密
-			return rsa(b);
+		switch (CommonParams.ENCRYPT_ALGO) {
+			case EncryptConstants.ALGO_AES:
+				// AES加密
+				return aes(b);
+			case EncryptConstants.ALGO_DES:
+				// DES加密
+				return des(b);
+			case EncryptConstants.ALGO_RC2:
+				// RC2加密
+				return rc2(b);
+			case EncryptConstants.ALGO_RC4:
+				// RC4加密
+				return rc4(b);
+			case EncryptConstants.ALGO_RSA:
+				// RSA加密
+				return rsa(b);
+			default:
+				// 默认返回AES
+				return aes(b);
 		}
-		// 默认返回AES
-		return aes(b);
 	}
 
 	/**

@@ -12,7 +12,6 @@ import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
-import org.wdcode.common.log.Logs;
 
 /**
  * Bean工具类
@@ -39,9 +38,7 @@ public final class BeanUtil {
 				makeAccessible(field);
 				// 设置字段值
 				setFieldValue(target, field.getName(), field.get(source));
-			} catch (Exception e) {
-				Logs.warn(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 返回对象
 		return target;
@@ -115,9 +112,6 @@ public final class BeanUtil {
 		try {
 			return dest.newInstance();
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}
@@ -210,10 +204,7 @@ public final class BeanUtil {
 		try {
 			// 获得字段值
 			result = field.get(object);
-		} catch (IllegalAccessException e) {
-			Logs.warn(e);
-		}
-		// 返回值
+		} catch (IllegalAccessException e) {}
 		return result;
 	}
 
@@ -232,9 +223,7 @@ public final class BeanUtil {
 		// 设置字段值
 		try {
 			field.set(object, Conversion.to(value, field.getType()));
-		} catch (IllegalAccessException e) {
-			Logs.warn(e);
-		}
+		} catch (IllegalAccessException e) {}
 	}
 
 	/**
@@ -258,9 +247,6 @@ public final class BeanUtil {
 		try {
 			return method.invoke(object, parameters);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回null
 			return null;
 		}
 	}

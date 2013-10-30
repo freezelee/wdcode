@@ -590,6 +590,34 @@ public final class StringUtil {
 	}
 
 	/**
+	 * 分解字符串
+	 * @param text 整串
+	 * @param len 新串的长度
+	 * @return 新串
+	 */
+	public static String resolve(String text, int len) {
+		// 字符串为空
+		if (EmptyUtil.isEmpty(text)) {
+			return text;
+		}
+		// 如果字符串长度大于要返回的长度
+		if (text.length() > len) {
+			// 声明字符串缓存
+			StringBuilder sb = new StringBuilder(len);
+			// 获得分解份数
+			int size = text.length() / len;
+			// 循环累加字符串
+			for (int i = 0; i < len; i++) {
+				sb.append(text.charAt(i * size));
+			}
+			// 赋值
+			text = sb.toString();
+		}
+		// 返回加密字符串
+		return text;
+	}
+
+	/**
 	 * 私有构造
 	 */
 	private StringUtil() {}

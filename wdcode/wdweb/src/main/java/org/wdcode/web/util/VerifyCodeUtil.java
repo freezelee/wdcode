@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.common.constants.ImageConstants;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.params.WebParams;
 import org.wdcode.common.util.EmptyUtil;

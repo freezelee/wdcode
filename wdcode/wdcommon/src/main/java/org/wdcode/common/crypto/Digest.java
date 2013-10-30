@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.StringUtil;
 
@@ -41,23 +40,7 @@ public final class Digest {
 	 * @return 加密后的文本
 	 */
 	public static String absolute(String text, int len) {
-		// 加密
-		String val = absolute(text);
-		// 如果字符串长度大于要返回的长度
-		if (val.length() > len) {
-			// 声明字符串缓存
-			StringBuilder sb = new StringBuilder(len);
-			// 获得分解份数
-			int size = val.length() / len;
-			// 循环累加字符串
-			for (int i = 0; i < len; i++) {
-				sb.append(val.charAt(i * size));
-			}
-			// 赋值
-			val = sb.toString();
-		}
-		// 返回加密字符串
-		return val;
+		return StringUtil.resolve(absolute(text), len);
 	}
 
 	/**
@@ -196,9 +179,6 @@ public final class Digest {
 		try {
 			return MessageDigest.getInstance(algorithm).digest(b);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回字节数组
 			return b;
 		}
 	}

@@ -19,7 +19,6 @@ import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.common.io.ChannelUtil;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.StreamUtil;
-import org.wdcode.common.log.Logs;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -487,9 +486,7 @@ public final class Bytes {
 			out.writeObject(s);
 			// 返回对象的序列化字节数组
 			return baos.toByteArray();
-		} catch (IOException ex) {
-			Logs.warn(ex);
-		} finally {
+		} catch (IOException ex) {} finally {
 			CloseUtil.close(baos, out);
 		}
 		// 返回空字节数组

@@ -14,7 +14,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.lang.Sets;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.ClearUtil;
 import org.wdcode.core.params.QuartzParams;

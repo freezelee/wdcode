@@ -3,7 +3,7 @@ package org.wdcode.core.nosql.berkeleydb.factory;
 import java.util.List;
 
 import org.wdcode.common.lang.Lists;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.nosql.berkeleydb.BerkeleyBean;
 import org.wdcode.core.nosql.berkeleydb.BerkeleyDao;

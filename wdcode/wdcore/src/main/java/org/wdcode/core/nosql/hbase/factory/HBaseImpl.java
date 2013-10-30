@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.log.Logs;
+import org.wdcode.core.log.Logs;
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.hbase.HBase;
 import org.wdcode.core.nosql.hbase.HBaseDao;
