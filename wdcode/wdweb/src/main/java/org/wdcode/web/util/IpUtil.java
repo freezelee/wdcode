@@ -26,16 +26,22 @@ import org.wdcode.web.constants.HttpConstants;
 public final class IpUtil {
 	// 本机IP 127.0.0.1
 	public final static String	LOCAL_IP	= "127.0.0.1";
+	// 本服务器IP
+	public final static String	SERVER_IP	= getIp();
 
 	/**
 	 * 获得本机IP
 	 * @return 本机IP
 	 */
 	public static String getIp() {
-		// 获得ip列表
-		String[] ips = getIps();
-		// 返回第一个ip
-		return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+		if (EmptyUtil.isEmpty(SERVER_IP) && !LOCAL_IP.equals(SERVER_IP)) {
+			// 获得ip列表
+			String[] ips = getIps();
+			// 返回第一个ip
+			return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+		} else {
+			return SERVER_IP;
+		}
 	}
 
 	/**

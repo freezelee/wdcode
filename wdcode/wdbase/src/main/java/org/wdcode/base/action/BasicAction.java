@@ -304,9 +304,9 @@ public class BasicAction extends ActionSupport {
 	 * @param name 文件名
 	 * @return 域名路径
 	 */
-	public String getServerPath() {
+	public String getServer() {
 		// 获得path
-		String path = getRequest().getServletPath();
+		String path = getRequest().getServerName();
 		// 返回域名路径
 		return IpUtil.LOCAL_IP.equals(path) ? IpUtil.getIp() : path;
 	}
@@ -317,7 +317,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 域名路径
 	 */
 	public String getDomain(String name) {
-		return HttpConstants.HTTP + getServerPath() + getBase() + StringConstants.BACKSLASH + name;
+		return HttpConstants.HTTP + getServer() + getBase() + StringConstants.BACKSLASH + name;
 	}
 
 	/**

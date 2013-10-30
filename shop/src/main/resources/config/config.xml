@@ -5,6 +5,11 @@
 		<!-- 保存属性的方式 -->
 		<attribute>cookie</attribute>
 	</save>
+	
+	<!-- 权限验证 --> 
+	<security> 
+	    <role>false</role>  
+	</security> 
 
 	<!-- 后台action命名空间 -->
 	<namespace>

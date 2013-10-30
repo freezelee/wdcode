@@ -24,7 +24,7 @@ public final class SecurityParams {
 	/**
 	 * 判断是否开启权限角色认证
 	 */
-	public final static boolean	SECURITY_ROLE	= Params.getBoolean("security.role", false);
+	public final static boolean	SECURITY_ROLE	= Params.getBoolean("security.role", true);
 	/**
 	 * 判断是否开启操作类型认证
 	 */
