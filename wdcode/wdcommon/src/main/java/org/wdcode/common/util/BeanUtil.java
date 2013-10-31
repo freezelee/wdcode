@@ -227,6 +227,39 @@ public final class BeanUtil {
 	}
 
 	/**
+	 * 直接调用对象方法
+	 * @param object 调用的对象
+	 * @param methodName 方法名
+	 * @param parameterTypes 参数类型
+	 * @param parameters 参数
+	 * @return 方法返回值
+	 */
+	public static Object invoke(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
+		// 声明Class
+		Class<?> c = null;
+		// 字符串
+		if (object instanceof String) {
+			try {
+				c = Class.forName(Conversion.toString(object));
+			} catch (ClassNotFoundException e) {}
+		} else if (object instanceof Class<?>) {
+			c = (Class<?>) object;
+		} else {
+			c = object.getClass();
+		}
+		// Class不为空
+		if (c == null) {
+			return null;
+		} else {
+			try {
+				return c.getMethod(methodName, parameterTypes).invoke(c, parameters);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	/**
 	 * 直接调用对象方法, 无视private/protected修饰符.
 	 * @param object 调用的对象
 	 * @param methodName 方法名
@@ -357,23 +390,23 @@ public final class BeanUtil {
 				// 返回方法
 				method = superClass.getDeclaredMethod(methodName, parameterTypes);
 			} catch (NoSuchMethodException e) {
-				// 如果有包装类型 添加类型递归
-				for (int i = 0; i < parameterTypes.length; i++) {
-					try {
-						// 判断是Integer类型
-						if (parameterTypes[i] == Integer.class) {
-							method = superClass.getDeclaredMethod(methodName, int.class);
-						} else if (parameterTypes[i] == Double.class) {
-							method = superClass.getDeclaredMethod(methodName, double.class);
-						} else if (parameterTypes[i] == Float.class) {
-							method = superClass.getDeclaredMethod(methodName, float.class);
-						} else if (parameterTypes[i] == Long.class) {
-							method = superClass.getDeclaredMethod(methodName, long.class);
-						}
-					} catch (Exception nme) {
-						// Method不在当前类定义,继续向上转型
-					}
-				}
+				// // 如果有包装类型 添加类型递归
+				// for (int i = 0; i < parameterTypes.length; i++) {
+				// try {
+				// // 判断是Integer类型
+				// if (parameterTypes[i] == Integer.class) {
+				// method = superClass.getDeclaredMethod(methodName, int.class);
+				// } else if (parameterTypes[i] == Double.class) {
+				// method = superClass.getDeclaredMethod(methodName, double.class);
+				// } else if (parameterTypes[i] == Float.class) {
+				// method = superClass.getDeclaredMethod(methodName, float.class);
+				// } else if (parameterTypes[i] == Long.class) {
+				// method = superClass.getDeclaredMethod(methodName, long.class);
+				// }
+				// } catch (Exception nme) {
+				// // Method不在当前类定义,继续向上转型
+				// }
+				// }
 			}
 			// 方法不为空返回
 			if (!EmptyUtil.isEmpty(method)) {

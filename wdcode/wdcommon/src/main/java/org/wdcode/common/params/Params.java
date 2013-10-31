@@ -6,6 +6,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.Config;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
+import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.EmptyUtil;
 
 /**
@@ -20,6 +21,10 @@ public final class Params {
 	private final static ConcurrentMap<String, Object>	MAP	= Maps.getConcurrentMap();
 	// 读写配置文件接口
 	private static Config								config;
+
+	static {
+		config = (Config) BeanUtil.invoke("org.wdcode.core.config.ConfigFactory", "getConfig", null, null);
+	}
 
 	/**
 	 * 设置配置文件
