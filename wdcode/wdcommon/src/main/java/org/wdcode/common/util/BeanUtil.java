@@ -215,7 +215,7 @@ public final class BeanUtil {
 		// 获得字段
 		Field field = getDeclaredField(object, fieldName);
 		// 判断字段为空 返回
-		if (EmptyUtil.isEmpty(field) || EmptyUtil.isEmpty(value)) {
+		if (field == null || value == null) {
 			return;
 		}
 		// 强行设置Field可访问.

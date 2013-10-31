@@ -1,4 +1,4 @@
-package org.wdcode.common.lang;
+package org.wdcode.common.util;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.wdcode.common.constants.SystemConstants;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -16,7 +17,7 @@ import org.wdcode.common.params.CommonParams;
  * @since JDK7
  * @version 1.0 2012-09-10
  */
-public final class Concurrents {
+public final class ExecutorUtil {
 	// 并发服务类
 	private final static ExecutorService	ES	= Executors.newFixedThreadPool(SystemConstants.CPU_NUM + 1);
 
@@ -131,5 +132,5 @@ public final class Concurrents {
 	/**
 	 * 私有构造
 	 */
-	private Concurrents() {}
+	private ExecutorUtil() {}
 }

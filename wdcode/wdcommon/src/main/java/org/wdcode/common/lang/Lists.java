@@ -18,15 +18,6 @@ import org.wdcode.common.util.EmptyUtil;
  */
 public final class Lists {
 	/**
-	 * 判断是否集合
-	 * @param obj 对象
-	 * @return 是否集合
-	 */
-	public static boolean isCollection(Object obj) {
-		return !EmptyUtil.isEmpty(obj) && obj instanceof Collection<?>;
-	}
-
-	/**
 	 * 判断是否列表
 	 * @param obj 对象
 	 * @return 是否列表
@@ -40,7 +31,7 @@ public final class Lists {
 	 * @return List
 	 */
 	public static <E> List<E> getList() {
-		return getList(10);
+		return new ArrayList<E>();
 	}
 
 	/**

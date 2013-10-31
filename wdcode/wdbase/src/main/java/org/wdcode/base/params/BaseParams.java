@@ -22,6 +22,10 @@ public final class BaseParams {
 	 */
 	public final static String	UPLOAD_PATH			= Params.getString("upload.path", "upload/");
 	/**
+	 * 是否上传的资源目录
+	 */
+	public final static boolean	UPLOAD_RESOURCE		= Params.getBoolean("upload.resource", false);
+	/**
 	 * 是否使用服务器地址保存文件路径
 	 */
 	public final static boolean	UPLOAD_SERVER		= Params.getBoolean("upload.server", true);

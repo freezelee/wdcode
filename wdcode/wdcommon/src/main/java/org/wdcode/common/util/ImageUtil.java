@@ -27,7 +27,7 @@ import org.wdcode.common.lang.Conversion;
  */
 public final class ImageUtil {
 	// 字体名
-	private final static String	fontName;
+	private final static String	FONT_NAME;
 	// 字体
 	private static Font			font;
 	// 颜色
@@ -36,8 +36,8 @@ public final class ImageUtil {
 	private static String		formatName;
 
 	static {
-		fontName = "宋体";
-		font = new Font(fontName, Font.PLAIN, 15);
+		FONT_NAME = "宋体";
+		font = new Font(FONT_NAME, Font.PLAIN, 15);
 		color = Color.WHITE;
 		formatName = ImageConstants.JPEG;
 	}
@@ -169,7 +169,6 @@ public final class ImageUtil {
 		g.setFont(font);
 		// 设置颜色
 		g.setColor(color);
-
 		// 如果x==-1
 		if (x == -1) {
 			// 把X设置为图片中央
@@ -180,7 +179,6 @@ public final class ImageUtil {
 			// 把X设置为图片中央
 			y = (image.getHeight(null) + font.getSize()) / 2;
 		}
-
 		// 写内容
 		g.drawString(text, x, y);
 		// 释放资源使图片生效

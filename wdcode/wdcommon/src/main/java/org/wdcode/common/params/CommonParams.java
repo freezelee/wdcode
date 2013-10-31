@@ -19,7 +19,7 @@ public final class CommonParams {
 	/**
 	 * IO缓冲区大小
 	 */
-	public final static int		IO_BUFFERSIZE			= Params.getInt("io.buffer", 10024);
+	public final static int		IO_BUFFERSIZE			= Params.getInt("io.buffer", 8192);
 	/**
 	 * IO模式
 	 */
@@ -28,10 +28,6 @@ public final class CommonParams {
 	 * 默认编码
 	 */
 	public final static String	ENCODING				= Params.getString("encoding", EncodingConstants.UTF_8);
-	/**
-	 * 同步或则异步打印日志
-	 */
-	public final static boolean	LOGS_SYNC				= Params.getBoolean("logs.sync", false);									;
 	/**
 	 * 日期格式
 	 */
@@ -71,7 +67,7 @@ public final class CommonParams {
 	/**
 	 * 加密使用的算法
 	 */
-	public final static String	ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES); 
+	public final static String	ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/**
 	 * 加密使用摘要算法
 	 */

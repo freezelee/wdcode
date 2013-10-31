@@ -427,12 +427,8 @@ public final class StringUtil {
 	 * @return 转换后的字符串
 	 */
 	public static String toCharset(String source, String tChar) {
-		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(source)) {
-			return source;
-		}
 		try {
-			return new String(source.getBytes(), tChar);
+			return EmptyUtil.isEmpty(source) ? source : new String(source.getBytes(), tChar);
 		} catch (Exception e) {
 			return StringConstants.EMPTY;
 		}
@@ -446,12 +442,8 @@ public final class StringUtil {
 	 * @return 转换后的字符串
 	 */
 	public static String toCharset(String source, String sChar, String tChar) {
-		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(source)) {
-			return source;
-		}
 		try {
-			return new String(source.getBytes(sChar), tChar);
+			return EmptyUtil.isEmpty(source) ? source : new String(source.getBytes(sChar), tChar);
 		} catch (Exception e) {
 			return StringConstants.EMPTY;
 		}

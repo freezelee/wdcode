@@ -77,7 +77,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 * @return Json
 	 */
 	public static Json getJson(String key) {
-		return FACTORY.newInstance(key);
+		return FACTORY.getInstance(key);
 	}
 
 	@Override

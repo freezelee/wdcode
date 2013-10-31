@@ -55,7 +55,7 @@ public final class Params {
 		if (value == null) {
 			// 读取配置
 			try {
-				value = config.getProperty(key);
+				value = EmptyUtil.isEmpty(config) ? defaultValue : config.getProperty(key);
 			} catch (Exception e) {}
 			// 添加到Map中
 			MAP.put(key, value == null ? value = defaultValue : value);

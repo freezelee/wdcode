@@ -68,15 +68,16 @@ public final class KeyUtil {
 	 */
 	public static PublicKey getPublicKey(String algorithm) {
 		// 判断算法
-		if (EncryptConstants.ALGO_DSA.equals(algorithm)) {
-			// DSA
-			return DSA_KEY_PAIR.getPublic();
-		} else if (EncryptConstants.ALGO_DH.equals(algorithm)) {
-			// DH
-			return DH_KEY_PAIR.getPublic();
-		} else {
-			// RSA
-			return RSA_KEY_PAIR.getPublic();
+		switch (algorithm) {
+			case EncryptConstants.ALGO_DSA:
+				// DSA
+				return DSA_KEY_PAIR.getPublic();
+			case EncryptConstants.ALGO_DH:
+				// DH
+				return DH_KEY_PAIR.getPublic();
+			default:
+				// RSA
+				return RSA_KEY_PAIR.getPublic();
 		}
 	}
 
@@ -87,15 +88,16 @@ public final class KeyUtil {
 	 */
 	public static PrivateKey getPrivateKey(String algorithm) {
 		// 判断算法
-		if (EncryptConstants.ALGO_DSA.equals(algorithm)) {
-			// DSA
-			return DSA_KEY_PAIR.getPrivate();
-		} else if (EncryptConstants.ALGO_DH.equals(algorithm)) {
-			// DH
-			return DH_KEY_PAIR.getPrivate();
-		} else {
-			// RSA
-			return RSA_KEY_PAIR.getPrivate();
+		switch (algorithm) {
+			case EncryptConstants.ALGO_DSA:
+				// DSA
+				return DSA_KEY_PAIR.getPrivate();
+			case EncryptConstants.ALGO_DH:
+				// DH
+				return DH_KEY_PAIR.getPrivate();
+			default:
+				// RSA
+				return RSA_KEY_PAIR.getPrivate();
 		}
 	}
 

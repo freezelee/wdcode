@@ -160,7 +160,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			// 获得Cookie
 			cookie = lsCookie.get(i);
 			// 获得Map
-			map = Maps.getMap(2);
+			map = Maps.getMap();
 			// 设置属性
 			map.put("name", cookie.getName());
 			map.put("value", cookie.getValue());
@@ -206,7 +206,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			}
 		} catch (Exception e) {
 			// 记录日志
-			Logs.warn(e);
+			Logs.debug(e);
 			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		} finally {
@@ -261,7 +261,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			}
 		} catch (Exception e) {
 			// 记录日志
-			Logs.warn(e);
+			Logs.debug(e);
 			// 返回空字节数组
 			return StringConstants.EMPTY;
 		} finally {

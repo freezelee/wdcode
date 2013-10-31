@@ -19,12 +19,12 @@ public final class ClearUtil {
 	public static void clear(Clear... cs) {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(cs)) {
-			try {
-				// 循环清除资源
-				for (int i = 0; i < cs.length; i++) {
-					cs[i].clear();
+			// 循环清除资源
+			for (Clear c : cs) {
+				if (!EmptyUtil.isEmpty(c)) {
+					c.clear();
 				}
-			} catch (Exception e) {}
+			}
 		}
 	}
 
@@ -32,15 +32,15 @@ public final class ClearUtil {
 	 * 清除Collection接口数据
 	 * @param c Collection接口
 	 */
-	public static void clear(Collection<?>... c) {
+	public static void clear(Collection<?>... cs) {
 		// 判断不为空
-		if (!EmptyUtil.isEmpty(c)) {
-			try {
-				// 循环清除资源
-				for (int i = 0; i < c.length; i++) {
-					c[i].clear();
+		if (!EmptyUtil.isEmpty(cs)) {
+			// 循环清除资源
+			for (Collection<?> c : cs) {
+				if (!EmptyUtil.isEmpty(c)) {
+					c.clear();
 				}
-			} catch (Exception e) {}
+			}
 		}
 	}
 
@@ -48,15 +48,15 @@ public final class ClearUtil {
 	 * 清除Map接口数据
 	 * @param m Map接口
 	 */
-	public static void clear(Map<?, ?>... m) {
+	public static void clear(Map<?, ?>... ms) {
 		// 判断不为空
-		if (!EmptyUtil.isEmpty(m)) {
-			try {
-				// 循环清除资源
-				for (int i = 0; i < m.length; i++) {
-					m[i].clear();
+		if (!EmptyUtil.isEmpty(ms)) {
+			// 循环清除资源
+			for (Map<?, ?> m : ms) {
+				if (!EmptyUtil.isEmpty(m)) {
+					m.clear();
 				}
-			} catch (Exception e) {}
+			}
 		}
 	}
 

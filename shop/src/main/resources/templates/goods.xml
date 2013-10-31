@@ -134,7 +134,7 @@
 			<node key="submit" ref="addSubmit" action="brand_theme_add"/>	
 			<node key="submit" ref="delButton" action="brand_dels"/>
 			<node th="brand,name;url;logo" />	
-			<node td="name;url;logo"/> 
+			<node td="name;url;path"/> 
 		</template>
 	</module>
 	

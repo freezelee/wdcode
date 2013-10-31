@@ -165,8 +165,7 @@ public abstract class BaseExcel implements Excel {
 			// 获得行内容
 			list = lsList.get(i);
 			// 实例化Map
-			map = Maps.getMap(num);
-
+			map = Maps.getMap();
 			// 循环
 			for (int j = 0; j < num; j++) {
 				// 设置列名与列值

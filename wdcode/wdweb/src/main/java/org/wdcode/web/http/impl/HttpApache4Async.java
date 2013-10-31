@@ -161,7 +161,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 			// 获得Cookie
 			cookie = lsCookie.get(i);
 			// 获得Map
-			map = Maps.getMap(2);
+			map = Maps.getMap();
 			// 设置属性
 			map.put("name", cookie.getName());
 			map.put("value", cookie.getValue());

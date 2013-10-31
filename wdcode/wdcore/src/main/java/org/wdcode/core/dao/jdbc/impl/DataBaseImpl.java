@@ -585,7 +585,7 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	private Map<String, Object> getRowValue(String[] colName, ResultSet rs) {
 		// 声明Map 用于保存返回结果
-		Map<String, Object> map = Maps.getMap(colName.length);
+		Map<String, Object> map = Maps.getMap();
 		try {
 			// 循环列
 			for (int i = 0; i < colName.length; i++) {

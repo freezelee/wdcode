@@ -3,7 +3,7 @@ package org.wdcode.core.params;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.params.CommonParams;
-import org.wdcode.common.params.Params; 
+import org.wdcode.common.params.Params;
 
 /**
  * WdCore包所用参数读取类
@@ -52,6 +52,10 @@ public final class CoreParams {
 	 * Lucene索引保存位置
 	 */
 	public final static String	LUCENE_INDEX_PATH			= Params.getString("lucene.index.path");
+	/**
+	 * 同步或则异步打印日志
+	 */
+	public final static boolean	LOGS_SYNC					= Params.getBoolean("logs.sync", false);
 
 	/**
 	 * 私有构造

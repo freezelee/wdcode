@@ -6,7 +6,7 @@ package org.wdcode.common.interfaces;
  * @since JDK7
  * @version 1.0 2012-02-26
  */
-public interface Config {
+public interface Config extends Empty {
 	/**
 	 * 写配置文件
 	 */

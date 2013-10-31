@@ -10,6 +10,7 @@ import org.wdcode.common.constants.FileConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.Config;
 import org.wdcode.common.lang.Lists;
+import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 
 /**
@@ -75,5 +76,10 @@ public final class ConfigFile implements Config {
 	@Override
 	public String[] getStringArray(String key) {
 		return file.getStringArray(key);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return EmptyUtil.isEmpty(file);
 	}
 }

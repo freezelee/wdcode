@@ -2,8 +2,8 @@ package org.wdcode.core.log;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wdcode.common.lang.Concurrents;
-import org.wdcode.common.params.CommonParams;
+import org.wdcode.common.util.ExecutorUtil;
+import org.wdcode.core.params.CoreParams;
 
 /**
  * 用于记录各种日志以及打印DEBG信息等<br/>
@@ -61,7 +61,7 @@ public final class Logs {
 	 * @param obj 日志信息
 	 */
 	private static void asyncLog(final LogEnum logEnum, final Object obj) {
-		Concurrents.execute(new Runnable() {
+		ExecutorUtil.execute(new Runnable() {
 			public void run() {
 				syncLog(logEnum, obj);
 			}
@@ -75,7 +75,7 @@ public final class Logs {
 	 */
 	private static void log(LogEnum logEnum, Object obj) {
 		// 判断同步还是异步
-		if (CommonParams.LOGS_SYNC) {
+		if (CoreParams.LOGS_SYNC) {
 			// 异步
 			asyncLog(logEnum, obj);
 		} else {

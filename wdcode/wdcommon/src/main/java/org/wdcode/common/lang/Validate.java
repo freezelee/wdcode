@@ -215,7 +215,9 @@ public final class Validate {
 		} else {
 			// 循环判断正则 只要有一个符合就返回true
 			for (String regex : regexs) {
-				return Pattern.compile(regex).matcher(str).matches();
+				if (is(regex, str)) {
+					return true;
+				}
 			}
 		}
 		return false;

@@ -209,7 +209,7 @@ public final class HttpApache3 extends BaseHttp {
 				// 获得Cookie
 				cookie = cookies[i];
 				// 获得Map
-				map = Maps.getMap(2);
+				map = Maps.getMap();
 				// 添加名称
 				map.put("name", cookie.getName());
 				// 添加值

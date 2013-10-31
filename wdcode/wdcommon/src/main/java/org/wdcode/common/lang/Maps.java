@@ -60,7 +60,7 @@ public final class Maps {
 	 */
 	public static <K, V> Map<K, V> getMap(K key, V value) {
 		// 获得Map
-		Map<K, V> map = getMap(1);
+		Map<K, V> map = getMap();
 		// 设置键值
 		map.put(key, value);
 		// 返回Map
@@ -89,7 +89,7 @@ public final class Maps {
 			return emptyMap();
 		}
 		// 获得Map
-		Map<K, V> map = getMap(keys.size());
+		Map<K, V> map = getMap();
 		// 循环填充map
 		for (int i = 0; i < keys.size(); i++) {
 			// 设置键值
@@ -117,11 +117,11 @@ public final class Maps {
 	}
 
 	/**
-	 * 获得Map实例 实现类是HashMap 默认初始化大小为10
+	 * 获得Map实例 实现类是HashMap
 	 * @return Map
 	 */
 	public static <K, V> HashMap<K, V> getHashMap() {
-		return getHashMap(10);
+		return new HashMap<K, V>();
 	}
 
 	/**

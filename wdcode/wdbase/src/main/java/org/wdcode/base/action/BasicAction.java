@@ -316,8 +316,11 @@ public class BasicAction extends ActionSupport {
 	 * @param name 文件名
 	 * @return 域名路径
 	 */
-	public String getDomain(String name) {
-		return HttpConstants.HTTP + getServer() + getBase() + StringConstants.BACKSLASH + name;
+	public String getDomain() {
+		// 获得域名
+		String domain = HttpConstants.HTTP + getServer() + getBase();
+		// 返回域名
+		return domain.endsWith(StringConstants.BACKSLASH) ? domain : domain + StringConstants.BACKSLASH;
 	}
 
 	/**
@@ -624,12 +627,30 @@ public class BasicAction extends ActionSupport {
 		// 获得上次路径
 		String name = getFileName(file, fileName);
 		// 上传文件
-		String fn = getRealPath(name);
+		String fn = BaseParams.UPLOAD_RESOURCE ? BaseParams.UPLOAD_PATH + name : getRealPath(name);
+		// 文件是否存在
+		if (FileUtil.exists(fn)) {
+			// 获得上传文件MD5
+			String md5 = Hex.encode(Digest.md5(FileUtil.read(file)));
+			// 文件存在始终循环
+			while (FileUtil.exists(fn)) {
+				// 验证MD5
+				if (Hex.encode(Digest.md5(FileUtil.read(fn))).equals(md5)) {
+					// 相同文件不处理跳出循环
+					break;
+				} else {
+					// 文件不同 获得新文件名
+					name = getFileName(file, (DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
+					fn = BaseParams.UPLOAD_RESOURCE ? BaseParams.UPLOAD_PATH + name : getRealPath(name);
+				}
+			}
+		}
+		// 文件不存在写文件
 		if (!FileUtil.exists(fn)) {
 			FileUtil.write(fn, file);
 		}
 		// 返回路径
-		return BaseParams.UPLOAD_SERVER ? getDomain(name) : name;
+		return BaseParams.UPLOAD_SERVER ? getDomain() + name : name;
 	}
 
 	/**
@@ -683,18 +704,12 @@ public class BasicAction extends ActionSupport {
 	 * @return 文件名
 	 */
 	private String getFileName(File file, String fileName) {
-		// 获得文件名
-		String name = BaseParams.UPLOAD_PATH + (EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH) + fileName;
-		// 文件是否存在
-		if (FileUtil.exists(getRealPath(name))) {
-			// 验证MD5 相同文件不上传 直接返回文件名
-			if (Hex.encode(Digest.md5(FileUtil.read(getRealPath(name)))).equals(Hex.encode(Digest.md5(FileUtil.read(file))))) {
-				return name;
-			} else {
-				return getFileName(file, (DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
-			}
-		}
-		// 返回文件名
-		return name;
+		// 上传路径
+		StringBuilder name = new StringBuilder(BaseParams.UPLOAD_RESOURCE ? StringConstants.EMPTY : BaseParams.UPLOAD_PATH);
+		name.append(EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH);
+		name.append(Digest.absolute(fileName));
+		name.append(StringConstants.POINT);
+		name.append(StringUtil.subStringLast(fileName, StringConstants.POINT));
+		return name.toString();
 	}
 }

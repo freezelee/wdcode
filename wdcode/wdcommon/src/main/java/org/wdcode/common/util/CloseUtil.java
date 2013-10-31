@@ -18,18 +18,12 @@ public final class CloseUtil {
 	public static void close(Close... cs) {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(cs)) {
-			// Close接口
-			Close c = null;
 			// 循环关闭资源
-			for (int i = 0; i < cs.length; i++) {
-				try {
-					// 获得Close
-					c = cs[i];
-					// 判断不为空
-					if (!EmptyUtil.isEmpty(c)) {
-						c.close();
-					}
-				} catch (Exception e) {}
+			for (Close c : cs) {
+				// 判断不为空
+				if (!EmptyUtil.isEmpty(c)) {
+					c.close();
+				}
 			}
 		}
 	}
@@ -41,13 +35,9 @@ public final class CloseUtil {
 	public static void close(AutoCloseable... cs) {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(cs)) {
-			// Closeable接口
-			AutoCloseable c = null;
 			// 循环关闭资源
-			for (int i = 0; i < cs.length; i++) {
+			for (AutoCloseable c : cs) {
 				try {
-					// 获得Closeable
-					c = cs[i];
 					// 判断不为空
 					if (!EmptyUtil.isEmpty(c)) {
 						// 是输出流

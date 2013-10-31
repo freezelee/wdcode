@@ -22,7 +22,7 @@ import com.mongodb.DBObject;
  */
 final class MongoDaoImpl implements MongoDao {
 	// MongoDB 主键常量
-	private final static String	ID	= "_id"; 
+	private final static String	ID	= "_id";
 	// 数据操作对象
 	private DBCollection		dbc;
 
@@ -200,7 +200,7 @@ final class MongoDaoImpl implements MongoDao {
 	 */
 	public void set(Object key, Object value) {
 		// 获得Map
-		Map<String, Object> map = Maps.getMap(2);
+		Map<String, Object> map = Maps.getMap();
 		// 设置键值
 		map.put(ID, key);
 		map.put(StringConstants.VALUE, value);
