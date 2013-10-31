@@ -707,7 +707,7 @@ public class BasicAction extends ActionSupport {
 		// 上传路径
 		StringBuilder name = new StringBuilder(BaseParams.UPLOAD_RESOURCE ? StringConstants.EMPTY : BaseParams.UPLOAD_PATH);
 		name.append(EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH);
-		name.append(Digest.absolute(fileName));
+		name.append(Digest.absolute(fileName, 20));
 		name.append(StringConstants.POINT);
 		name.append(StringUtil.subStringLast(fileName, StringConstants.POINT));
 		return name.toString();
