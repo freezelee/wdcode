@@ -40,7 +40,7 @@ public final class BaseParams {
 	/**
 	 * 缓存是否有效
 	 */
-	public final static boolean	CACHE_VALID			= Params.getBoolean("cache.valid", true);
+	public final static boolean	CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true);
 	/**
 	 * 缓存类型
 	 */
@@ -55,7 +55,7 @@ public final class BaseParams {
 	 * @return 是否使用缓存
 	 */
 	public static boolean getCache(String name) {
-		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID);
+		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID_POWER);
 	}
 
 	/**
