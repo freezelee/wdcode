@@ -267,7 +267,16 @@ public class SuperAction<E extends Entity> extends BasicAction {
 
 	/**
 	 * 实体条件查询出所有
-	 * @return 跳转list
+	 * @return 跳转SUCCESS
+	 * @throws Exception
+	 */
+	public String get() throws Exception {
+		return key == null ? SUCCESS : callback(entity = service.get(entityClass, key));
+	}
+
+	/**
+	 * 实体条件查询出所有
+	 * @return 跳转SUCCESS
 	 * @throws Exception
 	 */
 	public String entity() throws Exception {

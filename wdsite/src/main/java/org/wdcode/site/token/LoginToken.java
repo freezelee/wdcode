@@ -63,7 +63,7 @@ public class LoginToken implements AuthToken {
 	 * @return 是否登录
 	 */
 	public boolean isLogin() {
-		return id > 0 && !EmptyUtil.isEmpty(name) && time > 0;
+		return id > 0 && time > 0;
 	}
 
 	/**
