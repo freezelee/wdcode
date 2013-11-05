@@ -75,7 +75,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 获得实体类
 		entityClass = context.getClass(module);
 		// 获得ContentType
-		String contentType = getRequest().getContentType();
+		String contentType = request.getContentType();
 		// 判断为上传文件表单
 		if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
 			isEntity = true;
@@ -83,7 +83,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 			entity = entityClass == null ? null : context.getBean(module, entityClass);
 		} else {
 			// 是否初始化实体
-			for (Map.Entry<String, String[]> e : getRequest().getParameterMap().entrySet()) {
+			for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
 				if (e.getKey().indexOf("entity") > -1) {
 					isEntity = true;
 					// 获得实体

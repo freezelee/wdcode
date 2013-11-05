@@ -46,7 +46,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 父类初始化
 		super.init();
 		// 获得登录信息
-		token = LoginEngine.getLoginBean(getRequest(), getResponse(), getLoginKey());
+		token = LoginEngine.getLoginBean(request, response, getLoginKey());
 		// 如果查询自己的数据 添加登录用户名
 		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
 			entity = context.getBean(module, entityClass);
@@ -95,7 +95,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	public String logout() throws Exception {
 		// 移除登录信息
-		LoginEngine.removeLogin(getRequest(), getResponse(), getLoginKey());
+		LoginEngine.removeLogin(request, response, getLoginKey());
 		// 返回登录页
 		return callback(SUCCESS);
 	}
@@ -105,7 +105,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	public String login() throws Exception {
 		// 验证验证码 判断验证码都为空 跳过验证码检查
-		if (!VerifyCodeUtil.check(getRequest(), getResponse(), verifyCode)) {
+		if (!VerifyCodeUtil.check(request, response, verifyCode)) {
 			// 添加错误信息
 			// addFieldError("verify.code.error");
 			// 返回登陆页
@@ -136,7 +136,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 登录验证
 		if (is) {
 			// 添加用户登录信息
-			LoginEngine.addLogin(getRequest(), getResponse(), bean, getLoginTime());
+			LoginEngine.addLogin(request, response, bean, getLoginTime());
 			// 添加登录信息
 			bean.setLoginIp(getIp());
 			bean.setLoginTime(DateUtil.getTime());

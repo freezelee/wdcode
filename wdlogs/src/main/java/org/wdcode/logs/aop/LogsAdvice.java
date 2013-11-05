@@ -1,7 +1,6 @@
 package org.wdcode.logs.aop;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -17,7 +16,6 @@ import org.wdcode.logs.po.LoginLogs;
 import org.wdcode.logs.po.LoginStatistics;
 import org.wdcode.logs.po.PageStatistics;
 import org.wdcode.site.action.LoginAction;
-import org.wdcode.web.util.RequestUtil;
 import com.opensymphony.xwork2.Action;
 
 /**
@@ -86,8 +84,6 @@ public class LogsAdvice {
 		String ip = login.getIp();
 		// 判断是否开启登录日志记录
 		if (LogsParams.LOGIN_LOGS) {
-			// 获得request
-			HttpServletRequest request = login.getRequest();
 			// 获得登录状态
 			int state = Action.SUCCESS.equals(retVal) ? 1 : 0;
 			// 声明一个新的登录日志实体
@@ -95,10 +91,8 @@ public class LogsAdvice {
 			// 设置属性
 			logs.setUserId(uid);
 			logs.setName(key);
-			logs.setUserAgent(RequestUtil.getUserAgent(request));
 			logs.setTime(DateUtil.getTime());
 			logs.setIp(ip);
-			logs.setLanguage(RequestUtil.getLanguage(request));
 			logs.setState(state);
 			// 添加到数据库
 			service.insert(logs);

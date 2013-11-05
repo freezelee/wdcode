@@ -2,8 +2,8 @@ package org.wdcode.logs.po
 
 import javax.persistence.Entity
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -25,10 +25,6 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 class LoginLogs extends BaseEntityIdTime{
 	// 登录IP
 	String				ip
-	// 用户User_Agent
-	String				userAgent
-	// 语言
-	String				language
 	// 用户ID
 	Integer				userId
 	// 状态

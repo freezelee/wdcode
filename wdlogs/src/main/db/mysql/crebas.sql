@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/10/15 12:10:11                          */
+/* Created on:     2013/11/5 16:23:46                           */
 /*==============================================================*/
 
 
@@ -14,8 +14,6 @@ create table login_logs
    user_id              int,
    ip                   char(15),
    time                 int,
-   user_agent           varchar(200),
-   language             varchar(50),
    state                tinyint,
    primary key (id)
 )

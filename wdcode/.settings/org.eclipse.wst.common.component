@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="wdcode">
-        <wb-resource deploy-path="/" source-path="/wdcommon/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/wdsite/src/main/java"/>
-        <wb-resource deploy-path="/" source-path="/wdbase/src/main/java"/>
-        <wb-resource deploy-path="/" source-path="/wdweb/src/main/java"/>
-        <wb-resource deploy-path="/" source-path="/wdcore/src/main/java"/>
-        <wb-resource deploy-path="/" source-path="/wdtag/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/wdtemplate/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/wdtemplate/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/wdsite/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/wdtag/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/wdcommon/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/wdcore/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/wdweb/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/wdbase/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/wdtag/src/main/java"/>
     </wb-module>
 </project-modules>

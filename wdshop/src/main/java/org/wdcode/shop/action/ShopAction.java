@@ -87,7 +87,7 @@ public class ShopAction extends UserAction<Entity, User> {
 				// 判断支付方式
 				if (pay.isOnline()) {
 					// 在线支付
-					getResponse().sendRedirect(Conversion.toString(pay.pay(payment)));
+					response.sendRedirect(Conversion.toString(pay.pay(payment)));
 				} else if (pay.isAuto()) {
 					// 自动支付 是否支付成功
 					if (Conversion.toBoolean(pay.pay(payment))) {
@@ -109,7 +109,7 @@ public class ShopAction extends UserAction<Entity, User> {
 		// 获得支付器
 		Pay pay = pays.get(Conversion.toString(key));
 		// 获得支付订单号
-		String no = pay.trade(getRequest());
+		String no = pay.trade(request);
 		// 是否支付成功
 		if (!EmptyUtil.isEmpty(no)) {
 			// 查询出自己的订单

@@ -2,8 +2,10 @@ package org.wdcode.base.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -11,7 +13,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -24,8 +25,8 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.io.FileUtil;
-import org.wdcode.common.io.StreamUtil;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.DateUtil;
@@ -48,39 +49,45 @@ import org.wdcode.web.util.VerifyCodeUtil;
  */
 public class BasicAction extends ActionSupport {
 	// 序列化ID
-	private static final long		serialVersionUID	= 3314538887531859725L;
+	private static final long					serialVersionUID	= 3314538887531859725L;
 
 	// LIST
-	protected final static String	LIST				= "list";
+	protected final static String				LIST				= "list";
+	// 回调方法处理
+	protected final static Map<String, Method>	METHODS				= Maps.getMap();
 
 	// 提交的url
-	protected String				url;
+	protected String							url;
 	// 跨域方法
-	protected String				callback;
+	protected String							callback;
 
 	// 上传文件
-	protected File					file;
+	protected File								file;
 	// 上传文件类型
-	protected String				fileContentType;
+	protected String							fileContentType;
 	// 上传文件名
-	protected String				fileFileName;
+	protected String							fileFileName;
 
 	// 上传文件数组
-	protected File[]				files;
+	protected File[]							files;
 	// 上传文件数组类型
-	protected String[]				filesContentType;
+	protected String[]							filesContentType;
 	// 上传文件数组名
-	protected String[]				filesFileName;
+	protected String[]							filesFileName;
 
 	// 模板名
-	protected String				module;
+	protected String							module;
 	// 返回模式名
-	protected String				mode;
+	protected String							mode;
 	// 全局Context
 	@Resource
-	protected Context				context;
+	protected Context							context;
 	// 要回执消息的字段
-	protected String				field;
+	protected String							field;
+	// HttpServletRequest
+	protected HttpServletRequest				request;
+	// HttpServletResponse
+	protected HttpServletResponse				response;
 
 	/**
 	 * 初始化方法
@@ -93,6 +100,9 @@ public class BasicAction extends ActionSupport {
 		module = StringUtil.subStringEnd(actionName, StringConstants.UNDERLINE);
 		// 获得方法名
 		mode = EmptyUtil.isEmpty(mode) ? StringUtil.subStringLast(actionName, StringConstants.UNDERLINE) : mode;
+		// 获得request与response
+		request = context.getRequest();
+		response = context.getResponse();
 	}
 
 	/**
@@ -102,7 +112,7 @@ public class BasicAction extends ActionSupport {
 	 */
 	public String verifyCode() throws Exception {
 		// 获得验证码
-		VerifyCodeUtil.make(getRequest(), getResponse());
+		VerifyCodeUtil.make(request, response);
 		// 返回到登录页
 		return null;
 	}
@@ -306,7 +316,7 @@ public class BasicAction extends ActionSupport {
 	 */
 	public String getServer() {
 		// 获得path
-		String path = getRequest().getServerName();
+		String path = request.getServerName();
 		// 返回域名路径
 		return IpUtil.LOCAL_IP.equals(path) ? IpUtil.getIp() : path;
 	}
@@ -328,7 +338,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 项目路径
 	 */
 	public String getBase() {
-		return getRequest().getContextPath();
+		return request.getContextPath();
 	}
 
 	/**
@@ -336,7 +346,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 提交IP
 	 */
 	public String getIp() {
-		return IpUtil.getIp(getRequest());
+		return IpUtil.getIp(request);
 	}
 
 	/**
@@ -345,7 +355,7 @@ public class BasicAction extends ActionSupport {
 	 * @param value 属性值
 	 */
 	public void set(String key, Object value) {
-		AttributeUtil.set(getRequest(), getResponse(), key, value);
+		AttributeUtil.set(request, response, key, value);
 	}
 
 	/**
@@ -354,7 +364,7 @@ public class BasicAction extends ActionSupport {
 	 * @return 属性值
 	 */
 	public Object get(String key) {
-		return AttributeUtil.get(getRequest(), key);
+		return AttributeUtil.get(request, key);
 	}
 
 	/**
@@ -362,23 +372,7 @@ public class BasicAction extends ActionSupport {
 	 * @param key 属性键
 	 */
 	public void remove(String key) {
-		AttributeUtil.remove(getRequest(), getResponse(), key);
-	}
-
-	/**
-	 * 获得Request
-	 * @return Request
-	 */
-	public HttpServletRequest getRequest() {
-		return context.getRequest();
-	}
-
-	/**
-	 * 获得Response
-	 * @return Response
-	 */
-	public HttpServletResponse getResponse() {
-		return context.getResponse();
+		AttributeUtil.remove(request, response, key);
 	}
 
 	/**
@@ -387,23 +381,6 @@ public class BasicAction extends ActionSupport {
 	 */
 	public ServletContext getServletContext() {
 		return context.getServletContext();
-	}
-
-	/**
-	 * 获得Session
-	 * @return Session
-	 */
-	public HttpSession getSession() {
-		return context.getSession();
-	}
-
-	/**
-	 * 获得Session
-	 * @param b
-	 * @return Session
-	 */
-	public HttpSession getSession(boolean b) {
-		return context.getSession(b);
 	}
 
 	/**
@@ -428,7 +405,7 @@ public class BasicAction extends ActionSupport {
 	 * @return Cookie数组
 	 */
 	public Cookie[] getCookies() {
-		return getRequest().getCookies();
+		return request.getCookies();
 	}
 
 	/**
@@ -437,7 +414,7 @@ public class BasicAction extends ActionSupport {
 	 * @param value CookieValue
 	 */
 	public void addCookie(String name, String value) {
-		CookieUtil.add(getResponse(), name, Encrypts.encrypt(value));
+		CookieUtil.add(response, name, Encrypts.encrypt(value));
 	}
 
 	/**
@@ -446,7 +423,7 @@ public class BasicAction extends ActionSupport {
 	 * @param value CookieValue
 	 */
 	public void removeCookie(String name) {
-		CookieUtil.remove(getResponse(), name);
+		CookieUtil.remove(response, name);
 	}
 
 	/**
@@ -455,7 +432,7 @@ public class BasicAction extends ActionSupport {
 	 * @return Cookie
 	 */
 	public Cookie getCookie(String name) {
-		return CookieUtil.getCookie(getRequest(), name);
+		return CookieUtil.getCookie(request, name);
 	}
 
 	/**
@@ -464,7 +441,7 @@ public class BasicAction extends ActionSupport {
 	 * @return CookieValue
 	 */
 	public String getCookieValue(String name) {
-		return CookieUtil.getCookieValue(getRequest(), name);
+		return CookieUtil.getCookieValue(request, name);
 	}
 
 	/**
@@ -556,8 +533,14 @@ public class BasicAction extends ActionSupport {
 	 * @param isClose 是否关闭流
 	 * @throws IOException
 	 */
-	public void write(String str, String charsetName, boolean isClose) throws IOException {
-		StreamUtil.write(getResponse().getOutputStream(), str, charsetName, isClose);
+	public void write(String str, String charsetName) throws IOException {
+		// 清除缓存
+		ResponseUtil.noCache(response);
+		// 设置编码
+		response.setCharacterEncoding(charsetName);
+		// 写入到前端
+		response.getWriter().write(str);
+		// StreamUtil.write(response.getOutputStream(), str, charsetName, isClose);
 	}
 
 	/**
@@ -565,7 +548,7 @@ public class BasicAction extends ActionSupport {
 	 * @param s 字符串标识
 	 * @return 返回标识
 	 */
-	protected String callback(Object obj) throws Exception {
+	public String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
 			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
@@ -573,9 +556,22 @@ public class BasicAction extends ActionSupport {
 			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else if ("key".equals(mode)) {
 			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
-		} else if ("info".equals(mode)) {
-			return info(obj, field);
 		} else {
+			// 声明方法
+			Method method = null;
+			// 获得Key相对的方法是否存在
+			if (METHODS.containsKey(mode)) {
+				method = METHODS.get(mode);
+			} else {
+				// 不存在获得
+				synchronized (METHODS) {
+					METHODS.put(mode, method = BeanUtil.getDeclaredMethod(this, mode, Object.class));
+				}
+			}
+			// 方法不为空
+			if (method != null) {
+				return Conversion.toString(method.invoke(this, obj), null);
+			}
 			if (obj == null) {
 				return addMessage(ERROR);
 			} else if (obj instanceof String) {
@@ -657,7 +653,7 @@ public class BasicAction extends ActionSupport {
 	 * 输出数据到客户端方法
 	 * @param json 对象
 	 */
-	protected String ajax(Object data) throws Exception {
+	public String ajax(Object data) throws Exception {
 		return ajax(data, CommonParams.ENCODING);
 	}
 
@@ -666,9 +662,7 @@ public class BasicAction extends ActionSupport {
 	 * @param json 对象
 	 * @param charsetName 编码
 	 */
-	protected String ajax(Object data, String charsetName) throws Exception {
-		// 清除缓存
-		ResponseUtil.noCache(getResponse());
+	public String ajax(Object data, String charsetName) throws Exception {
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
@@ -682,20 +676,9 @@ public class BasicAction extends ActionSupport {
 			s.append(StringConstants.RIGHT_PARENTHESIS);
 		}
 		// 写字符串
-		write(s.toString(), charsetName, false);
+		write(s.toString(), charsetName);
 		// 返回空
 		return null;
-	}
-
-	/**
-	 * 自定义消息体
-	 * @param obj
-	 * @param field
-	 * @return
-	 * @throws Exception
-	 */
-	protected String info(Object obj, String field) throws Exception {
-		return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
 	}
 
 	/**

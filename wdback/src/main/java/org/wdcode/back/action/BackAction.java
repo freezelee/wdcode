@@ -55,7 +55,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 		// 认证不为空
 		if (auth == null) {
 			// 清除登录凭证
-			LoginEngine.removeLogin(getRequest(), getResponse(), getLoginKey());
+			LoginEngine.removeLogin(request, response, getLoginKey());
 		} else {
 			// 凭证置空
 			token = LoginEngine.empty();
@@ -64,7 +64,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 			if (principal instanceof AdminToken) {
 				token = ((AdminToken) principal);
 				// 如果显示未登录 添加新登录凭证
-				LoginEngine.addLogin(getRequest(), getResponse(), ((AdminToken) principal).getAdmin(), -1);
+				LoginEngine.addLogin(request, response, ((AdminToken) principal).getAdmin(), -1);
 			}
 		}
 	}
@@ -93,7 +93,7 @@ public class BackAction extends LoginAction<Entity, Admin> {
 	 */
 	public String statics() throws Exception {
 		// 网址
-		String url = HttpConstants.HTTP + getRequest().getLocalAddr() + getRequest().getContextPath() + StringConstants.BACKSLASH;
+		String url = HttpConstants.HTTP + request.getLocalAddr() + request.getContextPath() + StringConstants.BACKSLASH;
 		// 保存路径
 		String path = getRealPath(StringConstants.BACKSLASH);
 		String name = entity.getClass().getSimpleName().toLowerCase();

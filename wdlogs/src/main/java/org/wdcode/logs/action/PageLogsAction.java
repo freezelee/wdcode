@@ -1,7 +1,5 @@
 package org.wdcode.logs.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,8 +34,6 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	public String in() throws Exception {
 		// 判断是否开启页面访问日志记录
 		if (LogsParams.PAGE_LOGS && !isFilter()) {
-			// 获得request
-			HttpServletRequest request = getRequest();
 			// 设置日志属性
 			entity.setIp(IpUtil.getIp(request));
 			entity.setLanguage(RequestUtil.getLanguage(request));
@@ -47,7 +43,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 			// 添加日志
 			service.insert(entity);
 			// 返回日志ID
-			StreamUtil.write(getResponse().getOutputStream(), Conversion.toString(entity.getKey()));
+			StreamUtil.write(response.getOutputStream(), Conversion.toString(entity.getKey()));
 		}
 		// 返回null
 		return null;

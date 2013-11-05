@@ -2,7 +2,6 @@
     <wb-module deploy-name="back">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
         <dependent-module archiveName="wdcode-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wdcode/wdcode">
             <dependency-type>uses</dependency-type>
