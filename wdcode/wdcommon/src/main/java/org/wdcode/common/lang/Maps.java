@@ -40,7 +40,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(int size) {
-		return getHashMap(size);
+		return getHashMap(size < 1 ? 1 : size);
 	}
 
 	/**

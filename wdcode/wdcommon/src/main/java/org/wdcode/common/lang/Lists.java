@@ -40,7 +40,7 @@ public final class Lists {
 	 * @return List
 	 */
 	public static <E> List<E> getList(int size) {
-		return new ArrayList<E>(size);
+		return new ArrayList<E>(size < 1 ? 1 : size);
 	}
 
 	/**
