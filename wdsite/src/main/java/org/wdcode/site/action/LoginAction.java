@@ -142,7 +142,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 			bean.setLoginTime(DateUtil.getTime());
 			service.update(bean);
 			// 登录成功
-			return callback(SUCCESS);
+			return callback(bean);
 		} else {
 			// 添加错误信息
 			// addFieldError("login.fail");

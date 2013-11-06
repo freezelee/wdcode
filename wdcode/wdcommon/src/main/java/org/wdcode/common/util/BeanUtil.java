@@ -379,13 +379,13 @@ public final class BeanUtil {
 	 */
 	public static Method getDeclaredMethod(Object object, String methodName, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
-		if (EmptyUtil.isEmpty(object)) {
+		if (object == null || EmptyUtil.isEmpty(methodName)) {
 			return null;
 		}
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = object.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
+		for (Class<?> superClass = object instanceof Class<?> ? (Class<?>) object : object.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(methodName, parameterTypes);

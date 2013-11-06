@@ -98,7 +98,7 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 			}
 		}
 		// 返回
-		return callback(id > 0 ? SUCCESS : ERROR);
+		return callback(user);
 	}
 
 	/**

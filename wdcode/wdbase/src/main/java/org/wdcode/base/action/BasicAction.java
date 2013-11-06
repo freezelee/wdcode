@@ -580,6 +580,8 @@ public class BasicAction extends ActionSupport {
 				return LIST;
 			} else if (obj instanceof Boolean) {
 				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
+			} else if (obj instanceof Integer) {
+				return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
 			} else {
 				return addMessage(SUCCESS);
 			}

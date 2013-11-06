@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
@@ -52,7 +51,7 @@ public final class Context {
 		// 获得所有实体
 		Map<String, Entity> map = applicationContext.getBeansOfType(Entity.class);
 		// 实例化短类名对应的类对象Map
-		classes = Maps.getConcurrentMap(map.size());
+		classes = Maps.getConcurrentMap();
 		// 循环赋值
 		for (Map.Entry<String, ? extends Entity> e : map.entrySet()) {
 			// 设置实体名对应类
@@ -145,31 +144,6 @@ public final class Context {
 	 */
 	public ServletContext getServletContext() {
 		return ServletActionContext.getServletContext();
-	}
-
-	/**
-	 * 获得Session
-	 * @return Session
-	 */
-	public HttpSession getSession() {
-		return getRequest().getSession();
-	}
-
-	/**
-	 * 获得Session
-	 * @param b
-	 * @return Session
-	 */
-	public HttpSession getSession(boolean b) {
-		return getRequest().getSession(b);
-	}
-
-	/**
-	 * 获得Struts2 提供的Session代替对象,是个Map
-	 * @return Map<String, Object>
-	 */
-	public Map<String, Object> getSessionMap() {
-		return ActionContext.getContext().getSession();
 	}
 
 	/**

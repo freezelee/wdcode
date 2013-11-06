@@ -95,7 +95,6 @@ public final class QuartzEngine {
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
-
 	}
 
 	/**

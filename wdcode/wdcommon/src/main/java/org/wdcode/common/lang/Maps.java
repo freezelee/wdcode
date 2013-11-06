@@ -199,7 +199,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> getConcurrentMap() {
-		return getConcurrentMap(10);
+		return new ConcurrentHashMap<K, V>();
 	}
 
 	/**

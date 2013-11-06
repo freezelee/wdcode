@@ -52,12 +52,10 @@ public class SuperService {
 	protected void init() {
 		// 获得所有带缓存实体
 		Map<String, Object> map = context.getBeansWithAnnotation(org.hibernate.annotations.Cache.class);
-		// 获得实体数量
-		int size = map.size();
 		// 实例化缓存
-		caches = Maps.getConcurrentMap(size);
+		caches = Maps.getConcurrentMap();
 		// 实例化缓存加载
-		loads = Maps.getConcurrentMap(size);
+		loads = Maps.getConcurrentMap();
 		// 实例化空缓存
 		empty = new CacheEmpty();
 		// 循环赋值
@@ -240,13 +238,15 @@ public class SuperService {
 	public <E extends Entity> E get(Class<E> entityClass, Serializable pk) {
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
+		// 转换主键类型
+		pk = Conversion.toInt(pk) > 0 ? Conversion.toInt(pk) : Conversion.toString(pk);
 		// 返回查询结果
 		return cache.isValid() ? cache.get(pk) : dao.get(entityClass, pk);
 	}
 
 	/**
 	 * 根据传入的条件，返回唯一的实体 如果有多个返回第一个实体
-	 * @param entity 实体
+	 * @param entity 实体,
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(E entity) {
