@@ -63,7 +63,9 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 	 */
 	public String register() throws Exception {
 		// 注册ip
-		user.setIp(getIp());
+		if (!EmptyUtil.isEmpty(user.getId())) {
+			user.setIp(getIp());
+		}
 		// 创建时间
 		user.setTime(DateUtil.getTime());
 		// 是否Email验证

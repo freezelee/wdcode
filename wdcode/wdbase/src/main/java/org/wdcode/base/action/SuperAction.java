@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.entity.Entity;
+import org.wdcode.base.entity.EntityIp;
 import org.wdcode.base.entity.EntityStartEndTime;
 import org.wdcode.base.entity.EntityFile;
 import org.wdcode.base.entity.EntityFiles;
@@ -101,8 +102,12 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String load() throws Exception {
-		// 重载全部缓存
-		service.load();
+		// 重载数据
+		if (entityClass == null) {
+			service.load();
+		} else {
+			service.load(entityClass);
+		}
 		// 返回到成功页
 		return callback(SUCCESS);
 	}
@@ -113,8 +118,12 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String cache() throws Exception {
-		// 重载全部缓存
-		service.cache();
+		// 重载缓存
+		if (entityClass == null) {
+			service.cache();
+		} else {
+			service.load(entityClass);
+		}
 		// 返回到成功页
 		return callback(SUCCESS);
 	}
@@ -541,6 +550,11 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 判断实体类型
 		if (e instanceof EntityTime) {
 			((EntityTime) e).setTime(DateUtil.getTime());
+		}
+		if (e instanceof EntityIp) {
+			if (!EmptyUtil.isEmpty(((EntityIp) e).getIp())) {
+				((EntityIp) e).setIp(getIp());
+			}
 		}
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间

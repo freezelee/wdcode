@@ -73,7 +73,7 @@ public final class SecurityAdvice {
 				}
 			}
 			// 判断是否开启角色权限验证
-			if (SecurityParams.SECURITY_ROLE) {
+			if (SecurityParams.SECURITY_ROLE && action.getToken().isLogin()) {
 				// 获得角色
 				Role role = service.get(Role.class, action.getToken().getId());
 				// 如果角色为空
