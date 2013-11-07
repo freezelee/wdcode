@@ -551,7 +551,7 @@ public class BasicAction extends ActionSupport {
 	public String callback(Object obj) throws Exception {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
-			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj.toString() : BeanUtil.getFieldValue(obj, field));
+			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj : BeanUtil.getFieldValue(obj, field));
 		} else if ("sign".equals(mode)) {
 			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 		} else if ("key".equals(mode)) {
