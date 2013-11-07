@@ -26,7 +26,7 @@ public final class BeanUtil {
 	 * @param target 目标对象
 	 * @return 目标对象
 	 */
-	public static <T> T copyProperties(T source, T target) {
+	public static <T> T copyProperties(Object source, T target) {
 		// 判读对象为空
 		if (source == null || target == null) {
 			return target;

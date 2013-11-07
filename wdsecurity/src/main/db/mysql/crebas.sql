@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/10/29 20:13:42                          */
+/* Created on:     2013/11/7 14:54:58                           */
 /*==============================================================*/
 
 
@@ -13,8 +13,7 @@ create table ips
    name                 varchar(50) comment '操作名称 用于显示',
    type                 int,
    primary key (ip)
-)
-ENGINE = MYISAM;
+);
 
 alter table ips comment ' ';
 
@@ -37,8 +36,7 @@ create table menu
    url                  varchar(100),
    type                 int,
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table menu comment '菜单表';
 
@@ -51,8 +49,7 @@ create table operate
    name                 varchar(50) comment '操作名称 用于显示',
    type                 int,
    primary key (link)
-)
-ENGINE = MYISAM;
+);
 
 alter table operate comment '操作信息表';
 
@@ -76,8 +73,7 @@ create table operate_logs
    content              text,
    state                tinyint,
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table operate_logs comment '日志信息表';
 
@@ -97,8 +93,7 @@ create table role
    id                   int not null auto_increment comment '主键',
    name                 varchar(50) comment '角色名',
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table role comment '角色信息表';
 
@@ -111,8 +106,7 @@ create table role_authority
    authority_id         int default 0,
    role_id              int default 0 comment '角色ID',
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table role_authority comment '角色与权限关系表';
 
@@ -125,8 +119,7 @@ create table role_menu
    role_id              int,
    menu_id              int,
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table role_menu comment '角色与菜单关系表';
 
@@ -147,8 +140,7 @@ create table role_operate
    operate              varchar(50) default '0',
    role_id              int default 0 comment '角色ID',
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 alter table role_operate comment '角色与操作关系表';
 

@@ -41,15 +41,13 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 	public String changePwd() throws Exception {
 		if (newPwd.equals(echoPwd)) {
 			// 获得原Bean
-			user = service.get(user);
+			EntityUser u = service.get(user.getClass(), key);
 			// 判断是否原始密码
-			if (oldPwd.equals(user.getPassword())) {
+			if (Digest.absolute(oldPwd).equals(u.getPassword())) {
 				// 设置新密码
-				user.setPassword(Digest.absolute(newPwd));
-				// 修改
-				service.update(entity);
+				u.setPassword(newPwd);
 				// 返回成功
-				return callback(SUCCESS);
+				return callback(service.update(u));
 			}
 		}
 		// 返回失败
