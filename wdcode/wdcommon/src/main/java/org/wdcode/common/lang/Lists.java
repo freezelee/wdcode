@@ -151,7 +151,7 @@ public final class Lists {
 		// 判断firstResult
 		begin = begin < 0 ? 0 : begin;
 		// 判断maxResults
-		end = end < 0 || (begin + end) > size ? size - begin : end;
+		end = end < 1 || (begin + end) > size ? size - begin : end;
 		// 获得循环长度
 		int len = begin + end;
 		// 声明一个保存结果的列表
