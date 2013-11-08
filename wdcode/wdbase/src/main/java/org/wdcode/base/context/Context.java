@@ -49,7 +49,7 @@ public final class Context {
 	@PostConstruct
 	protected void init() {
 		// 获得所有实体
-		Map<String, Entity> map = applicationContext.getBeansOfType(Entity.class);
+		Map<String, Entity> map = getBeans(Entity.class);
 		// 实例化短类名对应的类对象Map
 		classes = Maps.getConcurrentMap();
 		// 循环赋值

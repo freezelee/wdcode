@@ -47,16 +47,17 @@ public final class QuartzEngine {
 	 * 初始化任务
 	 */
 	public static void init() {
-		// 循环数组
-		for (String name : QuartzParams.NAMES) {
-			try {
-				add((Class<? extends Job>) ClassUtil.forName(QuartzParams.getClass(name)), QuartzParams.getTrigger(name));
-			} catch (Exception e) {
-				Logs.warn(e);
-			}
-		}
-		// 判断任务不为空
+		// 判断任务开启
 		if (QuartzParams.POWER) {
+			// 循环数组
+			for (String name : QuartzParams.NAMES) {
+				try {
+					add((Class<? extends Job>) ClassUtil.forName(QuartzParams.getClass(name)), QuartzParams.getTrigger(name));
+				} catch (Exception e) {
+					Logs.warn(e);
+				}
+			}
+			// 执行
 			start();
 		}
 	}
