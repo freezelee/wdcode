@@ -34,6 +34,7 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
@@ -533,13 +534,17 @@ public class BasicAction extends ActionSupport {
 	 * @param isClose 是否关闭流
 	 * @throws IOException
 	 */
-	public void write(String str, String charsetName) throws IOException {
+	public void write(String str, String charsetName) {
 		// 清除缓存
 		ResponseUtil.noCache(response);
 		// 设置编码
 		response.setCharacterEncoding(charsetName);
 		// 写入到前端
-		response.getWriter().write(str);
+		try {
+			response.getWriter().write(str);
+		} catch (IOException e) {
+			Logs.debug(e);
+		}
 		// StreamUtil.write(response.getOutputStream(), str, charsetName, isClose);
 	}
 
@@ -548,7 +553,7 @@ public class BasicAction extends ActionSupport {
 	 * @param s 字符串标识
 	 * @return 返回标识
 	 */
-	public String callback(Object obj) throws Exception {
+	public String callback(Object obj) {
 		// 判断使用哪种模式
 		if ("ajax".equals(mode)) {
 			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj : BeanUtil.getFieldValue(obj, field));
@@ -570,7 +575,11 @@ public class BasicAction extends ActionSupport {
 			}
 			// 方法不为空
 			if (method != null) {
-				return Conversion.toString(method.invoke(this, obj), null);
+				try {
+					return Conversion.toString(method.invoke(this, obj), null);
+				} catch (Exception e) {
+					Logs.debug(e);
+				}
 			}
 			if (obj == null) {
 				return addMessage(ERROR);
@@ -655,7 +664,7 @@ public class BasicAction extends ActionSupport {
 	 * 输出数据到客户端方法
 	 * @param json 对象
 	 */
-	public String ajax(Object data) throws Exception {
+	public String ajax(Object data) {
 		return ajax(data, CommonParams.ENCODING);
 	}
 
@@ -664,7 +673,7 @@ public class BasicAction extends ActionSupport {
 	 * @param json 对象
 	 * @param charsetName 编码
 	 */
-	public String ajax(Object data, String charsetName) throws Exception {
+	public String ajax(Object data, String charsetName) {
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
@@ -693,8 +702,17 @@ public class BasicAction extends ActionSupport {
 		StringBuilder name = new StringBuilder(BaseParams.UPLOAD_RESOURCE ? StringConstants.EMPTY : BaseParams.UPLOAD_PATH);
 		name.append(EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH);
 		name.append(Digest.absolute(fileName, 20));
-		name.append(StringConstants.POINT);
-		name.append(StringUtil.subStringLast(fileName, StringConstants.POINT));
+		// 是否处理后缀
+		if (BaseParams.UPLOAD_SUFFIX) {
+			// 获得后缀
+			String suffix = StringUtil.subStringLast(fileName, StringConstants.POINT);
+			// 判断后缀不在处理列表中
+			if (!BaseParams.UPLOAD_POSTFIX.contains(suffix)) {
+				name.append(StringConstants.POINT);
+				name.append(suffix);
+			}
+		}
+		// 返回文件名
 		return name.toString();
 	}
 }

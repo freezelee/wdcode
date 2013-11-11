@@ -6,12 +6,15 @@
 		<attribute>cookie</attribute>
 	</save>
 	
-	<!-- 上传文件
+	<!-- 上传文件 -->
 	<upload>
+		<!-- 
 		<resource>true</resource>
 		<path>d:\111\</path>
+		 -->
+		 <postfix>swf,flvs</postfix>
 	</upload>
-	 -->
+	
 	<!-- 权限验证 --> 
 	<security> 
 	    <role>false</role>  

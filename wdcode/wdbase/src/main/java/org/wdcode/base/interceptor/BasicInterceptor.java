@@ -25,10 +25,10 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 					// 后置方法 返回结果
 					return after(action, invocation.invoke());
 				} catch (Exception e) {
-					return action.callback(exception(action, e));
+					return exception(action, e);
 				}
 			} else {
-				return action.callback(BasicAction.INPUT);
+				return BasicAction.INPUT;
 			}
 
 		} else {

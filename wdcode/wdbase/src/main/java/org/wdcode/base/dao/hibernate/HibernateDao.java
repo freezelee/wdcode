@@ -793,12 +793,11 @@ public final class HibernateDao implements Dao {
 			// 返回对象
 			return t;
 		} catch (Exception e) {
-			Logs.warn(e);
 			// 回滚事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				tx.rollback();
 			}
-			throw new RuntimeException(e);
+			throw e;
 		} finally {
 			// 自己关闭session
 			if (isSession) {
