@@ -55,7 +55,7 @@ public final class LoginEngine {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
 		// 保存登录信息
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, SiteParams.LOGIN_SAVE_TOKEN ? encrypt(token) : token, maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, SiteParams.LOGIN_SAVE_TOKEN ? encrypt(token) : Encrypts.encrypt(token.toString()), maxAge);
 	}
 
 	/**
@@ -73,7 +73,10 @@ public final class LoginEngine {
 			AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 			return token;
 		} else {
-			return SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(info, LoginToken.class);
+			// 解密登录凭证
+			LoginToken token = SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(Decrypts.decryptString(info), LoginToken.class);
+			// 如果登录凭证为null返回空
+			return token == null ? EMPTY : token;
 		}
 	}
 
