@@ -57,6 +57,10 @@ public final class SiteParams {
 	 */
 	public final static int		LOGIN_GUEST_ID				= Params.getInt("login.guest.id", -1);
 	/**
+	 * 登录游客ID下标开始
+	 */
+	public final static boolean	LOGIN_SAVE_TOKEN			= Params.getBoolean("login.save.token", false);
+	/**
 	 * 是否静态化
 	 */
 	public final static boolean	IS_STATICS_POWER			= Params.getBoolean("staics.power", false);

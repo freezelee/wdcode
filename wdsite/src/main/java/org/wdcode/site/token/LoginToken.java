@@ -16,10 +16,10 @@ import org.wdcode.web.util.IpUtil;
 public class LoginToken implements AuthToken {
 	// 用户ID
 	protected int		id;
-	// 用户名
-	protected String	name;
 	// 登录时间
 	protected int		time;
+	// 用户名
+	protected String	name;
 	// 登录IP
 	protected String	loginIp;
 	// 服务器IP
@@ -58,88 +58,44 @@ public class LoginToken implements AuthToken {
 		this.serverIp = serverIp;
 	}
 
-	/**
-	 * 是否登录
-	 * @return 是否登录
-	 */
+	@Override
 	public boolean isLogin() {
 		return id > 0 && time > 0;
 	}
 
-	/**
-	 * 获得用户ID
-	 * @return 用户ID
-	 */
+	@Override
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * 获得用户名
-	 * @return 用户名
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * 获得登录时间
-	 * @return 登录时间
-	 */
+	@Override
 	public int getTime() {
 		return time;
 	}
 
-	/**
-	 * 设置ID
-	 * @param id ID
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * 设置用户名
-	 * @param name 用户名
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * 设置登录时间
-	 * @param time 登录时间
-	 */
-	public void setTime(int time) {
-		this.time = time;
-	}
-
+	@Override
 	public String getLoginIp() {
 		return loginIp;
 	}
 
-	public void setLoginIp(String loginIp) {
-		this.loginIp = loginIp;
-	}
-
+	@Override
 	public String getServerIp() {
 		return serverIp;
 	}
 
-	public void setServerIp(String serverIp) {
-		this.serverIp = serverIp;
+	@Override
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * 重写方法
-	 */
+	@Override
 	public String toString() {
 		return JsonEngine.toJson(this);
 	}
 
 	@Override
 	public byte[] toBytes() {
-		return Bytes.toBytes(id, time, IpUtil.encode(loginIp), IpUtil.encode(serverIp), name);
+		return Bytes.toBytes(id, time, IpUtil.encode(loginIp), IpUtil.encode(serverIp));
 	}
 
 	@Override
@@ -150,7 +106,6 @@ public class LoginToken implements AuthToken {
 			this.time = Bytes.toInt(b, 4);
 			this.loginIp = IpUtil.decode(Bytes.toInt(b, 8));
 			this.serverIp = IpUtil.decode(Bytes.toInt(b, 12));
-			this.name = Bytes.toString(b, 16);
 		}
 		// 返回自身
 		return this;

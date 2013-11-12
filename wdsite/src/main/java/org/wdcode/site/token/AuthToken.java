@@ -40,20 +40,8 @@ public interface AuthToken extends BytesBean {
 	String getLoginIp();
 
 	/**
-	 * 设置登录IP
-	 * @param ip IP
-	 */
-	void setLoginIp(String ip);
-
-	/**
 	 * 获得服务器IP
 	 * @return IP
 	 */
 	String getServerIp();
-
-	/**
-	 * 设置服务器IP
-	 * @param ip IP
-	 */
-	void setServerIp(String ip);
 }

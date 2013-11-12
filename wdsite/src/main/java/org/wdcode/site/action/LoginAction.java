@@ -7,19 +7,14 @@ import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.base.entity.EntityUserId;
-import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.crypto.Decrypts;
-import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.common.util.StringUtil;
 import org.wdcode.site.constants.SiteConstants;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.AuthToken;
-import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.VerifyCodeUtil;
 
 /**
@@ -180,7 +175,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String token() throws Exception {
-		return ajax(token(token));
+		return callback(LoginEngine.token(token));
 	}
 
 	/**
@@ -188,7 +183,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String verifyToken() throws Exception {
-		return callback(verifyToken(Conversion.toString(key)).isLogin());
+		return callback(LoginEngine.verifyToken(Conversion.toString(key)).isLogin());
 	}
 
 	/**
@@ -246,51 +241,5 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	protected int getLoginTime() {
 		return autoLogin ? SiteParams.LOGIN_MAX_AGE : SiteParams.LOGIN_MIN_AGE;
-	}
-
-	/**
-	 * 用户KEY
-	 * @param info
-	 * @return
-	 */
-	protected int verifyUserKey(String info) {
-		return Conversion.toInt(Decrypts.decryptString(info));
-	}
-
-	/**
-	 * 获得登录凭证
-	 * @param token
-	 * @return
-	 */
-	protected String token(AuthToken token) {
-		// 加密登录凭证字符串
-		String info = LoginEngine.encrypt(token);
-		// 返回加密字符串
-		return Digest.absolute(info, 5) + StringConstants.MIDLINE + info;
-	}
-
-	/**
-	 * 验证登录凭证
-	 * @return 登录实体
-	 */
-	protected LoginToken verifyToken(String info) {
-		try {
-			// 验证去掉"""
-			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
-			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > 5 && info.indexOf(StringConstants.MIDLINE) == 5) {
-				// 分解信息
-				String[] temp = info.split(StringConstants.MIDLINE);
-				// 分解的信息不为空并且只有2组
-				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-					// 判断校验串是否合法
-					if (temp[0].equals(Digest.absolute(temp[1], 5))) {
-						return LoginEngine.decrypt(temp[1]);
-					}
-				}
-			}
-		} catch (Exception ex) {}
-		// 返回一个空的登录凭证
-		return LoginEngine.empty();
 	}
 }

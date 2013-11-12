@@ -8,7 +8,6 @@ import org.wdcode.back.po.Admin;
 import org.wdcode.back.po.Authority;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
@@ -44,8 +43,8 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 			}
 		}
 		this.id = admin.getId();
-		this.name = admin.getName();
 		this.password = admin.getPassword();
+		this.name = admin.getName();
 		this.time = time;
 		this.enabled = Conversion.toInt(admin.getState()) == 1;
 	}
@@ -56,11 +55,6 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	 */
 	public Admin getAdmin() {
 		return admin;
-	}
-
-	@Override
-	public boolean isLogin() {
-		return !EmptyUtil.isEmpty(name) && time > 0;
 	}
 
 	@Override
@@ -79,18 +73,8 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	}
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
 	public String getPassword() {
 		return password;
-	}
-
-	@Override
-	public String getUsername() {
-		return name;
 	}
 
 	@Override
@@ -116,5 +100,10 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	@Override
 	public String toString() {
 		return JsonEngine.toJson(this);
+	}
+
+	@Override
+	public String getUsername() {
+		return name;
 	}
 }
