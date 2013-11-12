@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -26,6 +27,7 @@ import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.BeanUtil;
@@ -89,6 +91,10 @@ public class BasicAction extends ActionSupport {
 	protected HttpServletRequest				request;
 	// HttpServletResponse
 	protected HttpServletResponse				response;
+	// HttpSession
+	protected HttpSession						session;
+	// 错误信息
+	protected List<String>						error;
 
 	/**
 	 * 初始化方法
@@ -104,6 +110,9 @@ public class BasicAction extends ActionSupport {
 		// 获得request与response
 		request = context.getRequest();
 		response = context.getResponse();
+		session = request.getSession();
+		// 声明错误信息
+		error = Lists.getList();
 	}
 
 	/**
@@ -279,6 +288,14 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 获得错误信息列表
+	 * @return
+	 */
+	public List<String> getError() {
+		return error;
+	}
+
+	/**
 	 * 获得国际化值
 	 */
 	public String getText(String name) {
@@ -388,8 +405,8 @@ public class BasicAction extends ActionSupport {
 	 * 添加错误信息 错误Field=key value=国际化value
 	 * @param key 国际化文件的Key
 	 */
-	public void addFieldError(String key) {
-		addFieldError(key, getText(key));
+	public void addError(String key) {
+		error.add(getText(key));
 	}
 
 	/**

@@ -102,9 +102,9 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 验证验证码 判断验证码都为空 跳过验证码检查
 		if (!VerifyCodeUtil.check(request, response, verifyCode)) {
 			// 添加错误信息
-			// addFieldError("verify.code.error");
+			addError("verifyCode,error");
 			// 返回登陆页
-			return callback(INPUT);
+			return callback(LOGIN);
 		}
 		// 查询获得用户实体
 		U bean = service.get(user);
@@ -140,7 +140,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 			return callback(bean);
 		} else {
 			// 添加错误信息
-			// addFieldError("login.fail");
+			addError("login,fail");
 			// 登录失败
 			return callback(LOGIN);
 		}

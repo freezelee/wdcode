@@ -18,7 +18,6 @@ import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.IpUtil;
-import org.wdcode.web.util.SessionUtil;
 
 /**
  * 登录信息Bean
@@ -90,7 +89,7 @@ public final class LoginEngine {
 		// 写入用户信息
 		AttributeUtil.remove(request, response, key + INFO);
 		// 销毁用户session
-		SessionUtil.close(request.getSession());
+		// SessionUtil.close(request.getSession());
 	}
 
 	/**
