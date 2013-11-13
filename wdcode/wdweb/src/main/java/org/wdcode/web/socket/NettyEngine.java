@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.web.params.NettyParams;
@@ -94,7 +95,7 @@ public final class NettyEngine {
 		// Netty ServerBootstrap
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(), new NioEventLoopGroup());
+		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
 		// 设置channel
 		bootstrap.channel(NioServerSocketChannel.class);
 		// 设置属性
@@ -141,7 +142,7 @@ public final class NettyEngine {
 		// // 实例化ClientBootstrap
 		Bootstrap bootstrap = new Bootstrap();
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup());
+		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
 		// 设置channel
 		bootstrap.channel(NioSocketChannel.class);
 		// 设置属性

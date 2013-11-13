@@ -6,7 +6,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.core.zip.Zip;
 
@@ -27,7 +27,7 @@ public final class ZipImpl implements Zip {
 			// 设置压缩实体
 			zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
 			// 把压缩后的字节数组写到输出流
-			StreamUtil.write(zip, b, false);
+			IOUtil.write(zip, b, false);
 			// 完成压缩数据
 			zip.finish();
 			// 返回字节数组
@@ -46,7 +46,7 @@ public final class ZipImpl implements Zip {
 		try (ByteArrayOutputStream baos = Bytes.getOutputStream(); ZipInputStream zin = new ZipInputStream(Bytes.getInputStream(b))) {
 			// 循环解压缩
 			while (zin.getNextEntry() != null) {
-				baos.write(StreamUtil.read(zin, false));
+				baos.write(IOUtil.read(zin, false));
 				baos.flush();
 			}
 			// 返回字节数组

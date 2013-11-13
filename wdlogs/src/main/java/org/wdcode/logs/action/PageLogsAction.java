@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import org.wdcode.base.entity.EntityLogin;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
@@ -43,7 +43,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 			// 添加日志
 			service.insert(entity);
 			// 返回日志ID
-			StreamUtil.write(response.getOutputStream(), Conversion.toString(entity.getKey()));
+			IOUtil.write(response.getOutputStream(), Conversion.toString(entity.getKey()));
 		}
 		// 返回null
 		return null;

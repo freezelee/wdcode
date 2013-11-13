@@ -31,7 +31,7 @@ public abstract class BaseSocketNio {
 	 */
 	public byte[] accept() {
 		acceptSocket();
-		return ChannelUtil.read(socket);
+		return ChannelUtil.read(socket, false);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public abstract class BaseSocketNio {
 	 */
 	public void send(Object obj) {
 		acceptSocket();
-		ChannelUtil.write(socket, Bytes.toBytes(obj));
+		ChannelUtil.write(socket, Bytes.toBytes(obj), false);
 	}
 
 	/**

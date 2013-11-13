@@ -3,7 +3,7 @@ package org.wdcode.core.zip.impl;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.InflaterInputStream;
 
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.core.zip.Zip;
 
@@ -20,7 +20,7 @@ public final class ZlibImpl implements Zip {
 	 * @return 压缩后的字节数组
 	 */
 	public byte[] compress(byte[] b) {
-		return StreamUtil.read(new DeflaterInputStream(Bytes.getInputStream(b)));
+		return IOUtil.read(new DeflaterInputStream(Bytes.getInputStream(b)));
 	}
 
 	/**
@@ -29,6 +29,6 @@ public final class ZlibImpl implements Zip {
 	 * @return 解压后数据
 	 */
 	public byte[] extract(byte[] b) {
-		return StreamUtil.read(new InflaterInputStream(Bytes.getInputStream(b)));
+		return IOUtil.read(new InflaterInputStream(Bytes.getInputStream(b)));
 	}
 }

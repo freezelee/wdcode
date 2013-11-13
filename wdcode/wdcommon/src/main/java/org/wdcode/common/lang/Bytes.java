@@ -18,7 +18,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.common.io.ChannelUtil;
 import org.wdcode.common.io.FileUtil;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -117,7 +117,7 @@ public final class Bytes {
 			b = FileUtil.read((File) obj);
 		} else if (obj instanceof InputStream) {
 			// File
-			b = StreamUtil.read((InputStream) obj, false);
+			b = IOUtil.read((InputStream) obj, false);
 		} else if (obj instanceof ReadableByteChannel) {
 			// File
 			b = ChannelUtil.read((ReadableByteChannel) obj, false);

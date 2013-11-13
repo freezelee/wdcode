@@ -44,7 +44,7 @@
 	  
 	<root>
 		<!-- 日志级别 -->
-		<priority value ="info"/>
+		<priority value ="debug"/>
 		
 		<!-- 控制台信息   -->
 		<appender-ref ref="ASYNC_CONSOLE" /> 

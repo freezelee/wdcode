@@ -10,7 +10,7 @@ import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.core.log.Logs;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.constants.HttpConstants;
@@ -65,7 +65,7 @@ public final class HttpJava extends BaseHttp {
 			// 连接
 			connection.connect();
 			// 返回字节数组
-			return StreamUtil.read(connection.getInputStream());
+			return IOUtil.read(connection.getInputStream());
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
@@ -102,12 +102,12 @@ public final class HttpJava extends BaseHttp {
 					sb.append(StringConstants.AMP);
 				}
 				// 写数据流
-				StreamUtil.write(connection.getOutputStream(), sb.substring(0, sb.length() - 1), encoding);
+				IOUtil.write(connection.getOutputStream(), sb.substring(0, sb.length() - 1), encoding);
 			}
 			// 连接
 			connection.connect();
 			// 返回字节数组
-			return StringUtil.toString(StreamUtil.read(connection.getInputStream()), encoding);
+			return StringUtil.toString(IOUtil.read(connection.getInputStream()), encoding);
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {

@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.wdcode.core.log.Logs;
-import org.wdcode.common.io.StreamUtil; 
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.util.ResourceUtil;
 import org.wdcode.web.util.HttpUtil;
 import org.wdcode.web.util.ResponseUtil;
@@ -61,7 +61,7 @@ public final class StaticFilter implements Filter {
 				// 设置ContentType
 				ResponseUtil.setContentType(response, HttpUtil.getContentType(servletPath));
 				// 写入到客户端
-				StreamUtil.write(response.getOutputStream(), UrlUtil.openStream(ResourceUtil.getResource(servletPath.replaceAll(urlPath, filePath))));
+				IOUtil.write(response.getOutputStream(), UrlUtil.openStream(ResourceUtil.getResource(servletPath.replaceAll(urlPath, filePath))));
 			}
 		} catch (RuntimeException e) {
 			Logs.warn(e);

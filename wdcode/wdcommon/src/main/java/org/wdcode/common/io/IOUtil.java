@@ -23,7 +23,7 @@ import org.wdcode.common.util.StringUtil;
  * @since JDK7
  * @version 1.0 2012-02-17
  */
-public final class StreamUtil {
+public final class IOUtil {
 	// IO接口
 	private final static IO	IO;
 
@@ -160,7 +160,7 @@ public final class StreamUtil {
 	/**
 	 * 私有构造
 	 */
-	private StreamUtil() {}
+	private IOUtil() {}
 
 	/**
 	 * IO方法接口 内部使用
@@ -271,12 +271,12 @@ public final class StreamUtil {
 	}
 
 	/**
-	 * 新IO操作
+	 * 基础IO操作
 	 * @author WD
 	 * @since JDK7
 	 * @version 1.0 2012-02-17
 	 */
-	static final class NIO implements IO {
+	static abstract class BaseIO implements IO {
 		/**
 		 * 读取InputStream内容成为字符串
 		 * @param in 输入流
@@ -306,16 +306,6 @@ public final class StreamUtil {
 		}
 
 		/**
-		 * 读取出输入流的所有字节
-		 * @param in 输入流
-		 * @param isClose 是否关闭流
-		 * @return 字节数组
-		 */
-		public byte[] read(InputStream in, boolean isClose) {
-			return ChannelUtil.read(Channels.newChannel(in), isClose);
-		}
-
-		/**
 		 * 把text写入到os中
 		 * @param out 输出流
 		 * @param text 输入的字符串
@@ -337,27 +327,6 @@ public final class StreamUtil {
 		}
 
 		/**
-		 * 把字节数组写入到out中
-		 * @param out 输出流
-		 * @param b 字节数组
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, byte[] b) {
-			return ChannelUtil.write(Channels.newChannel(out), b, true);
-		}
-
-		/**
-		 * 把字节数组写入到os中
-		 * @param out 输出流
-		 * @param in 输入流
-		 * @param isClose 是否关闭流
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, byte[] b, boolean isClose) {
-			return ChannelUtil.write(Channels.newChannel(out), b, isClose);
-		}
-
-		/**
 		 * 把输入流写入到os中
 		 * @param out 输出流
 		 * @param in 输入流
@@ -365,17 +334,6 @@ public final class StreamUtil {
 		 */
 		public boolean write(OutputStream out, InputStream in) {
 			return write(out, in, true);
-		}
-
-		/**
-		 * 把text写入到os中
-		 * @param out 输出流
-		 * @param in 输入流
-		 * @param isClose 是否关闭流
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, InputStream in, boolean isClose) {
-			return ChannelUtil.write(Channels.newChannel(out), in, isClose);
 		}
 
 		/**
@@ -400,34 +358,36 @@ public final class StreamUtil {
 		public boolean write(OutputStream out, String text, String charsetName, boolean isClose) {
 			return write(out, StringUtil.toBytes(text, charsetName), isClose);
 		}
+
+		/**
+		 * 把字节数组写入到流中
+		 * @param out 输出流
+		 * @param b 字节数组
+		 * @return 是否成功
+		 */
+		public boolean write(OutputStream out, byte[] b) {
+			return write(out, b, true);
+		}
+
+		/**
+		 * 把字节数组写入到流中
+		 * @param out 输出流
+		 * @param b 字节数组
+		 * @param isClose 是否关闭流
+		 * @return 是否成功
+		 */
+		public boolean write(OutputStream out, byte[] b, boolean isClose) {
+			return write(out, Bytes.getInputStream(b), isClose);
+		}
 	}
 
 	/**
-	 * 旧IO操作
+	 * 堵塞IO操作
 	 * @author WD
 	 * @since JDK7
 	 * @version 1.0 2012-02-17
 	 */
-	static final class OIO implements IO {
-		/**
-		 * 读取InputStream内容成为字符串 默认使用UTF-8
-		 * @param in 输入流
-		 * @return 读取的字符串
-		 */
-		public String readString(InputStream in) {
-			return readString(in, CommonParams.ENCODING);
-		}
-
-		/**
-		 * 读取InputStream内容成为字符串
-		 * @param in 输入流
-		 * @param charsetName 编码格式
-		 * @return 读取的字符串
-		 */
-		public String readString(InputStream in, String charsetName) {
-			return readString(in, charsetName, true);
-		}
-
+	static final class OIO extends BaseIO {
 		/**
 		 * 读取InputStream内容成为字符串
 		 * @param in 输入流
@@ -464,15 +424,6 @@ public final class StreamUtil {
 		/**
 		 * 读取出输入流的所有字节
 		 * @param in 输入流
-		 * @return 字节数组
-		 */
-		public byte[] read(InputStream in) {
-			return read(in, true);
-		}
-
-		/**
-		 * 读取出输入流的所有字节
-		 * @param in 输入流
 		 * @param isClose 是否关闭流
 		 * @return 字节数组
 		 */
@@ -497,26 +448,6 @@ public final class StreamUtil {
 			}
 			// 返回字节数组
 			return out.toByteArray();
-		}
-
-		/**
-		 * 把text写入到os中 默认使用UTF-8编码
-		 * @param os 输出流
-		 * @param text 输入的字符串
-		 */
-		public boolean write(OutputStream os, String text) {
-			return write(os, text, CommonParams.ENCODING, true);
-		}
-
-		/**
-		 * 把text写入到os中
-		 * @param out 输出流
-		 * @param text 输入的字符串
-		 * @param charsetName 编码格式
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, String text, String charsetName) {
-			return write(out, text, charsetName, true);
 		}
 
 		/**
@@ -547,37 +478,6 @@ public final class StreamUtil {
 			}
 			// 返回失败
 			return false;
-		}
-
-		/**
-		 * 把字节数组写入到流中
-		 * @param out 输出流
-		 * @param b 字节数组
-		 * @return 是否成功
-		 */
-		public boolean write(OutputStream out, byte[] b) {
-			return write(out, Bytes.getInputStream(b), true);
-		}
-
-		/**
-		 * 把字节数组写入到流中
-		 * @param out 输出流
-		 * @param b 字节数组
-		 * @param isClose 是否关闭流
-		 * @return 是否成功
-		 */
-		public boolean write(OutputStream out, byte[] b, boolean isClose) {
-			return write(out, Bytes.getInputStream(b), isClose);
-		}
-
-		/**
-		 * 把text写入到out中
-		 * @param out 输出流
-		 * @param in 输入流
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, InputStream in) {
-			return write(out, in, true);
 		}
 
 		/**
@@ -613,6 +513,54 @@ public final class StreamUtil {
 				}
 			}
 			// 返回失败
+			return false;
+		}
+	}
+
+	/**
+	 * 非堵塞IO操作
+	 * @author WD
+	 * @since JDK7
+	 * @version 1.0 2012-02-17
+	 */
+	static final class NIO extends BaseIO {
+		/**
+		 * 读取出输入流的所有字节
+		 * @param in 输入流
+		 * @param isClose 是否关闭流
+		 * @return 字节数组
+		 */
+		public byte[] read(InputStream in, boolean isClose) {
+			return ChannelUtil.read(Channels.newChannel(in), isClose);
+		}
+
+		/**
+		 * 把text写入到os中
+		 * @param out 输出流
+		 * @param in 输入流
+		 * @param isClose 是否关闭流
+		 * @return true false
+		 */
+		public boolean write(OutputStream out, InputStream in, boolean isClose) {
+			return ChannelUtil.write(Channels.newChannel(out), in, isClose);
+		}
+	}
+
+	/**
+	 * 异步IO操作
+	 * @author WD
+	 * @since JDK7
+	 * @version 1.0 2013-11-13
+	 */
+	static final class AIO extends BaseIO {
+
+		@Override
+		public byte[] read(InputStream in, boolean isClose) {
+			return null;
+		}
+
+		@Override
+		public boolean write(OutputStream out, InputStream in, boolean isClose) {
 			return false;
 		}
 	}

@@ -28,7 +28,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.nio.reactor.IOReactorException;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -201,7 +201,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 				return download(strategy.getLocationURI(get, response, null).toString());
 			} else {
 				// 其它状态获得字节数组
-				return StreamUtil.read(response.getEntity().getContent());
+				return IOUtil.read(response.getEntity().getContent());
 			}
 		} catch (Exception e) {
 			// 记录日志
@@ -249,7 +249,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 				return post(strategy.getLocationURI(post, response, null).toString(), data, referer);
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
-				return StringUtil.toString(StreamUtil.read(response.getEntity().getContent()), encoding);
+				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
 			}
 		} catch (Exception e) {
 			// 记录日志

@@ -8,7 +8,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.wdcode.common.constants.ArrayConstants;
-import org.wdcode.common.io.StreamUtil; 
+import org.wdcode.common.io.IOUtil; 
 import org.wdcode.core.log.Logs;
 
 /**
@@ -35,7 +35,7 @@ public final class Hadoop {
 	 */
 	public static void write(String fileName, byte[] data) {
 		try (FSDataOutputStream out = hdfs.create(new Path(fileName))) {
-			StreamUtil.write(out, data);
+			IOUtil.write(out, data);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
@@ -47,7 +47,7 @@ public final class Hadoop {
 	 */
 	public static byte[] read(String fileName) {
 		try (FSDataInputStream in = hdfs.open(new Path(fileName))) {
-			return StreamUtil.read(in);
+			return IOUtil.read(in);
 		} catch (Exception e) {
 			return ArrayConstants.BYTES_EMPTY;
 		}

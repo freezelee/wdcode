@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.wdcode.common.constants.ArrayConstants;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.core.log.Logs;
 
@@ -35,7 +35,7 @@ public abstract class BaseSocket {
 	public byte[] accept() {
 		try {
 			acceptSocket();
-			return StreamUtil.read(socket.getInputStream(), false);
+			return IOUtil.read(socket.getInputStream(), false);
 		} catch (IOException e) {
 			Logs.warn(e);
 			return ArrayConstants.BYTES_EMPTY;
@@ -49,7 +49,7 @@ public abstract class BaseSocket {
 	public void send(Object obj) {
 		try {
 			acceptSocket();
-			StreamUtil.write(socket.getOutputStream(), Bytes.toBytes(obj), false);
+			IOUtil.write(socket.getOutputStream(), Bytes.toBytes(obj), false);
 		} catch (IOException e) {
 			Logs.error(e);
 		}

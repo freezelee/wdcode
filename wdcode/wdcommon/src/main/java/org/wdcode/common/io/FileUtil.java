@@ -73,7 +73,7 @@ public final class FileUtil {
 	 * @param target 目标文件
 	 */
 	public static boolean copy(File src, File target) {
-		return StreamUtil.write(getOutputStream(target), getInputStream(src));
+		return IOUtil.write(getOutputStream(target), getInputStream(src));
 	}
 
 	/**
@@ -92,7 +92,7 @@ public final class FileUtil {
 	 * @return 读取文件的内容
 	 */
 	public static String readString(String fileName, String charsetName) {
-		return StreamUtil.readString(getInputStream(fileName), charsetName);
+		return IOUtil.readString(getInputStream(fileName), charsetName);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public final class FileUtil {
 	 * @return 读取文件字节数组
 	 */
 	public static byte[] read(String fileName) {
-		return StreamUtil.read(getInputStream(fileName));
+		return IOUtil.read(getInputStream(fileName));
 	}
 
 	/**
@@ -142,7 +142,7 @@ public final class FileUtil {
 	 * @return 读取文件字节数组
 	 */
 	public static byte[] read(File file) {
-		return StreamUtil.read(getInputStream(file));
+		return IOUtil.read(getInputStream(file));
 	}
 
 	/**
@@ -152,7 +152,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean write(String fileName, InputStream is) {
-		return StreamUtil.write(getOutputStream(fileName), is);
+		return IOUtil.write(getOutputStream(fileName), is);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean write(String fileName, File file) {
-		return StreamUtil.write(getOutputStream(fileName), getInputStream(file));
+		return IOUtil.write(getOutputStream(fileName), getInputStream(file));
 	}
 
 	/**
@@ -183,7 +183,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean write(String fileName, byte[] b, boolean append) {
-		return StreamUtil.write(FileUtil.getOutputStream(fileName, append), b);
+		return IOUtil.write(FileUtil.getOutputStream(fileName, append), b);
 	}
 
 	/**
@@ -250,7 +250,7 @@ public final class FileUtil {
 	 * @return true false
 	 */
 	public static boolean write(String fileName, String text, String charsetName, boolean append) {
-		return StreamUtil.write(getOutputStream(fileName, append), text, charsetName);
+		return IOUtil.write(getOutputStream(fileName, append), text, charsetName);
 	}
 
 	/**

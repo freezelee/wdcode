@@ -18,7 +18,7 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -115,7 +115,7 @@ public final class HttpApache3 extends BaseHttp {
 				return download(get.getURI().toString());
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
-				return StreamUtil.read(get.getResponseBodyAsStream());
+				return IOUtil.read(get.getResponseBodyAsStream());
 			}
 		} catch (Exception e) {
 			Logs.warn(e);
@@ -174,7 +174,7 @@ public final class HttpApache3 extends BaseHttp {
 				return post(post.getURI().toString(), data, referer);
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
-				return StringUtil.toString(StreamUtil.read(post.getResponseBodyAsStream()), encoding);
+				return StringUtil.toString(IOUtil.read(post.getResponseBodyAsStream()), encoding);
 			}
 		} catch (Exception e) {
 			Logs.warn(e);

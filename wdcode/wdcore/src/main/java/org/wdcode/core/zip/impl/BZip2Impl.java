@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
-import org.wdcode.common.io.StreamUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.core.zip.Zip;
 
@@ -22,7 +22,7 @@ public final class BZip2Impl implements Zip {
 	 */
 	public byte[] compress(byte[] b) {
 		try (ByteArrayOutputStream baos = Bytes.getOutputStream(); BZip2CompressorOutputStream bzip = new BZip2CompressorOutputStream(baos)) {
-			StreamUtil.write(bzip, b);
+			IOUtil.write(bzip, b);
 			// 压缩
 			bzip.finish();
 			bzip.flush();
@@ -40,7 +40,7 @@ public final class BZip2Impl implements Zip {
 	 */
 	public byte[] extract(byte[] b) {
 		try (BZip2CompressorInputStream gis = new BZip2CompressorInputStream(Bytes.getInputStream(b))) {
-			return StreamUtil.read(gis, false);
+			return IOUtil.read(gis, false);
 		} catch (Exception e) {
 			return b;
 		}
