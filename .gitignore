@@ -12,10 +12,10 @@ tmp/
 local.properties 
 .loadpath
 target/
-META-INF/
-.settings/
-.classpath
-.project
+#META-INF/
+#.settings/
+#.classpath
+#.project
 
 # External tool builders
 .externalToolBuilders/
