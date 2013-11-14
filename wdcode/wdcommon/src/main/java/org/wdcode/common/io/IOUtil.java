@@ -1,16 +1,11 @@
 package org.wdcode.common.io;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.channels.Channels;
 
-import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.CloseUtil;
@@ -389,39 +384,6 @@ public final class IOUtil {
 	 */
 	static final class OIO extends BaseIO {
 		/**
-		 * 读取InputStream内容成为字符串
-		 * @param in 输入流
-		 * @param charsetName 编码格式
-		 * @param isClose 是否关闭流
-		 * @return 读取的字符串
-		 */
-		public String readString(InputStream in, String charsetName, boolean isClose) {
-			// 创建可变字符序列
-			StringBuilder buffer = new StringBuilder();
-			// 声明BufferedReader
-			BufferedReader br = null;
-			try {
-				// 创建BufferedReader流对象
-				br = new BufferedReader(new InputStreamReader(in, charsetName), CommonParams.IO_BUFFERSIZE);
-				// 流的缓冲
-				String line;
-				// 读取内容
-				while ((line = br.readLine()) != null) {
-					// 把流转义的字符加入到字符序列中
-					buffer.append(line);
-					buffer.append(StringConstants.NEWLINE);
-				}
-			} catch (IOException e) {} finally {
-				// 关闭资源
-				if (isClose) {
-					CloseUtil.close(br, in);
-				}
-			}
-			// 返回流的字符串形式
-			return buffer.toString();
-		}
-
-		/**
 		 * 读取出输入流的所有字节
 		 * @param in 输入流
 		 * @param isClose 是否关闭流
@@ -448,36 +410,6 @@ public final class IOUtil {
 			}
 			// 返回字节数组
 			return out.toByteArray();
-		}
-
-		/**
-		 * 把text写入到os中
-		 * @param out 输出流
-		 * @param text 输入的字符串
-		 * @param charsetName 编码格式
-		 * @param isClose 是否关闭流
-		 * @return true false
-		 */
-		public boolean write(OutputStream out, String text, String charsetName, boolean isClose) {
-			// 声明BufferedWriter
-			BufferedWriter bw = null;
-			try {
-				// 获得BufferedWriter
-				bw = new BufferedWriter(new OutputStreamWriter(out, charsetName), CommonParams.IO_BUFFERSIZE);
-				// 写入字符串
-				bw.write(text);
-				// 刷新文件流 把流内所有内容更新到文件上
-				bw.flush();
-				// 返回成功
-				return true;
-			} catch (IOException e) {} finally {
-				// 关闭资源
-				if (isClose) {
-					CloseUtil.close(bw, out);
-				}
-			}
-			// 返回失败
-			return false;
 		}
 
 		/**
@@ -543,25 +475,6 @@ public final class IOUtil {
 		 */
 		public boolean write(OutputStream out, InputStream in, boolean isClose) {
 			return ChannelUtil.write(Channels.newChannel(out), in, isClose);
-		}
-	}
-
-	/**
-	 * 异步IO操作
-	 * @author WD
-	 * @since JDK7
-	 * @version 1.0 2013-11-13
-	 */
-	static final class AIO extends BaseIO {
-
-		@Override
-		public byte[] read(InputStream in, boolean isClose) {
-			return null;
-		}
-
-		@Override
-		public boolean write(OutputStream out, InputStream in, boolean isClose) {
-			return false;
 		}
 	}
 }

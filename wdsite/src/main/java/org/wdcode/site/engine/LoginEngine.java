@@ -68,14 +68,14 @@ public final class LoginEngine {
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
-			LoginToken token = new LoginToken(getGuestId(), "游客", IpUtil.getIp(request), request.getLocalAddr());
+			LoginToken token = guest(request);
 			AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 			return token;
 		} else {
 			// 解密登录凭证
 			LoginToken token = SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(Decrypts.decryptString(info), LoginToken.class);
 			// 如果登录凭证为null返回空
-			return token == null ? EMPTY : token;
+			return token == null ? guest(request) : token;
 		}
 	}
 
@@ -151,16 +151,16 @@ public final class LoginEngine {
 	 * 获得一样空登录信息
 	 * @return
 	 */
-	public static LoginToken empty() {
-		return EMPTY;
+	public static LoginToken guest(HttpServletRequest request) {
+		return new LoginToken(GUEST_ID--, "游客", IpUtil.getIp(request), IpUtil.getIp());
 	}
 
 	/**
-	 * 获得游客ID
-	 * @return 游客ID
+	 * 获得一样空登录信息
+	 * @return
 	 */
-	private static int getGuestId() {
-		return GUEST_ID--;
+	public static LoginToken empty() {
+		return EMPTY;
 	}
 
 	/**

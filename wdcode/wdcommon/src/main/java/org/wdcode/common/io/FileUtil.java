@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.FileChannel;
+import java.nio.file.Paths;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.lang.Conversion;
@@ -22,6 +24,16 @@ import org.wdcode.common.util.StringUtil;
  * @version 1.0 2009-03-01
  */
 public final class FileUtil {
+	// IO模式
+	private final static boolean	IO;
+	// AIO模式
+	private final static boolean	AIO;
+
+	static {
+		IO = "io".equalsIgnoreCase(CommonParams.IO_MODE);
+		AIO = "aio".equalsIgnoreCase(CommonParams.IO_MODE);
+	}
+
 	/**
 	 * 创建目录
 	 * @param path 目录路径
@@ -102,27 +114,37 @@ public final class FileUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(String fileName, long pos) {
-		// 获得随机读写文件
-		try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
-			if ("io".equalsIgnoreCase(CommonParams.IO_MODE)) {
+		if (IO) {
+			// 获得随机读写文件
+			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 声明字节数组
 				byte[] b = new byte[Conversion.toInt(file.length() - pos)];
 				// 读取文件
 				file.read(b);
 				// 返回字节数组
 				return b;
-			} else {
-				// 获得文件通道
-				try (FileChannel channel = file.getChannel();) {
-					// 声明字节数组
-					ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(file.length() - pos));
-					// 读取字节数组
-					channel.read(buf);
-					// 返回字节数组
-					return buf.array();
-				} catch (Exception e) {}
-			}
-		} catch (IOException e) {}
+			} catch (IOException e) {}
+		} else if (AIO) {
+			// 获得文件通道
+			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
+				// 声明字节数组
+				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				// 读取字节数组
+				channel.read(buf, pos);
+				// 返回字节数组
+				return buf.array();
+			} catch (Exception e) {}
+		} else {
+			// 获得文件通道
+			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
+				// 声明字节数组
+				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				// 读取字节数组
+				channel.read(buf, pos);
+				// 返回字节数组
+				return buf.array();
+			} catch (Exception e) {}
+		}
 		// 返回空字节数组
 		return ArrayConstants.BYTES_EMPTY;
 	}
@@ -194,19 +216,25 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static void write(String fileName, byte[] b, long pos) {
-		// 获得随机读写文件
-		try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
-			if ("io".equalsIgnoreCase(CommonParams.IO_MODE)) {
+		if (IO) {
+			// 获得随机读写文件
+			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 写字节数组
 				file.write(b);
-			} else {
-				// 获得文件通道
-				try (FileChannel channel = file.getChannel();) {
-					// 写字节数组
-					channel.write(ByteBuffer.wrap(b), pos);
-				} catch (Exception e) {}
-			}
-		} catch (IOException e) {}
+			} catch (IOException e) {}
+		} else if (AIO) {
+			// 获得文件通道
+			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
+				// 写字节数组
+				channel.write(ByteBuffer.wrap(b), pos);
+			} catch (Exception e) {}
+		} else {
+			// 获得文件通道
+			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
+				// 写字节数组
+				channel.write(ByteBuffer.wrap(b), pos);
+			} catch (Exception e) {}
+		}
 	}
 
 	/**

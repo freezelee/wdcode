@@ -559,10 +559,31 @@ public class BasicAction extends ActionSupport {
 		// 写入到前端
 		try {
 			response.getWriter().write(str);
-		} catch (IOException e) {
-			Logs.debug(e);
+		} catch (IOException e) {}
+	}
+
+	/**
+	 * 输出数据到客户端方法
+	 * @param json 对象
+	 * @param charsetName 编码
+	 */
+	public String ajax(Object data, String charsetName) {
+		// 声明返回字符串
+		StringBuilder s = new StringBuilder();
+		// 如果callback不为空 填补左括号
+		if (!EmptyUtil.isEmpty(callback)) {
+			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
 		}
-		// StreamUtil.write(response.getOutputStream(), str, charsetName, isClose);
+		// 添加json数据
+		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
+		// 如果callback不为空 填补右括号
+		if (!EmptyUtil.isEmpty(callback)) {
+			s.append(StringConstants.RIGHT_PARENTHESIS);
+		}
+		// 写字符串
+		write(s.toString(), charsetName);
+		// 返回空
+		return null;
 	}
 
 	/**
@@ -571,47 +592,63 @@ public class BasicAction extends ActionSupport {
 	 * @return 返回标识
 	 */
 	public String callback(Object obj) {
-		// 判断使用哪种模式
-		if ("ajax".equals(mode)) {
-			return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj : BeanUtil.getFieldValue(obj, field));
-		} else if ("sign".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
-		} else if ("key".equals(mode)) {
-			return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
+		// 声明方法
+		Method method = null;
+		// 获得Key相对的方法是否存在
+		if (METHODS.containsKey(mode)) {
+			method = METHODS.get(mode);
 		} else {
-			// 声明方法
-			Method method = null;
-			// 获得Key相对的方法是否存在
-			if (METHODS.containsKey(mode)) {
-				method = METHODS.get(mode);
-			} else {
-				// 不存在获得
-				synchronized (METHODS) {
-					METHODS.put(mode, method = BeanUtil.getDeclaredMethod(this, mode, Object.class));
-				}
-			}
-			// 方法不为空
-			if (method != null) {
-				try {
-					return Conversion.toString(method.invoke(this, obj), null);
-				} catch (Exception e) {
-					Logs.debug(e);
-				}
-			}
-			if (obj == null) {
-				return addMessage(ERROR);
-			} else if (obj instanceof String) {
-				return Conversion.toString(obj);
-			} else if (obj instanceof List<?>) {
-				return LIST;
-			} else if (obj instanceof Boolean) {
-				return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
-			} else if (obj instanceof Integer) {
-				return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
-			} else {
-				return addMessage(SUCCESS);
+			// 不存在获得
+			synchronized (METHODS) {
+				METHODS.put(mode, method = BeanUtil.getDeclaredMethod(this, mode, Object.class));
 			}
 		}
+		// 方法不为空
+		if (method != null) {
+			try {
+				return Conversion.toString(method.invoke(this, obj), null);
+			} catch (Exception e) {
+				Logs.debug(e);
+			}
+		}
+		if (obj == null) {
+			return addMessage(ERROR);
+		} else if (obj instanceof String) {
+			String re = Conversion.toString(obj);
+			return SUCCESS.equals(re) || ERROR.equals(re) ? addMessage(re) : re;
+		} else if (obj instanceof List<?>) {
+			return LIST;
+		} else if (obj instanceof Boolean) {
+			return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
+		} else if (obj instanceof Integer) {
+			return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
+		} else {
+			return addMessage(SUCCESS);
+		}
+	}
+
+	/**
+	 * 以ajax模式输出数据到客户端方法
+	 * @param json 对象
+	 */
+	protected String ajax(Object obj) {
+		return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj : BeanUtil.getFieldValue(obj, field), CommonParams.ENCODING);
+	}
+
+	/**
+	 * 以sign模式输出数据到客户端方法
+	 * @param json 对象
+	 */
+	protected String sign(Object obj) {
+		return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+	}
+
+	/**
+	 * 以key模式输出数据到客户端方法
+	 * @param json 对象
+	 */
+	protected String key(Object obj) {
+		return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
 	}
 
 	/**
@@ -675,38 +712,6 @@ public class BasicAction extends ActionSupport {
 		}
 		// 返回路径
 		return BaseParams.UPLOAD_SERVER ? getDomain() + name : name;
-	}
-
-	/**
-	 * 输出数据到客户端方法
-	 * @param json 对象
-	 */
-	public String ajax(Object data) {
-		return ajax(data, CommonParams.ENCODING);
-	}
-
-	/**
-	 * 输出数据到客户端方法
-	 * @param json 对象
-	 * @param charsetName 编码
-	 */
-	public String ajax(Object data, String charsetName) {
-		// 声明返回字符串
-		StringBuilder s = new StringBuilder();
-		// 如果callback不为空 填补左括号
-		if (!EmptyUtil.isEmpty(callback)) {
-			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
-		}
-		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
-		// 如果callback不为空 填补右括号
-		if (!EmptyUtil.isEmpty(callback)) {
-			s.append(StringConstants.RIGHT_PARENTHESIS);
-		}
-		// 写字符串
-		write(s.toString(), charsetName);
-		// 返回空
-		return null;
 	}
 
 	/**

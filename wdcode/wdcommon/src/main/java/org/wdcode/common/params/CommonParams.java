@@ -53,6 +53,10 @@ public final class CommonParams {
 	 */
 	public final static int		ENCRYPT_KEY_LENGTH_RC4	= Params.getInt("encrypt.key.length.RC4", 128) / UnitConstants.BYTE_BIT;
 	/**
+	 * RC4加密使用的密钥的长度(位)
+	 */
+	public final static int		ENCRYPT_KEY_LENGTH_RC5	= Params.getInt("encrypt.key.length.RC5", 128) / UnitConstants.BYTE_BIT;
+	/**
 	 * 非对称加密使用的密钥的长度(位)
 	 */
 	public final static int		ENCRYPT_KEY_LENGTH		= Params.getInt("encrypt.key.length", 1024);
