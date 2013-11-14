@@ -632,7 +632,7 @@ public class BasicAction extends ActionSupport {
 	 * @param json 对象
 	 */
 	protected String ajax(Object obj) {
-		return ajax(obj == null ? ERROR : EmptyUtil.isEmpty(field) ? obj : BeanUtil.getFieldValue(obj, field), CommonParams.ENCODING);
+		return ajax(obj == null ? ERROR : !EmptyUtil.isEmpty(field) && obj instanceof Entity ? BeanUtil.getFieldValue(obj, field) : obj, CommonParams.ENCODING);
 	}
 
 	/**
