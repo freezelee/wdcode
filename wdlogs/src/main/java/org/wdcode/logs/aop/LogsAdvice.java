@@ -1,11 +1,16 @@
 package org.wdcode.logs.aop;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import javax.annotation.Resource;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.wdcode.base.action.BasicAction;
+import org.wdcode.base.entity.Entity;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.DateUtil;
@@ -14,6 +19,7 @@ import org.wdcode.logs.action.PageLogsAction;
 import org.wdcode.logs.params.LogsParams;
 import org.wdcode.logs.po.LoginLogs;
 import org.wdcode.logs.po.LoginStatistics;
+import org.wdcode.logs.po.OperateLogs;
 import org.wdcode.logs.po.PageStatistics;
 import org.wdcode.site.action.LoginAction;
 import com.opensymphony.xwork2.Action;
@@ -120,6 +126,47 @@ public class LogsAdvice {
 				// 添加或删除
 				service.insertOrUpdate(statistics);
 			}
+		}
+	}
+
+	/**
+	 * 后置通知方法 记录日志
+	 * @param point aop切点信息
+	 * @param retVal 返回值
+	 */
+	@AfterReturning(pointcut = "execution(* org.wdcode.base.action.SuperAction.add(..)) or execution(* org.wdcode.base.action.SuperAction.adds(..)) or execution(* org.wdcode.base.action.SuperAction.edit(..)) or execution(* org.wdcode.base.action.SuperAction.dels(..)) or execution(* org.wdcode.base.action.SuperAction.del(..)) or execution(* org.wdcode.base.action.SuperAction.trun(..))", returning = "retVal")
+	public void operate(JoinPoint point, Object retVal) {
+		// 判断是否开启操作日志记录
+		if (LogsParams.OPERATE_LOGS) {
+			// 获得后台Action
+			LoginAction<?, ?> action = (LoginAction<?, ?>) point.getTarget();
+			// 获得登录状态
+			int state = BasicAction.ERROR.equals(retVal) ? 0 : 1;
+			// 获得提交的连接
+			String link = action.getLink();
+			// 获得操作实体
+			Entity entity = action.getEntity();
+			// 获得删除的IDS
+			Serializable[] keys = action.getKeys();
+			// 添加日志
+			OperateLogs logs = new OperateLogs();
+			// 设置用户ID
+			logs.setUserId(action.getToken().getId());
+			logs.setTime(DateUtil.getTime());
+			logs.setState(state);
+			logs.setName(link);
+			// 判断操作
+			if (EmptyUtil.isEmpty(keys)) {
+				// 判断实体不为空
+				if (!EmptyUtil.isEmpty(entity)) {
+					logs.setContent(entity.toString());
+				}
+			} else {
+				// 删除多个数据
+				logs.setContent(Arrays.toString((keys)));
+			}
+			// 记录日志
+			service.insert(logs);
 		}
 	}
 }

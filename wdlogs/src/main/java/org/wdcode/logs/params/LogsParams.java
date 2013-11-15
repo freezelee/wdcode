@@ -30,6 +30,10 @@ public final class LogsParams {
 	 * 页面访问统计是否开启
 	 */
 	public final static boolean		PAGE_STATISTICS		= Params.getBoolean("page.statistics", false);
+	/**
+	 * 操作日志是否开启
+	 */
+	public final static boolean		OPERATE_LOGS		= Params.getBoolean("operate.logs", false);
 
 	/**
 	 * 私有构造

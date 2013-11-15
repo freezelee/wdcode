@@ -1,29 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/11/7 14:54:58                           */
+/* Created on:     2013/11/15 14:11:34                          */
 /*==============================================================*/
 
-
-/*==============================================================*/
-/* Table: ips                                                   */
-/*==============================================================*/
-create table ips
-(
-   ip                   char(15) not null comment '操作连接',
-   name                 varchar(50) comment '操作名称 用于显示',
-   type                 int,
-   primary key (ip)
-);
-
-alter table ips comment ' ';
-
-/*==============================================================*/
-/* Index: Index_ID                                              */
-/*==============================================================*/
-create index Index_ID on ips
-(
-   ip
-);
 
 /*==============================================================*/
 /* Table: menu                                                  */
@@ -59,30 +38,6 @@ alter table operate comment '操作信息表';
 create index Index_ID on operate
 (
    link
-);
-
-/*==============================================================*/
-/* Table: operate_logs                                          */
-/*==============================================================*/
-create table operate_logs
-(
-   id                   int not null auto_increment comment '主键',
-   name                 varchar(50),
-   user_id              int comment '用户主键',
-   time                 int comment '操作时间',
-   content              text,
-   state                tinyint,
-   primary key (id)
-);
-
-alter table operate_logs comment '日志信息表';
-
-/*==============================================================*/
-/* Index: Index_Date                                            */
-/*==============================================================*/
-create index Index_Date on operate_logs
-(
-   time
 );
 
 /*==============================================================*/

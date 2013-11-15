@@ -1,10 +1,13 @@
 package org.wdcode.common.params;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.Config;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -67,6 +70,16 @@ public final class Params {
 		}
 		// 返回值
 		return value;
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public static List<String> getList(String key, List<String> defaultValue) {
+		return Lists.getList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
 	}
 
 	/**

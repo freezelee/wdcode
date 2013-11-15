@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.usertype.UserType; 
+import org.hibernate.usertype.UserType;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -116,7 +116,7 @@ public final class JsonType implements UserType, Serializable {
 			Field field = null;
 			for (String p : session.getFactory().getClassMetadata(owner.getClass()).getPropertyNames()) {
 				if (names[0].indexOf(StringUtil.subString(p, 0, 6)) > -1) {
-					field = BeanUtil.getDeclaredField(owner, p);
+					field = BeanUtil.getField(owner, p);
 					break;
 				}
 			}

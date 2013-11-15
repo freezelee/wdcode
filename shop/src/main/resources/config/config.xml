@@ -6,6 +6,9 @@
 		<attribute>cookie</attribute>
 	</save>
 	
+	<!-- 开启Spring任务 -->
+	<quartz><spring>false</spring></quartz>
+	
 	<!-- 上传文件 -->
 	<upload>
 		<!-- 

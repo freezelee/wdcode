@@ -32,30 +32,19 @@ public final class BeanUtil {
 			return target;
 		}
 		// 循环字段
-		for (Field field : source.getClass().getDeclaredFields()) {
+		for (Field field : getFields(source.getClass())) {
 			try {
-				// 强行设置Field可访问.
-				makeAccessible(field);
-				// 设置字段值
-				setFieldValue(target, field.getName(), field.get(source));
+				// 不是符合字段
+				if (!field.isSynthetic()) {
+					// 强行设置Field可访问.
+					makeAccessible(field);
+					// 设置字段值
+					setFieldValue(target, field.getName(), field.get(source));
+				}
 			} catch (Exception e) {}
 		}
 		// 返回对象
 		return target;
-	}
-
-	/**
-	 * 已反射方式给属性赋值
-	 * @param dest 目标对象
-	 * @param fieldName 属性名
-	 * @param fieldValue 属性值
-	 * @return 对象
-	 */
-	public static <T> T copyProperties(T dest, String fieldName, Object fieldValue) {
-		// 设置字段值
-		setFieldValue(dest, fieldName, fieldValue);
-		// 返回对象
-		return dest;
 	}
 
 	/**
@@ -67,7 +56,7 @@ public final class BeanUtil {
 	public static <T> T copyProperties(T dest, Map<String, ?> map) {
 		// 循环Map的实体
 		for (Map.Entry<String, ?> entry : map.entrySet()) {
-			copyProperties(dest, entry.getKey(), entry.getValue());
+			setFieldValue(dest, entry.getKey(), entry.getValue());
 		}
 		// 返回对象
 		return dest;
@@ -126,37 +115,6 @@ public final class BeanUtil {
 	}
 
 	/**
-	 * 反射调用get方法
-	 * @param target 调用的对象
-	 * @param name 属性名
-	 * @return 调用返回的值
-	 */
-	public static Object invokeGetterMethod(Object target, String name) {
-		return invokeMethod(target, StringUtil.getMethodName(StringConstants.GET, name), new Class[] {}, new Object[] {});
-	}
-
-	/**
-	 * 反射调用Setter方法.使用value的Class来查找Setter方法.
-	 * @param target 调用的对象
-	 * @param name 属性名
-	 * @param value 属性值
-	 */
-	public static void invokeSetterMethod(Object target, String name, Object value) {
-		invokeSetterMethod(target, name, value, null);
-	}
-
-	/**
-	 * 反射调用Setter方法
-	 * @param target 调用的对象
-	 * @param name 属性名
-	 * @param value 属性值
-	 * @param type 用于查找Setter方法,为空时使用value的Class替代.
-	 */
-	public static void invokeSetterMethod(Object target, String name, Object value, Class<?> type) {
-		invokeMethod(target, StringUtil.getMethodName(StringConstants.SET, name), new Class[] { EmptyUtil.isEmpty(type) ? value.getClass() : type }, new Object[] { value });
-	}
-
-	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * @param list 列表
 	 * @param fieldName 属性名
@@ -168,7 +126,7 @@ public final class BeanUtil {
 		// 循环添加
 		for (Object e : list) {
 			// 获得值
-			Object val = BeanUtil.getFieldValue(e, fieldName);
+			Object val = getFieldValue(e, fieldName);
 			// 判断值是否为集合
 			if (val instanceof Collection<?>) {
 				ls.addAll((Collection<?>) val);
@@ -192,7 +150,7 @@ public final class BeanUtil {
 			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)), StringUtil.subString(fieldName, StringConstants.POINT));
 		}
 		// 获得字段
-		Field field = getDeclaredField(object, fieldName);
+		Field field = getField(object, fieldName);
 		// 判断字段为空 返回null
 		if (EmptyUtil.isEmpty(field)) {
 			return null;
@@ -213,7 +171,7 @@ public final class BeanUtil {
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {
 		// 获得字段
-		Field field = getDeclaredField(object, fieldName);
+		Field field = getField(object, fieldName);
 		// 判断字段为空 返回
 		if (field == null || value == null) {
 			return;
@@ -229,12 +187,12 @@ public final class BeanUtil {
 	/**
 	 * 直接调用对象方法
 	 * @param object 调用的对象
-	 * @param methodName 方法名
+	 * @param name 方法名
 	 * @param parameterTypes 参数类型
 	 * @param parameters 参数
 	 * @return 方法返回值
 	 */
-	public static Object invoke(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
+	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
 		// 字符串
@@ -252,7 +210,7 @@ public final class BeanUtil {
 			return null;
 		} else {
 			try {
-				return c.getMethod(methodName, parameterTypes).invoke(c, parameters);
+				return getMethod(c, name, parameterTypes).invoke(c, parameters);
 			} catch (Exception e) {
 				return null;
 			}
@@ -260,68 +218,37 @@ public final class BeanUtil {
 	}
 
 	/**
-	 * 直接调用对象方法, 无视private/protected修饰符.
-	 * @param object 调用的对象
-	 * @param methodName 方法名
-	 * @param parameterTypes 参数类型
-	 * @param parameters 参数
-	 * @return 方法返回值
+	 * 获得对象的字段
+	 * @param object 对象
+	 * @param name 字段名
+	 * @return 字段
 	 */
-	public static Object invokeMethod(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
-		// 获得方法
-		Method method = getDeclaredMethod(object, methodName, parameterTypes);
-		// 判断方法为空
-		if (EmptyUtil.isEmpty(method)) {
-			return null;
-		}
-		// 强行设置Field可访问.
-		method.setAccessible(true);
-		// 反射调用方法
-		try {
-			return method.invoke(object, parameters);
-		} catch (Exception e) {
-			return null;
-		}
+	public static Field getField(Object object, String name) {
+		return getField(object.getClass(), name);
 	}
 
 	/**
-	 * 循环向上转型, 获取对象的DeclaredField. 如向上转型到Object仍无法找到, 返回null.
-	 */
-	public static Field getDeclaredField(Object object, String fieldName) {
-		// 判断对象和字段名是否为空
-		if (object == null || EmptyUtil.isEmpty(fieldName)) {
-			return null;
-		}
-		// 循环对象类
-		for (Class<?> superClass = object.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
-			// 声明字段
-			Field field = null;
-			try {
-				// 返回字段
-				field = superClass.getDeclaredField(fieldName);
-			} catch (Exception e) {}
-			// 字段不为空
-			if (field != null) {
-				return field;
-			}
-		}
-		// 没有找到返回null
-		return null;
-	}
-
-	/**
-	 * 循环向上转型, 获取对象的DeclaredField. 如向上转型到Object仍无法找到, 返回null.
+	 * 获得Class的字段
+	 * @param clazz Class
+	 * @param name 字段名
+	 * @return
 	 */
 	public static Field getField(Class<?> clazz, String name) {
-		// 获得所有字段并循环
-		for (Field f : getFields(clazz)) {
-			// 如果字段名相同 返回字段
-			if (f.getName().equals(name)) {
-				return f;
-			}
+		// 判断对象和字段名是否为空
+		if (clazz == null || EmptyUtil.isEmpty(name)) {
+			return null;
+		}
+		// 声明字段
+		Field f = null;
+		// 循环对象类
+		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass()) {
+			try {
+				// 获得字段
+				f = clazz.getDeclaredField(name);
+			} catch (Exception e) {}
 		}
 		// 返回null
-		return null;
+		return f;
 	}
 
 	/**
@@ -375,43 +302,25 @@ public final class BeanUtil {
 	}
 
 	/**
-	 * 循环向上转型,获取对象的DeclaredMethod. 如向上转型到Object仍无法找到, 返回null.
+	 * 获得对象的方法
+	 * @param obj 对象
+	 * @param name 方法
+	 * @param parameterTypes 参数类型
+	 * @return
 	 */
-	public static Method getDeclaredMethod(Object object, String methodName, Class<?>... parameterTypes) {
+	public static Method getMethod(Object obj, String name, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
-		if (object == null || EmptyUtil.isEmpty(methodName)) {
+		if (obj == null || EmptyUtil.isEmpty(name)) {
 			return null;
 		}
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = object instanceof Class<?> ? (Class<?>) object : object.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
+		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class && method == null; superClass = superClass.getSuperclass()) {
 			try {
 				// 返回方法
-				method = superClass.getDeclaredMethod(methodName, parameterTypes);
-			} catch (NoSuchMethodException e) {
-				// // 如果有包装类型 添加类型递归
-				// for (int i = 0; i < parameterTypes.length; i++) {
-				// try {
-				// // 判断是Integer类型
-				// if (parameterTypes[i] == Integer.class) {
-				// method = superClass.getDeclaredMethod(methodName, int.class);
-				// } else if (parameterTypes[i] == Double.class) {
-				// method = superClass.getDeclaredMethod(methodName, double.class);
-				// } else if (parameterTypes[i] == Float.class) {
-				// method = superClass.getDeclaredMethod(methodName, float.class);
-				// } else if (parameterTypes[i] == Long.class) {
-				// method = superClass.getDeclaredMethod(methodName, long.class);
-				// }
-				// } catch (Exception nme) {
-				// // Method不在当前类定义,继续向上转型
-				// }
-				// }
-			}
-			// 方法不为空返回
-			if (!EmptyUtil.isEmpty(method)) {
-				break;
-			}
+				method = superClass.getDeclaredMethod(name, parameterTypes);
+			} catch (Exception e) {}
 		}
 		// 返回方法
 		return method;

@@ -2,10 +2,9 @@ package org.wdcode.web.socket.impl;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.ServerSocketChannel; 
+import java.nio.channels.ServerSocketChannel;
 
-import org.wdcode.core.log.Logs; 
-import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.SocketServer;
 import org.wdcode.web.socket.base.BaseSocketNio;
@@ -28,9 +27,7 @@ public final class SocketNioServerImpl extends BaseSocketNio implements SocketSe
 		super(name);
 		try {
 			this.server = ServerSocketChannel.open();
-		} catch (IOException e) {
-			Logs.error(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -58,9 +55,7 @@ public final class SocketNioServerImpl extends BaseSocketNio implements SocketSe
 	public void shutdown() {
 		try {
 			socket.close();
-		} catch (IOException e) {
-			Logs.error(e);
-		} finally {
+		} catch (IOException e) {} finally {
 			socket = null;
 		}
 	}
@@ -72,21 +67,17 @@ public final class SocketNioServerImpl extends BaseSocketNio implements SocketSe
 		try {
 			shutdown();
 			server.close();
-		} catch (IOException e) {
-			Logs.error(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
 	 * 获得Socket
 	 */
 	protected void acceptSocket() {
-		if (EmptyUtil.isEmpty(socket)) {
+		if (socket == null || !socket.isConnected()) {
 			try {
 				socket = server.accept();
-			} catch (IOException e) {
-				Logs.error(e);
-			}
+			} catch (IOException e) {}
 		}
 	}
 }

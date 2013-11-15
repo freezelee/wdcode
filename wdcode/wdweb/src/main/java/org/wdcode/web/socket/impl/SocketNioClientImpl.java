@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 
-import org.wdcode.core.log.Logs;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.SocketClient;
 import org.wdcode.web.socket.base.BaseSocketNio;
@@ -24,9 +23,7 @@ public final class SocketNioClientImpl extends BaseSocketNio implements SocketCl
 		super(name);
 		try {
 			socket = SocketChannel.open();
-		} catch (IOException e) {
-			Logs.error(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -44,9 +41,7 @@ public final class SocketNioClientImpl extends BaseSocketNio implements SocketCl
 	public void connect(String host, int port) {
 		try {
 			socket.connect(new InetSocketAddress(host, port));
-		} catch (IOException e) {
-			Logs.error(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -58,9 +53,7 @@ public final class SocketNioClientImpl extends BaseSocketNio implements SocketCl
 	public void connect(String host, int port, int timeout) {
 		try {
 			socket.connect(new InetSocketAddress(host, port));
-		} catch (IOException e) {
-			Logs.error(e);
-		}
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -101,9 +94,7 @@ public final class SocketNioClientImpl extends BaseSocketNio implements SocketCl
 	public void close() {
 		try {
 			socket.close();
-		} catch (IOException e) {
-			Logs.error(e);
-		} finally {
+		} catch (IOException e) {} finally {
 			socket = null;
 		}
 	}

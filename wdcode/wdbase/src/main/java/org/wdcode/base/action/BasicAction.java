@@ -600,7 +600,7 @@ public class BasicAction extends ActionSupport {
 		} else {
 			// 不存在获得
 			synchronized (METHODS) {
-				METHODS.put(mode, method = BeanUtil.getDeclaredMethod(this, mode, Object.class));
+				METHODS.put(mode, method = BeanUtil.getMethod(this, mode, Object.class));
 			}
 		}
 		// 方法不为空

@@ -1,5 +1,9 @@
 package org.wdcode.security.params;
 
+import java.util.List;
+
+import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.params.Params;
 
 /**
@@ -10,25 +14,25 @@ import org.wdcode.common.params.Params;
  */
 public final class SecurityParams {
 	/**
-	 * 操作日志是否开启
-	 */
-	public final static boolean	OPERATE_LOGS	= Params.getBoolean("operate.logs", false);
-	/**
 	 * 判断是否开启权限认证
 	 */
-	public final static boolean	SECURITY_POWER	= Params.getBoolean("security.power", true);
+	public final static boolean			SECURITY_POWER	= Params.getBoolean("security.power", true);
 	/**
 	 * 判断是否开启IP认证
 	 */
-	public final static boolean	SECURITY_IP		= Params.getBoolean("security.ip", false);
+	public final static boolean			SECURITY_IP		= Params.getBoolean("security.ip", false);
+	/**
+	 * ip过滤列表
+	 */
+	public final static List<String>	SECURITY_IPS	= Params.getList("security.ips", Lists.getList(ArrayConstants.STRING_EMPTY));
 	/**
 	 * 判断是否开启权限角色认证
 	 */
-	public final static boolean	SECURITY_ROLE	= Params.getBoolean("security.role", true);
+	public final static boolean			SECURITY_ROLE	= Params.getBoolean("security.role", true);
 	/**
 	 * 判断是否开启操作类型认证
 	 */
-	public final static int		SECURITY_TYPE	= Params.getInt("security.type", 0);
+	public final static int				SECURITY_TYPE	= Params.getInt("security.type", 0);
 
 	/**
 	 * 构造方法

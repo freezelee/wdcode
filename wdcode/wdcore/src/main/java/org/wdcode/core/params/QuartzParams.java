@@ -17,6 +17,10 @@ public final class QuartzParams {
 	 */
 	public final static boolean		POWER	= Params.getBoolean("quartz.power", false);
 	/**
+	 * Spring任务开关
+	 */
+	public final static boolean		SPRING	= Params.getBoolean("quartz.spring", false);
+	/**
 	 * 执行任务名称数组
 	 */
 	public final static String[]	NAMES	= Params.getStringArray("quartz.names", ArrayConstants.STRING_EMPTY);

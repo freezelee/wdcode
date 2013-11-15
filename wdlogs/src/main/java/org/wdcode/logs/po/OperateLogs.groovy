@@ -1,4 +1,4 @@
-package org.wdcode.security.po
+package org.wdcode.logs.po
 
 import javax.persistence.Entity
 

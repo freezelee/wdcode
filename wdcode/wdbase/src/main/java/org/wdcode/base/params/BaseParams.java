@@ -40,7 +40,7 @@ public final class BaseParams {
 	/**
 	 * 是否需要上传后缀名
 	 */
-	public final static List<String>	UPLOAD_POSTFIX		= Lists.getList(Params.getStringArray("upload.postfix", ArrayConstants.STRING_EMPTY));
+	public final static List<String>	UPLOAD_POSTFIX		= Params.getList("upload.postfix", Lists.getList(ArrayConstants.STRING_EMPTY));
 	/**
 	 * 数据源配置
 	 */
