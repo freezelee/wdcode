@@ -15,16 +15,16 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.quartz.Trigger;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheMap;
 import org.wdcode.base.cache.impl.CacheMemcached;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
+import org.wdcode.base.quartz.CronTrigger;
 import org.wdcode.base.quartz.JobDetail;
-import org.wdcode.base.quartz.QuartzJob;
+import org.wdcode.base.quartz.Job;
+import org.wdcode.base.quartz.Scheduler;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -69,23 +69,27 @@ public final class Context {
 			// 声明定时对象
 			List<Trigger> triggers = Lists.getList();
 			// 循环设置
-			for (QuartzJob job : getBeans(QuartzJob.class).values()) {
+			for (Job job : getBeans(Job.class).values()) {
 				// 设置任务
 				for (Map.Entry<String, List<String>> e : job.getTriggers().entrySet()) {
 					// 声明方法执行bean
-					JobDetail method = getBean(JobDetail.class, job, e.getKey());
+					JobDetail method = getBean(JobDetail.class);
 					// 设置任务对象
-					// method.setTargetObject(job);
+					method.setTargetObject(job);
 					// // 设置执行方法
-					// method.setTargetMethod(e.getKey());
+					method.setTargetMethod(e.getKey());
+					// 执行初始化
+					method.init();
 					// 执行执行时间
 					for (String trigger : e.getValue()) {
 						// 执行时间对象
-						CronTriggerFactoryBean cron = getBean(CronTriggerFactoryBean.class);
+						CronTrigger cron = getBean(CronTrigger.class);
 						// 设置任务对象
 						cron.setJobDetail(method.getObject());
 						// 设置时间
 						cron.setCronExpression(trigger);
+						// 执行初始化
+						cron.init();
 						// 添加到定时列表中
 						triggers.add(cron.getObject());
 					}
@@ -94,7 +98,11 @@ public final class Context {
 			// 定时任务不为空
 			if (!EmptyUtil.isEmpty(triggers)) {
 				// 声明执行定时方法工厂
-				SchedulerFactoryBean scheduler = getBean(SchedulerFactoryBean.class);
+				Scheduler scheduler = getBean(Scheduler.class);
+				// 设置执行时间
+				scheduler.setTriggers(Lists.toArray(triggers));
+				// 执行初始化
+				scheduler.init();
 				// 执行
 				scheduler.start();// .getObject().start();
 			}

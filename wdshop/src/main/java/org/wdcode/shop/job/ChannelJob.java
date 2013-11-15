@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import org.wdcode.base.quartz.QuartzJob;
+import org.wdcode.base.quartz.Job;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
@@ -16,7 +16,7 @@ import org.wdcode.common.lang.Maps;
  * @author WD 2013-11-5
  */
 @Component
-public class ChannelJob implements QuartzJob {
+public class ChannelJob implements Job {
 	// 通用业务接口
 	@Resource
 	private SuperService	service;
@@ -26,11 +26,11 @@ public class ChannelJob implements QuartzJob {
 	 */
 	public void dynamic() {
 		// 获得所有频道
-		System.out.println("频道执行了！");
+		System.out.println("频道执行了！=" + service);
 	}
 
 	@Override
 	public Map<String, List<String>> getTriggers() {
-		return Maps.getMap("dynamic", Lists.getList("0 0/1 * * * ?"));
+		return Maps.getMap("dynamic", Lists.getList("0/2 * * * * ?"));
 	}
 }
