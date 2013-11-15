@@ -153,7 +153,7 @@ public final class LoginEngine {
 		// 获得游客凭证
 		LoginToken token = new LoginToken(GUEST_ID--, "游客", IpUtil.getIp(request), IpUtil.getIp());
 		// 设置游客凭证
-		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
+		AttributeUtil.set(request, response, key + INFO, SiteParams.LOGIN_SAVE_TOKEN ? encrypt(token) : Encrypts.encrypt(token.toString()), -1);
 		// 返回游客凭证
 		return token;
 	}

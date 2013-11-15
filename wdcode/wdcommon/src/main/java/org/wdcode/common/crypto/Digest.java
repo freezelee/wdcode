@@ -1,10 +1,12 @@
 package org.wdcode.common.crypto;
 
 import java.security.MessageDigest;
+import java.util.Map;
 
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 
+import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.StringUtil;
 
@@ -15,6 +17,9 @@ import org.wdcode.common.util.StringUtil;
  * @version 1.0 2010-06-22
  */
 public final class Digest {
+	// 保存摘要算法
+	private final static Map<String, MessageDigest>	DIGEST	= Maps.getConcurrentMap();
+
 	/**
 	 * 先普通加密 在获得摘要 无法解密
 	 * @param b 要加密的字节数组
@@ -177,7 +182,17 @@ public final class Digest {
 	 */
 	public static byte[] getMessageDigest(byte[] b, String algorithm) {
 		try {
-			return MessageDigest.getInstance(algorithm).digest(b);
+			// 根据算法获得摘要
+			MessageDigest digest = DIGEST.get(algorithm);
+			// 摘要为空
+			if (digest == null) {
+				// 声明新摘要
+				digest = MessageDigest.getInstance(algorithm);
+				// 设置到静态列表中
+				DIGEST.put(algorithm, digest);
+			}
+			// 摘要算法
+			return digest.digest(b);
 		} catch (Exception e) {
 			return b;
 		}
