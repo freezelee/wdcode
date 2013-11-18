@@ -1,6 +1,5 @@
 package org.wdcode.base.quartz;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,5 +13,5 @@ public interface Job {
 	 * 获得任务执行时间
 	 * @return key 执行方法 value 执行时间
 	 */
-	Map<String, List<String>> getTriggers();
+	Map<String, String> getTriggers();
 }

@@ -25,6 +25,7 @@ import org.wdcode.base.quartz.CronTrigger;
 import org.wdcode.base.quartz.JobDetail;
 import org.wdcode.base.quartz.Job;
 import org.wdcode.base.quartz.Scheduler;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -71,19 +72,27 @@ public final class Context {
 			// 循环设置
 			for (Job job : getBeans(Job.class).values()) {
 				// 设置任务
-				for (Map.Entry<String, List<String>> e : job.getTriggers().entrySet()) {
+				for (Map.Entry<String, String> e : job.getTriggers().entrySet()) {
 					// 声明方法执行bean
 					JobDetail method = getBean(JobDetail.class);
 					// 设置任务对象
 					method.setTargetObject(job);
 					// // 设置执行方法
 					method.setTargetMethod(e.getKey());
+					// 设置group
+					method.setGroup(job.getClass().getSimpleName());
+					// 设置beanName
+					method.setBeanName(e.getKey());
 					// 执行初始化
 					method.init();
 					// 执行执行时间
-					for (String trigger : e.getValue()) {
+					for (String trigger : e.getValue().split(StringConstants.COMMA)) {
 						// 执行时间对象
 						CronTrigger cron = getBean(CronTrigger.class);
+						// 设置group
+						cron.setGroup(method.getTargetObject().getClass().getSimpleName());
+						// 设置beanName
+						cron.setBeanName(method.getTargetMethod());
 						// 设置任务对象
 						cron.setJobDetail(method.getObject());
 						// 设置时间
