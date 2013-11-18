@@ -64,7 +64,7 @@
 				<prop key="hibernate.search.default.directory_provider">filesystem</prop>
 				<prop key="hibernate.search.default.indexBase">${hibernate.search.default.indexBase:${path}/WEB-INF/indexed}
 				</prop>
-				<prop key="hibernate.search.lucene_version">${hibernate.search.lucene_version:LUCENE_35}</prop>
+				<prop key="hibernate.search.lucene_version">${hibernate.search.lucene_version:LUCENE_36}</prop>
 				<prop key="hibernate.ejb.event.post-insert">org.hibernate.search.event.FullTextIndexEventListener
 				</prop>
 				<prop key="hibernate.ejb.event.post-update">org.hibernate.search.event.FullTextIndexEventListener

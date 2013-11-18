@@ -7,7 +7,7 @@
 	</save>
 	
 	<!-- 开启Spring任务 -->
-	<quartz><spring>false</spring></quartz>
+	<quartz><spring>true</spring></quartz>
 	
 	<!-- 上传文件 -->
 	<upload>
@@ -16,6 +16,16 @@
 		<path>d:\111\</path>
 		 -->
 		 <postfix>swf,flvs</postfix>
+		 <image>
+		 	<compress>
+		 		<power>true</power>
+		 		<names>small</names>
+		 		<small>
+		 			<width>300</width>
+		 			<height>300</height>
+		 		</small>
+		 	</compress>
+		 </image>
 	</upload>
 	
 	<!-- 权限验证 --> 

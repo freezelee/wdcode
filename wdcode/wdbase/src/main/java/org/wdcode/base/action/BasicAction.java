@@ -19,7 +19,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
-import org.wdcode.base.params.BaseParams;
+import org.wdcode.base.params.UploadParams;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -33,6 +33,7 @@ import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.ImageUtil;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
@@ -688,7 +689,7 @@ public class BasicAction extends ActionSupport {
 		// 获得上次路径
 		String name = getFileName(file, fileName);
 		// 上传文件
-		String fn = BaseParams.UPLOAD_RESOURCE ? BaseParams.UPLOAD_PATH + name : getRealPath(name);
+		String fn = UploadParams.UPLOAD_RESOURCE ? UploadParams.UPLOAD_PATH + name : getRealPath(name);
 		// 文件是否存在
 		if (FileUtil.exists(fn)) {
 			// 获得上传文件MD5
@@ -702,16 +703,26 @@ public class BasicAction extends ActionSupport {
 				} else {
 					// 文件不同 获得新文件名
 					name = getFileName(file, (DateUtil.getTime() % 100) + StringConstants.UNDERLINE + fileName);
-					fn = BaseParams.UPLOAD_RESOURCE ? BaseParams.UPLOAD_PATH + name : getRealPath(name);
+					fn = UploadParams.UPLOAD_RESOURCE ? UploadParams.UPLOAD_PATH + name : getRealPath(name);
 				}
 			}
 		}
 		// 文件不存在写文件
 		if (!FileUtil.exists(fn)) {
 			FileUtil.write(fn, file);
+			// 是否开启图片压缩 并且是图片
+			if (UploadParams.UPLOAD_IMAGE_COMPRESS_POWER && ImageUtil.isImage(file)) {
+				// 循环压缩图片
+				for (String compress : UploadParams.UPLOAD_IMAGE_COMPRESS_NAMES) {
+					// 获取压缩文件保存文件名
+					String f = StringUtil.subStringLastEnd(fn, StringConstants.BACKSLASH) + StringConstants.BACKSLASH + compress + StringConstants.BACKSLASH + StringUtil.subStringLast(fn, StringConstants.BACKSLASH);
+					// 写入压缩图片
+					ImageUtil.compress(file, FileUtil.getOutputStream(f), UploadParams.getWidth(compress), UploadParams.getHeight(compress), true);
+				}
+			}
 		}
 		// 返回路径
-		return BaseParams.UPLOAD_SERVER ? getDomain() + name : name;
+		return UploadParams.UPLOAD_SERVER ? getDomain() + name : name;
 	}
 
 	/**
@@ -721,15 +732,15 @@ public class BasicAction extends ActionSupport {
 	 */
 	private String getFileName(File file, String fileName) {
 		// 上传路径
-		StringBuilder name = new StringBuilder(BaseParams.UPLOAD_RESOURCE ? StringConstants.EMPTY : BaseParams.UPLOAD_PATH);
+		StringBuilder name = new StringBuilder(UploadParams.UPLOAD_RESOURCE ? StringConstants.EMPTY : UploadParams.UPLOAD_PATH);
 		name.append(EmptyUtil.isEmpty(module) ? StringConstants.EMPTY : module + StringConstants.BACKSLASH);
 		name.append(Digest.absolute(fileName, 20));
 		// 是否处理后缀
-		if (BaseParams.UPLOAD_SUFFIX) {
+		if (UploadParams.UPLOAD_SUFFIX) {
 			// 获得后缀
 			String suffix = StringUtil.subStringLast(fileName, StringConstants.POINT);
 			// 判断后缀不在处理列表中
-			if (!BaseParams.UPLOAD_POSTFIX.contains(suffix)) {
+			if (!UploadParams.UPLOAD_POSTFIX.contains(suffix)) {
 				name.append(StringConstants.POINT);
 				name.append(suffix);
 			}

@@ -3,7 +3,6 @@ package org.wdcode.base.dao.hibernate;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -46,14 +45,14 @@ import org.wdcode.common.util.SqlUtil;
 public final class HibernateDao implements Dao {
 	// Context
 	@Resource
-	private Context							context;
+	private Context					context;
 	// Session工厂
 	@Resource
-	private SessionFactory					sessionFactory;
+	private SessionFactory			sessionFactory;
 	// 是否使用openSession
-	private boolean							isSession;
+	private boolean					isSession;
 	// 表名
-	private ConcurrentMap<Class<?>, String>	tables;
+	private Map<Class<?>, String>	tables;
 
 	/**
 	 * 初始化

@@ -10,6 +10,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
@@ -42,6 +43,28 @@ public final class ImageUtil {
 	}
 
 	/**
+	 * 判断图片是否为空
+	 * @param img 图片文件
+	 * @return 是否为空
+	 */
+	public static boolean isImage(File img) {
+		try {
+			return isImage(ImageIO.read(img));
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * 判断图片是否为空
+	 * @param img 图片对象
+	 * @return 是否为空
+	 */
+	public static boolean isImage(Image img) {
+		return img != null && img.getWidth(null) > -1 && img.getHeight(null) > -1;
+	}
+
+	/**
 	 * 压缩图片 rate 比例 * rate / 100
 	 * @param input 图片文件
 	 * @param out 输出流
@@ -65,9 +88,7 @@ public final class ImageUtil {
 			// 读取文件
 			Image img = ImageIO.read(input);
 			// 判断图片格式是否正确
-			if (img.getWidth(null) == -1) {
-				return;
-			} else {
+			if (isImage(input)) {
 				// 设置宽高
 				if (height == -1) {
 					// 高为-1是 width为比例缩放

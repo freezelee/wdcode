@@ -1,9 +1,5 @@
 package org.wdcode.base.params;
 
-import java.util.List;
-
-import org.wdcode.common.constants.ArrayConstants;
-import org.wdcode.common.lang.Lists;
 import org.wdcode.common.params.Params;
 
 /**
@@ -16,47 +12,27 @@ public final class BaseParams {
 	/**
 	 * 分页使用当前页的标识
 	 */
-	public final static String			PAGE_FLAG			= Params.getString("page.flag", "pager.currentPage");
+	public final static String	PAGE_FLAG			= Params.getString("page.flag", "pager.currentPage");
 	/**
 	 * 分页大小
 	 */
-	public final static int				PAGE_SIZE			= Params.getInt("page.size", 20);
-	/**
-	 * 上传文件路径
-	 */
-	public final static String			UPLOAD_PATH			= Params.getString("upload.path", "upload/");
-	/**
-	 * 是否上传的资源目录
-	 */
-	public final static boolean			UPLOAD_RESOURCE		= Params.getBoolean("upload.resource", false);
-	/**
-	 * 是否使用服务器地址保存文件路径
-	 */
-	public final static boolean			UPLOAD_SERVER		= Params.getBoolean("upload.server", true);
-	/**
-	 * 是否需要上传后缀名
-	 */
-	public final static boolean			UPLOAD_SUFFIX		= Params.getBoolean("upload.suffix", true);
-	/**
-	 * 是否需要上传后缀名
-	 */
-	public final static List<String>	UPLOAD_POSTFIX		= Params.getList("upload.postfix", Lists.getList(ArrayConstants.STRING_EMPTY));
+	public final static int		PAGE_SIZE			= Params.getInt("page.size", 20);
 	/**
 	 * 数据源配置
 	 */
-	public final static String			DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "classpath:db/db.properties");
+	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "classpath:db/db.properties");
 	/**
 	 * 静态化配置文件
 	 */
-	public final static String			STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml");
+	public final static String	STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml");
 	/**
 	 * 缓存是否有效
 	 */
-	public final static boolean			CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true);
+	public final static boolean	CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true);
 	/**
 	 * 缓存类型
 	 */
-	public final static String			CACHE_TYPE			= Params.getString("cache.type", "map");
+	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
 
 	/**
 	 * 获得是否使用缓存<br/>
