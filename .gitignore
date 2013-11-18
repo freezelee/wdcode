@@ -12,7 +12,7 @@ tmp/
 local.properties 
 .loadpath
 target/
-#META-INF/
+META-INF/
 #.settings/
 #.classpath
 #.project
