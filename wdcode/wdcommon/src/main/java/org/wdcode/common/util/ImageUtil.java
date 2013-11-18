@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import org.wdcode.common.constants.ImageConstants;
 
 import org.wdcode.common.io.FileUtil;
-import org.wdcode.common.lang.Conversion;
 
 /**
  * 对普通图片处理。
@@ -49,23 +48,8 @@ public final class ImageUtil {
 	 * @param rate 缩小比例
 	 * @param isClose 是否关闭流
 	 */
-	public static void compress(File input, OutputStream out, double rate, boolean isClose) {
-		try {
-			// 读取文件
-			Image img = ImageIO.read(input);
-			// 判断图片格式是否正确
-			if (img.getWidth(null) == -1) {
-				return;
-			} else {
-				// 根据缩放比率大的进行缩放控制
-				compress(input, out, Conversion.toInt(img.getWidth(null) * rate / 100), Conversion.toInt(img.getHeight(null) * rate / 100), isClose);
-			}
-		} catch (Exception e) {} finally {
-			// 是否关闭流
-			if (isClose) {
-				CloseUtil.close(out);
-			}
-		}
+	public static void compress(File input, OutputStream out, int rate, boolean isClose) {
+		compress(input, out, rate, -1, isClose);
 	}
 
 	/**
@@ -84,6 +68,12 @@ public final class ImageUtil {
 			if (img.getWidth(null) == -1) {
 				return;
 			} else {
+				// 设置宽高
+				if (height == -1) {
+					// 高为-1是 width为比例缩放
+					height = img.getHeight(null) * width / 100;
+					width = img.getWidth(null) * width / 100;
+				}
 				// 声明缓存图片
 				BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 				// Image.SCALE_SMOOTH 的缩略算法 生成缩略图片的平滑度的 优先级比速度高 生成的图片质量比较好 但速度慢

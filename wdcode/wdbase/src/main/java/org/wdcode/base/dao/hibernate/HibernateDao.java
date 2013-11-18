@@ -258,6 +258,27 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
+	@Override
+	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
+		// 验证pk是否为空
+		if (EmptyUtil.isEmpty(pks)) {
+			return Lists.emptyList();
+		}
+		// 查找对象
+		return execute(new HibernateCallback<List<E>>() {
+			public List<E> doInHibernate(Session session) {
+				// 声明返回对象
+				List<E> list = Lists.getList(pks.length);
+				// 循环获得实体列表
+				for (Serializable pk : pks) {
+					list.add((E) session.get(entityClass, pk));
+				}
+				// 返回对象列表
+				return list;
+			}
+		});
+	}
+
 	/**
 	 * 根据SQL查询语句查询
 	 * @param sql SQL查询语句 参数为?的语句

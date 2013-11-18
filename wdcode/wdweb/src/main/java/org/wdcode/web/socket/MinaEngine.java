@@ -17,6 +17,7 @@ import org.apache.mina.transport.socket.SocketConnector;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -51,17 +52,13 @@ public final class MinaEngine {
 	public static void init() {
 		// 判断任务不为空
 		if (MinaParams.POWER) {
-			// 循环数组
-			for (String name : MinaParams.NAMES) {
-				// 获得类型
-				String type = MinaParams.getType(name);
-				// 获得host
-				String host = MinaParams.getHost(name);
-				// 判断是否客户端
-				if (!EmptyUtil.isEmpty(host) && "client".equals(type)) {
-					addClient(name, host, MinaParams.getPort(name), (IoHandler) ClassUtil.newInstance(MinaParams.getHandler(name)), (ProtocolCodecFactory) ClassUtil.newInstance(MinaParams.getCodec(name)));
-				} else {
-					addServer(name, MinaParams.getPort(name), (IoHandler) ClassUtil.newInstance(MinaParams.getHandler(name)), (ProtocolCodecFactory) ClassUtil.newInstance(MinaParams.getCodec(name)));
+			// 如果names为空
+			if (EmptyUtil.isEmpty(MinaParams.NAMES)) {
+				init(StringConstants.EMPTY);
+			} else {
+				// 循环数组
+				for (String name : MinaParams.NAMES) {
+					init(name);
 				}
 			}
 			start();
@@ -158,11 +155,28 @@ public final class MinaEngine {
 
 	/**
 	 * 根据名称获得客户端
+	 * @return 客户端IoSession
+	 */
+	public static IoSession client() {
+		return client(StringConstants.EMPTY);
+	}
+
+	/**
+	 * 根据名称获得客户端
 	 * @param name 客户端名称
 	 * @return 客户端IoSession
 	 */
 	public static IoSession client(String name) {
 		return FUTURE.get(name).getSession();
+	}
+
+	/**
+	 * 根据客户端名称发送信息
+	 * @param mess 要发送的信息
+	 * @return 客户端IoSession
+	 */
+	public static void send(Object mess) {
+		send(StringConstants.EMPTY, mess);
 	}
 
 	/**
@@ -226,6 +240,23 @@ public final class MinaEngine {
 			acceptor.dispose();
 			// 删除Map中的引用
 			SERVERS.remove(name);
+		}
+	}
+
+	/**
+	 * 根据名称设置
+	 * @param name 名
+	 */
+	private static void init(String name) {
+		// 获得类型
+		String type = MinaParams.getType(name);
+		// 获得host
+		String host = MinaParams.getHost(name);
+		// 判断是否客户端
+		if (!EmptyUtil.isEmpty(host) && "client".equals(type)) {
+			addClient(name, host, MinaParams.getPort(name), (IoHandler) ClassUtil.newInstance(MinaParams.getHandler(name)), (ProtocolCodecFactory) ClassUtil.newInstance(MinaParams.getCodec(name)));
+		} else {
+			addServer(name, MinaParams.getPort(name), (IoHandler) ClassUtil.newInstance(MinaParams.getHandler(name)), (ProtocolCodecFactory) ClassUtil.newInstance(MinaParams.getCodec(name)));
 		}
 	}
 

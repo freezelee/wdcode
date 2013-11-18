@@ -61,29 +61,37 @@ public interface Http extends Close {
 	String get(String url);
 
 	/**
+	 * 模拟get提交
+	 * @param url get提交地址
+	 * @param encoding 提交参数的编码格式
+	 * @return 响应字符串
+	 */
+	String get(String url, String encoding);
+
+	/**
 	 * 模拟post提交 默认使用UTF-8格式
 	 * @param url post提交地址
 	 * @param data 提交参数
 	 * @return byte[] 提交后的流
 	 */
-	String post(String url, Map<String, String> data);
+	String post(String url, Map<String, Object> data);
 
 	/**
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
-	 * @param referer referer地址
+	 * @param encoding 编码
 	 * @return byte[] 提交后的流
 	 */
-	String post(String url, Map<String, String> data, String referer);
+	String post(String url, Map<String, Object> data, String encoding);
 
 	/**
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
-	 * @param referer referer地址
 	 * @param encoding 提交参数的编码格式
+	 * @param referer referer地址
 	 * @return byte[] 提交失败
 	 */
-	String post(String url, Map<String, String> data, String referer, String encoding);
+	String post(String url, Map<String, Object> data, String encoding, String referer);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.http.Http;
@@ -93,6 +94,16 @@ public abstract class BaseHttp implements Http {
 	 * @return InputStream 提交后的流
 	 */
 	public String get(String url) {
+		return get(url, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 模拟get提交
+	 * @param url get提交地址
+	 * @param encoding 提交参数的编码格式
+	 * @return InputStream 提交后的流
+	 */
+	public String get(String url, String encoding) {
 		return StringUtil.toString(download(url), encoding);
 	}
 
@@ -102,19 +113,19 @@ public abstract class BaseHttp implements Http {
 	 * @param data 提交参数
 	 * @return InputStream 提交后的流
 	 */
-	public String post(String url, Map<String, String> data) {
-		return post(url, data, null, encoding);
+	public String post(String url, Map<String, Object> data) {
+		return post(url, data, encoding, null);
 	}
 
 	/**
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
-	 * @param referer referer地址
+	 * @param encoding 编码
 	 * @return InputStream 提交后的流
 	 */
-	public String post(String url, Map<String, String> data, String referer) {
-		return post(url, data, referer, encoding);
+	public String post(String url, Map<String, Object> data, String encoding) {
+		return post(url, data, encoding, null);
 	}
 
 	/**

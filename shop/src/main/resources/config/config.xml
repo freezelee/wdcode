@@ -7,7 +7,7 @@
 	</save>
 	
 	<!-- 开启Spring任务 -->
-	<quartz><spring>true</spring></quartz>
+	<quartz><spring>false</spring></quartz>
 	
 	<!-- 上传文件 -->
 	<upload>

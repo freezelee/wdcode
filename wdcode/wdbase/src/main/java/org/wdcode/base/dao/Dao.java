@@ -82,10 +82,18 @@ public interface Dao extends Close {
 	/**
 	 * 获得持久化对象
 	 * @param entityClass 实体类
-	 * @param id 持久化对象的唯一标识(主键)
+	 * @param pk 持久化对象的唯一标识(主键)
 	 * @return 要获得的持久化对象，异常返回null
 	 */
 	<E> E get(Class<E> entityClass, Serializable pk);
+
+	/**
+	 * 获得持久化对象
+	 * @param entityClass 实体类
+	 * @param pk 持久化对象的唯一标识(主键)
+	 * @return 要获得的持久化对象，异常返回null
+	 */
+	<E> List<E> gets(Class<E> entityClass, Serializable... pks);
 
 	/**
 	 * 获得持久化对象 如果没有查询到对象 返回null

@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.io.IOUtil;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -134,11 +135,11 @@ public final class HttpApache3 extends BaseHttp {
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
-	 * @param referer referer地址
 	 * @param encoding 提交参数的编码格式
+	 * @param referer referer地址
 	 * @return byte[] 提交失败
 	 */
-	public String post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, Object> data, String encoding, String referer) {
 		// 声明Post方法
 		PostMethod post = null;
 		try {
@@ -155,9 +156,9 @@ public final class HttpApache3 extends BaseHttp {
 				// 设置标识
 				int i = 0;
 				// 设置参数
-				for (Map.Entry<String, String> entry : data.entrySet()) {
+				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数
-					param[i] = new NameValuePair(entry.getKey(), entry.getValue());
+					param[i] = new NameValuePair(entry.getKey(), Conversion.toString(entry.getValue()));
 					// 标识自加
 					i++;
 				}

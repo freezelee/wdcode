@@ -236,12 +236,38 @@ public class SuperService {
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Serializable pk) {
+		pk = key(pk);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
 		// 转换主键类型
 		pk = Conversion.toInt(pk) > 0 ? Conversion.toInt(pk) : Conversion.toString(pk);
 		// 返回查询结果
 		return cache.isValid() ? cache.get(pk) : dao.get(entityClass, pk);
+	}
+
+	/**
+	 * 根据ID 获得实体
+	 * @param entityClass 要查询的实体
+	 * @param pk 主键
+	 * @return 实体
+	 */
+	public <E extends Entity> List<E> gets(Class<E> entityClass, Serializable... pks) {
+		pks = keys(pks);
+		// 获得缓存
+		Cache<E> cache = getCache(entityClass);
+		// 缓存存在
+		if (cache.isValid()) {
+			// 声明列表
+			List<E> list = Lists.getList();
+			// 循环赋值
+			for (Serializable pk : pks) {
+				list.add(cache.get(Conversion.toInt(pk) > 0 ? Conversion.toInt(pk) : Conversion.toString(pk)));
+			}
+			// 返回列表
+			return list;
+		}
+		// 返回查询结果
+		return dao.gets(entityClass, pks);
 	}
 
 	/**
@@ -966,5 +992,28 @@ public class SuperService {
 	 */
 	private int getFirstResult(Pagination page) {
 		return EmptyUtil.isEmpty(page) ? -1 : (page.getCurrentPage() - 1) * page.getPageSize();
+	}
+
+	/**
+	 * 处理主键
+	 * @param keys 主键
+	 * @return
+	 */
+	private Serializable[] keys(Serializable... keys) {
+		// 返回的主键key
+		Serializable[] pks = new Serializable[keys.length];
+		for (int i = 0; i < keys.length; i++) {
+			pks[i] = key(keys[i]);
+		}
+		return pks;
+	}
+
+	/**
+	 * 处理主键
+	 * @param key 主键
+	 * @return
+	 */
+	private Serializable key(Serializable key) {
+		return Conversion.toInt(key) > 0 ? Conversion.toInt(key) : Conversion.toString(key);
 	}
 }

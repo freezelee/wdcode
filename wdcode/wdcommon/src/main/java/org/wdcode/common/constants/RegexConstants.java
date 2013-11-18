@@ -89,6 +89,10 @@ public final class RegexConstants {
 	 */
 	public final static String	DATE_YYYYMMDD		= "^(\\d{4})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])$";
 	/**
+	 * Date 如20040606
+	 */
+	public final static String	DATE_YYYYMM			= "^(\\d{4})(0[1-9]|1[0-2])$";
+	/**
 	 * Date 如2004-06-06
 	 */
 	public final static String	DATE_YYYY_MM_DD		= "^(\\d{4})\\-(0[1-9]|1[0-2])\\-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$";

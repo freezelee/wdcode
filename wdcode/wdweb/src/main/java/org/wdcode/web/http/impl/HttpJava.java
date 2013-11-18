@@ -79,10 +79,11 @@ public final class HttpJava extends BaseHttp {
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
+	 * @param encoding 编码
 	 * @param referer referer地址
 	 * @return byte[] 提交后的流
 	 */
-	public String post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, Object> data, String encoding, String referer) {
 		try {
 			// 获得连接
 			HttpURLConnection connection = getConnection(url, referer);
@@ -95,7 +96,7 @@ public final class HttpJava extends BaseHttp {
 				// 声明字符串缓存
 				StringBuilder sb = new StringBuilder();
 				// 循环参数
-				for (Map.Entry<String, String> e : data.entrySet()) {
+				for (Map.Entry<String, Object> e : data.entrySet()) {
 					// 添加条件
 					sb.append(e.getKey()).append("=").append(e.getValue());
 					// 添加间隔符
@@ -186,16 +187,14 @@ public final class HttpJava extends BaseHttp {
 			// // 设置属性
 			connection.addRequestProperty(USER_AGENT_KEY, USER_AGENT_VAL);
 			connection.addRequestProperty(ACCEPT_KEY, ACCEPT_VAL);
-			// connection.addRequestProperty(ACCEPT_LANGUAGE_KEY, ACCEPT_LANGUAGE_VAL);
-			// connection.addRequestProperty(ACCEPT_ENCODING_KEY, ACCEPT_ENCODING_VAL);
-			// connection.addRequestProperty(ACCEPT_CHARSET_KEY, ACCEPT_CHARSET_VAL);
-			// connection.addRequestProperty(CONTENT_TYPE_KEY, CONTENT_TYPE_VAL);
-			// connection.addRequestProperty(CONNECTION_KEY, CONNECTION_VAL);
-			// connection.addRequestProperty(CONTENT_CHARSET, encoding);
-			// connection.addRequestProperty(REFERER_KEY, referer);
-		} catch (Exception e) {
-			Logs.error(e);
-		}
+			connection.addRequestProperty(ACCEPT_LANGUAGE_KEY, ACCEPT_LANGUAGE_VAL);
+			connection.addRequestProperty(ACCEPT_ENCODING_KEY, ACCEPT_ENCODING_VAL);
+			connection.addRequestProperty(ACCEPT_CHARSET_KEY, ACCEPT_CHARSET_VAL);
+			connection.addRequestProperty(CONTENT_TYPE_KEY, CONTENT_TYPE_VAL);
+			connection.addRequestProperty(CONNECTION_KEY, CONNECTION_VAL);
+			connection.addRequestProperty(CONTENT_CHARSET, encoding);
+			connection.addRequestProperty(REFERER_KEY, referer);
+		} catch (Exception e) {}
 		// 返回连接connection
 		return connection;
 	}

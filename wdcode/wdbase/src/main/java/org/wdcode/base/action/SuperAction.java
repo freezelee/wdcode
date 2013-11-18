@@ -17,6 +17,7 @@ import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
@@ -288,6 +289,15 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @return 跳转SUCCESS
 	 * @throws Exception
 	 */
+	public String gets() throws Exception {
+		return keys == null ? callback(entitys = service.gets(entityClass, key)) : callback(entitys = service.gets(entityClass, keys));
+	}
+
+	/**
+	 * 实体条件查询出所有
+	 * @return 跳转SUCCESS
+	 * @throws Exception
+	 */
 	public String entity() throws Exception {
 		return entity == null ? SUCCESS : callback(entity = entity.getKey() == null ? service.get(entity) : service.get(entityClass, entity.getKey()));
 	}
@@ -399,12 +409,12 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	public void setKey(Serializable key) {
 		// 如果传递进来的是数组
-		if (key.getClass().isArray()) {
+		if (key.getClass().isArray() || Conversion.toString(key).indexOf(StringConstants.COMMA) > -1) {
 			// 转换成数组
-			Serializable[] keys = (Serializable[]) key;
+			Serializable[] keys = key.getClass().isArray() ? (Serializable[]) key : Conversion.toString(key).split(StringConstants.COMMA);
 			// 如果只有一个值 赋值给key 否则赋值给keys
 			if (keys.length == 1) {
-				this.key = keys[0];
+				setKey(keys[0]);
 			} else {
 				setKeys(keys);
 			}

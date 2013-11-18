@@ -19,6 +19,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 import java.util.Map;
 
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
@@ -52,17 +53,13 @@ public final class NettyEngine {
 	public static void init() {
 		// 判断任务不为空
 		if (NettyParams.POWER) {
-			// 循环数组
-			for (String name : NettyParams.NAMES) {
-				// 获得类型
-				String type = NettyParams.getType(name);
-				// 获得host
-				String host = NettyParams.getHost(name);
-				// 判断是否客户端
-				if (!EmptyUtil.isEmpty(host) && "client".equals(type)) {
-					addClient(name, host, NettyParams.getPort(name), (ChannelHandler) ClassUtil.newInstance(NettyParams.getHandler(name)), (MessageToByteEncoder<?>) ClassUtil.newInstance(NettyParams.getEncoder(name)), (ByteToMessageDecoder) ClassUtil.newInstance(NettyParams.getDecoder(name)));
-				} else {
-					addServer(name, NettyParams.getPort(name), (ChannelHandler) ClassUtil.newInstance(NettyParams.getHandler(name)), (MessageToByteEncoder<?>) ClassUtil.newInstance(NettyParams.getEncoder(name)), (ByteToMessageDecoder) ClassUtil.newInstance(NettyParams.getDecoder(name)));
+			// names为空
+			if (EmptyUtil.isEmpty(NettyParams.NAMES)) {
+				init(StringConstants.EMPTY);
+			} else {
+				// 循环数组
+				for (String name : NettyParams.NAMES) {
+					init(name);
 				}
 			}
 			start();
@@ -178,11 +175,27 @@ public final class NettyEngine {
 
 	/**
 	 * 根据名称获得客户端
+	 * @return 客户端Channel
+	 */
+	public static Channel client() {
+		return client(StringConstants.EMPTY);
+	}
+
+	/**
+	 * 根据名称获得客户端
 	 * @param name 客户端名称
 	 * @return 客户端Channel
 	 */
 	public static Channel client(String name) {
 		return FUTURE.get(name).channel();
+	}
+
+	/**
+	 * 发送数据
+	 * @param mess 数据消息
+	 */
+	public static void send(Object mess) {
+		send(StringConstants.EMPTY, mess);
 	}
 
 	/**
@@ -242,6 +255,23 @@ public final class NettyEngine {
 			bootstrap.group().shutdownGracefully();
 			bootstrap.childGroup().shutdownGracefully();
 			SERVERS.remove(name);
+		}
+	}
+
+	/**
+	 * 根据名初始化
+	 * @param name 名
+	 */
+	private static void init(String name) {
+		// 获得类型
+		String type = NettyParams.getType(name);
+		// 获得host
+		String host = NettyParams.getHost(name);
+		// 判断是否客户端
+		if (!EmptyUtil.isEmpty(host) && "client".equals(type)) {
+			addClient(name, host, NettyParams.getPort(name), (ChannelHandler) ClassUtil.newInstance(NettyParams.getHandler(name)), (MessageToByteEncoder<?>) ClassUtil.newInstance(NettyParams.getEncoder(name)), (ByteToMessageDecoder) ClassUtil.newInstance(NettyParams.getDecoder(name)));
+		} else {
+			addServer(name, NettyParams.getPort(name), (ChannelHandler) ClassUtil.newInstance(NettyParams.getHandler(name)), (MessageToByteEncoder<?>) ClassUtil.newInstance(NettyParams.getEncoder(name)), (ByteToMessageDecoder) ClassUtil.newInstance(NettyParams.getDecoder(name)));
 		}
 	}
 

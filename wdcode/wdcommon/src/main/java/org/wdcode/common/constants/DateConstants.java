@@ -12,6 +12,10 @@ public final class DateConstants {
 	 */
 	public final static String	FORMAT_YYYYMMDD		= "yyyyMMdd";
 	/**
+	 * 日期格式 yyyyMMdd
+	 */
+	public final static String	FORMAT_YYYYMM		= "yyyyMM";
+	/**
 	 * 日期格式 yyyy-MM-dd
 	 */
 	public final static String	FORMAT_YYYY_MM_DD	= "yyyy-MM-dd";

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityIp
+import org.wdcode.base.entity.EntityShards
 import org.wdcode.base.entity.EntityUserId
 import org.wdcode.site.entity.base.BaseEntityIdTime
 
@@ -22,7 +23,7 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @Entity
 @DynamicInsert
 @DynamicUpdate
-class LoginLogs extends BaseEntityIdTime{
+class LoginLogs extends BaseEntityIdTime {
 	// 登录IP
 	String				ip
 	// 用户ID

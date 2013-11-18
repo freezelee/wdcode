@@ -29,6 +29,7 @@ import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.io.IOUtil;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -219,11 +220,11 @@ public final class HttpApache4 extends BaseHttp implements Http {
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
-	 * @param referer referer地址
 	 * @param encoding 提交参数的编码格式
+	 * @param referer referer地址
 	 * @return InputStream 提交后的流
 	 */
-	public String post(String url, Map<String, String> data, String referer, String encoding) {
+	public String post(String url, Map<String, Object> data, String encoding, String referer) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -238,9 +239,9 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.getList(data.size());
 				// 设置参数
-				for (Map.Entry<String, String> entry : data.entrySet()) {
+				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+					list.add(new BasicNameValuePair(entry.getKey(), Conversion.toString(entry.getValue())));
 				}
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, encoding));

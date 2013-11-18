@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +11,6 @@ import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
-import org.wdcode.common.lang.Maps;
 import org.wdcode.common.lang.Validate;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.web.constants.HttpConstants;
@@ -28,6 +26,20 @@ public final class IpUtil {
 	public final static String	LOCAL_IP	= "127.0.0.1";
 	// 本服务器IP
 	public final static String	SERVER_IP	= getIp();
+
+	/**
+	 * 设置代理
+	 * @param host 代理服务器
+	 * @param port 代理端口
+	 */
+	public static void setProxy(String host, String port) {
+		// 设置代理模式
+		System.getProperties().setProperty("proxySet", "true");
+		// 设置代理服务器
+		System.getProperties().setProperty("http.proxyHost", host);
+		// 设置代理端口
+		System.getProperties().setProperty("http.proxyPort", port);
+	}
 
 	/**
 	 * 获得本机IP
@@ -126,17 +138,17 @@ public final class IpUtil {
 		return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
 	}
 
-	/**
-	 * 获得IP详细信息
-	 * @param ip 要查询的IP
-	 * @return 对应信息的键值
-	 */
-	public static Map<String, String> getIpInfo(String ip) {
-		// http://ip.taobao.com/service/getIpInfo.php?ip=?
-		// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=?
-		// http://ip.qq.com/cgi-bin/searchip?searchip1=?
-		return Maps.emptyMap();
-	}
+	// /**
+	// * 获得IP详细信息
+	// * @param ip 要查询的IP
+	// * @return 对应信息的键值
+	// */
+	// public static Map<String, String> getIpInfo(String ip) {
+	// // http://ip.taobao.com/service/getIpInfo.php?ip=?
+	// // http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=?
+	// // http://ip.qq.com/cgi-bin/searchip?searchip1=?
+	// return Maps.emptyMap();
+	// }
 
 	/**
 	 * 获得客户连接IP数组 一般通过代理的可或则所以IP

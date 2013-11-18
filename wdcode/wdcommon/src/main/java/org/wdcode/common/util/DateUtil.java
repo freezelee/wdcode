@@ -43,6 +43,8 @@ public final class DateUtil {
 			return DateConstants.FORMAT_YMD_H_M_S;
 		} else if (Validate.is(RegexConstants.DATE_HH_MM_SS, date)) {
 			return DateConstants.FORMAT_HH_MM_SS;
+		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) {
+			return DateConstants.FORMAT_YYYYMM;
 		}
 		return null;
 	}
