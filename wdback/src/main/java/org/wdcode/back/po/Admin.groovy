@@ -40,4 +40,12 @@ class Admin extends BaseEntityIdTime implements EntityLogin {
 	String		loginIp
 	//登录时间
 	Integer		loginTime
+
+	/**
+	 * 设置用户密码
+	 * @param password 用户密码
+	 */
+	public void setPassword(String password){
+		this.password = Digest.password(password)
+	}
 }

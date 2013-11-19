@@ -36,8 +36,6 @@ public final class BeanUtil {
 			try {
 				// 不是符合字段
 				if (!field.isSynthetic()) {
-					// 强行设置Field可访问.
-					makeAccessible(field);
 					// 设置字段值
 					setFieldValue(target, field.getName(), field.get(source));
 				}
@@ -121,6 +119,10 @@ public final class BeanUtil {
 	 * @return 属性值
 	 */
 	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
+		// 对象为空
+		if (EmptyUtil.isEmpty(list)) {
+			return Lists.emptyList();
+		}
 		// 声明返回列表
 		List<Object> ls = Lists.getList(list.size());
 		// 循环添加

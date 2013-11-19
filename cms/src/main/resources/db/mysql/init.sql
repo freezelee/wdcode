@@ -178,4 +178,4 @@ INSERT INTO operate(name,link) VALUES('添加物流公司','corp_dels');
 INSERT INTO authority(authority) VALUES('ROLE_ADMIN');  
  
 /* 修改管理员密码 */
-INSERT INTO admin(`name`,`password`) VALUES('admin','2ffd0a519768e5a51ff20c8652f80ec178dec2bc');
+INSERT INTO admin(name,password,roleId) VALUES('admin','2ffd0a519768e5a51ff20c8652f80ec178dec2bc',1);

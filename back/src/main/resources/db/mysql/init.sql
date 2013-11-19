@@ -67,4 +67,4 @@ INSERT INTO operate(name,link) VALUES('删除管理员','admin_dels');
 INSERT INTO authority(authority) VALUES('ROLE_ADMIN');  
 
 /* 初始化超级管理员 */
-INSERT INTO admin(name,password) VALUES('admin','2ffd0a519768e5a51ff20c8652f80ec178dec2bc');
+INSERT INTO admin(name,password,roleId) VALUES('admin','2ffd0a519768e5a51ff20c8652f80ec178dec2bc',1);

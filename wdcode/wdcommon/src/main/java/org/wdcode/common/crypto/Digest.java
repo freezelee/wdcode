@@ -8,6 +8,7 @@ import org.wdcode.common.constants.EncryptConstants;
 
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
+import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 
 /**
@@ -19,6 +20,18 @@ import org.wdcode.common.util.StringUtil;
 public final class Digest {
 	// 保存摘要算法
 	private final static Map<String, MessageDigest>	DIGEST	= Maps.getConcurrentMap();
+
+	/**
+	 * 加密密码
+	 * @param text 要加密的文本
+	 * @return 加密后的文本
+	 */
+	public static String password(String text) {
+		// 加密密码
+		String password = absolute(text);
+		// 长度相同 加密过 返回原密码
+		return EmptyUtil.isEmpty(text) ? null : password.length() == text.length() ? text : password;
+	}
 
 	/**
 	 * 先普通加密 在获得摘要 无法解密

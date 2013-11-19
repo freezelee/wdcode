@@ -57,6 +57,6 @@ class User extends BaseEntityIdTime implements EntityUser {
 	 * @param password 用户密码
 	 */
 	public void setPassword(String password){
-		this.password = Digest.absolute(password)
+		this.password = Digest.password(password)
 	}
 }

@@ -9,6 +9,8 @@ import org.wdcode.back.po.Authority;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.security.po.Menu;
+import org.wdcode.security.po.Role;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 
@@ -28,20 +30,29 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	private boolean				enabled;
 	// 管理员实体
 	private Admin				admin;
+	// 角色
+	private Role				role;
 
 	public AdminToken(Admin admin, SuperService service, int time) {
 		this.admin = admin;
+		// 获得权限
+		authorities = service.all(Authority.class);
+		// 获得角色
+		role = service.get(Role.class, Conversion.toInt(admin.getRoleId()));
 		// 对权限和菜单赋值
 		if (BackParams.ADMIN.equals(admin.getName())) {
-			// 是创建者 获得权限
-			authorities = service.all(Authority.class);
-		} else {
-			// 不是创建者 权限ID不为空
-			if (admin.getRoleId() != null) {
-				// 获得权限
-				authorities = service.eq(Authority.class, "roleId", admin.getRoleId(), -1, -1);
-			}
+			role.setMenus(service.all(Menu.class));
 		}
+		// // 对权限和菜单赋值
+		// if (BackParams.ADMIN.equals(admin.getName())) {
+		//
+		// } else {
+		// // 不是创建者 权限ID不为空
+		// if (admin.getRoleId() != null) {
+		// // 获得权限
+		// authorities = service.eq(Authority.class, "roleId", admin.getRoleId(), -1, -1);
+		// }
+		// }
 		this.id = admin.getId();
 		this.password = admin.getPassword();
 		this.name = admin.getName();
@@ -105,5 +116,13 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	@Override
 	public String getUsername() {
 		return name;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 }

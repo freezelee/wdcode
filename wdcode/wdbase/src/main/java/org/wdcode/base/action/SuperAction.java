@@ -299,7 +299,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entity() throws Exception {
-		return entity == null ? SUCCESS : callback(entity = entity.getKey() == null ? service.get(entity) : service.get(entityClass, entity.getKey()));
+		return callback(entity == null ? ERROR : (entity = entity.getKey() == null ? service.get(entity) : service.get(entityClass, entity.getKey())));
 	}
 
 	/**
@@ -335,7 +335,8 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String theme() throws Exception {
-		return EmptyUtil.isEmpty(entity) ? SUCCESS : callback(EmptyUtil.isEmpty(theme(entity = service.get(entityClass, entity.getKey()))) ? ERROR : SUCCESS);
+		entity = service.get(entityClass, entity.getKey());
+		return SUCCESS;
 	}
 
 	/**
