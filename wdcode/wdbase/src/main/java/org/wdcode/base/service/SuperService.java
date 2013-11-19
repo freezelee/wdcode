@@ -878,7 +878,7 @@ public class SuperService {
 	 */
 	public void load() {
 		// 循环加载所以缓存
-		for (Class<? extends Entity> c : context.getClasss()) {
+		for (Class<? extends Entity> c : context.getEntitys()) {
 			// 加载缓存
 			load(c);
 		}

@@ -40,7 +40,7 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 		// 获得角色
 		role = service.get(Role.class, Conversion.toInt(admin.getRoleId()));
 		// 对权限和菜单赋值
-		if (BackParams.ADMIN.equals(admin.getName())) {
+		if (role != null && BackParams.ADMIN.equals(admin.getName())) {
 			role.setMenus(service.all(Menu.class));
 		}
 		// // 对权限和菜单赋值

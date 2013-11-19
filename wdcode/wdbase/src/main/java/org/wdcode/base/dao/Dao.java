@@ -42,14 +42,6 @@ public interface Dao extends Close {
 	<E> List<E> delete(E... entitys);
 
 	/**
-	 * 执行非查询的SQL语言 使用 ? 做参数
-	 * @param sql sql语句 不能是查询的
-	 * @param values 参数值数组
-	 * @return 返回影响的行数 异常返回-1
-	 */
-	int execute(String sql, Object... values);
-
-	/**
 	 * 使用索引查询
 	 * @param entityClass 实体类
 	 * @param property 属性名
@@ -68,16 +60,6 @@ public interface Dao extends Close {
 	 * @return 数据列表
 	 */
 	<E> List<E> search(E entity, int firstResult, int maxResults);
-
-	/**
-	 * 根据SQL查询语句查询
-	 * @param sql SQL查询语句 参数为?的语句
-	 * @param values 参数列表
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 返回结果列表
-	 */
-	<E> List<E> query(String sql, List<Object> values, int firstResult, int maxResults);
 
 	/**
 	 * 获得持久化对象
@@ -292,6 +274,24 @@ public interface Dao extends Close {
 	 * @return 结果数 异常返回0
 	 */
 	int count(String sql, Object... values);
+
+	/**
+	 * 执行非查询的SQL语言 使用 ? 做参数
+	 * @param sql sql语句 不能是查询的
+	 * @param values 参数值数组
+	 * @return 返回影响的行数 异常返回-1
+	 */
+	int execute(String sql, Object... values);
+
+	/**
+	 * 根据SQL查询语句查询
+	 * @param sql SQL查询语句 参数为?的语句
+	 * @param values 参数列表
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 返回结果列表
+	 */
+	<E> List<E> query(String sql, List<Object> values, int firstResult, int maxResults);
 
 	/**
 	 * 清空整张表

@@ -49,7 +49,7 @@ public final class Context {
 	@Resource
 	private ApplicationContext								applicationContext;
 	// 短类名对应的类对象Map
-	private ConcurrentMap<String, Class<? extends Entity>>	classes;
+	private ConcurrentMap<String, Class<? extends Entity>>	entitys;
 
 	/**
 	 * 初始化
@@ -59,11 +59,11 @@ public final class Context {
 		// 获得所有实体
 		Map<String, Entity> map = getBeans(Entity.class);
 		// 实例化短类名对应的类对象Map
-		classes = Maps.getConcurrentMap();
+		entitys = Maps.getConcurrentMap();
 		// 循环赋值
 		for (Map.Entry<String, ? extends Entity> e : map.entrySet()) {
 			// 设置实体名对应类
-			classes.put(e.getKey(), e.getValue().getClass());
+			entitys.put(e.getKey(), e.getValue().getClass());
 		}
 		// 定时任务
 		if (QuartzParams.SPRING) {
@@ -122,8 +122,8 @@ public final class Context {
 	 * 获得所有实体类列表
 	 * @return 类列表
 	 */
-	public List<Class<? extends Entity>> getClasss() {
-		return Lists.getList(classes.values());
+	public List<Class<? extends Entity>> getEntitys() {
+		return Lists.getList(entitys.values());
 	}
 
 	/**
@@ -132,7 +132,7 @@ public final class Context {
 	 * @return 类对象
 	 */
 	public <E extends Entity> Class<E> getClass(String entity) {
-		return (Class<E>) classes.get(entity);
+		return (Class<E>) entitys.get(entity);
 	}
 
 	/**

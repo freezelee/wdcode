@@ -14,11 +14,11 @@ import org.wdcode.common.crypto.Digest;
 public final class Password implements PasswordEncoder {
 	@Override
 	public String encode(CharSequence rawPassword) {
-		return Digest.absolute(rawPassword.toString());
+		return Digest.password(rawPassword.toString());
 	}
 
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return encode(rawPassword.toString()).equals(encodedPassword);
+		return encode(rawPassword).equals(encodedPassword);
 	}
 }

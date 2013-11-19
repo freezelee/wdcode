@@ -18,7 +18,6 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.persister.entity.SingleTableEntityPersister;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
@@ -27,10 +26,9 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
-import org.wdcode.base.entity.Entity;
+import org.wdcode.base.dao.hibernate.session.SessionFactorys;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
-import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.SqlUtil;
@@ -45,28 +43,18 @@ import org.wdcode.common.util.SqlUtil;
 public final class HibernateDao implements Dao {
 	// Context
 	@Resource
-	private Context					context;
+	private Context			context;
 	// Session工厂
 	@Resource
-	private SessionFactory			sessionFactory;
+	private SessionFactorys	factorys;
 	// 是否使用openSession
-	private boolean					isSession;
-	// 表名
-	private Map<Class<?>, String>	tables;
+	private boolean			isSession;
 
 	/**
 	 * 初始化
 	 */
 	@PostConstruct
 	protected void init() {
-		// 实例化表列表
-		tables = Maps.getConcurrentMap();
-		// 循环获得表名
-		for (Class<? extends Entity> c : context.getClasss()) {
-			try {
-				tables.put(c, ((SingleTableEntityPersister) sessionFactory.getClassMetadata(c)).getTableName());
-			} catch (Exception e) {}
-		}
 		// 创建索引
 		createIndex();
 	}
@@ -81,8 +69,8 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> search(final Class<E> entityClass, final String property, final Object value, final int firstResult, final int maxResults) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entityClass, new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 通过Hibernate的Session获取FullTextSession对象
 				FullTextSession fullTextSession = Search.getFullTextSession(session);
 				// 获取特定类的特定QueryBuilder对象
@@ -115,8 +103,8 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> search(final E entity, final int firstResult, final int maxResults) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entity.getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 通过Hibernate的Session获取FullTextSession对象
 				FullTextSession fullTextSession = Search.getFullTextSession(session);
 				// 获取特定类的特定QueryBuilder对象
@@ -147,8 +135,8 @@ public final class HibernateDao implements Dao {
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
 	 */
 	public <E> List<E> insert(final E... entitys) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 循环添加
 				for (E e : entitys) {
 					session.save(e);
@@ -167,8 +155,8 @@ public final class HibernateDao implements Dao {
 	 * @see org.hibernate.LockMode
 	 */
 	public <E> List<E> update(final E... entitys) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.update(e);
@@ -185,8 +173,8 @@ public final class HibernateDao implements Dao {
 	 * @return 列表对象
 	 */
 	public <E> List<E> insertOrUpdate(final E... entitys) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.saveOrUpdate(e);
@@ -203,8 +191,8 @@ public final class HibernateDao implements Dao {
 	 * @return 是否成功
 	 */
 	public <E> List<E> delete(final E... entitys) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.delete(e);
@@ -220,21 +208,7 @@ public final class HibernateDao implements Dao {
 	 * @param entityClass 实体类
 	 */
 	public void truncate(Class<?> entityClass) {
-		execute(SqlUtil.getTruncateSQL(tables.get(entityClass)));
-	}
-
-	/**
-	 * 执行非查询的SQL语言 使用 ? 做参数
-	 * @param sql sql语句 不能是查询的
-	 * @param values 参数值数组
-	 * @return 返回影响的行数 异常返回-1
-	 */
-	public int execute(final String sql, final Object... values) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
-				return setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate();
-			}
-		});
+		execute(SqlUtil.getTruncateSQL(factorys.getTables(entityClass)));
 	}
 
 	/**
@@ -250,8 +224,8 @@ public final class HibernateDao implements Dao {
 			return null;
 		}
 		// 查找对象
-		return execute(new HibernateCallback<E>() {
-			public E doInHibernate(Session session) {
+		return execute(entityClass, new Callback<E>() {
+			public E callback(Session session) {
 				return (E) session.get(entityClass, pk);
 			}
 		});
@@ -264,8 +238,8 @@ public final class HibernateDao implements Dao {
 			return Lists.emptyList();
 		}
 		// 查找对象
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entityClass, new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 声明返回对象
 				List<E> list = Lists.getList(pks.length);
 				// 循环获得实体列表
@@ -274,22 +248,6 @@ public final class HibernateDao implements Dao {
 				}
 				// 返回对象列表
 				return list;
-			}
-		});
-	}
-
-	/**
-	 * 根据SQL查询语句查询
-	 * @param sql SQL查询语句 参数为?的语句
-	 * @param values 参数列表
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 返回结果列表
-	 */
-	public <E> List<E> query(final String sql, final List<Object> values, final int firstResult, final int maxResults) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
-				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
 			}
 		});
 	}
@@ -314,7 +272,7 @@ public final class HibernateDao implements Dao {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E> E get(Class<E> entity, String property, Object value) {
-		return getCriteria(DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
+		return getCriteria(entity.getClass(), DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
 	}
 
 	/**
@@ -324,7 +282,7 @@ public final class HibernateDao implements Dao {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E> E get(Class<E> entity, Map<String, Object> map) {
-		return getCriteria(DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
+		return getCriteria(entity.getClass(), DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
 	}
 
 	/**
@@ -336,8 +294,8 @@ public final class HibernateDao implements Dao {
 	 */
 
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+		return execute(entity.getClass(), new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 获得Criteria
 				Criteria criteria = session.createCriteria(entity.getClass());
 				// 添加实体参数
@@ -364,7 +322,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表
 	 */
 	public <E> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
-		return queryCriteria(DetachedCriteria.forClass(entityClass), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass), firstResult, maxResults);
 	}
 
 	/**
@@ -377,7 +335,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(DetachedCriteria.forClass(entityClass).add(Restrictions.eq(property, value)), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.eq(property, value)), firstResult, maxResults);
 	}
 
 	/**
@@ -389,7 +347,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
-		return queryCriteria(DetachedCriteria.forClass(entityClass).add(Restrictions.allEq(map)), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.allEq(map)), firstResult, maxResults);
 	}
 
 	/**
@@ -402,7 +360,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(DetachedCriteria.forClass(entityClass).add(Restrictions.like(property, value)), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.like(property, value)), firstResult, maxResults);
 	}
 
 	/**
@@ -414,7 +372,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
-		return queryCriteria(getOrder(entity.getClass(), orders).add(Example.create(entity)), firstResult, maxResults);
+		return queryCriteria(entity.getClass(), getOrder(entity.getClass(), orders).add(Example.create(entity)), firstResult, maxResults);
 	}
 
 	/**
@@ -426,7 +384,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults) {
-		return queryCriteria(getOrder(entityClass, orders), firstResult, maxResults);
+		return queryCriteria(entityClass, getOrder(entityClass, orders), firstResult, maxResults);
 	}
 
 	/**
@@ -439,7 +397,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
-		return queryCriteria(DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)), firstResult, maxResults);
 	}
 
 	/**
@@ -453,7 +411,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
-		return queryCriteria(getOrder(entityClass, orders).add(Restrictions.in(property, values)), firstResult, maxResults);
+		return queryCriteria(entityClass, getOrder(entityClass, orders).add(Restrictions.in(property, values)), firstResult, maxResults);
 	}
 
 	/**
@@ -472,7 +430,7 @@ public final class HibernateDao implements Dao {
 			conj.add(Restrictions.in(e.getKey(), e.getValue()));
 		}
 		// 查询结果
-		return queryCriteria(DetachedCriteria.forClass(entityClass).add(conj), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(conj), firstResult, maxResults);
 	}
 
 	/**
@@ -486,7 +444,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表
 	 */
 	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
-		return queryCriteria(getBetween(entity, property, lo, hi), firstResult, maxResults);
+		return queryCriteria(entity.getClass(), getBetween(entity, property, lo, hi), firstResult, maxResults);
 	}
 
 	/**
@@ -507,8 +465,8 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Class<?> entityClass, final String property, final Object value) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+		return execute(entityClass, new Callback<Integer>() {
+			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entityClass);
 				// 添加相等条件
@@ -532,8 +490,8 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Class<?> entityClass, final String property, final List<Object> values) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+		return execute(entityClass, new Callback<Integer>() {
+			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entityClass);
 				// 添加相等条件
@@ -556,8 +514,8 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Class<?> entityClass, final Map<String, Object> map) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+		return execute(entityClass, new Callback<Integer>() {
+			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entityClass);
 				// 判断属性名不为空
@@ -578,8 +536,8 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Object entity) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+		return execute(entity.getClass(), new Callback<Integer>() {
+			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entity.getClass());
 				// 添加实体对象
@@ -593,14 +551,56 @@ public final class HibernateDao implements Dao {
 	}
 
 	/**
+	 * 查询字段在lo到hi之间的实体总数
+	 * @param entity 查询实体
+	 * @param property 字段名
+	 * @param lo 开始条件
+	 * @param hi 结束条件
+	 * @return 返回结果列表
+	 */
+	public int count(Object entity, String property, Object lo, Object hi) {
+		return count(entity.getClass(), getBetween(entity, property, lo, hi));
+	}
+
+	/**
+	 * 执行非查询的SQL语言 使用 ? 做参数
+	 * @param sql sql语句 不能是查询的
+	 * @param values 参数值数组
+	 * @return 返回影响的行数 异常返回-1
+	 */
+	public int execute(final String sql, final Object... values) {
+		return execute(null, new Callback<Integer>() {
+			public Integer callback(Session session) {
+				return setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate();
+			}
+		});
+	}
+
+	/**
+	 * 根据SQL查询语句查询
+	 * @param sql SQL查询语句 参数为?的语句
+	 * @param values 参数列表
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 返回结果列表
+	 */
+	public <E> List<E> query(final String sql, final List<Object> values, final int firstResult, final int maxResults) {
+		return execute(null, new Callback<List<E>>() {
+			public List<E> callback(Session session) {
+				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
+			}
+		});
+	}
+
+	/**
 	 * 根据SQL查询语句查询出总行数
 	 * @param sql SQL查询语句 参数为?的语句
 	 * @param value 参数值
 	 * @return 结果数 异常返回0
 	 */
 	public int count(final String sql, final Object... values) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+		return execute(null, new Callback<Integer>() {
+			public Integer callback(Session session) {
 				// 声明分页查询接口
 				Query queryCount = session.createSQLQuery(SqlUtil.getCountSQL(sql));
 				// 如果参数不为空
@@ -618,25 +618,11 @@ public final class HibernateDao implements Dao {
 	}
 
 	/**
-	 * 查询字段在lo到hi之间的实体总数
-	 * @param entity 查询实体
-	 * @param property 字段名
-	 * @param lo 开始条件
-	 * @param hi 结束条件
-	 * @return 返回结果列表
-	 */
-	public int count(Object entity, String property, Object lo, Object hi) {
-		return count(getBetween(entity, property, lo, hi));
-	}
-
-	/**
 	 * 关闭Session
 	 * @param session
 	 */
 	public void close() {
-		if (!EmptyUtil.isEmpty(sessionFactory)) {
-			sessionFactory.close();
-		}
+		factorys.close();
 	}
 
 	/**
@@ -673,9 +659,9 @@ public final class HibernateDao implements Dao {
 	 * @param criteria 查询条件
 	 * @return 返回结果列表
 	 */
-	private <E> E getCriteria(final DetachedCriteria criteria) {
+	private <E> E getCriteria(Class<?> entityClass, final DetachedCriteria criteria) {
 		// 获得结果
-		List<E> list = queryCriteria(criteria, 0, 1);
+		List<E> list = queryCriteria(entityClass, criteria, 0, 1);
 		// 返回结果
 		return EmptyUtil.isEmpty(list) ? null : list.get(0);
 	}
@@ -687,9 +673,9 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 最多查询多少条
 	 * @return 返回结果列表
 	 */
-	private <E> List<E> queryCriteria(final DetachedCriteria criteria, final int firstResult, final int maxResults) {
-		return execute(new HibernateCallback<List<E>>() {
-			public List<E> doInHibernate(Session session) {
+	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria, final int firstResult, final int maxResults) {
+		return execute(entityClass, new Callback<List<E>>() {
+			public List<E> callback(Session session) {
 				// 获得Criteria
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);
 				// 判断开始结果
@@ -711,9 +697,9 @@ public final class HibernateDao implements Dao {
 	 * @param criteria 查询条件
 	 * @return 返回结果列表 异常返回0
 	 */
-	private int count(final DetachedCriteria criteria) {
-		return execute(new HibernateCallback<Integer>() {
-			public Integer doInHibernate(Session session) {
+	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
+		return execute(entityClass, new Callback<Integer>() {
+			public Integer callback(Session session) {
 				return Conversion.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult());
 			}
 		});
@@ -759,14 +745,16 @@ public final class HibernateDao implements Dao {
 	 * 获得当前Session
 	 * @return Session
 	 */
-	private Session getSession() {
+	private Session getSession(Class<?> entity) {
+		// 获得sessionFactory
+		SessionFactory sessionFactory = factorys.getSessionFactory(entity);
 		// 声明Session
 		Session session = null;
 		// 判断是否直接使用 openSession
 		try {
 			session = sessionFactory.getCurrentSession();
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.debug(e);
 		} finally {
 			if (session == null) {
 				isSession = true;
@@ -788,9 +776,9 @@ public final class HibernateDao implements Dao {
 	 * @param lockMode 锁模式
 	 * @return 泛型对象
 	 */
-	private <T> T execute(HibernateCallback<T> callback) {
+	private <T> T execute(Class<?> entity, Callback<T> callback) {
 		// 获得Session
-		Session session = getSession();
+		Session session = getSession(entity);
 		// 声明事务
 		Transaction tx = null;
 		try {
@@ -800,7 +788,7 @@ public final class HibernateDao implements Dao {
 				tx = session.beginTransaction();
 			}
 			// 执行
-			T t = callback.doInHibernate(session);
+			T t = callback.callback(session);
 			// 是否自己控制事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				// 提交事务
@@ -840,20 +828,25 @@ public final class HibernateDao implements Dao {
 			int size = list.size();
 			// 声明实体列表
 			Class<?>[] entityClass = new Class<?>[size];
+			// 声明实体列表
+			SessionFactory[] sessionFactory = new SessionFactory[size];
 			// 循环获得索引实体类型
 			for (int i = 0; i < size; i++) {
 				entityClass[i] = list.get(i).getClass();
+				sessionFactory[i] = factorys.getSessionFactory(entityClass[i]);
 			}
 			// 创建索引
-			Session session = null;
-			try {
-				session = sessionFactory.openSession();
-				Search.getFullTextSession(session).createIndexer(entityClass).startAndWait();
-			} catch (Exception e) {
-				Logs.warn(e);
-			} finally {
-				if (session != null) {
-					session.close();
+			for (SessionFactory factory : sessionFactory) {
+				// 声明Session
+				Session session = null;
+				try {
+					// 获得Session
+					session = factory.openSession();
+					Search.getFullTextSession(session).createIndexer(entityClass).startAndWait();
+				} catch (Exception e) {} finally {
+					if (session != null) {
+						session.close();
+					}
 				}
 			}
 		}
@@ -865,12 +858,12 @@ public final class HibernateDao implements Dao {
 	 * @since JDK7
 	 * @version 1.0 2012-03-05
 	 */
-	interface HibernateCallback<T> {
+	interface Callback<T> {
 		/**
 		 * 调用Hibernate执行操作
 		 * @param session hibernate Session
 		 * @return 指定的泛型
 		 */
-		T doInHibernate(Session session);
+		T callback(Session session);
 	}
 }
