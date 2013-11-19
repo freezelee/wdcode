@@ -16,9 +16,7 @@ import org.wdcode.core.log.Logs;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CronTrigger extends CronTriggerFactoryBean {
 	@Override
-	public void afterPropertiesSet() {
-		System.out.println(1);
-	}
+	public void afterPropertiesSet() {}
 
 	/**
 	 * 初始化方法
