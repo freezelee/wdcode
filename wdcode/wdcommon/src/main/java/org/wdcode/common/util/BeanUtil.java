@@ -36,8 +36,10 @@ public final class BeanUtil {
 			try {
 				// 不是符合字段
 				if (!field.isSynthetic()) {
+					// 强行设置Field可访问.
+					makeAccessible(field);
 					// 设置字段值
-					setFieldValue(target, field.getName(), field.get(source));
+					setFieldValue(target, field, field.get(source));
 				}
 			} catch (Exception e) {}
 		}
@@ -172,10 +174,15 @@ public final class BeanUtil {
 	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {
-		// 获得字段
-		Field field = getField(object, fieldName);
+		setFieldValue(object, getField(object, fieldName), value);
+	}
+
+	/**
+	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
+	 */
+	public static void setFieldValue(Object object, Field field, Object value) {
 		// 判断字段为空 返回
-		if (field == null || value == null) {
+		if (object == null || field == null || value == null) {
 			return;
 		}
 		// 强行设置Field可访问.

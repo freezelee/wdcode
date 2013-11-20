@@ -16,11 +16,18 @@ import org.wdcode.common.util.CloseUtil;
  * @since JDK7
  * @version 1.0 2012-11-18
  */
-public final class Lucene {
+public final class Lucenes {
 	// Lucene索引目录
 	private static Directory	dir;
 	// Lucene分词器
 	private static Analyzer		analyzer;
+
+	// 索引写入器
+	// private static IndexWriter writer;
+
+	public static void init() {
+
+	}
 
 	public static void createIndex() {
 		try {
@@ -31,5 +38,5 @@ public final class Lucene {
 		}
 	}
 
-	private Lucene() {}
+	private Lucenes() {}
 }
