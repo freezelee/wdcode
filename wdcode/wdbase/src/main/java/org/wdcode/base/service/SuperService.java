@@ -265,9 +265,10 @@ public class SuperService {
 			}
 			// 返回列表
 			return list;
+		} else {
+			// 无缓存 返回查询结果
+			return dao.gets(entityClass, pks);
 		}
-		// 返回查询结果
-		return dao.gets(entityClass, pks);
 	}
 
 	/**
@@ -296,9 +297,12 @@ public class SuperService {
 					return e;
 				}
 			}
+			// 缓冲中查询不到
+			return null;
+		} else {
+			// 数据库查询
+			return dao.get(entityClass, property, value);
 		}
-		// 数据库查询
-		return dao.get(entityClass, property, value);
 	}
 
 	/**
@@ -326,9 +330,12 @@ public class SuperService {
 					return e;
 				}
 			}
+			// 缓冲中查询不到
+			return null;
+		} else {
+			// 数据库查询
+			return dao.get(entityClass, map);
 		}
-		// 数据库查询
-		return dao.get(entityClass, map);
 	}
 
 	/**
@@ -356,7 +363,7 @@ public class SuperService {
 			return Lists.subList(cache.list(), firstResult, maxResults);
 		} else {
 			// 查询数据库
-			return Lists.load(dao.list(entityClass, firstResult, maxResults));
+			return toString(dao.list(entityClass, firstResult, maxResults));
 		}
 	}
 
@@ -459,6 +466,7 @@ public class SuperService {
 			// 返回数据列表
 			return Lists.subList(list, firstResult, maxResults);
 		}
+		// 没有缓存
 		return dao.eq(entityClass, map, firstResult, maxResults);
 	}
 
@@ -1015,5 +1023,19 @@ public class SuperService {
 	 */
 	private Serializable key(Serializable key) {
 		return Conversion.toInt(key) > 0 ? Conversion.toInt(key) : Conversion.toString(key);
+	}
+
+	/**
+	 * 调用每个元素的toString()方法
+	 * @param list
+	 * @return
+	 */
+	private static <E> List<E> toString(List<E> list) {
+		// 循环调用
+		for (E e : list) {
+			e.toString();
+		}
+		// 返回list
+		return list;
 	}
 }

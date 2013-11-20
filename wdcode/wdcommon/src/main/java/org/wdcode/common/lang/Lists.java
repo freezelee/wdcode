@@ -182,20 +182,6 @@ public final class Lists {
 	 * @param list
 	 * @return
 	 */
-	public static <E> List<E> load(List<E> list) {
-		// 循环调用
-		for (E e : list) {
-			e.toString();
-		}
-		// 返回list
-		return list;
-	}
-
-	/**
-	 * 调用每个元素的toString()方法
-	 * @param list
-	 * @return
-	 */
 	public static String toString(List<?> list) {
 		return ArrayUtil.toString(toArray(list));
 	}

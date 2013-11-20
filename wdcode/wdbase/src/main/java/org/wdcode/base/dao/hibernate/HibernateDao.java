@@ -272,7 +272,7 @@ public final class HibernateDao implements Dao {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E> E get(Class<E> entity, String property, Object value) {
-		return getCriteria(entity.getClass(), DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
+		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
 	}
 
 	/**
@@ -282,7 +282,7 @@ public final class HibernateDao implements Dao {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E> E get(Class<E> entity, Map<String, Object> map) {
-		return getCriteria(entity.getClass(), DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
+		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
 	}
 
 	/**
