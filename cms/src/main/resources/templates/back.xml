@@ -21,7 +21,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="admin,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="admin_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="admin_to_add"/>	
 			<node key="submit" ref="delButton" action="admin_dels"/>
 			<node th="admin,name;email;date" />	
 			<node td="name;email;date"/> 
@@ -74,7 +74,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="role,list" edit="true" del="true">				
-			<node key="submit" ref="addSubmit" action="role_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="role_to_add"/>	
 			<node key="submit" ref="delButton" action="role_dels"/>
 			<node th="role,name" />	
 			<node td="name"/> 

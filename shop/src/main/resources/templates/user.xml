@@ -13,7 +13,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="user,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="user_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="user_to_add"/>	
 			<node key="submit" ref="delButton" action="user_dels"/>
 			<node th="user,name;email;date" />	
 			<node td="name;email;date"/> 

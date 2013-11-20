@@ -18,7 +18,7 @@
 		<@s.actionerror/>
 	</div>
 	<div class="body">
-		<@s.form id="pagerForm" validate="false" method="post" action="%{#attr.template.get('action')}"> 
+		<@s.form id="pagerForm" validate="false" method="post" action="${template.get('action')!}"> 
 			<div class="listBar"> 
 				<#if template.get('submit')??>
 					<#list template.get('submit') as temMap>					

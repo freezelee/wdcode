@@ -2,7 +2,7 @@
 <templates>
 	<!-- 系统模板 -->
 	<module key="system">		
-		<template key="cache" title="cache,setup"> 
+		<template key="cache" title="cache,setup" action="system_cache"> 
 			<node key="field" text="reset,cache" ref="submit" action="system_cache" value="%{getText('reset')}"/>
 			<node key="field" text="reset,template" ref="submit" action="system_templates_cache" value="%{getText('reset')}"/>
 		</template> 
@@ -21,7 +21,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="admin,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="admin_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="admin_to_add"/>	
 			<node key="submit" ref="delButton" action="admin_dels"/>
 			<node th="admin,name;email;date" />	
 			<node td="name;email;date"/> 
@@ -73,15 +73,16 @@
 	<!-- 角色模板 -->
 	<module key="role">
 		<template key="add" title="add,role" action="role_add"> 
-			<node key="field" text="role" ref="textfield"  name="entity.name"/>   
-			<node key="field" text="operate" ref="checkboxlist" list="%{#attr.query.list('operate')}" value="%{entity.operates!=null?entity.operates.{link}:''}" listKey="link" listValue="name" name="entity.operates.link" div="specificationSelect"/>
+			<node key="field" text="role" ref="textfield"  name="entity.name"/>
+			<node key="field" text="menu" ref="checkboxlist" list="%{#attr.query.list('menu')}" value="%{getFields(entity.menus,'id')}" listKey="id" listValue="name" name="entity.menu" div="specificationSelect"/>   
+			<node key="field" text="operate" ref="checkboxlist" list="%{#attr.query.list('operate')}" value="%{getFields(entity.operates,'link')}" listKey="link" listValue="name" name="entity.operate" div="specificationSelect"/>
 			<node key="submit" ref="submit" />
 		</template>
 		<template key="edit" title="edit,role" action="role_edit" ref="add"> 
 			<node key="hidden" name="entity.key"/> 
 		</template>
-		<template key="list" title="role,list" edit="true" del="true">				
-			<node key="submit" ref="addSubmit" action="role_theme_add"/>	
+		<template key="list" title="role,list" edit="true" del="true" action="role_to_add">				
+			<node key="submit" ref="addSubmit" action="role_to_add"/>	
 			<node key="submit" ref="delButton" action="role_dels"/>
 			<node th="role,name" />	
 			<node td="name"/> 

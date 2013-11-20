@@ -13,7 +13,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="pay,mode,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="payment_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="payment_to_add"/>	
 			<node key="submit" ref="delButton" action="payment_dels"/>
 			<node th="name;type;rate;detail" />	
 			<node td="name;type.name;rate;detail"/>

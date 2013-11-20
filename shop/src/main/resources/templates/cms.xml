@@ -12,7 +12,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="navigation,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="navigation_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="navigation_to_add"/>	
 			<node key="submit" ref="delButton" action="navigation_dels"/>
 			<node th="navigation,name;position;url" />	
 			<node td="name;%{getText(#{0:'top',1:'middle',2:'bottom'}.get(`state`))};url"/>  			
@@ -31,7 +31,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="friendLink,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="friendLink_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="friendLink_to_add"/>	
 			<node key="submit" ref="delButton" action="friendLink_dels"/>
 			<node th="friendLink,name;url;logo;date" />	
 			<node td="name;url;logo;date"/> 
@@ -51,7 +51,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="property,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="property_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="property_to_add"/>	
 			<node key="submit" ref="delButton" action="property_dels"/>
 			<node th="property,name;property,value" />	
 			<node td="name;substring(value,50)"/> 
@@ -73,7 +73,7 @@
 			<node key="hidden" name="entity.key"/>
 		</template>
 		<template key="list" title="article,list"  edit="true"> 
-			<node key="submit" ref="addSubmit" action="article_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="article_to_add"/>	
 			<node key="submit" ref="delButton" action="article_dels"/>
 			<node th="title;category;createDate" />	
 			<node td="name;categoryId;date"/> 
@@ -100,7 +100,7 @@
 			<node key="hidden" name="entity.key"/>
 		</template>
 		<template key="list" title="category,list"  edit="true"> 
-			<node key="submit" ref="addSubmit" action="category_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="category_to_add"/>	
 			<node key="submit" ref="delButton" action="category_dels"/>
 			<node th="category,name;url" />	
 			<node td="name;url"/> 

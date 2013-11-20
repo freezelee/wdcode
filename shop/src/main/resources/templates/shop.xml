@@ -16,7 +16,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="dispatch,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="dispatch_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="dispatch_to_add"/>	
 			<node key="submit" ref="delButton" action="dispatch_dels"/>
 			<node th="dispatch,name;first,weight;last,weight;first,price;last,price" />	
 			<node td="name;firstWeight;lastWeight;firstPrice;lastPrice"/> 
@@ -38,7 +38,7 @@
 			<node key="submit" ref="submit" />
 		</template>
 		<template key="list" url="area.ftl" title="area,list"> 
-			<node key="submit" ref="addSubmit" action="area_theme_add"/>
+			<node key="submit" ref="addSubmit" action="area_to_add"/>
 		</template>
 	</module> 
 	
@@ -53,7 +53,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="corp,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="corp_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="corp_to_add"/>	
 			<node key="submit" ref="delButton" action="corp_dels"/>
 			<node th="corp,name;corp,url" />	
 			<node td="name;url"/> 
@@ -72,7 +72,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="customer,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="customer_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="customer_to_add"/>	
 			<node key="submit" ref="delButton" action="customer_dels"/>
 			<node th="customer,name;customer,type;customer,contact" />	
 			<node td="name;type;contact"/> 

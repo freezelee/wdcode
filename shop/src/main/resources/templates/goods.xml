@@ -45,7 +45,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="goods,list" edit="true">  
-			<node key="submit" ref="addSubmit" action="goods_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="goods_to_add"/>	
 			<node key="submit" ref="delButton" action="goods_dels"/>
 			<node th="goods,name;goods,sn;sort;price;markeTable;best;newIn;hot;store" />	
 			<node td="name;sn;%{#attr.query.get('goodsSort',sortId).name};price;markeTable;best;newIn;hot;store"/> 
@@ -72,7 +72,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="goodsSort,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="sort_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="sort_to_add"/>	
 			<node key="submit" ref="delButton" action="sort_dels"/>
 			<node th="sort,name;flag;title;keyWords;description" />	
 			<node td="name;flag;title;keyWords;description"/> 
@@ -111,7 +111,7 @@
 			<node key="hidden" name="entity.key"/> 
 		</template>
 		<template key="list" title="goodsSort,list" edit="true"> 
-			<node key="submit" ref="addSubmit" action="type_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="type_to_add"/>	
 			<node key="submit" ref="delButton" action="type_dels"/>
 			<node th="type,name;goods,attribute;createDate" />	
 			<node td="name;attributes.{name};date"/> 
@@ -131,7 +131,7 @@
 			<node key="hidden" name="entity.key"/>
 		</template>		
 		<template key="list" title="brand,list" edit="true" action="brand_page"> 
-			<node key="submit" ref="addSubmit" action="brand_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="brand_to_add"/>	
 			<node key="submit" ref="delButton" action="brand_dels"/>
 			<node th="brand,name;url;logo" />	
 			<node td="name;url;path"/> 
@@ -153,7 +153,7 @@
 			<node key="hidden" name="entity.key"/>
 		</template>
 		<template key="list" title="goods,specification,list" edit="true">  
-			<node key="submit" ref="addSubmit" action="specification_theme_add"/>	
+			<node key="submit" ref="addSubmit" action="specification_to_add"/>	
 			<node key="submit" ref="delButton" action="specification_dels"/>
 			<node th="specification,name;specification,type;specification,value;remark" />	
 			<node td="name;%{getText(#{0:'text,type',1:'photo,type'}.get(`state`))};specificationValues.{name};remark"/> 
