@@ -1,12 +1,13 @@
-package org.wdcode.core.nosql.berkeleydb.factory;
+package org.wdcode.core.nosql.berkeleydb.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.wdcode.common.lang.Lists;
 import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.nosql.berkeleydb.BerkeleyBean;
-import org.wdcode.core.nosql.berkeleydb.BerkeleyDao;
+import org.wdcode.core.nosql.base.BaseNoSQL;
+import org.wdcode.core.nosql.berkeleydb.Berkeley;
 
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.SerialBinding;
@@ -15,6 +16,8 @@ import com.sleepycat.je.Cursor;
 import com.sleepycat.je.CursorConfig;
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseEntry;
+import com.sleepycat.je.Environment;
+import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
 
@@ -24,29 +27,25 @@ import com.sleepycat.je.OperationStatus;
  * @since JDK7
  * @version 1.0 2010-11-21
  */
-final class BerkeleyDaoImpl implements BerkeleyDao {
+public final class BerkeleyImpl extends BaseNoSQL implements Berkeley {
 	// 声明Database
-	private Database					db;
+	private Database				db;
 	// 声明StoredClassCatalog
-	private StoredClassCatalog			catalog;
+	private StoredClassCatalog		catalog;
 	// 声明EntryBinding
-	private EntryBinding<BerkeleyBean>	dataBinding;
+	private EntryBinding<Object>	dataBinding;
+	// 声明Environment
+	private Environment				env;
 
 	/**
 	 * 构造方法
+	 * @param resource
 	 */
-	public BerkeleyDaoImpl(Database database) {
-		this.db = database;
-		catalog = new StoredClassCatalog(database);
-		dataBinding = new SerialBinding<BerkeleyBean>(catalog, BerkeleyBean.class);
-	}
-
-	/**
-	 * 添加数据
-	 * @param value 值
-	 */
-	public void add(BerkeleyBean value) {
-		db.put(null, getKey(value.getKey()), objectToEntry(value));
+	public BerkeleyImpl(String resource) {
+		env = new Environment(new File(resource), new EnvironmentConfig());
+		db = env.openDatabase(null, "wd", null);
+		catalog = new StoredClassCatalog(db);
+		dataBinding = new SerialBinding<Object>(catalog, Object.class);
 	}
 
 	/**
@@ -54,7 +53,7 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 	 * @param key 键
 	 * @return 数据对象
 	 */
-	public BerkeleyBean get(String key) {
+	public Object get(String key) {
 		// 实例化数据库Entry
 		DatabaseEntry dataEntry = new DatabaseEntry();
 		// 查询数据
@@ -67,11 +66,11 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 	 * 查询所有数据
 	 * @return 数据列表
 	 */
-	public List<BerkeleyBean> query() {
+	public List<Object> query() {
 		// 声明游标
 		Cursor cursor = null;
 		// 声明List
-		List<BerkeleyBean> list = Lists.getList();
+		List<Object> list = Lists.getList();
 		try {
 			// 打开游标
 			cursor = db.openCursor(null, new CursorConfig());
@@ -93,6 +92,23 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 		return Lists.emptyList();
 	}
 
+	@Override
+	public boolean set(String key, Object value) {
+		db.put(null, getKey(key), objectToEntry(value));
+		return true;
+	}
+
+	@Override
+	public void remove(String... key) {}
+
+	@Override
+	public boolean exists(String key) {
+		return false;
+	}
+
+	@Override
+	public void clear() {}
+
 	/**
 	 * 关闭资源
 	 */
@@ -103,7 +119,7 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 				catalog.close();
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
 			catalog = null;
 		}
@@ -113,10 +129,21 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 				db.close();
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
 			db = null;
 		}
+		// 关闭env
+		try {
+			if (!EmptyUtil.isEmpty(env)) {
+				env.close();
+			}
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
+			env = null;
+		}
+
 	}
 
 	/**
@@ -133,7 +160,7 @@ final class BerkeleyDaoImpl implements BerkeleyDao {
 	 * @param value 对象
 	 * @return 数据库Entry
 	 */
-	private DatabaseEntry objectToEntry(BerkeleyBean value) {
+	private DatabaseEntry objectToEntry(Object value) {
 		// 实例化数据库Entry
 		DatabaseEntry dataEntry = new DatabaseEntry();
 		// 转换类型

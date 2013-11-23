@@ -1,9 +1,9 @@
-package org.wdcode.core.memcache;
+package org.wdcode.core.nosql.memcache;
 
 import java.util.List;
 import java.util.Map;
 
-import org.wdcode.core.memcache.factory.MemcacheFactory;
+import org.wdcode.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * Memcache 处理器 使用工厂默认对象
@@ -58,8 +58,8 @@ public final class MemcacheEngine {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public static boolean remove(String key) {
-		return MEMCACHE.remove(key);
+	public static void remove(String key) {
+		MEMCACHE.remove(key);
 	}
 
 	/**

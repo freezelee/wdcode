@@ -1,10 +1,10 @@
-package org.wdcode.core.memcache.impl;
+package org.wdcode.core.nosql.memcache.impl;
 
 import java.util.Map;
 
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.memcache.base.BaseMemcache;
+import org.wdcode.core.nosql.memcache.base.BaseMemcache;
 
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;
@@ -32,8 +32,10 @@ public final class MemcacheWhalin extends BaseMemcache {
 	 * 添加键值
 	 * @param key 键
 	 */
-	public boolean remove(String key) {
-		return client.delete(key);
+	public void remove(String... key) {
+		for (String k : key) {
+			client.delete(k);
+		}
 	}
 
 	/**

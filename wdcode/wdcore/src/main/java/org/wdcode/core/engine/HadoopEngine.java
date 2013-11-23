@@ -1,4 +1,4 @@
-package org.wdcode.core.hadoop;
+package org.wdcode.core.engine;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import org.wdcode.core.log.Logs;
  * @since JDK7
  * @version 1.0 2012-11-17
  */
-public final class Hadoop {
+public final class HadoopEngine {
 	// Hadoop 文件系统
 	private static FileSystem	hdfs;
 	static {
@@ -78,5 +78,5 @@ public final class Hadoop {
 		}
 	}
 
-	private Hadoop() {}
+	private HadoopEngine() {}
 }

@@ -1,9 +1,10 @@
-package org.wdcode.core.memcache.base;
+package org.wdcode.core.nosql.memcache.base;
 
 import java.util.List;
 
 import org.wdcode.common.lang.Lists;
-import org.wdcode.core.memcache.Memcache;
+import org.wdcode.core.nosql.base.BaseNoSQL;
+import org.wdcode.core.nosql.memcache.Memcache;
 import org.wdcode.core.zip.ZipEngine;
 
 /**
@@ -12,7 +13,7 @@ import org.wdcode.core.zip.ZipEngine;
  * @since JDK7
  * @version 1.0 2010-11-15
  */
-public abstract class BaseMemcache implements Memcache {
+public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 	protected BaseMemcache() {}
 
 	/**
@@ -30,24 +31,6 @@ public abstract class BaseMemcache implements Memcache {
 	 */
 	public BaseMemcache(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		init(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
-	}
-
-	/**
-	 * 压缩值 当值能压缩时才压缩
-	 * @param key 键
-	 * @param value 值
-	 */
-	public final boolean compress(String key, Object value) {
-		return set(key, ZipEngine.compress(value));
-	}
-
-	/**
-	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
-	 * @param key 键
-	 * @return 值
-	 */
-	public final byte[] extract(String key) {
-		return ZipEngine.extract(get(key));
 	}
 
 	/**

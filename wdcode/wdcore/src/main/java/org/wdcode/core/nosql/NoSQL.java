@@ -1,18 +1,21 @@
 package org.wdcode.core.nosql;
 
+import org.wdcode.common.interfaces.Clear;
+import org.wdcode.common.interfaces.Close;
+
 /**
  * nosql相关操作接口
  * @author WD
  * @since JDK7
  * @version 1.0 2012-11-18
  */
-public interface NoSQL {
+public interface NoSQL extends Clear, Close {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键
 	 * @param value 值
 	 */
-	void compress(String key, Object value);
+	boolean compress(String key, Object value);
 
 	/**
 	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
@@ -26,7 +29,7 @@ public interface NoSQL {
 	 * @param key 键
 	 * @param value 值
 	 */
-	void set(String key, Object value);
+	boolean set(String key, Object value);
 
 	/**
 	 * 根据键获得值

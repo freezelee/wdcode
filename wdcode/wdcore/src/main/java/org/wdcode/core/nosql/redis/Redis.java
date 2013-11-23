@@ -1,6 +1,5 @@
 package org.wdcode.core.nosql.redis;
 
-import org.wdcode.common.interfaces.Close;
 import org.wdcode.core.nosql.NoSQL;
 
 /**
@@ -9,4 +8,4 @@ import org.wdcode.core.nosql.NoSQL;
  * @since JDK7
  * @version 1.0 2011-06-23
  */
-public interface Redis extends NoSQL, Close {}
+public interface Redis extends NoSQL {}

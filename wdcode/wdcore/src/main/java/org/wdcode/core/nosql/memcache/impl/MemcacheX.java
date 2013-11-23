@@ -1,4 +1,4 @@
-package org.wdcode.core.memcache.impl;
+package org.wdcode.core.nosql.memcache.impl;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,7 +19,7 @@ import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.memcache.base.BaseMemcache;
+import org.wdcode.core.nosql.memcache.base.BaseMemcache;
 
 /**
  * MemCached com.google包的客户端调用实现
@@ -42,15 +42,12 @@ public final class MemcacheX extends BaseMemcache {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public boolean remove(String key) {
+	public void remove(String... key) {
 		try {
-			return client.delete(key);
-		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回false
-			return false;
-		}
+			for (String k : key) {
+				client.delete(k);
+			}
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -103,9 +100,6 @@ public final class MemcacheX extends BaseMemcache {
 		try {
 			return client.set(key, getExt(), value);
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回false
 			return false;
 		}
 	}

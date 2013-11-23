@@ -14,8 +14,8 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
-import org.wdcode.core.memcache.Memcache;
-import org.wdcode.core.memcache.factory.MemcacheFactory;
+import org.wdcode.core.nosql.memcache.Memcache;
+import org.wdcode.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * 基于memcached的缓存
@@ -27,7 +27,10 @@ import org.wdcode.core.memcache.factory.MemcacheFactory;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 	// memcached
-	private final static Memcache	MEMCACHE	= MemcacheFactory.getMemcache("cache");
+	private final static Memcache	MEMCACHE;
+	static {
+		MEMCACHE = MemcacheFactory.getMemcache("cache");
+	}
 
 	@Override
 	public E set(E entity) {

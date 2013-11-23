@@ -1,4 +1,4 @@
-package org.wdcode.core.lucene;
+package org.wdcode.core.engine;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +32,7 @@ import org.wdcode.core.log.Logs;
  * @since JDK7
  * @version 1.0 2012-11-18
  */
-public final class Lucenes {
+public final class LuceneEngine {
 	// 索引目录
 	private static Directory		dir;
 	// 分词器
@@ -64,10 +64,10 @@ public final class Lucenes {
 	 */
 	public static void init(Directory dir, Analyzer analyzer, Version version) {
 		try {
-			Lucenes.dir = dir;
-			Lucenes.analyzer = analyzer;
-			Lucenes.version = version;
-			Lucenes.writer = new IndexWriter(dir, new IndexWriterConfig(version, analyzer));
+			LuceneEngine.dir = dir;
+			LuceneEngine.analyzer = analyzer;
+			LuceneEngine.version = version;
+			LuceneEngine.writer = new IndexWriter(dir, new IndexWriterConfig(version, analyzer));
 			searcher();
 		} catch (IOException e) {
 			Logs.debug(e);
@@ -149,5 +149,5 @@ public final class Lucenes {
 		}
 	}
 
-	private Lucenes() {}
+	private LuceneEngine() {}
 }

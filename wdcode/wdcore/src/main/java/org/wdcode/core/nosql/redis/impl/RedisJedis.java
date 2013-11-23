@@ -42,13 +42,15 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	 * @param key 键
 	 * @param value 值
 	 */
-	public void set(String key, Object value) {
+	public boolean set(String key, Object value) {
 		// 获得Jedis对象
 		Jedis jedis = pool.getResource();
 		// 设置值
 		jedis.set(Bytes.toBytes(key), Bytes.toBytes(value));
 		// 回收Jedis
 		pool.returnResource(jedis);
+		// 返回成功
+		return true;
 	}
 
 	/**
@@ -94,5 +96,14 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 		pool.returnResource(jedis);
 		// 返回值
 		return b;
+	}
+
+	@Override
+	public void clear() {
+		// 获得Jedis对象
+		// Jedis jedis = pool.getResource();
+		// // 清空
+		// // 回收Jedis
+		// pool.returnResource(jedis);
 	}
 }

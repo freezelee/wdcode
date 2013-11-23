@@ -1,12 +1,12 @@
-package org.wdcode.core.memcache.factory;
+package org.wdcode.core.nosql.memcache.factory;
 
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.factory.FactoryKey;
-import org.wdcode.core.memcache.Memcache;
-import org.wdcode.core.memcache.impl.MemcacheArray;
-import org.wdcode.core.memcache.impl.MemcacheWhalin;
-import org.wdcode.core.memcache.impl.MemcacheX;
+import org.wdcode.core.nosql.memcache.Memcache;
+import org.wdcode.core.nosql.memcache.impl.MemcacheArray;
+import org.wdcode.core.nosql.memcache.impl.MemcacheWhalin;
+import org.wdcode.core.nosql.memcache.impl.MemcacheX;
 import org.wdcode.core.params.MemcacheParams;
 
 /**
@@ -61,7 +61,7 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	public Memcache newInstance(String name) {
 		return newInstance(
 			name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name), MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name),
-			MemcacheParams.getConnectTO(name),MemcacheParams.getBinary(name));
+			MemcacheParams.getConnectTO(name), MemcacheParams.getBinary(name));
 	}
 
 	/**
@@ -78,12 +78,12 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 * @param socketConnectTO 连接超时
 	 * @return MemCache
 	 */
-	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO,boolean binary) {
+	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		switch (MemcacheParams.getParse(name)) {
 			case "x":
-				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO,binary);
+				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
 			default:
-				return new MemcacheWhalin(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO,binary);
+				return new MemcacheWhalin(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
 		}
 	}
 

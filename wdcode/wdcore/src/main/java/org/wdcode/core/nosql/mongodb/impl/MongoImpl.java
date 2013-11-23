@@ -1,4 +1,4 @@
-package org.wdcode.core.nosql.mongodb.factory;
+package org.wdcode.core.nosql.mongodb.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -7,12 +7,16 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.core.nosql.mongodb.MongoDao;
+import org.wdcode.core.nosql.base.BaseNoSQL;
+import org.wdcode.core.nosql.mongodb.Mongo;
+import org.wdcode.core.params.MongoParams;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 
 /**
  * MongoDB Dao 实现
@@ -20,17 +24,28 @@ import com.mongodb.DBObject;
  * @since JDK7
  * @version 1.0 2010-11-21
  */
-final class MongoDaoImpl implements MongoDao {
+public final class MongoImpl extends BaseNoSQL implements Mongo {
 	// MongoDB 主键常量
 	private final static String	ID	= "_id";
+	// Mongo 池连接
+	private com.mongodb.Mongo	mongo;
+	// MongoDB
+	private DB					db;
 	// 数据操作对象
 	private DBCollection		dbc;
 
 	/**
 	 * 构造方法
+	 * @param key 键
 	 */
-	public MongoDaoImpl(DBCollection dbc) {
-		this.dbc = dbc;
+	public MongoImpl(String key) {
+		try {
+			mongo = new MongoClient(MongoParams.getHost(key), MongoParams.getPort(key));
+			db = mongo.getDB(MongoParams.getDB(key));
+			dbc = db.getCollection(MongoParams.getCollection(key));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -64,13 +79,6 @@ final class MongoDaoImpl implements MongoDao {
 	 */
 	public long getCount(Map<String, Object> query) {
 		return dbc.getCount(new BasicDBObject(query));
-	}
-
-	/**
-	 * 删除Dao下的所有信息
-	 */
-	public void drop() {
-		dbc.drop();
 	}
 
 	/**
@@ -141,15 +149,6 @@ final class MongoDaoImpl implements MongoDao {
 	}
 
 	/**
-	 * 根据ID获得数据
-	 * @param id
-	 * @return
-	 */
-	public Map<String, Object> get(Object id) {
-		return toMap(dbc.findOne(id));
-	}
-
-	/**
 	 * 获得所有数据
 	 * @return 数据列表
 	 */
@@ -194,30 +193,6 @@ final class MongoDaoImpl implements MongoDao {
 	}
 
 	/**
-	 * 设置键值
-	 * @param key 键
-	 * @param value 值
-	 */
-	public void set(Object key, Object value) {
-		// 获得Map
-		Map<String, Object> map = Maps.getMap();
-		// 设置键值
-		map.put(ID, key);
-		map.put(StringConstants.VALUE, value);
-		// 添加数据
-		insert(map);
-	}
-
-	/**
-	 * 获得键值
-	 * @param key 键
-	 * @return 值
-	 */
-	public Object getValue(Object key) {
-		return get(key).get(StringConstants.VALUE);
-	}
-
-	/**
 	 * 获得DBCollection
 	 * @return DBCollection
 	 */
@@ -249,5 +224,47 @@ final class MongoDaoImpl implements MongoDao {
 		}
 		// 返回Map
 		return map;
+	}
+
+	@Override
+	public boolean set(String key, Object value) {
+		// 获得Map
+		Map<String, Object> map = Maps.getMap();
+		// 设置键值
+		map.put(ID, key);
+		map.put(StringConstants.VALUE, value);
+		// 添加数据
+		insert(map);
+		// 返回成功
+		return true;
+	}
+
+	@Override
+	public Object get(String key) {
+		return toMap(dbc.findOne(key)).get(StringConstants.VALUE);
+	}
+
+	@Override
+	public void remove(String... key) {
+		for (String k : key) {
+			dbc.remove(new BasicDBObject(ID, k));
+		}
+	}
+
+	@Override
+	public boolean exists(String key) {
+		return dbc.count(new BasicDBObject(ID, key)) > 0;
+	}
+
+	@Override
+	public void clear() {
+		dbc.drop();
+	}
+
+	@Override
+	public void close() {
+		dbc = null;
+		db = null;
+		mongo.close();
 	}
 }

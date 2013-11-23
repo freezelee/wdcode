@@ -15,8 +15,8 @@ public abstract class BaseNoSQL implements NoSQL {
 	 * @param key 键
 	 * @param value 值
 	 */
-	public final void compress(String key, Object value) {
-		set(key, ZipEngine.compress(value));
+	public final boolean compress(String key, Object value) {
+		return set(key, ZipEngine.compress(value));
 	}
 
 	/**

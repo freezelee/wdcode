@@ -3,13 +3,15 @@ package org.wdcode.core.nosql.mongodb;
 import java.util.List;
 import java.util.Map;
 
+import org.wdcode.core.nosql.NoSQL;
+
 /**
  * MongoDB Dao接口
  * @author WD
  * @since JDK7
  * @version 1.0 2010-11-21
  */
-public interface MongoDao {
+public interface Mongo extends NoSQL {
 	/**
 	 * 插入数据
 	 * @param maps 数据对象
@@ -28,11 +30,6 @@ public interface MongoDao {
 	 * @return 数量
 	 */
 	long getCount(Map<String, Object> query);
-
-	/**
-	 * 删除Dao下的所有信息
-	 */
-	void drop();
 
 	/**
 	 * 创建索引
@@ -83,13 +80,6 @@ public interface MongoDao {
 	Map<String, Object> get(Map<String, Object> map);
 
 	/**
-	 * 根据ID获得数据
-	 * @param id 主键
-	 * @return 数据
-	 */
-	Map<String, Object> get(Object id);
-
-	/**
 	 * 获得所有数据
 	 * @return 数据列表
 	 */
@@ -110,18 +100,4 @@ public interface MongoDao {
 	 * @return 数据列表
 	 */
 	List<Map<String, Object>> query(Map<String, Object> query, int start, int end);
-
-	/**
-	 * 设置键值
-	 * @param key 键
-	 * @param value 值
-	 */
-	void set(Object key, Object value);
-
-	/**
-	 * 获得键值
-	 * @param key 键
-	 * @return 值
-	 */
-	Object getValue(Object key);
 }

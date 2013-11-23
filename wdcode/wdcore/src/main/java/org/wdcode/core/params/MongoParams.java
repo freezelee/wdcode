@@ -1,6 +1,6 @@
 package org.wdcode.core.params;
 
-import org.wdcode.common.params.Params; 
+import org.wdcode.common.params.Params;
 
 /**
  * MongoDB配置读取
@@ -10,26 +10,29 @@ import org.wdcode.common.params.Params;
  */
 public final class MongoParams {
 	/* Redis使用 */
-	private final static String	PREFIX; // 前缀
-	private final static String	HOST;	// 服务器地址
-	private final static String	PORT;	// 服务器端口
-	private final static String	DB;	// 数据库名
+	private final static String	PREFIX;	// 前缀
+	private final static String	HOST;		// 服务器地址
+	private final static String	PORT;		// 服务器端口
+	private final static String	DB;		// 数据库名
+	private final static String	COLLECTION; // 集合
 
 	/**
 	 * 静态初始化
 	 */
 	static {
 		/* Redis使用 */
-		PREFIX = "nosql.mongo"; // 键
+		PREFIX = "mongo"; // 键
 		HOST = "host"; // 服务器地址
 		PORT = "port"; // 服务器端口
 		DB = "db";// 数据库名
+		COLLECTION = "collection";// 集合
 	}
 
 	/* Redis使用 */
-	private static String		host;	// 服务器地址
-	private static int			port;	// 服务器端口
-	private static String		db;	// 数据库名
+	private static String		host;		// 服务器地址
+	private static int			port;		// 服务器端口
+	private static String		db;		// 数据库名
+	private static String		collection; // 集合
 
 	/**
 	 * 静态初始化
@@ -38,6 +41,7 @@ public final class MongoParams {
 		host = "127.0.0.1"; // 服务器地址
 		port = 27017; // 服务器端口
 		db = "wdcode";// 数据库名
+		collection = "test";// 集合
 	}
 
 	/**
@@ -62,6 +66,18 @@ public final class MongoParams {
 	 */
 	public static String getDB(String name) {
 		return Params.getString(getKey(name, DB), db);
+	}
+
+	/**
+	 * Mongo数据库中集合名<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: nosql.mongo.collection = ? <br/>
+	 * XML: {@literal <nosql><mongo><collection>?</collection></mongo></nosql>}</h2>
+	 * @return Mongo数据库中集合名
+	 */
+	public static String getCollection(String name) {
+		return Params.getString(getKey(name, COLLECTION), collection);
 	}
 
 	/**

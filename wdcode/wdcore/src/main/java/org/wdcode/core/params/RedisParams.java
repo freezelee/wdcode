@@ -1,6 +1,6 @@
 package org.wdcode.core.params;
 
-import org.wdcode.common.params.Params; 
+import org.wdcode.common.params.Params;
 
 /**
  * Redis配置读取
@@ -22,7 +22,7 @@ public final class RedisParams {
 	 */
 	static {
 		/* Redis使用 */
-		PREFIX = "nosql.redis"; // 键
+		PREFIX = "redis"; // 键
 		HOST = "host"; // 服务器地址
 		PORT = "port"; // 服务器端口
 		MAX_ACTIVE = "maxActive"; // 服务器

@@ -1,4 +1,4 @@
-package org.wdcode.core.memcache.impl;
+package org.wdcode.core.nosql.memcache.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +9,9 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.ClearUtil;
 import org.wdcode.common.util.CloseUtil;
-import org.wdcode.core.memcache.Memcache;
-import org.wdcode.core.memcache.base.BaseMemcache;
-import org.wdcode.core.memcache.factory.MemcacheFactory;
+import org.wdcode.core.nosql.memcache.Memcache;
+import org.wdcode.core.nosql.memcache.base.BaseMemcache;
+import org.wdcode.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * 集群客户端
@@ -81,15 +81,11 @@ public final class MemcacheArray extends BaseMemcache {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public boolean remove(String key) {
-		// 声明布尔变量
-		boolean b = false;
+	public void remove(String... key) {
 		// 循环删除
 		for (int i = 0; i < clients.length; i++) {
 			clients[i].remove(key);
 		}
-		// 返回结果
-		return b;
 	}
 
 	/**
