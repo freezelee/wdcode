@@ -227,6 +227,15 @@ public final class Lists {
 	}
 
 	/**
+	 * 获得列表数量
+	 * @param list 数据列表
+	 * @return 数量
+	 */
+	public static int size(List<?> list) {
+		return EmptyUtil.isEmpty(list) ? 0 : list.size();
+	}
+
+	/**
 	 * 私有构造 禁止外部实例化
 	 */
 	private Lists() {}

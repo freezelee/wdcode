@@ -129,6 +129,15 @@ public final class Sets {
 	}
 
 	/**
+	 * 获得列表数量
+	 * @param set 数据列表
+	 * @return 数量
+	 */
+	public static int size(Set<?> set) {
+		return EmptyUtil.isEmpty(set) ? 0 : set.size();
+	}
+
+	/**
 	 * 私有构造
 	 */
 	private Sets() {}

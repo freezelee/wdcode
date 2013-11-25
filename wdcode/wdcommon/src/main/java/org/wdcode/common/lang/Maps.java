@@ -229,6 +229,15 @@ public final class Maps {
 	}
 
 	/**
+	 * 获得列表数量
+	 * @param map 数据列表
+	 * @return 数量
+	 */
+	public static int size(Map<?, ?> map) {
+		return EmptyUtil.isEmpty(map) ? 0 : map.size();
+	}
+
+	/**
 	 * 私有构造 禁止外部实例化
 	 */
 	private Maps() {}

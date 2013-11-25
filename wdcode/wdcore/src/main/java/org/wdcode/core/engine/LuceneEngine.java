@@ -40,7 +40,7 @@ public final class LuceneEngine {
 	// 索引写入器
 	private static IndexWriter		writer;
 	// 版本
-	private static Version			version;
+	private static Version			version	= Version.LUCENE_46;
 	// 索引查询器
 	private static IndexSearcher	searcher;
 
@@ -50,7 +50,7 @@ public final class LuceneEngine {
 	 */
 	public static void init(String path) {
 		try {
-			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileUtil.getFile(path)), new StandardAnalyzer(Version.LUCENE_45), Version.LUCENE_45);
+			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileUtil.getFile(path)), new StandardAnalyzer(version), version);
 		} catch (IOException e) {
 			Logs.debug(e);
 		}
