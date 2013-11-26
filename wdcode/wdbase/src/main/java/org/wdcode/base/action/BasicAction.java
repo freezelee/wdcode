@@ -617,7 +617,7 @@ public class BasicAction extends ActionSupport {
 		} else if (obj instanceof String) {
 			String re = Conversion.toString(obj);
 			return SUCCESS.equals(re) || ERROR.equals(re) ? addMessage(re) : re;
-		} else if (obj instanceof List<?>) {
+		} else if (obj instanceof List<?> || obj instanceof Map<?, ?>) {
 			return LIST;
 		} else if (obj instanceof Boolean) {
 			return Conversion.toBoolean(obj) ? SUCCESS : ERROR;

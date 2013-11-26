@@ -237,7 +237,14 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String page() throws Exception {
-		return callback(entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager)));
+		// 查询实体列表
+		entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager));
+		// 声明返回列表
+		Map<String, Object> map = Maps.getMap();
+		map.put("pager", pager);
+		map.put("entitys", entitys);
+		// 返回列表
+		return callback(map);
 	}
 
 	/**
@@ -353,6 +360,15 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		}
 		// 返回结果
 		return callback(entitys);
+	}
+
+	/**
+	 * 获得数量
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String count() throws Exception {
+		return callback(entity == null ? service.count(entityClass) : service.count(entity));
 	}
 
 	/**
