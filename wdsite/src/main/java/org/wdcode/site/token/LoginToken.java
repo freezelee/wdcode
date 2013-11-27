@@ -18,8 +18,6 @@ public class LoginToken implements AuthToken {
 	protected int		id;
 	// 登录时间
 	protected int		time;
-	// 用户名
-	protected String	name;
 	// 登录IP
 	protected String	loginIp;
 	// 服务器IP
@@ -39,7 +37,7 @@ public class LoginToken implements AuthToken {
 	 * @param serverIp 服务器IP
 	 */
 	public LoginToken(EntityLogin login, String loginIp, String serverIp) {
-		this(login.getId(), login.getName(), loginIp, serverIp);
+		this(login.getId(), loginIp, serverIp);
 	}
 
 	/**
@@ -50,9 +48,8 @@ public class LoginToken implements AuthToken {
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
-	public LoginToken(int id, String name, String loginIp, String serverIp) {
+	public LoginToken(int id, String loginIp, String serverIp) {
 		this.id = id;
-		this.name = name;
 		this.time = DateUtil.getTime();
 		this.loginIp = loginIp;
 		this.serverIp = serverIp;
@@ -81,11 +78,6 @@ public class LoginToken implements AuthToken {
 	@Override
 	public String getServerIp() {
 		return serverIp;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override

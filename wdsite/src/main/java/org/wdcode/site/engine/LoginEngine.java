@@ -12,7 +12,6 @@ import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.core.json.JsonEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
@@ -54,7 +53,7 @@ public final class LoginEngine {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
 		// 保存登录信息
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, SiteParams.LOGIN_SAVE_TOKEN ? encrypt(token) : Encrypts.encrypt(token.toString()), maxAge);
+		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, encrypt(token), maxAge);
 	}
 
 	/**
@@ -71,9 +70,9 @@ public final class LoginEngine {
 			return guest(request, response, key);
 		} else {
 			// 解密登录凭证
-			LoginToken token = SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(Decrypts.decryptHex(info), LoginToken.class);
+			LoginToken token = decrypt(info);
 			// 如果登录凭证为null返回空
-			return token == null ? guest(request, response, key) : token;
+			return EMPTY.equals(token) ? guest(request, response, key) : token;
 		}
 	}
 
@@ -96,17 +95,8 @@ public final class LoginEngine {
 	 * @return 加密信息
 	 */
 	public static String encrypt(AuthToken token) {
-		return Hex.encode(Encrypts.rc4(token.toBytes()));
-	}
-
-	/**
-	 * 获得登录凭证
-	 * @param token
-	 * @return
-	 */
-	public static String token(AuthToken token) {
 		// 加密登录凭证字符串
-		String info = encrypt(token);
+		String info = Hex.encode(Encrypts.rc4(token.toBytes()));
 		// 返回加密字符串
 		return Digest.absolute(info, 5) + StringConstants.MIDLINE + info;
 	}
@@ -115,7 +105,7 @@ public final class LoginEngine {
 	 * 验证登录凭证
 	 * @return 登录实体
 	 */
-	public static LoginToken verifyToken(String info) {
+	public static LoginToken decrypt(String info) {
 		try {
 			// 验证去掉"""
 			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
@@ -127,7 +117,7 @@ public final class LoginEngine {
 				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
 					// 判断校验串是否合法
 					if (temp[0].equals(Digest.absolute(temp[1], 5))) {
-						return decrypt(temp[1]);
+						return new LoginToken().toBean(Decrypts.rc4(Hex.decode(temp[1])));
 					}
 				}
 			}
@@ -137,23 +127,14 @@ public final class LoginEngine {
 	}
 
 	/**
-	 * 解密信息
-	 * @param value 登录信息
-	 * @return 解析后的对象
-	 */
-	public static LoginToken decrypt(String value) {
-		return new LoginToken().toBean(Decrypts.rc4(Hex.decode(value)));
-	}
-
-	/**
 	 * 获得一样空登录信息
 	 * @return
 	 */
 	public static LoginToken guest(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 获得游客凭证
-		LoginToken token = new LoginToken(GUEST_ID--, "游客", IpUtil.getIp(request), IpUtil.getIp());
+		LoginToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request), IpUtil.getIp());
 		// 设置游客凭证
-		AttributeUtil.set(request, response, key + INFO, SiteParams.LOGIN_SAVE_TOKEN ? encrypt(token) : Encrypts.encrypt(token.toString()), -1);
+		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 		// 返回游客凭证
 		return token;
 	}

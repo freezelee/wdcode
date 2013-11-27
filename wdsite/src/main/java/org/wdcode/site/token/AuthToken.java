@@ -22,12 +22,6 @@ public interface AuthToken extends BytesBean {
 	int getId();
 
 	/**
-	 * 获得用户名
-	 * @return 用户名
-	 */
-	String getName();
-
-	/**
 	 * 获得登录时间
 	 * @return 登录时间
 	 */

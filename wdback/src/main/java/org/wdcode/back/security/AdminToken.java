@@ -28,6 +28,8 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 	private List<Authority>		authorities;
 	// 是否启用
 	private boolean				enabled;
+	// 用户名
+	private String				username;
 	// 管理员实体
 	private Admin				admin;
 	// 角色
@@ -55,7 +57,7 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 		// }
 		this.id = admin.getId();
 		this.password = admin.getPassword();
-		this.name = admin.getName();
+		this.username = admin.getName();
 		this.time = time;
 		this.enabled = Conversion.toInt(admin.getState()) == 1;
 	}
@@ -115,7 +117,7 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 
 	@Override
 	public String getUsername() {
-		return name;
+		return username;
 	}
 
 	public Role getRole() {

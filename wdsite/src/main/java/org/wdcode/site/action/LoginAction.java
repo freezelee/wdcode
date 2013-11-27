@@ -7,7 +7,6 @@ import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.entity.EntityLogin;
 import org.wdcode.base.entity.EntityUserId;
-import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -175,7 +174,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String token() throws Exception {
-		return callback(LoginEngine.token(token));
+		return callback(LoginEngine.encrypt(token));
 	}
 
 	/**
@@ -183,15 +182,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String verifyToken() throws Exception {
-		return callback(LoginEngine.verifyToken(Conversion.toString(key)).isLogin());
-	}
-
-	/**
-	 * 获得用户主键加密KEY
-	 * @return 用户主键加密KEY
-	 */
-	public String userKey() throws Exception {
-		return callback(Encrypts.encrypt(Conversion.toString(token.getId())));
+		return callback(LoginEngine.decrypt(Conversion.toString(key)));
 	}
 
 	/**
