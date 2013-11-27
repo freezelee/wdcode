@@ -81,6 +81,8 @@ public class BasicAction extends ActionSupport {
 
 	// 模板名
 	protected String							module;
+	// 方法名
+	protected String							method;
 	// 返回模式名
 	protected String							mode;
 	// 全局Context
@@ -104,10 +106,14 @@ public class BasicAction extends ActionSupport {
 	protected void init() {
 		// 获得提交Action地址
 		String actionName = getActionName();
+		// 分解提交action
+		String[] action = StringUtil.split(actionName, StringConstants.UNDERLINE);
 		// 获得模板名
-		module = StringUtil.subStringEnd(actionName, StringConstants.UNDERLINE);
+		module = action[0];
+		// 方法名
+		method = action.length > 1 ? action[1] : action[0];
 		// 获得方法名
-		mode = EmptyUtil.isEmpty(mode) ? StringUtil.subStringLast(actionName, StringConstants.UNDERLINE) : mode;
+		mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
 		// 获得request与response
 		request = context.getRequest();
 		response = context.getResponse();
@@ -278,6 +284,14 @@ public class BasicAction extends ActionSupport {
 	 */
 	public String getModule() {
 		return module;
+	}
+
+	/**
+	 * 获得方法名
+	 * @return
+	 */
+	public String getMethod() {
+		return method;
 	}
 
 	/**

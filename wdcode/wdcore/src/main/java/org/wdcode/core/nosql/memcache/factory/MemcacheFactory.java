@@ -5,6 +5,7 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.memcache.Memcache;
 import org.wdcode.core.nosql.memcache.impl.MemcacheArray;
+import org.wdcode.core.nosql.memcache.impl.MemcacheSpy;
 import org.wdcode.core.nosql.memcache.impl.MemcacheWhalin;
 import org.wdcode.core.nosql.memcache.impl.MemcacheX;
 import org.wdcode.core.params.MemcacheParams;
@@ -59,31 +60,13 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 * @return MemCache
 	 */
 	public Memcache newInstance(String name) {
-		return newInstance(
-			name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name), MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name),
-			MemcacheParams.getConnectTO(name), MemcacheParams.getBinary(name));
-	}
-
-	/**
-	 * 实例一个新的索引写入器
-	 * @param servers 服务器地址
-	 * @param name 缓存名称
-	 * @param weights 权重列表
-	 * @param initConn 初始化连接
-	 * @param minConn 最小连接
-	 * @param maxConn 最大连接
-	 * @param maxIdle 空闲时间
-	 * @param maintSleep 睡眠时间
-	 * @param socketTO 超时读取
-	 * @param socketConnectTO 连接超时
-	 * @return MemCache
-	 */
-	public Memcache newInstance(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		switch (MemcacheParams.getParse(name)) {
 			case "x":
-				return new MemcacheX(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
+				return new MemcacheX(name);
+			case "spy":
+				return new MemcacheSpy(name);
 			default:
-				return new MemcacheWhalin(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
+				return new MemcacheWhalin(name);
 		}
 	}
 

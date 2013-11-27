@@ -171,7 +171,7 @@ public final class MemcacheArray extends BaseMemcache {
 	/**
 	 * 初始化
 	 */
-	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {}
+	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {}
 
 	/**
 	 * 客户端实体保存使用次数

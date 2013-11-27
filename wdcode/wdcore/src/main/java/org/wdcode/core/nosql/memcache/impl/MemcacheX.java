@@ -2,13 +2,11 @@ package org.wdcode.core.nosql.memcache.impl;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
 import net.rubyeye.xmemcached.command.BinaryCommandFactory;
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.rubyeye.xmemcached.utils.AddrUtil;
 
 import org.wdcode.common.constants.DateConstants;
@@ -33,9 +31,10 @@ public final class MemcacheX extends BaseMemcache {
 
 	/**
 	 * 构造方法
+	 * @param name
 	 */
-	public MemcacheX(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
-		super(servers, name, weights, initConn, minConn, maxConn, maxIdle, maintSleep, socketTO, socketConnectTO, binary);
+	public MemcacheX(String name) {
+		super(name);
 	}
 
 	/**
@@ -148,7 +147,7 @@ public final class MemcacheX extends BaseMemcache {
 	public void clear() {
 		try {
 			client.flushAll();
-		} catch (TimeoutException | InterruptedException | MemcachedException e) {
+		} catch (Exception e) {
 			Logs.warn(e);
 		}
 	}
@@ -156,7 +155,7 @@ public final class MemcacheX extends BaseMemcache {
 	/**
 	 * 初始化
 	 */
-	protected void init(String[] servers, String name, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
+	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
 		try {
 			MemcachedClientBuilder builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(ArrayUtil.toString(servers)), ArrayUtil.toInt(weights));
 			// 添加下面这行，采用BinaryCommandFactory即可使用二进制协议

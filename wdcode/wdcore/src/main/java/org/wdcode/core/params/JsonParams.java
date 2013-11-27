@@ -25,7 +25,6 @@ public final class JsonParams {
 	 * JsonGson解析类
 	 */
 	public final static String	PARSE_GSON	= "gson";
-
 	/**
 	 * 解析JSON所需要的包
 	 */

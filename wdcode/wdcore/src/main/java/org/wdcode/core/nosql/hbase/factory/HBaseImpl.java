@@ -79,7 +79,7 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 				admin.createTable(tableDesc);
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		}
 		// 返回表Dao
 		return getDao(tableName);
@@ -99,7 +99,7 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 				admin.deleteTable(tableName);
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		}
 	}
 

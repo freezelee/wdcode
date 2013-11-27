@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.wdcode.common.lang.Lists;
 import org.wdcode.core.log.Logs;
+import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.nosql.base.BaseNoSQL;
 import org.wdcode.core.nosql.berkeleydb.Berkeley;
@@ -84,9 +85,9 @@ public final class BerkeleyImpl extends BaseNoSQL implements Berkeley {
 				list.add(dataBinding.entryToObject(foundData));
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
-			cursor.close();
+			CloseUtil.close(cursor);
 		}
 		// 返回一个空列表
 		return Lists.emptyList();
@@ -94,56 +95,38 @@ public final class BerkeleyImpl extends BaseNoSQL implements Berkeley {
 
 	@Override
 	public boolean set(String key, Object value) {
-		db.put(null, getKey(key), objectToEntry(value));
-		return true;
+		return db.put(null, getKey(key), objectToEntry(value)) == OperationStatus.SUCCESS;
 	}
 
 	@Override
-	public void remove(String... key) {}
+	public void remove(String... key) {
+		for (String k : key) {
+			db.delete(null, getKey(k));
+		}
+	}
 
 	@Override
 	public boolean exists(String key) {
-		return false;
+		return !EmptyUtil.isEmpty(get(key));
 	}
 
 	@Override
-	public void clear() {}
+	public void clear() {
+		String name = db.getDatabaseName();
+		env.removeDatabase(null, name);
+		db = env.openDatabase(null, name, null);
+	}
 
 	/**
 	 * 关闭资源
 	 */
 	public void close() {
 		// 关闭StoredClassCatalog
-		try {
-			if (!EmptyUtil.isEmpty(catalog)) {
-				catalog.close();
-			}
-		} catch (Exception e) {
-			Logs.warn(e);
-		} finally {
-			catalog = null;
-		}
+		CloseUtil.close(catalog);
 		// 关闭Database
-		try {
-			if (!EmptyUtil.isEmpty(db)) {
-				db.close();
-			}
-		} catch (Exception e) {
-			Logs.warn(e);
-		} finally {
-			db = null;
-		}
+		CloseUtil.close(db);
 		// 关闭env
-		try {
-			if (!EmptyUtil.isEmpty(env)) {
-				env.close();
-			}
-		} catch (Exception e) {
-			Logs.warn(e);
-		} finally {
-			env = null;
-		}
-
+		CloseUtil.close(env);
 	}
 
 	/**

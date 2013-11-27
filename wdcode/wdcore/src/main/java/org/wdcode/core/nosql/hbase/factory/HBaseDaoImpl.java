@@ -47,7 +47,7 @@ final class HBaseDaoImpl implements HBaseDao {
 		try {
 			table = new HTable(this.cfg, this.tableName);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		}
 	}
 
@@ -60,13 +60,13 @@ final class HBaseDaoImpl implements HBaseDao {
 	public void add(String row, String key, String value) {
 		try {
 			// 声明Put
-			Put put = new Put(Bytes.toBytes(row));
+			Put put = new Put(StringUtil.toBytes(row));
 			// 添加键值
-			put.add(Bytes.toBytes(row), Bytes.toBytes(key), Bytes.toBytes(value));
+			put.add(StringUtil.toBytes(row), StringUtil.toBytes(key), StringUtil.toBytes(value));
 			// 添加到表里
 			table.put(put);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.warn(e);
 		}
 	}
 
@@ -135,7 +135,7 @@ final class HBaseDaoImpl implements HBaseDao {
 					// 声明Map
 					Map<String, String> map = Maps.getMap();
 					// 设置键值
-					map.put(StringUtil.toString(CellUtil.cloneRow(cell)), StringUtil.toString(CellUtil.cloneValue(cell)));
+					map.put(StringUtil.toString(CellUtil.cloneQualifier(cell)), StringUtil.toString(CellUtil.cloneValue(cell)));
 					// 把结果添加到列表
 					list.add(map);
 				}

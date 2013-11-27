@@ -8,4 +8,5 @@ package org.wdcode.web.socket;
  */
 public final class SocketEngine {
 
+	private SocketEngine() {}
 }

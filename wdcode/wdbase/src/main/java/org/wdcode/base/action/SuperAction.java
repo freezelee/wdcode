@@ -19,6 +19,7 @@ import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
+import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
@@ -320,7 +321,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String get() throws Exception {
-		return key == null ? SUCCESS : callback(entity = service.get(entityClass, key));
+		return callback(entity = key == null ? null : service.get(entityClass, key));
 	}
 
 	/**
@@ -347,7 +348,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entitys() throws Exception {
-		return entity == null ? LIST : callback(entitys = service.list(entity, -1, -1));
+		return callback(entitys = entity == null ? (List<E>) Lists.emptyList() : service.list(entity, -1, -1));
 	}
 
 	/**
@@ -374,8 +375,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String theme() throws Exception {
-		entity = service.get(entityClass, entity.getKey());
-		return SUCCESS;
+		return callback(entity = service.get(entityClass, entity.getKey()));
 	}
 
 	/**

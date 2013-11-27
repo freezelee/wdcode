@@ -36,7 +36,7 @@ public final class SocketNioServerImpl extends BaseSocketNio implements SocketSe
 	 */
 	public void bind(int port) {
 		try {
-			server.socket().bind(new InetSocketAddress(port));
+			server.bind(new InetSocketAddress(port));
 		} catch (IOException e) {
 			Logs.error(e);
 		}

@@ -10,7 +10,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
  * @author WD 2013-9-22
  */
 public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor {
-	private static final long	serialVersionUID	= 7385133486187055501L;
+	private static final long	serialVersionUID	= 8518576935365577689L;
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
