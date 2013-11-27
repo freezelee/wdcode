@@ -4,6 +4,7 @@ import java.security.Key;
 
 import javax.crypto.Cipher;
 
+import org.wdcode.common.codec.Base64;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
@@ -23,8 +24,8 @@ public final class Decrypts extends BaseCrypt {
 	 * @param text 要解密的字符串
 	 * @return 解密后的字符串
 	 */
-	public static String decryptString(String text) {
-		return StringUtil.toString(decrypt(text));
+	public static String decryptHex(String text) {
+		return StringUtil.toString(decrypt(Hex.decode(text)));
 	}
 
 	/**
@@ -32,8 +33,8 @@ public final class Decrypts extends BaseCrypt {
 	 * @param text 要解密的字符串
 	 * @return 解密后的字符串
 	 */
-	public static byte[] decrypt(String text) {
-		return decrypt(Hex.decode(text));
+	public static String decryptBase64(String text) {
+		return StringUtil.toString(decrypt(Base64.decode(text)));
 	}
 
 	/**
@@ -101,14 +102,15 @@ public final class Decrypts extends BaseCrypt {
 		return decrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
 	}
 
-//	/**
-//	 * 针对encrypt方法的解密 RC4算法
-//	 * @param b 需要解密的字节数组
-//	 * @return 返回解密后的字符串 text为空或发生异常返回原串
-//	 */
-//	public static byte[] rc5(byte[] b) {
-//		return decrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC5, EncryptConstants.ALGO_RC5);
-//	}
+	// /**
+	// * 针对encrypt方法的解密 RC4算法
+	// * @param b 需要解密的字节数组
+	// * @return 返回解密后的字符串 text为空或发生异常返回原串
+	// */
+	// public static byte[] rc5(byte[] b) {
+	// return decrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC5,
+	// EncryptConstants.ALGO_RC5);
+	// }
 
 	/**
 	 * 可逆的非对称解密算法 RSA算法
@@ -129,43 +131,43 @@ public final class Decrypts extends BaseCrypt {
 		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.DECRYPT_MODE);
 	}
 
-//	/**
-//	 * 可逆的非对称解密算法 DSA算法
-//	 * @param b 需要解密的字节数组
-//	 * @return 返回解密后的字节数组
-//	 */
-//	public static byte[] dsa(byte[] b) {
-//		return dsa(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_DSA));
-//	}
-//
-//	/**
-//	 * 可逆的非对称解密算法 RSA算法
-//	 * @param b 需要解密的字节数组
-//	 * @param key 解密密钥
-//	 * @return 返回解密后的字节数组
-//	 */
-//	public static byte[] dsa(byte[] b, Key key) {
-//		return doFinal(b, key, EncryptConstants.ALGO_DSA, Cipher.DECRYPT_MODE);
-//	}
+	// /**
+	// * 可逆的非对称解密算法 DSA算法
+	// * @param b 需要解密的字节数组
+	// * @return 返回解密后的字节数组
+	// */
+	// public static byte[] dsa(byte[] b) {
+	// return dsa(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_DSA));
+	// }
+	//
+	// /**
+	// * 可逆的非对称解密算法 RSA算法
+	// * @param b 需要解密的字节数组
+	// * @param key 解密密钥
+	// * @return 返回解密后的字节数组
+	// */
+	// public static byte[] dsa(byte[] b, Key key) {
+	// return doFinal(b, key, EncryptConstants.ALGO_DSA, Cipher.DECRYPT_MODE);
+	// }
 
-//	/**
-//	 * 可逆的非对称解密算法 DH算法
-//	 * @param b 需要解密的字节数组
-//	 * @return 返回解密后的字节数组
-//	 */
-//	public static byte[] dh(byte[] b) {
-//		return dh(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_DH));
-//	}
-//
-//	/**
-//	 * 可逆的非对称解密算法 DH算法
-//	 * @param b 需要解密的字节数组
-//	 * @param key 解密密钥
-//	 * @return 返回解密后的字节数组
-//	 */
-//	public static byte[] dh(byte[] b, Key key) {
-//		return doFinal(b, key, EncryptConstants.ALGO_DH, Cipher.DECRYPT_MODE);
-//	}
+	// /**
+	// * 可逆的非对称解密算法 DH算法
+	// * @param b 需要解密的字节数组
+	// * @return 返回解密后的字节数组
+	// */
+	// public static byte[] dh(byte[] b) {
+	// return dh(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_DH));
+	// }
+	//
+	// /**
+	// * 可逆的非对称解密算法 DH算法
+	// * @param b 需要解密的字节数组
+	// * @param key 解密密钥
+	// * @return 返回解密后的字节数组
+	// */
+	// public static byte[] dh(byte[] b, Key key) {
+	// return doFinal(b, key, EncryptConstants.ALGO_DH, Cipher.DECRYPT_MODE);
+	// }
 
 	/**
 	 * 解密字符串

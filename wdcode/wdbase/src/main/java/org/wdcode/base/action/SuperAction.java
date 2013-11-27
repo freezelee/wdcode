@@ -153,6 +153,10 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String adds() throws Exception {
+		// 如果实体列表为空 并且key不为空
+		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
+			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
+		}
 		// 循环实体数组
 		for (E e : entitys) {
 			add(e);
@@ -170,7 +174,35 @@ public class SuperAction<E extends Entity> extends BasicAction {
 		// 获得要更像的实体
 		E e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return e == null ? ERROR : callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
+		return callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
+	}
+
+	/**
+	 * 修改
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String edits() throws Exception {
+		// 如果实体列表为空 并且key不为空
+		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
+			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
+		}
+		// 实体列表不为空
+		if (!EmptyUtil.isEmpty(entitys)) {
+			// 声明修改实体数组
+			E[] es = ArrayUtil.getArray(entityClass, entitys.size());
+			// 循环获取持久化数据实体
+			for (int i = 0; i < entitys.size(); i++) {
+				// 获得修改实体
+				E e = entitys.get(i);
+				// 把新修改的值赋值给修改是实体
+				es[i] = BeanUtil.copyProperties(e, service.get(entityClass, e.getKey()));
+			}
+			// 修改实体
+			entitys = service.update(es);
+		}
+		// 实体不为空 更新 否则返回错误
+		return callback(entitys);
 	}
 
 	/**
@@ -575,21 +607,21 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	protected E add(E e) {
 		// 判断实体类型
-		if (e instanceof EntityTime) {
+		if (e instanceof EntityTime && EmptyUtil.isEmpty(((EntityTime) e).getTime())) {
 			((EntityTime) e).setTime(DateUtil.getTime());
 		}
-		if (e instanceof EntityIp) {
+		if (e instanceof EntityIp && EmptyUtil.isEmpty(((EntityIp) e).getIp())) {
 			if (!EmptyUtil.isEmpty(((EntityIp) e).getIp())) {
 				((EntityIp) e).setIp(getIp());
 			}
 		}
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间
-			if (!EmptyUtil.isEmpty(startDate)) {
+			if (!EmptyUtil.isEmpty(startDate) && EmptyUtil.isEmpty(((EntityStartEndTime) e).getStartTime())) {
 				((EntityStartEndTime) e).setStartTime(DateUtil.getTime(startDate));
 			}
 			// 结束时间
-			if (!EmptyUtil.isEmpty(endDate)) {
+			if (!EmptyUtil.isEmpty(endDate) && EmptyUtil.isEmpty(((EntityStartEndTime) e).getEndTime())) {
 				((EntityStartEndTime) e).setEndTime(DateUtil.getTime(endDate));
 			}
 		}

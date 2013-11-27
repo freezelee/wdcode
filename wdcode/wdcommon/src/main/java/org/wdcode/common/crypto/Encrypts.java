@@ -7,6 +7,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.wdcode.common.codec.Base64;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
@@ -67,6 +68,15 @@ public final class Encrypts extends BaseCrypt {
 	 */
 	public static String encryptHex(byte[] b) {
 		return Hex.encode(encrypt(b));
+	}
+
+	/**
+	 * 加密字符串 Hex编码
+	 * @param b 要加密的字节数组
+	 * @return 加密后的Hex编码的字符串
+	 */
+	public static String encryptBase64(byte[] b) {
+		return Base64.encode(encrypt(b));
 	}
 
 	/**
@@ -134,14 +144,15 @@ public final class Encrypts extends BaseCrypt {
 		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
 	}
 
-//	/**
-//	 * 可逆的加密算法 RC4算法
-//	 * @param b 需要加密的字节数组
-//	 * @return 返回加密后的字节数组
-//	 */
-//	public static byte[] rc5(byte[] b) {
-//		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC5, EncryptConstants.ALGO_RC5);
-//	}
+	// /**
+	// * 可逆的加密算法 RC4算法
+	// * @param b 需要加密的字节数组
+	// * @return 返回加密后的字节数组
+	// */
+	// public static byte[] rc5(byte[] b) {
+	// return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC5,
+	// EncryptConstants.ALGO_RC5);
+	// }
 
 	/**
 	 * 可逆的非对称加密算法 RSA算法
@@ -162,43 +173,43 @@ public final class Encrypts extends BaseCrypt {
 		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.ENCRYPT_MODE);
 	}
 
-//	/**
-//	 * 可逆的非对称加密算法 DSA算法
-//	 * @param b 需要加密的字节数组
-//	 * @return 返回加密后的字节数组
-//	 */
-//	public static byte[] dsa(byte[] b) {
-//		return dsa(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DSA));
-//	}
-//
-//	/**
-//	 * 可逆的非对称加密算法 DSA算法
-//	 * @param b 需要加密的字节数组
-//	 * @param key 加密密钥
-//	 * @return 返回加密后的字节数组
-//	 */
-//	public static byte[] dsa(byte[] b, Key key) {
-//		return doFinal(b, key, EncryptConstants.ALGO_DSA, Cipher.ENCRYPT_MODE);
-//	}
+	// /**
+	// * 可逆的非对称加密算法 DSA算法
+	// * @param b 需要加密的字节数组
+	// * @return 返回加密后的字节数组
+	// */
+	// public static byte[] dsa(byte[] b) {
+	// return dsa(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DSA));
+	// }
+	//
+	// /**
+	// * 可逆的非对称加密算法 DSA算法
+	// * @param b 需要加密的字节数组
+	// * @param key 加密密钥
+	// * @return 返回加密后的字节数组
+	// */
+	// public static byte[] dsa(byte[] b, Key key) {
+	// return doFinal(b, key, EncryptConstants.ALGO_DSA, Cipher.ENCRYPT_MODE);
+	// }
 
-//	/**
-//	 * 可逆的非对称加密算法 DH算法
-//	 * @param b 需要加密的字节数组
-//	 * @return 返回加密后的字节数组
-//	 */
-//	public static byte[] dh(byte[] b) {
-//		return dh(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DH));
-//	}
+	// /**
+	// * 可逆的非对称加密算法 DH算法
+	// * @param b 需要加密的字节数组
+	// * @return 返回加密后的字节数组
+	// */
+	// public static byte[] dh(byte[] b) {
+	// return dh(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DH));
+	// }
 
-//	/**
-//	 * 可逆的非对称加密算法 DH算法
-//	 * @param b 需要加密的字节数组
-//	 * @param key 加密密钥
-//	 * @return 返回加密后的字节数组
-//	 */
-//	public static byte[] dh(byte[] b, Key key) {
-//		return doFinal(b, key, EncryptConstants.ALGO_DH, Cipher.ENCRYPT_MODE);
-//	}
+	// /**
+	// * 可逆的非对称加密算法 DH算法
+	// * @param b 需要加密的字节数组
+	// * @param key 加密密钥
+	// * @return 返回加密后的字节数组
+	// */
+	// public static byte[] dh(byte[] b, Key key) {
+	// return doFinal(b, key, EncryptConstants.ALGO_DH, Cipher.ENCRYPT_MODE);
+	// }
 
 	/**
 	 * 加密字符串

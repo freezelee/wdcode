@@ -108,7 +108,7 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 	 */
 	public String active() throws Exception {
 		// 获得验证码解析后的字符串数组
-		String[] temp = Decrypts.decryptString(activeCoding).split(StringConstants.AMP);
+		String[] temp = Decrypts.decryptHex(activeCoding).split(StringConstants.AMP);
 		// 获得用户ID
 		int userId = Conversion.toInt(temp[0]);
 		// 获得Email

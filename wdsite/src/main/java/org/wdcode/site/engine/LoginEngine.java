@@ -71,7 +71,7 @@ public final class LoginEngine {
 			return guest(request, response, key);
 		} else {
 			// 解密登录凭证
-			LoginToken token = SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(Decrypts.decryptString(info), LoginToken.class);
+			LoginToken token = SiteParams.LOGIN_SAVE_TOKEN ? decrypt(info) : JsonEngine.toBean(Decrypts.decryptHex(info), LoginToken.class);
 			// 如果登录凭证为null返回空
 			return token == null ? guest(request, response, key) : token;
 		}

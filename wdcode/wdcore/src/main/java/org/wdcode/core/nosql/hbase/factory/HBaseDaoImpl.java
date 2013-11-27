@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
@@ -18,6 +19,7 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.nosql.hbase.HBaseDao;
 
 /**
@@ -101,10 +103,10 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 获得结果集
 			Result rs = table.get(new Get(Bytes.toBytes(rowKey)));
 			// 获得键值
-			KeyValue kv = rs.raw()[0];
+			Cell cell = rs.rawCells()[0];
 			// 判断键值不为空
-			if (kv != null) {
-				return new String(kv.getValue());
+			if (cell != null) {
+				return new String(CellUtil.cloneValue(cell));
 			}
 		} catch (Exception e) {
 			// 记录日志
@@ -129,11 +131,11 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 循环获得所以结果
 			for (Result r : ss) {
 				// 获得所有键值
-				for (KeyValue kv : r.raw()) {
+				for (Cell cell : r.rawCells()) {
 					// 声明Map
 					Map<String, String> map = Maps.getMap();
 					// 设置键值
-					map.put(kv.getKeyString(), new String(kv.getValue()));
+					map.put(StringUtil.toString(CellUtil.cloneRow(cell)), StringUtil.toString(CellUtil.cloneValue(cell)));
 					// 把结果添加到列表
 					list.add(map);
 				}
@@ -141,9 +143,6 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 返回列表
 			return list;
 		} catch (Exception e) {
-			// 记录日志
-			Logs.error(e);
-			// 返回空列表
 			return Lists.emptyList();
 		}
 	}
