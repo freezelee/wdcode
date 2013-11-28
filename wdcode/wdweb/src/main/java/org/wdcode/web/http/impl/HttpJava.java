@@ -67,7 +67,7 @@ public final class HttpJava extends BaseHttp {
 			// 返回字节数组
 			return IOUtil.read(connection.getInputStream());
 		} catch (IOException e) {
-			Logs.error(e);
+			Logs.warn(e);
 		} finally {
 			close();
 		}
@@ -110,12 +110,10 @@ public final class HttpJava extends BaseHttp {
 			// 返回字节数组
 			return StringUtil.toString(IOUtil.read(connection.getInputStream()), encoding);
 		} catch (IOException e) {
-			Logs.error(e);
+			return e.getMessage();
 		} finally {
 			close();
 		}
-		// 返回空字节数组
-		return StringConstants.EMPTY;
 	}
 
 	/**

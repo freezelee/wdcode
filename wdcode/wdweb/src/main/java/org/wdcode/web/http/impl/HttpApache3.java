@@ -178,7 +178,7 @@ public final class HttpApache3 extends BaseHttp {
 				return StringUtil.toString(IOUtil.read(post.getResponseBodyAsStream()), encoding);
 			}
 		} catch (Exception e) {
-			Logs.warn(e);
+			return e.getMessage();
 		} finally {
 			// 关闭连接
 			if (post != null) {

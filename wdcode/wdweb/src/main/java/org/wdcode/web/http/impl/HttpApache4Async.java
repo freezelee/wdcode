@@ -253,10 +253,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
 			}
 		} catch (Exception e) {
-			// 记录日志
-			Logs.warn(e);
-			// 返回空字节数组
-			return StringConstants.EMPTY;
+			return e.getMessage();
 		} finally {
 			// 销毁post
 			post.abort();

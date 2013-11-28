@@ -26,6 +26,32 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	private final static Json		JSON	= getJson(JsonParams.PARSE);
 
 	/**
+	 * 是否是json串
+	 * @param json json串
+	 * @return true false
+	 */
+	public static boolean isJson(String json) {
+		// 字符串为空
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
+		}
+		// [开头 ]结尾
+		if (json.startsWith("[{") && json.endsWith("}]")) {
+			return true;
+		}
+		// {开头 }结尾
+		if (json.startsWith("{") && json.endsWith("}")) {
+			return true;
+		}
+		// 空json
+		if (json.equals("[]") || json.equals("{}")) {
+			return true;
+		}
+		// 返回false
+		return false;
+	}
+
+	/**
 	 * 把一个对象转换成JSON
 	 * @param obj 要转换的对象
 	 * @return 转换后的字符串

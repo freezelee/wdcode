@@ -19,7 +19,6 @@ import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.util.ArrayUtil;
@@ -348,7 +347,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entitys() throws Exception {
-		return callback(entitys = entity == null ? (List<E>) Lists.emptyList() : service.list(entity, -1, -1));
+		return callback(entity == null ? LIST : (entitys = service.list(entity, -1, -1)));
 	}
 
 	/**
@@ -458,14 +457,24 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	public void setKey(Serializable key) {
 		// 如果传递进来的是数组
-		if (key.getClass().isArray() || Conversion.toString(key).indexOf(StringConstants.COMMA) > -1) {
+		if (key.getClass().isArray()) {
 			// 转换成数组
-			Serializable[] keys = key.getClass().isArray() ? (Serializable[]) key : Conversion.toString(key).split(StringConstants.COMMA);
+			Serializable[] keys = (Serializable[]) key;
 			// 如果只有一个值 赋值给key 否则赋值给keys
 			if (keys.length == 1) {
 				setKey(keys[0]);
 			} else {
 				setKeys(keys);
+			}
+		} else if (key instanceof String) {
+			// 传的是字符串
+			String s = Conversion.toString(key);
+			// 如果是json串
+			if (!JsonEngine.isJson(s) && s.indexOf(StringConstants.COMMA) > -1) {
+				// ,号分割的字符串 转换成数组setKey
+				setKey(s.split(StringConstants.COMMA));
+			} else {
+				this.key = s;
 			}
 		} else {
 			this.key = key;

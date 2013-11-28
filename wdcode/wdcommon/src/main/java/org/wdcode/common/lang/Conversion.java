@@ -1,9 +1,9 @@
 package org.wdcode.common.lang;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.EmptyUtil;
 
 /**
@@ -62,7 +62,7 @@ public final class Conversion {
 	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj, String defaultValue) {
-		return obj == null ? defaultValue : obj instanceof Object[] ? ArrayUtil.toString(((Object[]) obj)).trim() : obj.toString().trim();
+		return obj == null ? defaultValue : obj instanceof Object[] ? Arrays.toString(((Object[]) obj)).trim() : obj.toString().trim();
 	}
 
 	/**

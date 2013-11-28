@@ -32,7 +32,6 @@ import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
@@ -206,9 +205,6 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				return b;
 			}
 		} catch (Exception e) {
-			// 记录日志
-			Logs.debug(e);
-			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		} finally {
 			// 销毁get
@@ -261,10 +257,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
 			}
 		} catch (Exception e) {
-			// 记录日志
-			Logs.debug(e);
-			// 返回空字节数组
-			return StringConstants.EMPTY;
+			return e.getMessage();
 		} finally {
 			// 销毁post
 			post.abort();
