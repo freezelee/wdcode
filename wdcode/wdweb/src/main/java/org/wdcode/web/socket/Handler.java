@@ -7,5 +7,10 @@ package org.wdcode.web.socket;
  * @version 1.0 2013-11-28
  */
 public interface Handler {
-	void handler();
+	/**
+	 * 处理器
+	 * @param session Socket Session
+	 * @param date 传送的数据
+	 */
+	void handler(Session session, byte[] date);
 }

@@ -1,6 +1,7 @@
 package org.wdcode.web.params;
 
 import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.params.Params;
 
 /**
@@ -31,6 +32,18 @@ public final class MinaParams {
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "port"), 0);
+	}
+
+	/**
+	 * 获得Mina连接池大小<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mina.*.pool = ? <br/>
+	 * XML: {@literal <mina><*><pool>?</pool></*></mina>}</h2>
+	 * @return Mina连接池大小
+	 */
+	public static int getPool(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "pool"), CommonParams.THREAD_POOL);
 	}
 
 	/**
