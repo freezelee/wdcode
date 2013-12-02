@@ -51,11 +51,13 @@ public final class LoginEngine {
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
 	 */
-	public static void addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
+	public static LoginToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
 		// 保存登录信息
 		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, encrypt(token), maxAge);
+		// 返回token
+		return token;
 	}
 
 	/**

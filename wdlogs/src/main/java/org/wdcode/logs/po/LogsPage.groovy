@@ -1,9 +1,6 @@
 package org.wdcode.logs.po
 
-import java.io.Serializable
-
 import javax.persistence.Entity
-import javax.persistence.Id
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,43 +9,35 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.wdcode.base.entity.EntityIp
 import org.wdcode.base.entity.EntityUserId
-import org.wdcode.common.lang.Conversion
-import org.wdcode.common.util.EmptyUtil
-import org.wdcode.site.entity.base.BaseEntityTime
+import org.wdcode.common.util.DateUtil
+import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**
- * 页面统计实体
+ * 登录日志实体
  * @author WD
  * @since JDK7
- * @version 1.0 2011-04-02
+ * @version 1.0 2011-04-03
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @DynamicInsert
 @DynamicUpdate
-class PageStatistics extends BaseEntityTime {
+class LogsPage extends BaseEntityIdTime {
 	// 页面
-	@Id
 	String				page
-	// 用户ID
-	Integer				userId
-	// 登录次数
-	Integer				count
+	// 来源
+	String				referrer
+	// 离开时间
+	Integer				outTime
 	// 登录IP
 	String				ip
-
-	/**
-	 * 获得键
-	 */
-	public Serializable getKey() {
-		return page
-	}
-
-	/**
-	 * 设置键
-	 */
-	public void setKey(Serializable key) {
-		this.page = Conversion.toString(key)
-	}
+	// 用户User_Agent
+	String				userAgent
+	// 语言
+	String				language
+	// 用户ID
+	Integer				userId
+	// 名称
+	String				name
 }

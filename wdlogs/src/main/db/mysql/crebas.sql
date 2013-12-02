@@ -1,13 +1,13 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/11/15 14:11:26                          */
+/* Created on:     2013/12/2 10:00:06                           */
 /*==============================================================*/
 
 
 /*==============================================================*/
-/* Table: login_logs                                            */
+/* Table: logs_login                                            */
 /*==============================================================*/
-create table login_logs
+create table logs_login
 (
    id                   int not null auto_increment,
    name                 varchar(50),
@@ -22,41 +22,15 @@ ENGINE = MYISAM;
 /*==============================================================*/
 /* Index: Index_Date                                            */
 /*==============================================================*/
-create index Index_Date on login_logs
+create index Index_Date on logs_login
 (
    time
 );
 
 /*==============================================================*/
-/* Table: login_statistics                                      */
+/* Table: logs_operate                                          */
 /*==============================================================*/
-create table login_statistics
-(
-   user_id              int not null comment '主键',
-   name                 varchar(50),
-   count                int default 0,
-   time                 int,
-   ip                   char(15),
-   last_time            int comment '手机',
-   last_ip              char(15) comment '电话',
-   primary key (user_id)
-)
-ENGINE = MYISAM;
-
-alter table login_statistics comment '用户信息表';
-
-/*==============================================================*/
-/* Index: INDEX_Time                                            */
-/*==============================================================*/
-create index INDEX_Time on login_statistics
-(
-   time
-);
-
-/*==============================================================*/
-/* Table: operate_logs                                          */
-/*==============================================================*/
-create table operate_logs
+create table logs_operate
 (
    id                   int not null auto_increment comment '主键',
    name                 varchar(50),
@@ -67,20 +41,20 @@ create table operate_logs
    primary key (id)
 );
 
-alter table operate_logs comment '日志信息表';
+alter table logs_operate comment '日志信息表';
 
 /*==============================================================*/
 /* Index: Index_Date                                            */
 /*==============================================================*/
-create index Index_Date on operate_logs
+create index Index_Date on logs_operate
 (
    time
 );
 
 /*==============================================================*/
-/* Table: page_logs                                             */
+/* Table: logs_page                                             */
 /*==============================================================*/
-create table page_logs
+create table logs_page
 (
    id                   int not null auto_increment,
    name                 varchar(50),
@@ -99,15 +73,41 @@ ENGINE = MYISAM;
 /*==============================================================*/
 /* Index: Index_Date                                            */
 /*==============================================================*/
-create index Index_Date on page_logs
+create index Index_Date on logs_page
 (
    time
 );
 
 /*==============================================================*/
-/* Table: page_statistics                                       */
+/* Table: statistics_login                                      */
 /*==============================================================*/
-create table page_statistics
+create table statistics_login
+(
+   user_id              int not null comment '主键',
+   name                 varchar(50),
+   count                int default 0,
+   time                 int,
+   ip                   char(15),
+   last_time            int comment '手机',
+   last_ip              char(15) comment '电话',
+   primary key (user_id)
+)
+ENGINE = MYISAM;
+
+alter table statistics_login comment '用户信息表';
+
+/*==============================================================*/
+/* Index: INDEX_Time                                            */
+/*==============================================================*/
+create index INDEX_Time on statistics_login
+(
+   time
+);
+
+/*==============================================================*/
+/* Table: statistics_page                                       */
+/*==============================================================*/
+create table statistics_page
 (
    page                 varchar(200) not null comment '主键',
    count                int default 0,
@@ -118,12 +118,12 @@ create table page_statistics
 )
 ENGINE = MYISAM;
 
-alter table page_statistics comment '用户信息表';
+alter table statistics_page comment '用户信息表';
 
 /*==============================================================*/
 /* Index: INDEX_Time                                            */
 /*==============================================================*/
-create index INDEX_Time on page_statistics
+create index INDEX_Time on statistics_page
 (
    time
 );

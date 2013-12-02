@@ -49,6 +49,19 @@
 		<!-- 加密Key -->
 		<key>http://www.wdcode.org</key>
 	</encrypt>
+	
+	<!-- 日志 -->
+	<logs>
+		<login>true</login>
+		<operate>true</operate>
+		<page>true</page>
+	</logs>
+	
+	<!-- 统计 -->
+	<statistics>
+		<login>true</login>
+		<page>true</page>
+	</statistics>
 
 	<!-- 登录 -->
 	<login>
@@ -56,9 +69,7 @@
 			<special>cache,userKey,v,token,register,isLogin,login,index,.js,.css,.gif,.png,.jpg,.ico,verify,/back,/goods,/article,/category,/leave
 			</special>
 			<index>/</index>
-		</User>
-		<logs>true</logs>
-		<statistics>true</statistics>
+		</User> 
 	</login>
 
 	<back>
@@ -68,13 +79,7 @@
 	<!-- 操作 -->
 	<operate>
 		<logs>true</logs>
-	</operate>
-
-	<!-- 页面 -->
-	<page>
-		<logs>true</logs>
-		<statistics>true</statistics>
-	</page>
+	</operate> 
 
 	<!-- 缓存 -->
 	<cache>

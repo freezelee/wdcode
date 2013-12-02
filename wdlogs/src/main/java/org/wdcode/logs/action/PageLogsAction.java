@@ -9,7 +9,7 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.logs.params.LogsParams;
-import org.wdcode.logs.po.PageLogs;
+import org.wdcode.logs.po.LogsPage;
 import org.wdcode.site.action.LoginAction;
 import org.wdcode.web.util.IpUtil;
 import org.wdcode.web.util.RequestUtil;
@@ -22,7 +22,7 @@ import org.wdcode.web.util.RequestUtil;
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
+public class PageLogsAction extends LoginAction<LogsPage, EntityLogin> {
 	// 序列化ID
 	private static final long	serialVersionUID	= -9081711038252503304L;
 
@@ -33,7 +33,7 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	 */
 	public String in() throws Exception {
 		// 判断是否开启页面访问日志记录
-		if (LogsParams.PAGE_LOGS && !isFilter()) {
+		if (LogsParams.LOGS_PAGE && !isFilter()) {
 			// 设置日志属性
 			entity.setIp(IpUtil.getIp(request));
 			entity.setLanguage(RequestUtil.getLanguage(request));
@@ -56,9 +56,9 @@ public class PageLogsAction extends LoginAction<PageLogs, EntityLogin> {
 	 */
 	public String out() throws Exception {
 		// 判断是否开启页面访问日志记录
-		if (LogsParams.PAGE_LOGS && !isFilter()) {
+		if (LogsParams.LOGS_PAGE && !isFilter()) {
 			// 获得日志实体
-			PageLogs pageLogs = service.get(PageLogs.class, entity.getKey());
+			LogsPage pageLogs = service.get(LogsPage.class, entity.getKey());
 			// 设置离开时间
 			pageLogs.setOutTime(DateUtil.getTime());
 			// 更新日志

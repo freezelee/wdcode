@@ -130,7 +130,7 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 登录验证
 		if (is) {
 			// 添加用户登录信息
-			LoginEngine.addLogin(request, response, bean, getLoginTime());
+			token = LoginEngine.addLogin(request, response, bean, getLoginTime());
 			// 添加登录信息
 			bean.setLoginIp(getIp());
 			bean.setLoginTime(DateUtil.getTime());
@@ -183,6 +183,14 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	public String verifyToken() throws Exception {
 		return callback(LoginEngine.decrypt(Conversion.toString(key)));
+	}
+
+	/**
+	 * 获得登录凭证
+	 * @return 获得登录凭证
+	 */
+	public String token(Object obj) throws Exception {
+		return ajax(LoginEngine.encrypt(token));
 	}
 
 	/**

@@ -13,27 +13,27 @@ public final class LogsParams {
 	/**
 	 * 登录日志是否开启
 	 */
-	public final static boolean		LOGIN_LOGS			= Params.getBoolean("login.logs", false);
-	/**
-	 * 登录统计是否开启
-	 */
-	public final static boolean		LOGIN_STATISTICS	= Params.getBoolean("login.statistics", false);
-	/**
-	 * 页面访问日志是否开启
-	 */
-	public final static boolean		PAGE_LOGS			= Params.getBoolean("page.logs", false);
-	/**
-	 * 页面访问日志不过滤IP
-	 */
-	public final static String[]	PAGE_LOGS_IP		= Params.getStringArray("page.logs.ip", ArrayConstants.STRING_EMPTY);
-	/**
-	 * 页面访问统计是否开启
-	 */
-	public final static boolean		PAGE_STATISTICS		= Params.getBoolean("page.statistics", false);
+	public final static boolean		LOGS_LOGIN			= Params.getBoolean("logs.login", false);
 	/**
 	 * 操作日志是否开启
 	 */
-	public final static boolean		OPERATE_LOGS		= Params.getBoolean("operate.logs", false);
+	public final static boolean		LOGS_OPERATE		= Params.getBoolean("logs.operate", false);
+	/**
+	 * 页面访问日志是否开启
+	 */
+	public final static boolean		LOGS_PAGE			= Params.getBoolean("logs.page", false);
+	/**
+	 * 页面访问统计是否开启
+	 */
+	public final static boolean		STATISTICS_PAGE		= Params.getBoolean("statistics.page", false);
+	/**
+	 * 登录统计是否开启
+	 */
+	public final static boolean		STATISTICS_LOGIN	= Params.getBoolean("statistics.login", false);
+	/**
+	 * 页面访问日志不过滤IP
+	 */
+	public final static String[]	PAGE_LOGS_IP		= Params.getStringArray("logs.page.ip", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 私有构造
