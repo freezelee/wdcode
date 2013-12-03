@@ -31,8 +31,6 @@ public final class MongoParams {
 	/* Redis使用 */
 	private static String		host;		// 服务器地址
 	private static int			port;		// 服务器端口
-	private static String		db;		// 数据库名
-	private static String		collection; // 集合
 
 	/**
 	 * 静态初始化
@@ -40,16 +38,14 @@ public final class MongoParams {
 	static {
 		host = "127.0.0.1"; // 服务器地址
 		port = 27017; // 服务器端口
-		db = "wdcode";// 数据库名
-		collection = "test";// 集合
 	}
 
 	/**
 	 * Mongo服务器地址<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.mongo.host = ? <br/>
-	 * XML: {@literal <nosql><mongo><host>?</host></mongo></nosql>}</h2>
+	 * Properties: mongo.host = ? <br/>
+	 * XML: {@literal <mongo><host>?</host></mongo>}</h2>
 	 * @return Mongo服务器地址
 	 */
 	public static String getHost(String name) {
@@ -60,32 +56,32 @@ public final class MongoParams {
 	 * Mongo数据库名<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.mongo.db = ? <br/>
-	 * XML: {@literal <nosql><mongo><db>?</db></mongo></nosql>}</h2>
+	 * Properties: mongo.db = ? <br/>
+	 * XML: {@literal <mongo><db>?</db></mongo>}</h2>
 	 * @return Mongo数据库名
 	 */
 	public static String getDB(String name) {
-		return Params.getString(getKey(name, DB), db);
+		return Params.getString(getKey(name, DB), name);
 	}
 
 	/**
 	 * Mongo数据库中集合名<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.mongo.collection = ? <br/>
-	 * XML: {@literal <nosql><mongo><collection>?</collection></mongo></nosql>}</h2>
+	 * Properties: mongo.collection = ? <br/>
+	 * XML: {@literal <mongo><collection>?</collection></mongo>}</h2>
 	 * @return Mongo数据库中集合名
 	 */
 	public static String getCollection(String name) {
-		return Params.getString(getKey(name, COLLECTION), collection);
+		return Params.getString(getKey(name, COLLECTION), name);
 	}
 
 	/**
 	 * Mongo服务器端口<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.mongo.port = ? <br/>
-	 * XML: {@literal <nosql><mongo><port>?</port></mongo></nosql>}</h2>
+	 * Properties: mongo.port = ? <br/>
+	 * XML: {@literal <mongo><port>?</port></mongo>}</h2>
 	 * @return Mongo服务器端口
 	 */
 	public static int getPort(String name) {

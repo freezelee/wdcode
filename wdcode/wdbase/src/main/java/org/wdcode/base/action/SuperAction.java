@@ -374,7 +374,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String theme() throws Exception {
-		return callback(entity = service.get(entityClass, entity.getKey()));
+		return callback(!EmptyUtil.isEmpty(entity = service.get(entityClass, entity.getKey())));
 	}
 
 	/**

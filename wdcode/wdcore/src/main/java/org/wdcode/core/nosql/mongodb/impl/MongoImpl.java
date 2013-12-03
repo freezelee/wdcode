@@ -26,13 +26,15 @@ import com.mongodb.MongoClient;
  */
 public final class MongoImpl extends BaseNoSQL implements Mongo {
 	// MongoDB 主键常量
-	private final static String	ID	= "_id";
+	private final static String			ID	= "_id";
 	// Mongo 池连接
-	private com.mongodb.Mongo	mongo;
+	private com.mongodb.Mongo			mongo;
 	// MongoDB
-	private DB					db;
-	// 数据操作对象
-	private DBCollection		dbc;
+	private DB							db;
+	// 数据集合对象
+	private DBCollection				dbc;
+	// 数据集合列表
+	private Map<String, DBCollection>	dbcs;
 
 	/**
 	 * 构造方法
@@ -43,6 +45,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 			mongo = new MongoClient(MongoParams.getHost(key), MongoParams.getPort(key));
 			db = mongo.getDB(MongoParams.getDB(key));
 			dbc = db.getCollection(MongoParams.getCollection(key));
+			dbcs = Maps.getConcurrentMap();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -52,7 +55,15 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * 插入数据
 	 * @param maps 数据对象
 	 */
-	public void insert(Map<String, Object>... maps) {
+	public void insert(String name, Map<String, Object> maps) {
+		getCollection(name).insert(new BasicDBObject(getMap(maps)));
+	}
+
+	/**
+	 * 插入数据
+	 * @param maps 数据对象
+	 */
+	public void insert(String name, Map<String, Object>... maps) {
 		// 声明DBObject数组
 		DBObject[] objs = new DBObject[maps.length];
 		// 循环map数组
@@ -61,15 +72,15 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 			objs[i] = new BasicDBObject(getMap(maps[i]));
 		}
 		// 插入数据
-		dbc.insert(objs);
+		getCollection(name).insert(objs);
 	}
 
 	/**
 	 * 获得数据总数量
 	 * @return 数量
 	 */
-	public long getCount() {
-		return dbc.getCount();
+	public long count(String name) {
+		return getCollection(name).getCount();
 	}
 
 	/**
@@ -77,45 +88,47 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param query 查询条件
 	 * @return 数量
 	 */
-	public long getCount(Map<String, Object> query) {
-		return dbc.getCount(new BasicDBObject(query));
+	public long count(String name, Map<String, Object> query) {
+		return getCollection(name).getCount(new BasicDBObject(query));
 	}
 
 	/**
 	 * 创建索引
 	 * @param keys 索引键
 	 */
-	public void createIndex(Map<String, Object> keys) {
-		dbc.createIndex(new BasicDBObject(keys));
+	public void createIndex(String name, Map<String, Object> keys) {
+		getCollection(name).createIndex(new BasicDBObject(keys));
 	}
 
 	/**
 	 * 删除索引
 	 * @param name 索引名
 	 */
-	public void dropIndex(String name) {
-		dbc.dropIndex(name);
+	public void dropIndex(String name, String index) {
+		getCollection(name).dropIndex(index);
 	}
 
 	/**
 	 * 删除索引
 	 * @param keys 索引键
 	 */
-	public void dropIndex(Map<String, Object> keys) {
-		dbc.dropIndex(new BasicDBObject(keys));
+	public void dropIndex(String name, Map<String, Object> keys) {
+		getCollection(name).dropIndex(new BasicDBObject(keys));
 	}
 
 	/**
 	 * 删除所以索引
 	 */
-	public void dropIndexes() {
-		dbc.dropIndexes();
+	public void dropIndexes(String name) {
+		getCollection(name).dropIndexes();
 	}
 
 	/**
-	 * 删除所以索引
+	 * 删除数据
 	 */
-	public void delete(Map<String, Object>... maps) {
+	public void delete(String name, Map<String, Object>... maps) {
+		// 获得数据集合
+		DBCollection dbc = getCollection(name);
 		// 循环map数组
 		for (int i = 0; i < maps.length; i++) {
 			// 删除对象
@@ -124,36 +137,27 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	}
 
 	/**
+	 * 删除数据
+	 */
+	public void delete(String name, Map<String, Object> data) {
+		getCollection(name).remove(new BasicDBObject(getMap(data)));
+	}
+
+	/**
 	 * 根据query参数,更新obj值
 	 * @param query 条件值
 	 * @param obj 要更新的值
 	 */
-	public void update(Map<String, Object> query, Map<String, Object> obj) {
-		dbc.updateMulti(new BasicDBObject(query), new BasicDBObject(obj));
-	}
-
-	/**
-	 * 查询第一个数据
-	 * @return
-	 */
-	public Map<String, Object> get() {
-		return toMap(dbc.findOne());
-	}
-
-	/**
-	 * 查询第一个数据
-	 * @return
-	 */
-	public Map<String, Object> get(Map<String, Object> map) {
-		return toMap(dbc.findOne(new BasicDBObject(map)));
+	public void update(String name, Map<String, Object> query, Map<String, Object> obj) {
+		getCollection(name).updateMulti(new BasicDBObject(query), new BasicDBObject(obj));
 	}
 
 	/**
 	 * 获得所有数据
 	 * @return 数据列表
 	 */
-	public List<Map<String, Object>> query() {
-		return query(null);
+	public List<Map<String, Object>> query(String name) {
+		return query(name, null);
 	}
 
 	/**
@@ -161,8 +165,8 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param query 查询条件
 	 * @return 数据列表
 	 */
-	public List<Map<String, Object>> query(Map<String, Object> query) {
-		return query(query, 0, 0);
+	public List<Map<String, Object>> query(String name, Map<String, Object> query) {
+		return query(name, query, 0, 0);
 	}
 
 	/**
@@ -172,9 +176,9 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param end 结束条数
 	 * @return 数据列表
 	 */
-	public List<Map<String, Object>> query(Map<String, Object> query, int start, int end) {
+	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start, int end) {
 		// 获得数据库游标
-		DBCursor cursor = dbc.find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
+		DBCursor cursor = getCollection(name).find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
 		// 设置游标开始位置
 		cursor.skip(start);
 		// 设置限定数量
@@ -190,14 +194,6 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		}
 		// 返回列表
 		return list;
-	}
-
-	/**
-	 * 获得DBCollection
-	 * @return DBCollection
-	 */
-	public DBCollection getCollection() {
-		return dbc;
 	}
 
 	/**
@@ -234,7 +230,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		map.put(ID, key);
 		map.put(StringConstants.VALUE, value);
 		// 添加数据
-		insert(map);
+		insert(StringConstants.EMPTY, map);
 		// 返回成功
 		return true;
 	}
@@ -246,6 +242,9 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 
 	@Override
 	public void remove(String... key) {
+		// 获得数据集合
+		DBCollection dbc = getCollection(StringConstants.EMPTY);
+		// 循环删除
 		for (String k : key) {
 			dbc.remove(new BasicDBObject(ID, k));
 		}
@@ -253,12 +252,12 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 
 	@Override
 	public boolean exists(String key) {
-		return dbc.count(new BasicDBObject(ID, key)) > 0;
+		return getCollection(StringConstants.EMPTY).count(new BasicDBObject(ID, key)) > 0;
 	}
 
 	@Override
 	public void clear() {
-		dbc.drop();
+		getCollection(StringConstants.EMPTY).drop();
 	}
 
 	@Override
@@ -266,5 +265,21 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		dbc = null;
 		db = null;
 		mongo.close();
+	}
+
+	/**
+	 * 获得数据集合
+	 * @param name 集合名
+	 * @return 数据集合
+	 */
+	private DBCollection getCollection(String name) {
+		// 获得数据集合
+		DBCollection dbc = EmptyUtil.isEmpty(name) ? this.dbc : dbcs.get(name);
+		// 如果数据集合为空
+		if (dbc == null) {
+			dbcs.put(name, dbc = db.getCollection(name));
+		}
+		// 返回集合
+		return dbc;
 	}
 }

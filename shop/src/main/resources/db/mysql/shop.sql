@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50613
+Source Server Version : 50614
 Source Host           : 127.0.0.1:3306
 Source Database       : shop
 
 Target Server Type    : MYSQL
-Target Server Version : 50613
+Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2013-09-10 17:54:16
+Date: 2013-12-03 13:22:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,10 +26,11 @@ CREATE TABLE `admin` (
   `state` tinyint(4) DEFAULT '1' COMMENT 'Email',
   `time` int(11) DEFAULT '0',
   `role_id` int(11) DEFAULT NULL COMMENT '用户状态 0 无效 1 有效 2 已删除',
-   loginIp              char(15),
-   loginTime            int,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员表';
+  `login_ip` char(15) DEFAULT NULL,
+  `login_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index_Name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of admin
@@ -333,44 +334,64 @@ CREATE TABLE `leaves` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `login_logs`
+-- Table structure for `logs_login`
 -- ----------------------------
-DROP TABLE IF EXISTS `login_logs`;
-CREATE TABLE `login_logs` (
+DROP TABLE IF EXISTS `logs_login`;
+CREATE TABLE `logs_login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `ip` char(15) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
-  `user_agent` varchar(200) DEFAULT NULL,
-  `language` varchar(50) DEFAULT NULL,
   `state` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_Date` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of login_logs
+-- Records of logs_login
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `login_statistics`
+-- Table structure for `logs_operate`
 -- ----------------------------
-DROP TABLE IF EXISTS `login_statistics`;
-CREATE TABLE `login_statistics` (
-  `user_id` int(11) NOT NULL COMMENT '主键',
+DROP TABLE IF EXISTS `logs_operate`;
+CREATE TABLE `logs_operate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(50) DEFAULT NULL,
-  `count` int(11) DEFAULT '0',
-  `time` int(11) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  `last_time` int(11) DEFAULT NULL COMMENT '手机',
-  `last_ip` char(15) DEFAULT NULL COMMENT '电话',
-  PRIMARY KEY (`user_id`),
-  KEY `INDEX_Time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+  `user_id` int(11) DEFAULT NULL COMMENT '用户主键',
+  `time` int(11) DEFAULT NULL COMMENT '操作时间',
+  `content` text,
+  `state` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_Date` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日志信息表';
 
 -- ----------------------------
--- Records of login_statistics
+-- Records of logs_operate
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `logs_page`
+-- ----------------------------
+DROP TABLE IF EXISTS `logs_page`;
+CREATE TABLE `logs_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `page` varchar(200) DEFAULT NULL,
+  `referrer` varchar(200) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ip` char(15) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `out_time` int(11) DEFAULT NULL,
+  `user_agent` varchar(200) DEFAULT NULL,
+  `language` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_Date` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of logs_page
 -- ----------------------------
 
 -- ----------------------------
@@ -382,8 +403,9 @@ CREATE TABLE `menu` (
   `name` varchar(50) DEFAULT NULL COMMENT '菜单名',
   `menu_id` int(11) DEFAULT '0',
   `url` varchar(100) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- ----------------------------
 -- Records of menu
@@ -463,31 +485,13 @@ DROP TABLE IF EXISTS `operate`;
 CREATE TABLE `operate` (
   `link` varchar(50) NOT NULL COMMENT '操作连接',
   `name` varchar(50) DEFAULT NULL COMMENT '操作名称 用于显示',
+  `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`link`),
   KEY `Index_ID` (`link`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='操作信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作信息表';
 
 -- ----------------------------
 -- Records of operate
--- ----------------------------
-
--- ----------------------------
--- Table structure for `operate_logs`
--- ----------------------------
-DROP TABLE IF EXISTS `operate_logs`;
-CREATE TABLE `operate_logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(50) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL COMMENT '用户主键',
-  `time` int(11) DEFAULT NULL COMMENT '操作时间',
-  `content` varchar(500) DEFAULT NULL,
-  `state` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_Date` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='日志信息表';
-
--- ----------------------------
--- Records of operate_logs
 -- ----------------------------
 
 -- ----------------------------
@@ -510,47 +514,6 @@ CREATE TABLE `orders` (
 
 -- ----------------------------
 -- Records of orders
--- ----------------------------
-
--- ----------------------------
--- Table structure for `page_logs`
--- ----------------------------
-DROP TABLE IF EXISTS `page_logs`;
-CREATE TABLE `page_logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL,
-  `page` varchar(200) DEFAULT NULL,
-  `referrer` varchar(200) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL,
-  `out_time` int(11) DEFAULT NULL,
-  `user_agent` varchar(200) DEFAULT NULL,
-  `language` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_Date` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of page_logs
--- ----------------------------
-
--- ----------------------------
--- Table structure for `page_statistics`
--- ----------------------------
-DROP TABLE IF EXISTS `page_statistics`;
-CREATE TABLE `page_statistics` (
-  `page` varchar(200) NOT NULL COMMENT '主键',
-  `count` int(11) DEFAULT '0',
-  `user_id` int(11) DEFAULT NULL COMMENT '主键',
-  `time` int(11) DEFAULT NULL,
-  `ip` char(15) DEFAULT NULL,
-  PRIMARY KEY (`page`),
-  KEY `INDEX_Time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户信息表';
-
--- ----------------------------
--- Records of page_statistics
 -- ----------------------------
 
 -- ----------------------------
@@ -639,7 +602,7 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(50) DEFAULT NULL COMMENT '角色名',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息表';
 
 -- ----------------------------
 -- Records of role
@@ -654,7 +617,7 @@ CREATE TABLE `role_authority` (
   `authority_id` int(11) DEFAULT '0',
   `role_id` int(11) DEFAULT '0' COMMENT '角色ID',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色与权限关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与权限关系表';
 
 -- ----------------------------
 -- Records of role_authority
@@ -670,7 +633,7 @@ CREATE TABLE `role_menu` (
   `menu_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_Menu` (`menu_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色与菜单关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与菜单关系表';
 
 -- ----------------------------
 -- Records of role_menu
@@ -685,7 +648,7 @@ CREATE TABLE `role_operate` (
   `operate` varchar(50) DEFAULT '0',
   `role_id` int(11) DEFAULT '0' COMMENT '角色ID',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色与操作关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与操作关系表';
 
 -- ----------------------------
 -- Records of role_operate
@@ -742,6 +705,44 @@ CREATE TABLE `specification` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `statistics_login`
+-- ----------------------------
+DROP TABLE IF EXISTS `statistics_login`;
+CREATE TABLE `statistics_login` (
+  `user_id` int(11) NOT NULL COMMENT '主键',
+  `name` varchar(50) DEFAULT NULL,
+  `count` int(11) DEFAULT '0',
+  `time` int(11) DEFAULT NULL,
+  `ip` char(15) DEFAULT NULL,
+  `last_time` int(11) DEFAULT NULL COMMENT '手机',
+  `last_ip` char(15) DEFAULT NULL COMMENT '电话',
+  PRIMARY KEY (`user_id`),
+  KEY `INDEX_Time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+
+-- ----------------------------
+-- Records of statistics_login
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `statistics_page`
+-- ----------------------------
+DROP TABLE IF EXISTS `statistics_page`;
+CREATE TABLE `statistics_page` (
+  `page` varchar(200) NOT NULL COMMENT '主键',
+  `count` int(11) DEFAULT '0',
+  `user_id` int(11) DEFAULT NULL COMMENT '主键',
+  `time` int(11) DEFAULT NULL,
+  `ip` char(15) DEFAULT NULL,
+  PRIMARY KEY (`page`),
+  KEY `INDEX_Time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+
+-- ----------------------------
+-- Records of statistics_page
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `trolley`
 -- ----------------------------
 DROP TABLE IF EXISTS `trolley`;
@@ -793,10 +794,10 @@ CREATE TABLE `user` (
   `state` tinyint(4) DEFAULT '1' COMMENT '用户状态 0 无效 1 有效 2 已删除',
   `sex` tinyint(4) DEFAULT '0',
   `phone` varchar(20) DEFAULT NULL COMMENT '电话',
-  `register_ip` char(15) DEFAULT NULL,
+  `ip` char(15) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
-  loginIp              char(15),
-   loginTime            int,
+  `login_ip` char(15) DEFAULT NULL,
+  `login_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_Name_Password` (`name`,`password`),
   KEY `INDEX_Email` (`email`)

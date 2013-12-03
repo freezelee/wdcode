@@ -42,20 +42,20 @@ INSERT INTO menu(name,menu_id) VALUES('配送管理',6);
 /* 初始化操作菜单 */
 /* 商品管理 */
 INSERT INTO menu(name,menu_id,url) VALUES('商品列表',7,'goods_page');
-INSERT INTO menu(name,menu_id,url) VALUES('添加商品',7,'goods_theme_add');
+INSERT INTO menu(name,menu_id,url) VALUES('添加商品',7,'goods_to_add');
 INSERT INTO menu(name,menu_id,url) VALUES('到货通知',7,'notify_page'); 
 
 INSERT INTO menu(name,menu_id,url) VALUES('分类列表',8,'sort_page');
-INSERT INTO menu(name,menu_id,url) VALUES('添加分类',8,'sort_theme_add'); 
+INSERT INTO menu(name,menu_id,url) VALUES('添加分类',8,'sort_to_add'); 
 
 INSERT INTO menu(name,menu_id,url) VALUES('类型列表',9,'type_page');
-INSERT INTO menu(name,menu_id,url) VALUES('添加类型',9,'type_theme_add'); 
+INSERT INTO menu(name,menu_id,url) VALUES('添加类型',9,'type_to_add'); 
 
 INSERT INTO menu(name,menu_id,url) VALUES('商品规格',10,'specification_page');
-INSERT INTO menu(name,menu_id,url) VALUES('添加规格',10,'specification_theme_add'); 
+INSERT INTO menu(name,menu_id,url) VALUES('添加规格',10,'specification_to_add'); 
  
 INSERT INTO menu(name,menu_id,url) VALUES('品牌列表',11,'brand_page');
-INSERT INTO menu(name,menu_id,url) VALUES('添加品牌',11,'brand_theme_add'); 
+INSERT INTO menu(name,menu_id,url) VALUES('添加品牌',11,'brand_to_add'); 
 
 /* 订单管理 */
 INSERT INTO menu(name,menu_id,url) VALUES('订单列表',12,'orders_page');

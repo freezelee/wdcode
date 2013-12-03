@@ -53,6 +53,11 @@ public abstract class BaseEntityId extends BaseEntity {
 	 * 设置Key
 	 */
 	public void setKey(Serializable key) {
-		this.id = Conversion.toInt(key);
+		// 如果传进的是数组
+		if (key.getClass().isArray()) {
+			setKey(((Serializable[]) key)[0]);
+		} else {
+			this.id = Conversion.toInt(key);
+		}
 	}
 }
