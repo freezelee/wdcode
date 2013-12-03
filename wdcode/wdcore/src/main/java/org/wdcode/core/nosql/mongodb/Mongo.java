@@ -42,6 +42,14 @@ public interface Mongo extends NoSQL {
 	long count(String name, Map<String, Object> query);
 
 	/**
+	 * 根据查询条件获得数量
+	 * @param name 数据集合
+	 * @param key 查询主键
+	 * @return 数量
+	 */
+	long count(String name, Object key);
+
+	/**
 	 * 删除数据
 	 * @param name 数据集合
 	 * @param data 数据
@@ -87,6 +95,14 @@ public interface Mongo extends NoSQL {
 	 * @return 数据列表
 	 */
 	List<Map<String, Object>> query(String name, Map<String, Object> query, int start, int end);
+
+	/**
+	 * 根据键获得值
+	 * @param name 集合名
+	 * @param key 键
+	 * @return 值
+	 */
+	Map<String, Object> get(String name, Object key);
 
 	/**
 	 * 创建索引

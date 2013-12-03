@@ -212,11 +212,13 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 */
 	private Map<String, Object> getMap(Map<String, Object> map) {
 		// 判断_id为空 赋值
-		if (EmptyUtil.isEmpty(map)) {
+		if (!EmptyUtil.isEmpty(map)) {
 			// 获得ID
-			Object key = map.get(StringConstants.KEY);
+			Object key = map.get(ID);
 			// 判断如果为空获得 id键
-			key = EmptyUtil.isEmpty(key) ? map.get(StringConstants.ID) : key;
+			key = EmptyUtil.isEmpty(key) ? map.get(StringConstants.KEY) : key;
+			// 设置主键
+			map.put(ID, key);
 		}
 		// 返回Map
 		return map;
@@ -251,6 +253,16 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	}
 
 	@Override
+	public long count(String name, Object key) {
+		return count(name, Maps.getMap(ID, key));
+	}
+
+	@Override
+	public Map<String, Object> get(String name, Object key) {
+		return toMap(getCollection(name).findOne(new BasicDBObject(ID, key)));
+	}
+
+	@Override
 	public boolean exists(String key) {
 		return getCollection(StringConstants.EMPTY).count(new BasicDBObject(ID, key)) > 0;
 	}
@@ -282,4 +294,5 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		// 返回集合
 		return dbc;
 	}
+
 }
