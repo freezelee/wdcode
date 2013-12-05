@@ -201,6 +201,22 @@ public final class BeanUtil {
 	 * @param parameters 参数
 	 * @return 方法返回值
 	 */
+	public static Object invoke(Object obj, Method method, Object... args) {
+		try {
+			return makeAccessible(method).invoke(obj, args);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 直接调用对象方法
+	 * @param object 调用的对象
+	 * @param name 方法名
+	 * @param parameterTypes 参数类型
+	 * @param parameters 参数
+	 * @return 方法返回值
+	 */
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
@@ -338,12 +354,27 @@ public final class BeanUtil {
 	/**
 	 * 强行设置Field可访问.
 	 */
-	private static void makeAccessible(Field field) {
+	private static Field makeAccessible(Field field) {
 		// 判断字段是否公有
 		if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())) {
 			// 设置可访问
 			field.setAccessible(true);
 		}
+		// 返回字段
+		return field;
+	}
+
+	/**
+	 * 强行设置Field可访问.
+	 */
+	private static Method makeAccessible(Method method) {
+		// 判断字段是否公有
+		if (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
+			// 设置可访问
+			method.setAccessible(true);
+		}
+		// 返回方法
+		return method;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package org.wdcode.base.interceptor;
 
 import org.wdcode.base.action.BasicAction;
+import org.wdcode.common.constants.StringConstants;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
@@ -57,7 +58,17 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 	 * @param e
 	 * @return
 	 */
-	protected String exception(E action, Exception e) {
+	protected String exception(E action, Throwable e) {
+		// 声明消息字符串
+		String mess = StringConstants.EMPTY;
+		// 异常不为空
+		while (e != null) {
+			mess = e.getMessage();
+			e = e.getCause();
+		}
+		// 返回错误信息
+		action.addError(mess);
+		// 返回错误
 		return BasicAction.ERROR;
 	}
 

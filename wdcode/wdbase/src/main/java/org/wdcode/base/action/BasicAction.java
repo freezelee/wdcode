@@ -37,7 +37,6 @@ import org.wdcode.common.util.ImageUtil;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
-import org.wdcode.core.log.Logs;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
@@ -434,6 +433,22 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 获得HttpServletRequest
+	 * @return HttpServletRequest
+	 */
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	/**
+	 * 获得HttpServletResponse
+	 * @return HttpServletResponse
+	 */
+	public HttpServletResponse getResponse() {
+		return response;
+	}
+
+	/**
 	 * 获得客户端的Cookie数组
 	 * @return Cookie数组
 	 */
@@ -620,11 +635,7 @@ public class BasicAction extends ActionSupport {
 		}
 		// 方法不为空
 		if (method != null) {
-			try {
-				return Conversion.toString(method.invoke(this, obj), null);
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			return Conversion.toString(BeanUtil.invoke(this, method, obj), null);
 		}
 		if (obj == null) {
 			return addMessage(ERROR);

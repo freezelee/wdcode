@@ -94,7 +94,7 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 				EmailEngine.send(user.getEmail(), subject, content);
 			} else {
 				// 添加用户登录信息
-				LoginEngine.addLogin(request, response, user, getLoginTime());
+				token = LoginEngine.addLogin(request, response, user, getLoginTime());
 			}
 		}
 		// 返回

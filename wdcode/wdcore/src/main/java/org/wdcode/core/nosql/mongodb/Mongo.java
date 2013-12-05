@@ -72,6 +72,14 @@ public interface Mongo extends NoSQL {
 	void update(String name, Map<String, Object> query, Map<String, Object> obj);
 
 	/**
+	 * 根据query参数,更新obj值
+	 * @param name 数据集合
+	 * @param query 条件值
+	 * @param obj 要更新的值
+	 */
+	void updateMulti(String name, Map<String, Object> query, Map<String, Object> obj);
+
+	/**
 	 * 获得所有数据
 	 * @param name 数据集合
 	 * @return 数据列表
@@ -103,6 +111,14 @@ public interface Mongo extends NoSQL {
 	 * @return 值
 	 */
 	Map<String, Object> get(String name, Object key);
+
+	/**
+	 * 根据键获得值
+	 * @param name 集合名
+	 * @param key 键
+	 * @return 值
+	 */
+	Map<String, Object> get(String name, Map<String, Object> query);
 
 	/**
 	 * 创建索引

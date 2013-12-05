@@ -149,6 +149,15 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param obj 要更新的值
 	 */
 	public void update(String name, Map<String, Object> query, Map<String, Object> obj) {
+		getCollection(name).update(new BasicDBObject(query), new BasicDBObject(obj));
+	}
+
+	/**
+	 * 根据query参数,更新obj值
+	 * @param query 条件值
+	 * @param obj 要更新的值
+	 */
+	public void updateMulti(String name, Map<String, Object> query, Map<String, Object> obj) {
 		getCollection(name).updateMulti(new BasicDBObject(query), new BasicDBObject(obj));
 	}
 
@@ -202,7 +211,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @return Map
 	 */
 	private Map<String, Object> toMap(DBObject object) {
-		return EmptyUtil.isEmpty(object) ? Maps.emptyMap() : object.toMap();
+		return EmptyUtil.isEmpty(object) ? Maps.getMap() : object.toMap();
 	}
 
 	/**
@@ -263,6 +272,11 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	}
 
 	@Override
+	public Map<String, Object> get(String name, Map<String, Object> query) {
+		return toMap(getCollection(name).findOne(new BasicDBObject(query)));
+	}
+
+	@Override
 	public boolean exists(String key) {
 		return getCollection(StringConstants.EMPTY).count(new BasicDBObject(ID, key)) > 0;
 	}
@@ -294,5 +308,4 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		// 返回集合
 		return dbc;
 	}
-
 }

@@ -151,6 +151,27 @@ public final class DateUtil {
 	}
 
 	/**
+	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number) 默认格式
+	 * @param time 时间
+	 * @param number N天
+	 * @return N天的日期
+	 */
+	public static int getTime(int time, int number) {
+		return getTime(time, number, CommonParams.DATE_FORMAT);
+	}
+
+	/**
+	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
+	 * @param time 时间
+	 * @param number N天
+	 * @param format 日期格式
+	 * @return N天的日期
+	 */
+	public static int getTime(int time, int number, String format) {
+		return getTime(getDate(time, number, format));
+	}
+
+	/**
 	 * 根据时间变量返回时间字符串
 	 * @param date 时间变量
 	 * @param format 时间字符串样式
@@ -495,6 +516,27 @@ public final class DateUtil {
 	 */
 	public static String getDate(int number, String format) {
 		return getDate(getCurrentDate(), number, format);
+	}
+
+	/**
+	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number) 默认格式
+	 * @param time 时间
+	 * @param number N天
+	 * @return N天的日期
+	 */
+	public static String getDate(int time, int number) {
+		return getDate(time, number, CommonParams.DATE_FORMAT);
+	}
+
+	/**
+	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
+	 * @param time 时间
+	 * @param number N天
+	 * @param format 日期格式
+	 * @return N天的日期
+	 */
+	public static String getDate(int time, int number, String format) {
+		return getDate(toString(time), number, format);
 	}
 
 	/**
