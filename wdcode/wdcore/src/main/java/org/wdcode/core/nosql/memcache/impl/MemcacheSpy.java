@@ -125,6 +125,6 @@ public final class MemcacheSpy extends BaseMemcache {
 	 * @return 缓存保存时间
 	 */
 	private int getExt() {
-		return Conversion.toInt(DateConstants.TIME_DAY / 1000);
+		return DateConstants.DAY;
 	}
 }

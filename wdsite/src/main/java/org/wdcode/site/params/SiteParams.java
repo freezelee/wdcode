@@ -1,7 +1,6 @@
 package org.wdcode.site.params;
 
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.params.Params;
 
 /**
@@ -43,11 +42,11 @@ public final class SiteParams {
 	/**
 	 * 登录信息最大保存时间
 	 */
-	public final static int		LOGIN_MAX_AGE				= Params.getInt("login.maxAge", Conversion.toInt(DateConstants.TIME_WEEK / 1000));
+	public final static int		LOGIN_MAX_AGE				= Params.getInt("login.maxAge", DateConstants.WEEK);
 	/**
 	 * 登录信息最小保存时间
 	 */
-	public final static int		LOGIN_MIN_AGE				= Params.getInt("login.minAge", Conversion.toInt(DateConstants.TIME_HOUR / 1000) / 2);
+	public final static int		LOGIN_MIN_AGE				= Params.getInt("login.minAge", DateConstants.HOUR / 2);
 	/**
 	 * 登录游客名称
 	 */

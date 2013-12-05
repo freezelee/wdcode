@@ -11,7 +11,6 @@ import net.rubyeye.xmemcached.utils.AddrUtil;
 
 import org.wdcode.common.constants.DateConstants;
 
-import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.core.log.Logs;
@@ -177,6 +176,6 @@ public final class MemcacheX extends BaseMemcache {
 	 * @return 缓存保存时间
 	 */
 	private int getExt() {
-		return Conversion.toInt(DateConstants.TIME_DAY / 1000);
+		return DateConstants.DAY;
 	}
 }

@@ -308,7 +308,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				endDate = DateUtil.getShortDate();
 			}
 			// 按时间查询
-			entitys = service.between(entity, TIME_FIELD, DateUtil.getTime(startDate), DateUtil.getTime(endDate) + Conversion.toInt(DateConstants.TIME_DAY / DateConstants.TIME_SECOND), pager);
+			entitys = service.between(entity, TIME_FIELD, DateUtil.getTime(startDate), DateUtil.getTime(endDate) + DateConstants.DAY, pager);
 		}
 		// 返回列表页
 		return callback(entitys);
