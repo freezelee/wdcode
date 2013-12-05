@@ -285,7 +285,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String order() throws Exception {
-		return callback(entitys = entity == null ? service.order(entityClass, orders, -1, -1) : service.order(entity, orders, -1, -1));
+		return callback(entitys = entity == null ? service.order(entityClass, orders, pager) : service.order(entity, orders, pager));
 	}
 
 	/**
@@ -347,7 +347,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entitys() throws Exception {
-		return callback(entity == null ? LIST : (entitys = service.list(entity, -1, -1)));
+		return callback(entity == null ? LIST : (entitys = service.list(entity, pager)));
 	}
 
 	/**
