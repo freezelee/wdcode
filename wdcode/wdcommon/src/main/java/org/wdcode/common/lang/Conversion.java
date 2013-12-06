@@ -85,6 +85,8 @@ public final class Conversion {
 			// 判断对象类型
 			if (obj == null) {
 				return defaultValue;
+			} else if (obj.getClass().isArray()) {
+				return toInt(((Object[]) obj)[0], defaultValue);
 			} else if (obj instanceof Number) {
 				return ((Number) obj).intValue();
 			} else if (obj instanceof Boolean) {
