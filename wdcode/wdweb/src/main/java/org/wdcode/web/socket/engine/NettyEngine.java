@@ -231,7 +231,7 @@ public final class NettyEngine {
 		// ChannelFuture不为空
 		if (!EmptyUtil.isEmpty(future)) {
 			future.channel().close();
-			future.cancel(true);
+			future.cancel(false);
 			FUTURE.remove(name);
 		}
 		// 获得客户端Bootstrap

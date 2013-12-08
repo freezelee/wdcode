@@ -211,7 +211,7 @@ public final class MinaEngine {
 		// 判断acceptor不为空
 		if (!EmptyUtil.isEmpty(future)) {
 			// 关闭future
-			future.getSession().close(true);
+			future.getSession().close(false);
 			future.cancel();
 			// 删除Map中的引用
 			FUTURE.remove(name);
@@ -221,7 +221,7 @@ public final class MinaEngine {
 		// 判断acceptor不为空
 		if (!EmptyUtil.isEmpty(connector)) {
 			// 关闭acceptor
-			connector.dispose(true);
+			connector.dispose();
 			// 删除Map中的引用
 			CLIENT.remove(name);
 		}

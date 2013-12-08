@@ -8,4 +8,15 @@ import org.wdcode.common.interfaces.Close;
  * @since JDK7
  * @version 1.0 2013-11-28
  */
-public interface Server extends Close {}
+public interface Server extends Close {
+	/**
+	 * 添加要处理的Handler
+	 * @param h
+	 */
+	void addHandler(Handler h);
+
+	/**
+	 * 启动服务器监听
+	 */
+	void start();
+}

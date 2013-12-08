@@ -639,7 +639,7 @@ public final class DateUtil {
 	 * @return N月的日期
 	 */
 	public static String getMonth(Date date, int number, String format) {
-		return discrepancy(date, number, format, Calendar.MONTH);
+		return discrepancy(date, number, format, Calendar.MONTH) + 1;
 	}
 
 	/**
@@ -787,7 +787,7 @@ public final class DateUtil {
 	 * @return 月
 	 */
 	public static int getMonth(Date date) {
-		return get(date, Calendar.MONTH);
+		return get(date, Calendar.MONTH) + 1;
 	}
 
 	/**

@@ -46,8 +46,8 @@ public final class SocketParams {
 	 * 获得Socket使用解析包<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.host = ? <br/>
-	 * XML: {@literal <socket><host>?</host></socket>}</h2>
+	 * Properties: socket.parse = ? <br/>
+	 * XML: {@literal <socket><parse>?</parse></socket>}</h2>
 	 * @return 获得Socket使用解析包
 	 */
 	public static String getParse(String name) {

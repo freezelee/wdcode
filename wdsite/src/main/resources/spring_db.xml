@@ -13,6 +13,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="${dataSourceConfig}" />
 	</bean> 
+	
+	<!-- namingStrategy -->
+	<bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy" />
 
 	<!-- 数据连接池配置 -->
 	<bean id="dataSource" class="org.wdcode.core.dao.datasource.BasicDataSource"

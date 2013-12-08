@@ -11,19 +11,29 @@ import org.wdcode.common.params.Params;
  */
 public final class QuartzParams {
 	// 前缀
-	private final static String		PREFIX	= "quartz";
+	private final static String		PREFIX;
 	/**
 	 * 任务开关
 	 */
-	public final static boolean		POWER	= Params.getBoolean("quartz.power", false);
+	public final static boolean		POWER;
 	/**
 	 * Spring任务开关
 	 */
-	public final static boolean		SPRING	= Params.getBoolean("quartz.spring", false);
+	public final static boolean		SPRING;
 	/**
 	 * 执行任务名称数组
 	 */
-	public final static String[]	NAMES	= Params.getStringArray("quartz.names", ArrayConstants.STRING_EMPTY);
+	public final static String[]	NAMES;
+
+	/**
+	 * 静态初始化
+	 */
+	static {
+		PREFIX = "quartz";
+		POWER = Params.getBoolean("quartz.power", false);
+		SPRING = Params.getBoolean("quartz.spring", false);
+		NAMES = Params.getStringArray("quartz.names", ArrayConstants.STRING_EMPTY);
+	}
 
 	/**
 	 * 获得Quartz执行任务类<br/>
