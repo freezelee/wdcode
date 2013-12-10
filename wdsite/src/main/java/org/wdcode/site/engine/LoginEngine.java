@@ -54,8 +54,22 @@ public final class LoginEngine {
 	public static LoginToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
+		// 返回token
+		return setToken(request, response, login.getClass().getSimpleName() + INFO, token, maxAge);
+	}
+
+	/**
+	 * 设置登录凭证
+	 * @param request
+	 * @param response
+	 * @param key
+	 * @param token
+	 * @param maxAge
+	 * @return
+	 */
+	public static LoginToken setToken(HttpServletRequest request, HttpServletResponse response, String key, LoginToken token, int maxAge) {
 		// 保存登录信息
-		AttributeUtil.set(request, response, login.getClass().getSimpleName() + INFO, encrypt(token), maxAge);
+		AttributeUtil.set(request, response, key, encrypt(token), maxAge);
 		// 返回token
 		return token;
 	}
