@@ -59,12 +59,6 @@ public final class WebParams {
 	 */
 	public final static String	VERIFY_FONT			= Params.getString("verify.font", "Times New Roman");
 
-	/* 保存属性用 */
-	/**
-	 * 默认使用用户信息保存
-	 */
-//	public final static String	SAVE_ATTRIBUTE		= Params.getString("save.attribute", "cookie");
-
 	/* FTP使用 */
 	/**
 	 * FTP主机

@@ -13,9 +13,6 @@ import org.wdcode.common.util.EmptyUtil;
  * @version 1.0 2010-03-07
  */
 public final class AttributeUtil {
-	// 保存属性方式
-	// private final static boolean IS_COOKIE = "cookie".equalsIgnoreCase(WebParams.SAVE_ATTRIBUTE);
-
 	/**
 	 * 设置属性 如果是Cookie保存是浏览器进程
 	 * @param request Request
@@ -37,13 +34,10 @@ public final class AttributeUtil {
 	 */
 	public static void set(HttpServletRequest request, HttpServletResponse response, String key, Object value, int maxAge) {
 		// 判断使用什么方式保存属性
-		// if (IS_COOKIE) {
 		// 使用Cookie保存
 		CookieUtil.add(response, key, Conversion.toString(value), maxAge);
-		// } else {
 		// 使用Session保存
 		SessionUtil.setAttribute(RequestUtil.getSession(request), key, value);
-		// }
 	}
 
 	/**
@@ -57,8 +51,6 @@ public final class AttributeUtil {
 		Object value = CookieUtil.getCookieValue(request, key);
 		// 如果值为空 获得Session保存
 		return EmptyUtil.isEmpty(value) ? SessionUtil.getAttribute(RequestUtil.getSession(request), key) : value;
-		// return IS_COOKIE ? CookieUtil.getCookieValue(request, key) :
-		// SessionUtil.getAttribute(RequestUtil.getSession(request), key);
 	}
 
 	/**
@@ -68,14 +60,10 @@ public final class AttributeUtil {
 	 * @param key 属性键
 	 */
 	public static void remove(HttpServletRequest request, HttpServletResponse response, String key) {
-		// 判断使用什么方式保存属性
-		// if (IS_COOKIE) {
 		// 使用Cookie保存
 		CookieUtil.remove(response, key);
-		// } else {
 		// 使用Session保存
 		SessionUtil.removeAttribute(RequestUtil.getSession(request), key);
-		// }
 	}
 
 	/**

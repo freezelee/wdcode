@@ -55,7 +55,7 @@ public final class LoginEngine {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
 		// 返回token
-		return setToken(request, response, login.getClass().getSimpleName() + INFO, token, maxAge);
+		return setToken(request, response, login.getClass().getSimpleName(), token, maxAge);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class LoginEngine {
 	 */
 	public static LoginToken setToken(HttpServletRequest request, HttpServletResponse response, String key, LoginToken token, int maxAge) {
 		// 保存登录信息
-		AttributeUtil.set(request, response, key, encrypt(token), maxAge);
+		AttributeUtil.set(request, response, key + INFO, encrypt(token), maxAge);
 		// 返回token
 		return token;
 	}
