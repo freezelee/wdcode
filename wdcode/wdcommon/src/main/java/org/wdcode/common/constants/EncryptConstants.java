@@ -36,6 +36,10 @@ public final class EncryptConstants {
 	 */
 	public final static String	ALGO_DES		= "DES";
 	/**
+	 * 加密算法 3DES
+	 */
+	public final static String	ALGO_3DES		= "desede/CBC/PKCS5Padding";
+	/**
 	 * 加密算法 AES
 	 */
 	public final static String	ALGO_AES		= "AES";
