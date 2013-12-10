@@ -14,6 +14,7 @@ import org.wdcode.site.constants.SiteConstants;
 import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.AuthToken;
+import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.VerifyCodeUtil;
 
 /**
@@ -40,7 +41,9 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 父类初始化
 		super.init();
 		// 获得登录信息
-		token = LoginEngine.getLoginBean(request, response, getLoginKey());
+		if (EmptyUtil.isEmpty(token)) {
+			token = LoginEngine.getLoginBean(request, response, getLoginKey());
+		}
 		// 如果查询自己的数据 添加登录用户名
 		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
 			entity = context.getBean(module, entityClass);
@@ -56,6 +59,19 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 */
 	public AuthToken getToken() {
 		return token;
+	}
+
+	/**
+	 * 设置登录凭证
+	 * @param token
+	 */
+	public void setToken(String token) {
+		// 解析登录凭证
+		LoginToken login = LoginEngine.decrypt(token);
+		// 登录凭证不为空
+		if (!EmptyUtil.isEmpty(login)) {
+			this.token = login;
+		}
 	}
 
 	/**

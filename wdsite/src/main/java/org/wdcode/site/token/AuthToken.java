@@ -1,6 +1,7 @@
 package org.wdcode.site.token;
 
 import org.wdcode.common.interfaces.BytesBean;
+import org.wdcode.common.interfaces.Empty;
 
 /**
  * 获得当前网站用户 可获得是是否登录 和用户基本信息接口
@@ -8,7 +9,7 @@ import org.wdcode.common.interfaces.BytesBean;
  * @since JDK7
  * @version 1.0 2010-10-13
  */
-public interface AuthToken extends BytesBean {
+public interface AuthToken extends BytesBean, Empty {
 	/**
 	 * 是否登录 不验证是IP和登录时间
 	 * @return true 登录 false 未登录

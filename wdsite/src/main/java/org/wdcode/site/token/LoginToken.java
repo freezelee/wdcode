@@ -102,4 +102,9 @@ public class LoginToken implements AuthToken {
 		// 返回自身
 		return this;
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return id == 0;
+	}
 }

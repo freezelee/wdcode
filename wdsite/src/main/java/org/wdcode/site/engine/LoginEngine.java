@@ -135,6 +135,10 @@ public final class LoginEngine {
 	 * @return
 	 */
 	public static LoginToken guest(HttpServletRequest request, HttpServletResponse response, String key) {
+		// 如果游客ID已经分配到最大值 把游客ID重置
+		if (GUEST_ID == Integer.MIN_VALUE) {
+			GUEST_ID = 0;
+		}
 		// 获得游客凭证
 		LoginToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request), IpUtil.getIp());
 		// 设置游客凭证
