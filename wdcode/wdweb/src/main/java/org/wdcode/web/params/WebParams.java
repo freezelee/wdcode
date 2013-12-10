@@ -63,7 +63,7 @@ public final class WebParams {
 	/**
 	 * 默认使用用户信息保存
 	 */
-	public final static String	SAVE_ATTRIBUTE		= Params.getString("save.attribute", "cookie");
+//	public final static String	SAVE_ATTRIBUTE		= Params.getString("save.attribute", "cookie");
 
 	/* FTP使用 */
 	/**

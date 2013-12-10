@@ -85,12 +85,9 @@ public final class LoginEngine {
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
-			return guest(request, response, key);
+			return EMPTY;
 		} else {
-			// 解密登录凭证
-			LoginToken token = decrypt(info);
-			// 如果登录凭证为null返回空
-			return EMPTY.equals(token) ? guest(request, response, key) : token;
+			return decrypt(info);
 		}
 	}
 
