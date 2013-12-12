@@ -27,6 +27,11 @@ public final class Sockets {
 		SERVERS.put(name, ServerFactory.getServer(name));
 	}
 
+	/**
+	 * 获得服务器
+	 * @param name
+	 * @return
+	 */
 	public static Server getServer(String name) {
 		return SERVERS.get(name);
 	}

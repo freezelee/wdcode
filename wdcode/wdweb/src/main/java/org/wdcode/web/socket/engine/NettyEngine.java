@@ -230,8 +230,8 @@ public final class NettyEngine {
 		ChannelFuture future = FUTURE.get(name);
 		// ChannelFuture不为空
 		if (!EmptyUtil.isEmpty(future)) {
+			future.channel().disconnect();
 			future.channel().close();
-			future.cancel(false);
 			FUTURE.remove(name);
 		}
 		// 获得客户端Bootstrap
