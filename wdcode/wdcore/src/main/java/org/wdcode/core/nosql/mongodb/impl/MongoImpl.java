@@ -50,6 +50,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 			MongoOptions options = mongo.getMongoOptions();
 			options.connectionsPerHost = pool;
 			options.writeConcern = WriteConcern.UNACKNOWLEDGED;
+			options.autoConnectRetry = true;
 			options.threadsAllowedToBlockForConnectionMultiplier = pool < 100 ? 100 : pool > 1000 ? 1000 : pool;
 			db = mongo.getDB(MongoParams.getDB(key));
 			dbc = db.getCollection(MongoParams.getCollection(key));
