@@ -18,6 +18,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoOptions;
+import com.mongodb.WriteConcern;
 
 /**
  * MongoDB Dao 实现
@@ -45,9 +46,11 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		try {
 			mongo = new MongoClient(MongoParams.getHost(key), MongoParams.getPort(key));
 			// 设置连接池
+			int pool = MongoParams.getPool(key);
 			MongoOptions options = mongo.getMongoOptions();
-			options.connectionsPerHost = MongoParams.getPool(key);
-			options.threadsAllowedToBlockForConnectionMultiplier = MongoParams.getPool(key) / 10;
+			options.connectionsPerHost = pool;
+			options.writeConcern = WriteConcern.UNACKNOWLEDGED;
+			options.threadsAllowedToBlockForConnectionMultiplier = pool < 100 ? 100 : pool > 1000 ? 1000 : pool;
 			db = mongo.getDB(MongoParams.getDB(key));
 			dbc = db.getCollection(MongoParams.getCollection(key));
 			dbcs = Maps.getConcurrentMap();
