@@ -65,18 +65,6 @@ public final class MongoParams {
 	}
 
 	/**
-	 * Mongo数据库中集合名<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.collection = ? <br/>
-	 * XML: {@literal <mongo><collection>?</collection></mongo>}</h2>
-	 * @return Mongo数据库中集合名
-	 */
-	public static String getCollection(String name) {
-		return Params.getString(getKey(name, COLLECTION), name);
-	}
-
-	/**
 	 * Mongo服务器端口<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
