@@ -89,18 +89,6 @@ public final class MongoParams {
 	}
 
 	/**
-	 * Mongo服务器连接池<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.pool = ? <br/>
-	 * XML: {@literal <mongo><pool>?</pool></mongo>}</h2>
-	 * @return Mongo服务器连接池
-	 */
-	public static int getPool(String name) {
-		return Params.getInt(getKey(name, "pool"), 30);
-	}
-
-	/**
 	 * 用name替换键
 	 * @param name 名称
 	 * @param key 键
