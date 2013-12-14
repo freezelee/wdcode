@@ -61,11 +61,13 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 	 */
 	public String register() throws Exception {
 		// 注册ip
-		if (!EmptyUtil.isEmpty(user.getId())) {
-			user.setIp(getIp());
-		}
+		String ip = getIp();
+		user.setIp(ip);
+		user.setLoginIp(ip);
 		// 创建时间
-		user.setTime(DateUtil.getTime());
+		int time = DateUtil.getTime();
+		user.setTime(time);
+		user.setLoginTime(time);
 		// 是否Email验证
 		if (SiteParams.USER_VERIFY_EMAIL) {
 			// 设置状态无效
