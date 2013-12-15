@@ -4,6 +4,7 @@ import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Server;
 import org.wdcode.web.socket.mina.ServerMina;
+import org.wdcode.web.socket.netty.ServerNetty;
 
 /**
  * Socket服务器工程
@@ -30,6 +31,8 @@ public final class ServerFactory extends FactoryKey<String, Server> {
 	@Override
 	public Server newInstance(String key) {
 		switch (SocketParams.getParse(key)) {
+			case "netty":
+				return new ServerNetty(key);
 			default:
 				// 默认mina
 				return new ServerMina(key);

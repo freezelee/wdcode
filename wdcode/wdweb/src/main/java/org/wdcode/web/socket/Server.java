@@ -10,6 +10,11 @@ import org.wdcode.common.interfaces.Close;
  */
 public interface Server extends Close {
 	/**
+	 * 服务器名
+	 */
+	String getName();
+
+	/**
 	 * 添加要处理的Handler
 	 * @param h
 	 */

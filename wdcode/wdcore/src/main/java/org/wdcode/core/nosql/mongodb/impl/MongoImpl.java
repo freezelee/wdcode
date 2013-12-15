@@ -17,8 +17,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoOptions;
-import com.mongodb.WriteConcern;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.ServerAddress;
 
 /**
  * MongoDB Dao 实现
@@ -29,8 +30,8 @@ import com.mongodb.WriteConcern;
 public final class MongoImpl extends BaseNoSQL implements Mongo {
 	// MongoDB 主键常量
 	private final static String			ID	= "_id";
-	// Mongo 池连接
-	private com.mongodb.Mongo			mongo;
+	// Mongo 客户端
+	private MongoClient					client;
 	// MongoDB
 	private DB							db;
 	// 数据集合对象
@@ -44,18 +45,14 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 */
 	public MongoImpl(String key) {
 		try {
-			mongo = new MongoClient(MongoParams.getHost(key), MongoParams.getPort(key));
-			// 设置连接池
-			MongoOptions options = mongo.getMongoOptions();
-			options.setConnectionsPerHost(100);
-			options.setThreadsAllowedToBlockForConnectionMultiplier(1000);
-			options.setWriteConcern(WriteConcern.ERRORS_IGNORED);
-			options.setAutoConnectRetry(true);
-			options.setMaxWaitTime(120000);
-			options.setConnectTimeout(30000);
-			options.setSocketTimeout(30000);
-			//
-			db = mongo.getDB(MongoParams.getDB(key));
+			// Mongo 客户端
+			Builder builder = MongoClientOptions.builder();
+			builder.connectionsPerHost(100);
+			builder.threadsAllowedToBlockForConnectionMultiplier(100);
+			// 实例化客户端
+			client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), builder.build());
+			// 实例化DB
+			db = client.getDB(MongoParams.getDB(key));
 			dbc = db.getCollection(MongoParams.getCollection(key));
 			dbcs = Maps.getConcurrentMap();
 		} catch (Exception e) {
@@ -302,7 +299,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	public void close() {
 		dbc = null;
 		db = null;
-		mongo.close();
+		client.close();
 	}
 
 	/**

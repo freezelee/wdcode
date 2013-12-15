@@ -7,7 +7,7 @@ import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.wdcode.core.log.Logs;
-import org.wdcode.web.params.MinaParams;
+import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Server;
 
@@ -18,6 +18,8 @@ import org.wdcode.web.socket.Server;
  * @version 1.0 2013-11-28
  */
 public final class ServerMina implements Server {
+	// 名称
+	private String			name;
 	// SocketAcceptor
 	private SocketAcceptor	acceptor;
 	// MinaHandler
@@ -28,6 +30,8 @@ public final class ServerMina implements Server {
 	 * @param name 名称
 	 */
 	public ServerMina(String name) {
+		// 名称
+		this.name = name;
 		// 实例化handler
 		handler = new MinaHandler();
 		// 注册Mina Nio端口接收
@@ -53,7 +57,7 @@ public final class ServerMina implements Server {
 		// 绑定Mina服务器管理模块
 		acceptor.setHandler(handler);
 		// 绑定服务器数据监听端口，启动服务器
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(MinaParams.getPort(name)));
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(SocketParams.getPort(name)));
 
 	}
 
@@ -80,5 +84,10 @@ public final class ServerMina implements Server {
 	@Override
 	public void close() {
 		acceptor.dispose();
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 }

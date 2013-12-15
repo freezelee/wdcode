@@ -71,8 +71,6 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 		// 登录凭证不为空
 		if (!EmptyUtil.isEmpty(login)) {
 			this.token = login;
-			// 重写身份
-			LoginEngine.setToken(request, response, getLoginKey(), login, getLoginTime());
 		}
 	}
 

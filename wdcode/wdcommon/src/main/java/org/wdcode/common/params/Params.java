@@ -139,6 +139,16 @@ public final class Params {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
+	public static int getInt(String key) {
+		return Conversion.toInt(getProperty(key, 0));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
 	public static int getInt(String key, int defaultValue) {
 		return Conversion.toInt(getProperty(key, defaultValue));
 	}

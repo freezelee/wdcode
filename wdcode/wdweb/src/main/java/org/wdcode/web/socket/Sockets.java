@@ -24,7 +24,15 @@ public final class Sockets {
 	 * @param name 名称
 	 */
 	public static void addServer(String name) {
-		SERVERS.put(name, ServerFactory.getServer(name));
+		addServer(ServerFactory.getServer(name));
+	}
+
+	/**
+	 * 添加服务器
+	 * @param name 名称
+	 */
+	public static void addServer(Server server) {
+		SERVERS.put(server.getName(), server);
 	}
 
 	/**

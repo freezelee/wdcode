@@ -1,6 +1,5 @@
 package org.wdcode.web.params;
 
-import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.params.Params;
 
 /**
@@ -11,36 +10,7 @@ import org.wdcode.common.params.Params;
  */
 public final class SocketParams {
 	/* Socket使用 */
-	private final static String	PREFIX; // 前缀
-	private final static String	HOST;	// 主机
-	private final static String	PORT;	// 端口
-	private final static String	PARSE;	// 解析
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		/* Socket使用 */
-		PREFIX = "socket"; // 前缀
-		HOST = "host"; // 主机
-		PORT = "port"; // 端口
-		PARSE = "parse"; // 解析
-	}
-
-	/* Socket使用 */
-	private static String		host;	// 主机
-	private static int			port;	// 端口
-	private static String		parse;	// 解析
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		/* Socket使用 */
-		host = StringConstants.EMPTY; // 主机
-		port = 0; // 端口
-		parse = "nio"; // 解析
-	}
+	private final static String	PREFIX	= "socket"; // 前缀
 
 	/**
 	 * 获得Socket使用解析包<br/>
@@ -51,7 +21,7 @@ public final class SocketParams {
 	 * @return 获得Socket使用解析包
 	 */
 	public static String getParse(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, PARSE), parse);
+		return Params.getString(Params.getKey(PREFIX, name, "parse"));
 	}
 
 	/**
@@ -63,7 +33,7 @@ public final class SocketParams {
 	 * @return 获得Socket连接服务器
 	 */
 	public static String getHost(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, HOST), host);
+		return Params.getString(Params.getKey(PREFIX, name, "host"));
 	}
 
 	/**
@@ -75,7 +45,7 @@ public final class SocketParams {
 	 * @return 获得Socket连接端口
 	 */
 	public static int getPort(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, PORT), port);
+		return Params.getInt(Params.getKey(PREFIX, name, "port"));
 	}
 
 	/**
