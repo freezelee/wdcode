@@ -61,9 +61,11 @@ public class UserAction<E extends Entity, U extends EntityUser> extends LoginAct
 	 */
 	public String register() throws Exception {
 		// 注册ip
-		String ip = getIp();
-		user.setIp(ip);
-		user.setLoginIp(ip);
+		if (EmptyUtil.isEmpty(user.getIp())) {
+			String ip = getIp();
+			user.setIp(ip);
+			user.setLoginIp(ip);
+		}
 		// 创建时间
 		int time = DateUtil.getTime();
 		user.setTime(time);
