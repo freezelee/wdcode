@@ -198,7 +198,15 @@ public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperA
 	 * @return 获得登录凭证
 	 */
 	public String verifyToken() throws Exception {
-		return callback(LoginEngine.decrypt(Conversion.toString(key)));
+		return callback(token = LoginEngine.decrypt(Conversion.toString(key)));
+	}
+
+	/**
+	 * 获得登录凭证
+	 * @return 获得登录凭证
+	 */
+	public String tokenUser() throws Exception {
+		return callback(user = (U) service.get(getUser().getClass(), token.getId()));
 	}
 
 	/**
