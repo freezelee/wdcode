@@ -5,8 +5,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import org.wdcode.common.params.CommonParams; 
+import org.wdcode.common.interfaces.BytesBean;
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
+import org.wdcode.web.socket.Codec;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Server;
 
@@ -64,7 +66,10 @@ public class ServerNetty implements Server {
 	}
 
 	@Override
-	public void addHandler(Handler h) {}
+	public void addHandler(Handler<BytesBean> h) {}
+
+	@Override
+	public void addCodec(Codec<BytesBean> codec) {}
 
 	@Override
 	public void start() {

@@ -6,8 +6,10 @@ import java.net.InetSocketAddress;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.core.log.Logs;
 import org.wdcode.web.params.SocketParams;
+import org.wdcode.web.socket.Codec;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Server;
 
@@ -65,8 +67,16 @@ public final class ServerMina implements Server {
 	 * 添加要处理的Handler
 	 * @param h
 	 */
-	public void addHandler(Handler h) {
+	public void addHandler(Handler<BytesBean> h) {
 		handler.addHandler(h);
+	}
+
+	/**
+	 * 添加编码解码器
+	 * @param codec
+	 */
+	public void addCodec(Codec<BytesBean> codec) {
+		handler.addCodec(codec);
 	}
 
 	/**

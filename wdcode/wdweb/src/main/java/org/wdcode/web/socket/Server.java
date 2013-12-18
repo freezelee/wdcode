@@ -1,5 +1,6 @@
 package org.wdcode.web.socket;
 
+import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.common.interfaces.Close;
 
 /**
@@ -18,7 +19,13 @@ public interface Server extends Close {
 	 * 添加要处理的Handler
 	 * @param h
 	 */
-	void addHandler(Handler h);
+	void addHandler(Handler<BytesBean> h);
+
+	/**
+	 * 添加编码解码器
+	 * @param codec
+	 */
+	public void addCodec(Codec<BytesBean> codec);
 
 	/**
 	 * 启动服务器监听
