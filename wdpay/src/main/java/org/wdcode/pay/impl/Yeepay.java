@@ -28,6 +28,6 @@ public final class Yeepay extends BaseOnlinePay {
 
 	@Override
 	protected String getUrl() {
-		return "http://www.yeepay.com/";
+		return "https://www.yeepay.com/app-merchant-proxy/node";
 	}
 }
