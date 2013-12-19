@@ -1,5 +1,6 @@
 package org.wdcode.pay.params;
 
+import org.wdcode.common.constants.EncodingConstants;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.common.params.Params;
@@ -33,18 +34,29 @@ public final class PayParams {
 	/**
 	 * 合作身份者ID
 	 */
-
 	public final static String	PAY_TENPAY_ID		= Params.getString("pay.tenpay.id");
-	
 	/**
 	 * 密钥
 	 */
-	public final static String	PAY_TENPAY_KEY		= Params.getString("pay.tenpay.key"); 
+	public final static String	PAY_TENPAY_KEY		= Params.getString("pay.tenpay.key");
 	/**
 	 * 编码类型
 	 */
-
 	public final static String	PAY_TENPAY_CHARSET	= Params.getString("pay.tenpay.charset", CommonParams.ENCODING);
+
+	/* 易宝 */
+	/**
+	 * 合作身份者ID
+	 */
+	public final static String	PAY_YEEPAY_ID		= Params.getString("pay.yeepay.id");
+	/**
+	 * 密钥
+	 */
+	public final static String	PAY_YEEPAY_KEY		= Params.getString("pay.yeepay.key");
+	/**
+	 * 编码类型
+	 */
+	public final static String	PAY_YEEPAY_CHARSET	= Params.getString("pay.yeepay.charset", EncodingConstants.UTF_8);
 
 	/**
 	 * 私有构造

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/12/2 10:00:06                           */
+/* Created on:     2013/12/19 17:19:00                          */
 /*==============================================================*/
 
 
@@ -16,8 +16,7 @@ create table logs_login
    time                 int,
    state                tinyint,
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 /*==============================================================*/
 /* Index: Index_Date                                            */
@@ -67,8 +66,7 @@ create table logs_page
    user_agent           varchar(200),
    language             varchar(50),
    primary key (id)
-)
-ENGINE = MYISAM;
+);
 
 /*==============================================================*/
 /* Index: Index_Date                                            */
@@ -91,8 +89,7 @@ create table statistics_login
    last_time            int comment '手机',
    last_ip              char(15) comment '电话',
    primary key (user_id)
-)
-ENGINE = MYISAM;
+);
 
 alter table statistics_login comment '用户信息表';
 
@@ -115,8 +112,7 @@ create table statistics_page
    time                 int,
    ip                   char(15),
    primary key (page)
-)
-ENGINE = MYISAM;
+);
 
 alter table statistics_page comment '用户信息表';
 

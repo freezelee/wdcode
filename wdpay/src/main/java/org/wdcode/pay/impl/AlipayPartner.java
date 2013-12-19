@@ -2,6 +2,8 @@ package org.wdcode.pay.impl;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.base.BaseOnlinePay;
 import org.wdcode.pay.bean.PayBean;
@@ -31,15 +33,16 @@ public final class AlipayPartner extends BaseOnlinePay {
 
 	@Override
 	protected Map<String, String> getParameters(PayBean pay) {
-		// 设置提交参数
-		Map<String, String> data = super.getParameters(pay);
-		data.put("service", "create_partner_trade_by_buyer");
-		// 返回参数
-		return data;
+		return null;
 	}
 
 	@Override
 	protected String getUrl() {
 		return "https://mapi.alipay.com/gateway.do";
+	}
+
+	@Override
+	public String trade(HttpServletRequest request) {
+		return null;
 	}
 }

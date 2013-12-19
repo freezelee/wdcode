@@ -1,7 +1,12 @@
 package org.wdcode.pay.impl;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.base.BaseOnlinePay;
+import org.wdcode.pay.bean.PayBean;
 
 /**
  * 快钱
@@ -29,5 +34,15 @@ public final class Pay99bill extends BaseOnlinePay {
 	@Override
 	protected String getUrl() {
 		return "https://www.99bill.com/";
+	}
+
+	@Override
+	public String trade(HttpServletRequest request) {
+		return null;
+	}
+
+	@Override
+	protected Map<String, String> getParameters(PayBean pay) {
+		return null;
 	}
 }

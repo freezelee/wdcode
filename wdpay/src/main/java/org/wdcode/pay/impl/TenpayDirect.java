@@ -1,7 +1,12 @@
 package org.wdcode.pay.impl;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.base.BaseOnlinePay;
+import org.wdcode.pay.bean.PayBean;
 
 /**
  * 财付通（即时交易）
@@ -29,5 +34,15 @@ public final class TenpayDirect extends BaseOnlinePay {
 	@Override
 	protected String getUrl() {
 		return "https://gw.tenpay.com/gateway/pay.htm";
+	}
+
+	@Override
+	public String trade(HttpServletRequest request) {
+		return null;
+	}
+
+	@Override
+	protected Map<String, String> getParameters(PayBean pay) {
+		return null;
 	}
 }
