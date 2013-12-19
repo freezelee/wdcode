@@ -5,12 +5,12 @@ import java.util.Map;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
-import org.wdcode.common.interfaces.BytesBean;
+import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.ClassUtil;
-import org.wdcode.web.socket.Codec;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.message.Message;
 
 /**
  * mina实现
@@ -20,28 +20,18 @@ import org.wdcode.web.socket.Session;
  */
 public final class MinaHandler extends IoHandlerAdapter {
 	// Handler列表
-	private Map<Integer, Handler<BytesBean>>	handlers	= Maps.getConcurrentMap();
+	private Map<Integer, Handler<Message>>	handlers	= Maps.getConcurrentMap();
 	// 保存Session
-	private Map<Long, Session>					sessions	= Maps.getConcurrentMap();
+	private Map<Long, Session>				sessions	= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
-	private Map<Long, IoBuffer>					buffers		= Maps.getConcurrentMap();
-	// 编码解码器
-	private Map<Class<?>, Codec<BytesBean>>		codecs		= Maps.getConcurrentMap();
+	private Map<Long, IoBuffer>				buffers		= Maps.getConcurrentMap();
 
 	/**
 	 * 添加要处理的Handler
 	 * @param handler
 	 */
-	public void addHandler(Handler<BytesBean> handler) {
+	public void addHandler(Handler<Message> handler) {
 		handlers.put(handler.getId(), handler);
-	}
-
-	/**
-	 * 添加编码解码器
-	 * @param codec
-	 */
-	public void addCodec(Codec<BytesBean> codec) {
-		codecs.put(ClassUtil.getGenericClass(codec.getClass(), 0), codec);
 	}
 
 	@Override
@@ -71,15 +61,15 @@ public final class MinaHandler extends IoHandlerAdapter {
 				// 读取指令id
 				int id = io.getInt();
 				// 获得相应的
-				Handler<BytesBean> handler = handlers.get(id);
-				// 获得相对的编码解码器
-				Codec<BytesBean> codec = codecs.get(ClassUtil.getGenericClass(handler.getClass(), 0));
+				Handler<Message> handler = handlers.get(id);
 				// 读取指定长度的字节数
 				byte[] data = new byte[length - 4];
 				// 读取指定长度字节数组
 				io.get(data);
 				// 解码并发布到相对的处理器
-				handler.handler(getSesson(session), codec.decode(data));
+				Message mess = (Message) ClassUtil.newInstance(ClassUtil.getGenericClass(handler.getClass(), 0));
+				mess.toBean(data);
+				handler.handler(getSesson(session), mess);
 				// 如果缓存区为空
 				if (io.remaining() == 0) {
 					// 清除并跳出
@@ -95,7 +85,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
-		super.messageSent(session, message);
+		session.write(IoBuffer.wrap(Bytes.toBytes(message)));
 	}
 
 	/**
@@ -109,7 +99,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			sessions.put(session.getId(), s = new SessionMina(session));
+			sessions.put(session.getId(), s = new MinaSession(session));
 		}
 		// 返回
 		return s;

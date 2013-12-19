@@ -106,6 +106,12 @@ public final class Bytes {
 		} else if (obj instanceof Short) {
 			// Short
 			b = toBytes(Conversion.toShort(obj));
+		} else if (obj instanceof Byte) {
+			// Short
+			b = new byte[] { Conversion.toByte(obj) };
+		} else if (obj instanceof Boolean) {
+			// Short
+			b = new byte[] { (byte) (Conversion.toBoolean(obj) ? 1 : 0) };
 		} else if (obj instanceof String) {
 			// String
 			b = toBytes(Conversion.toString(obj));
@@ -170,6 +176,42 @@ public final class Bytes {
 	 */
 	public static int toInt(byte[] b) {
 		return toInt(b, 0);
+	}
+
+	/**
+	 * 把字节数组转换成int
+	 * @param b 字节数组
+	 * @return int
+	 */
+	public static byte toByte(byte[] b) {
+		return toByte(b, 0);
+	}
+
+	/**
+	 * 把字节数组转换成int
+	 * @param b 字节数组
+	 * @return int
+	 */
+	public static byte toByte(byte[] b, int offset) {
+		return copy(b, offset, offset + 1)[0];
+	}
+
+	/**
+	 * 把字节数组转换成int
+	 * @param b 字节数组
+	 * @return int
+	 */
+	public static boolean toBoolean(byte[] b) {
+		return toBoolean(b, 0);
+	}
+
+	/**
+	 * 把字节数组转换成int
+	 * @param b 字节数组
+	 * @return int
+	 */
+	public static boolean toBoolean(byte[] b, int offset) {
+		return copy(b, offset, offset + 1)[0] == 1;
 	}
 
 	/**
@@ -436,7 +478,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s) {
-		return StringUtil.toBytes(s);
+		return toBytes(s.length(), StringUtil.toBytes(s));
 	}
 
 	/**
@@ -446,7 +488,7 @@ public final class Bytes {
 	 * @return long
 	 */
 	public static String toString(byte[] b) {
-		return StringUtil.toString(b);
+		return toString(b, 0);
 	}
 
 	/**
@@ -456,18 +498,18 @@ public final class Bytes {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset) {
-		return toString(b, offset, b.length - offset);
+		return StringUtil.toString(copy(b, offset + 4, offset + 4 + toInt(b, offset)));
 	}
 
 	/**
-	 * 把字节数组转换成字符串
+	 * 拷贝字节数组
 	 * @param b 字节数组
 	 * @param offset 偏移
-	 * @param length 长度
-	 * @return 字符串
+	 * @param len 长度
+	 * @return 字节数组
 	 */
-	public static String toString(byte[] b, int offset, int length) {
-		return StringUtil.toString(Arrays.copyOfRange(b, offset, offset + length));
+	public static byte[] copy(byte[] b, int offset, int len) {
+		return Arrays.copyOfRange(b, offset, len);
 	}
 
 	/**

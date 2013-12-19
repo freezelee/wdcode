@@ -143,6 +143,24 @@ public final class BeanUtil {
 	}
 
 	/**
+	 * 获得本类下所有字段值
+	 * @param obj
+	 * @return
+	 */
+	public static List<Object> getFieldValues(Object obj) {
+		// 获得所有字段
+		List<Field> fields = getFields(obj.getClass());
+		// 声明值列表
+		List<Object> values = Lists.getList(fields.size());
+		// 循环赋值
+		for (Field field : fields) {
+			values.add(getFieldValue(obj, field.getName()));
+		}
+		// 返回值列表
+		return values;
+	}
+
+	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * @param object 调用的对象
 	 * @param fieldName 属性名

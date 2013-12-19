@@ -1,6 +1,6 @@
 package org.wdcode.web.socket;
 
-import org.wdcode.common.interfaces.BytesBean;
+import org.wdcode.web.socket.message.Message;
 
 /**
  * Socket 处理器
@@ -8,7 +8,7 @@ import org.wdcode.common.interfaces.BytesBean;
  * @since JDK7
  * @version 1.0 2013-11-28
  */
-public interface Handler<E extends BytesBean> {
+public interface Handler<E extends Message> {
 	/**
 	 * 处理消息ID
 	 * @return

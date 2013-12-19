@@ -1,6 +1,7 @@
 package org.wdcode.web.socket;
 
 import org.wdcode.common.interfaces.Close;
+import org.wdcode.web.socket.message.Message;
 
 /**
  * Socket Session
@@ -11,7 +12,7 @@ import org.wdcode.common.interfaces.Close;
 public interface Session extends Close {
 	/**
 	 * 写入数据
-	 * @param b
+	 * @param message
 	 */
-	public void write(byte[] b);
+	public void write(Message message);
 }

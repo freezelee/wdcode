@@ -5,12 +5,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Codec;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Server;
+import org.wdcode.web.socket.message.Message;
 
 /**
  * netty实现
@@ -18,7 +17,7 @@ import org.wdcode.web.socket.Server;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-public class ServerNetty implements Server {
+public class NettyServer implements Server {
 	// 名称
 	private String			name;
 	// Netty ServerBootstrap
@@ -30,7 +29,7 @@ public class ServerNetty implements Server {
 	 * 构造函数
 	 * @param name 名称
 	 */
-	public ServerNetty(String name) {
+	public NettyServer(String name) {
 		// 名称
 		this.name = name;
 		// NettyHandler
@@ -66,13 +65,10 @@ public class ServerNetty implements Server {
 	}
 
 	@Override
-	public void addHandler(Handler<BytesBean> h) {}
+	public void addHandler(Handler<Message> h) {}
 
 	@Override
-	public void addCodec(Codec<BytesBean> codec) {}
-
-	@Override
-	public void start() {
+	public void bind() {
 		bootstrap.bind();
 	}
 }

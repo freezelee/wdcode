@@ -3,6 +3,7 @@ package org.wdcode.web.socket;
 import java.util.Map;
 
 import org.wdcode.common.lang.Maps;
+import org.wdcode.web.socket.factory.ClientFactory;
 import org.wdcode.web.socket.factory.ServerFactory;
 
 /**
@@ -14,9 +15,12 @@ import org.wdcode.web.socket.factory.ServerFactory;
 public final class Sockets {
 	// 保存SocketServer
 	private final static Map<String, Server>	SERVERS;
+	// 保存SocketClient
+	private final static Map<String, Client>	CLIENTS;
 
 	static {
 		SERVERS = Maps.getConcurrentMap();
+		CLIENTS = Maps.getConcurrentMap();
 	}
 
 	/**
@@ -36,6 +40,22 @@ public final class Sockets {
 	}
 
 	/**
+	 * 添加客户端
+	 * @param name 名称
+	 */
+	public static void addClient(String name) {
+		addClient(ClientFactory.getClient(name));
+	}
+
+	/**
+	 * 添加客户端
+	 * @param name 名称
+	 */
+	public static void addClient(Client client) {
+		CLIENTS.put(client.getName(), client);
+	}
+
+	/**
 	 * 获得服务器
 	 * @param name
 	 * @return
@@ -50,7 +70,11 @@ public final class Sockets {
 	public static void start() {
 		// 启动服务器
 		for (Server server : SERVERS.values()) {
-			server.start();
+			server.bind();
+		}
+		// 启动客户端
+		for (Client client : CLIENTS.values()) {
+			client.connect();
 		}
 	}
 

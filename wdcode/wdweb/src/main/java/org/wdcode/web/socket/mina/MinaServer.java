@@ -6,12 +6,11 @@ import java.net.InetSocketAddress;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
-import org.wdcode.common.interfaces.BytesBean;
 import org.wdcode.core.log.Logs;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Codec;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Server;
+import org.wdcode.web.socket.message.Message;
 
 /**
  * mina实现
@@ -19,7 +18,7 @@ import org.wdcode.web.socket.Server;
  * @since JDK7
  * @version 1.0 2013-11-28
  */
-public final class ServerMina implements Server {
+public final class MinaServer implements Server {
 	// 名称
 	private String			name;
 	// SocketAcceptor
@@ -31,7 +30,7 @@ public final class ServerMina implements Server {
 	 * 构造方法
 	 * @param name 名称
 	 */
-	public ServerMina(String name) {
+	public MinaServer(String name) {
 		// 名称
 		this.name = name;
 		// 实例化handler
@@ -67,22 +66,14 @@ public final class ServerMina implements Server {
 	 * 添加要处理的Handler
 	 * @param h
 	 */
-	public void addHandler(Handler<BytesBean> h) {
+	public void addHandler(Handler<Message> h) {
 		handler.addHandler(h);
-	}
-
-	/**
-	 * 添加编码解码器
-	 * @param codec
-	 */
-	public void addCodec(Codec<BytesBean> codec) {
-		handler.addCodec(codec);
 	}
 
 	/**
 	 * 启动服务器监听
 	 */
-	public void start() {
+	public void bind() {
 		// 绑定端口并启动
 		try {
 			acceptor.bind();

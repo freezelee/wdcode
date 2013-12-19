@@ -144,7 +144,7 @@ public final class MinaEngine {
 			try {
 				acceptor.bind();
 			} catch (IOException e) {
-				Logs.error(e);
+				Logs.warn(e);
 			}
 		}
 		// 客户端启动
