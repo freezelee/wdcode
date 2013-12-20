@@ -10,8 +10,25 @@ import org.wdcode.common.lang.Bytes;
  * @version 1.0 2013-12-19
  */
 public final class MessageBytes extends Message {
+	// 指令
+	private int		id;
 	// 数据流
 	private byte[]	data;
+
+	/**
+	 * 构造
+	 */
+	public MessageBytes() {}
+
+	/**
+	 * 构造
+	 * @param id
+	 * @param data
+	 */
+	public MessageBytes(int id, byte[] data) {
+		this.id = id;
+		this.data = data;
+	}
 
 	@Override
 	public byte[] toBytes() {
@@ -20,8 +37,7 @@ public final class MessageBytes extends Message {
 
 	@Override
 	public BytesBean toBean(byte[] b) {
-		this.id = Bytes.toInt(b);
-		this.data = Bytes.copy(b, 4, b.length - 4);
+		this.data = b;
 		return this;
 	}
 
@@ -39,5 +55,10 @@ public final class MessageBytes extends Message {
 	 */
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	@Override
+	public int getId() {
+		return id;
 	}
 }

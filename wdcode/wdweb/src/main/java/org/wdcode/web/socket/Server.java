@@ -19,7 +19,7 @@ public interface Server extends Close {
 	 * 添加要处理的Handler
 	 * @param h
 	 */
-	void addHandler(Handler<Message> h);
+	void addHandler(Handler<? extends Message> h);
 
 	/**
 	 * 启动服务器监听

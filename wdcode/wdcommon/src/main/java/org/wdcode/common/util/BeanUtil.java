@@ -189,6 +189,25 @@ public final class BeanUtil {
 	}
 
 	/**
+	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
+	 * @param object 调用的对象
+	 * @param field 字段
+	 * @return 属性值
+	 */
+	public static Object getFieldValue(Object object, Field field) {
+		// 判断字段为空 返回null
+		if (EmptyUtil.isEmpty(field)) {
+			return null;
+		}
+		try {
+			// 获得字段值
+			return makeAccessible(field).get(object);
+		} catch (IllegalAccessException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {

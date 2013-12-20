@@ -3,6 +3,7 @@ package org.wdcode.pay.impl;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.base.BaseOnlinePay;
@@ -42,7 +43,7 @@ public final class AlipayPartner extends BaseOnlinePay {
 	}
 
 	@Override
-	public String trade(HttpServletRequest request) {
+	public String trade(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package org.wdcode.pay.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.pay.bean.PayBean;
 
@@ -51,7 +52,8 @@ public interface Pay {
 	/**
 	 * 支付返回调用方法 用着在线支付才会使用
 	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 * @return 如果交易成功返回订单号 如果失败返回''
 	 */
-	String trade(HttpServletRequest request);
+	String trade(HttpServletRequest request, HttpServletResponse response);
 }

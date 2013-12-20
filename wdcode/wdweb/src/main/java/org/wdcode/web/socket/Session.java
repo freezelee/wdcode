@@ -15,4 +15,11 @@ public interface Session extends Close {
 	 * @param message
 	 */
 	public void write(Message message);
+
+	/**
+	 * 写入数据
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	public void write(int id, Object message);
 }

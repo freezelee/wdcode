@@ -1,6 +1,7 @@
 package org.wdcode.pay.impl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.pay.bean.PayBean; 
@@ -45,7 +46,7 @@ public final class Offline implements Pay {
 	}
 
 	@Override
-	public String trade(HttpServletRequest request) {
+	public String trade(HttpServletRequest request, HttpServletResponse response) {
 		return null;
 	}
 }

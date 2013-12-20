@@ -210,8 +210,8 @@ public final class MinaEngine {
 		ConnectFuture future = FUTURE.get(name);
 		// 判断acceptor不为空
 		if (!EmptyUtil.isEmpty(future)) {
-			// 关闭future
-			future.getSession().close(false);
+			// 关闭Session
+			future.getSession().close(false).awaitUninterruptibly();
 			// 删除Map中的引用
 			FUTURE.remove(name);
 		}

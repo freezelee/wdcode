@@ -3,6 +3,7 @@ package org.wdcode.pay.impl;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.common.constants.StringConstants;
@@ -48,7 +49,7 @@ public final class AlipayDirect extends BaseOnlinePay {
 	}
 
 	@Override
-	public String trade(HttpServletRequest request) {
+	public String trade(HttpServletRequest request, HttpServletResponse response) {
 		// 交易状态
 		String tradeStatus = RequestUtil.getParameter(request, "trade_status");
 		// 通知校验ID
@@ -56,9 +57,9 @@ public final class AlipayDirect extends BaseOnlinePay {
 		// 通知校验码
 		String sign = RequestUtil.getParameter(request, "sign");
 		// 计算出校验码
-		String mysign = StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(RequestUtil.getParameters(request)) + PayParams.PAY_ALIPAY_KEY, PayParams.PAY_ALIPAY_CHARSET), PayParams.PAY_ALIPAY_SIGNTYPE));
+		String mysign = StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(RequestUtil.getParameters(request)) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
 		// 校验URL
-		String veryfyUrl = PayConstants.PAY_ALIPAY_VERIFY_URL + PayConstants.PAY_ALIPAY_KEY_PARTNER + StringConstants.EQ + PayParams.PAY_ALIPAY_ID + StringConstants.AMP + PayConstants.PAY_KEY_NOTIFY_ID + StringConstants.EQ + notifyId;
+		String veryfyUrl = PayConstants.PAY_ALIPAY_VERIFY_URL + PayConstants.PAY_ALIPAY_KEY_PARTNER + StringConstants.EQ + PayParams.ALIPAY_ID + StringConstants.AMP + PayConstants.PAY_KEY_NOTIFY_ID + StringConstants.EQ + notifyId;
 		// 获得交易网站验证
 		boolean verifyResponse = Conversion.toBoolean(HttpEngine.get(veryfyUrl));
 		// 获得交易状态
@@ -76,10 +77,10 @@ public final class AlipayDirect extends BaseOnlinePay {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
 		data.put("service", "create_direct_pay_by_user");
-		data.put("partner", PayParams.PAY_ALIPAY_ID);
-		data.put("return_url", pay.getReturnUrl());
-		data.put("notify_url", pay.getNotifyUrl());
-		data.put("_input_charset", PayParams.PAY_ALIPAY_CHARSET);
+		data.put("partner", PayParams.ALIPAY_ID);
+		data.put("return_url", PayParams.REDIRECT);
+		data.put("notify_url", PayParams.REDIRECT);
+		data.put("_input_charset", PayParams.ALIPAY_CHARSET);
 		data.put("payment_type", "1");
 		data.put("out_trade_no", pay.getNo());
 		data.put("subject", pay.getSubject());
@@ -87,7 +88,7 @@ public final class AlipayDirect extends BaseOnlinePay {
 		data.put("total_fee", MathUtil.scale(pay.getTotal(), 2).toPlainString());
 		data.put("paymethod", "post");
 		data.put("sign", sign(data));
-		data.put("sign_type", PayParams.PAY_ALIPAY_SIGNTYPE);
+		data.put("sign_type", PayParams.ALIPAY_SIGNTYPE);
 		// 返回参数列表
 		return data;
 	}
@@ -98,6 +99,6 @@ public final class AlipayDirect extends BaseOnlinePay {
 	 * @return 签名
 	 */
 	protected String sign(Map<String, String> data) {
-		return StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.PAY_ALIPAY_KEY, PayParams.PAY_ALIPAY_CHARSET), PayParams.PAY_ALIPAY_SIGNTYPE));
+		return StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
 	}
 }

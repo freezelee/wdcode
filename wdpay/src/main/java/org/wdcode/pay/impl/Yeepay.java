@@ -1,5 +1,6 @@
 package org.wdcode.pay.impl;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -7,15 +8,19 @@ import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.common.codec.Hex;
+import org.wdcode.common.constants.EncodingConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.pay.base.BaseOnlinePay;
 import org.wdcode.pay.bean.PayBean;
 import org.wdcode.pay.params.PayParams;
+import org.wdcode.web.util.RequestUtil;
 
 /**
  * 易宝支付
@@ -41,58 +46,55 @@ public final class Yeepay extends BaseOnlinePay {
 	}
 
 	@Override
-	public String trade(HttpServletRequest request) {
-		// // 商家密钥
-		// String keyValue = PayParams.PAY_YEEPAY_KEY;
-		// // 业务类型
-		// String r0_Cmd = formatString(request.getParameter("r0_Cmd"));
-		// // 商户编号
-		// String p1_MerId = formatString(Configuration.getInstance().getValue("p1_MerId"));
-		// // 支付结果
-		// String r1_Code = formatString(request.getParameter("r1_Code"));
-		// // 易宝支付交易流水号
-		// String r2_TrxId = formatString(request.getParameter("r2_TrxId"));
-		// // 支付金额
-		// String r3_Amt = formatString(request.getParameter("r3_Amt"));
-		// // 交易币种
-		// String r4_Cur = formatString(request.getParameter("r4_Cur"));
-		// // 商品名称
-		// String r5_Pid = new
-		// String(formatString(request.getParameter("r5_Pid")).getBytes("iso-8859-1"), "gbk");
-		// // 商户订单号
-		// String r6_Order = formatString(request.getParameter("r6_Order"));
-		// // 易宝支付会员ID
-		// String r7_Uid = formatString(request.getParameter("r7_Uid"));
-		// // 商户扩展信息
-		// String r8_MP = new
-		// String(formatString(request.getParameter("r8_MP")).getBytes("iso-8859-1"), "gbk");
-		// // 交易结果返回类型
-		// String r9_BType = formatString(request.getParameter("r9_BType"));
-		// // 签名数据
-		// String hmac = formatString(request.getParameter("hmac"));
-		// boolean isOK = false;
-		// // 校验返回数据包
-		// isOK = PaymentForOnlineService.verifyCallback(hmac, p1_MerId, r0_Cmd, r1_Code, r2_TrxId,
-		// r3_Amt, r4_Cur, r5_Pid, r6_Order, r7_Uid, r8_MP, r9_BType, keyValue);
-		// if (isOK) {
-		// // 在接收到支付结果通知后，判断是否进行过业务逻辑处理，不要重复进行业务逻辑处理
-		// if (r1_Code.equals("1")) {
-		// // 产品通用接口支付成功返回-浏览器重定向
-		// if (r9_BType.equals("1")) {
-		// out.println("callback方式:产品通用接口支付成功返回-浏览器重定向");
-		// // 产品通用接口支付成功返回-服务器点对点通讯
-		// } else if (r9_BType.equals("2")) {
-		// // 如果在发起交易请求时 设置使用应答机制时，必须应答以"success"开头的字符串，大小写不敏感
-		// out.println("SUCCESS");
-		// // 产品通用接口支付成功返回-电话支付返回
-		// }
-		// // 下面页面输出是测试时观察结果使用
-		// out.println("<br>交易成功!<br>商家订单号:" + r6_Order + "<br>支付金额:" + r3_Amt + "<br>易宝支付交易流水号:" +
-		// r2_TrxId);
-		// }
-		// } else {
-		// out.println("交易签名被篡改!");
-		// }
+	public String trade(HttpServletRequest request, HttpServletResponse response) {
+		// 商家密钥
+		String keyValue = PayParams.YEEPAY_KEY;
+		// 业务类型
+		String r0_Cmd = RequestUtil.getParameter(request, "r0_Cmd");
+		// 商户编号
+		String p1_MerId = PayParams.YEEPAY_ID;
+		// 支付结果
+		String r1_Code = RequestUtil.getParameter(request, "r1_Code");
+		// 易宝支付交易流水号
+		String r2_TrxId = RequestUtil.getParameter(request, "r2_TrxId");
+		// 支付金额
+		String r3_Amt = RequestUtil.getParameter(request, "r3_Amt");
+		// 交易币种
+		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
+		// 商品名称
+		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, EncodingConstants.GBK);
+		// 商户订单号
+		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
+		// 易宝支付会员ID
+		String r7_Uid = RequestUtil.getParameter(request, "r7_Uid");
+		// 商户扩展信息
+		String r8_MP = RequestUtil.getParameter(request, "r8_MP");
+		// 交易结果返回类型
+		String r9_BType = RequestUtil.getParameter(request, "r9_BType");
+		// 签名数据
+		String hmac = RequestUtil.getParameter(request, "hmac");
+		boolean isOK = false;
+		// 校验返回数据包
+		isOK = verifyCallback(hmac, p1_MerId, r0_Cmd, r1_Code, r2_TrxId, r3_Amt, r4_Cur, r5_Pid, r6_Order, r7_Uid, r8_MP, r9_BType, keyValue);
+		if (isOK) {
+			// 在接收到支付结果通知后，判断是否进行过业务逻辑处理，不要重复进行业务逻辑处理
+			if (r1_Code.equals("1")) {
+				// 产品通用接口支付成功返回-浏览器重定向
+				if (r9_BType.equals("1")) {
+					// "callback方式:产品通用接口支付成功返回-浏览器重定向"
+					// 产品通用接口支付成功返回-服务器点对点通讯
+				} else if (r9_BType.equals("2")) {
+					// 如果在发起交易请求时 设置使用应答机制时，必须应答以"success"开头的字符串，大小写不敏感
+					try {
+						response.getWriter().println("SUCCESS");
+					} catch (IOException e) {}
+					// 产品通用接口支付成功返回-电话支付返回
+				}
+				// 下面页面输出是测试时观察结果使用
+				return r6_Order;
+			}
+		}
+		// 返回空
 		return null;
 	}
 
@@ -101,16 +103,16 @@ public final class Yeepay extends BaseOnlinePay {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
 		data.put("p0_Cmd", "Buy");
-		data.put("p1_MerId", PayParams.PAY_YEEPAY_ID);
+		data.put("p1_MerId", PayParams.YEEPAY_ID);
 		data.put("p2_Order", pay.getNo());
 		data.put("p3_Amt", MathUtil.scale(pay.getTotal(), 2).toPlainString());
 		data.put("p4_Cur", "CNY");
 		data.put("p5_Pid", pay.getSubject());
 		data.put("p6_Pcat", StringConstants.EMPTY);
 		data.put("p7_Pdesc", pay.getBody());
-		data.put("p8_Url", pay.getReturnUrl());
+		data.put("p8_Url", PayParams.REDIRECT);
 		data.put("p9_SAF", "0");
-		data.put("pa_MP", StringConstants.EMPTY);
+		data.put("pa_MP", pay.getType());
 		data.put("pd_FrpId", StringConstants.EMPTY);
 		data.put("pr_NeedResponse", "1");
 		data.put("hmac", sign(data));
@@ -156,7 +158,7 @@ public final class Yeepay extends BaseOnlinePay {
 		sValue.append(data.get("pd_FrpId"));
 		// 应答机制
 		sValue.append(data.get("pr_NeedResponse"));
-		return hmacSign(sValue.toString(), PayParams.PAY_YEEPAY_KEY);
+		return hmacSign(sValue.toString(), PayParams.YEEPAY_KEY);
 	}
 
 	/**
@@ -170,8 +172,8 @@ public final class Yeepay extends BaseOnlinePay {
 		byte keyb[];
 		byte value[];
 		try {
-			keyb = aKey.getBytes(PayParams.PAY_YEEPAY_CHARSET);
-			value = aValue.getBytes(PayParams.PAY_YEEPAY_CHARSET);
+			keyb = aKey.getBytes(PayParams.YEEPAY_CHARSET);
+			value = aValue.getBytes(PayParams.YEEPAY_CHARSET);
 		} catch (UnsupportedEncodingException e) {
 			keyb = aKey.getBytes();
 			value = aValue.getBytes();
@@ -198,5 +200,55 @@ public final class Yeepay extends BaseOnlinePay {
 		md.update(dg, 0, 16);
 		dg = md.digest();
 		return Hex.encode(dg);
+	}
+
+	/**
+	 * 返回校验hmac方法
+	 * @param hmac 商户编号
+	 * @param p1_MerId 业务类型
+	 * @param r0_Cmd 支付结果
+	 * @param r1_Code 易宝支付交易流水号
+	 * @param r2_TrxId 支付金额
+	 * @param r3_Amt 交易币种
+	 * @param r4_Cur 商品名称
+	 * @param r5_Pid 商户订单号
+	 * @param r6_Order 易宝支付会员ID
+	 * @param r7_Uid 商户扩展信息
+	 * @param r8_MP 交易结果返回类型
+	 * @param r9_BType 交易结果返回类型
+	 * @param keyValue
+	 * @return
+	 */
+	public boolean verifyCallback(String hmac, String p1_MerId, String r0_Cmd, String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur, String r5_Pid, String r6_Order, String r7_Uid, String r8_MP, String r9_BType, String keyValue) {
+		StringBuffer sValue = new StringBuffer();
+		// 商户编号
+		sValue.append(p1_MerId);
+		// 业务类型
+		sValue.append(r0_Cmd);
+		// 支付结果
+		sValue.append(r1_Code);
+		// 易宝支付交易流水号
+		sValue.append(r2_TrxId);
+		// 支付金额
+		sValue.append(r3_Amt);
+		// 交易币种
+		sValue.append(r4_Cur);
+		// 商品名称
+		sValue.append(r5_Pid);
+		// 商户订单号
+		sValue.append(r6_Order);
+		// 易宝支付会员ID
+		sValue.append(r7_Uid);
+		// 商户扩展信息
+		sValue.append(r8_MP);
+		// 交易结果返回类型
+		sValue.append(r9_BType);
+		String sNewString = null;
+		sNewString = hmacSign(sValue.toString(), keyValue);
+
+		if (hmac.equals(sNewString)) {
+			return (true);
+		}
+		return (false);
 	}
 }

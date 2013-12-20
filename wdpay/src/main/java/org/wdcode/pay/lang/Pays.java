@@ -39,7 +39,7 @@ public final class Pays {
 			// 获得Key
 			String key = e.getKey();
 			// 判断是否开启
-			if (Params.getBoolean(Params.getKey("pay", key, "enabled"), false)) {
+			if (Params.getBoolean(Params.getKey("pay", "enabled", key), false)) {
 				maps.put(key, e.getValue());
 			}
 		}

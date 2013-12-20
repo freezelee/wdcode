@@ -79,7 +79,7 @@ public final class CommonParams {
 	/**
 	 * 线程池数
 	 */
-	public final static int		THREAD_POOL				= Params.getInt("thread.pool", SystemConstants.CPU_NUM + 1);
+	public final static int		THREAD_POOL				= Params.getInt("thread.pool", SystemConstants.CPU_NUM * 2);
 	/**
 	 * 线程池数
 	 */

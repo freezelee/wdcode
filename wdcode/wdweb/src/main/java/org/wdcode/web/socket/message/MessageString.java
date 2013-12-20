@@ -10,8 +10,25 @@ import org.wdcode.common.lang.Bytes;
  * @version 1.0 2013-12-19
  */
 public final class MessageString extends Message {
+	// 指令
+	private int		id;
 	// 字符串消息
 	private String	message;
+
+	/**
+	 * 构造
+	 */
+	public MessageString() {}
+
+	/**
+	 * 构造
+	 * @param id
+	 * @param message
+	 */
+	public MessageString(int id, String message) {
+		this.id = id;
+		this.message = message;
+	}
 
 	@Override
 	public byte[] toBytes() {
@@ -20,8 +37,7 @@ public final class MessageString extends Message {
 
 	@Override
 	public BytesBean toBean(byte[] b) {
-		this.id = Bytes.toInt(b);
-		this.message = Bytes.toString(b, 4);
+		this.message = Bytes.toString(b);
 		return this;
 	}
 
@@ -39,6 +55,11 @@ public final class MessageString extends Message {
 	 */
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@Override
+	public int getId() {
+		return id;
 	}
 
 	@Override

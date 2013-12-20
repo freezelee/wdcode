@@ -66,7 +66,7 @@ public final class MinaServer implements Server {
 	 * 添加要处理的Handler
 	 * @param h
 	 */
-	public void addHandler(Handler<Message> h) {
+	public void addHandler(Handler<? extends Message> h) {
 		handler.addHandler(h);
 	}
 

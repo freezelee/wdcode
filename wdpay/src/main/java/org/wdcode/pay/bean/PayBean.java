@@ -11,12 +11,10 @@ import java.math.BigDecimal;
 public final class PayBean {
 	// 订单号
 	private String		no;
+	// 支付类型
+	private String		type;
 	// 支付总额
 	private BigDecimal	total;
-	// 返回处理URL
-	private String		returnUrl;
-	// 异步处理URL
-	private String		notifyUrl;
 	// 标题
 	private String		subject;
 	// 内容
@@ -87,34 +85,18 @@ public final class PayBean {
 	}
 
 	/**
-	 * 获得返回处理URL
-	 * @return 返回处理URL
+	 * 获得支付类型
+	 * @return 支付类型
 	 */
-	public String getReturnUrl() {
-		return returnUrl;
+	public String getType() {
+		return type;
 	}
 
 	/**
-	 * 设置返回处理URL
-	 * @param returnUrl 返回处理URL
+	 * 设置支付类型
+	 * @param type 支付类型
 	 */
-	public void setReturnUrl(String returnUrl) {
-		this.returnUrl = returnUrl;
-	}
-
-	/**
-	 * 获得异步处理URL
-	 * @return 异步处理URL
-	 */
-	public String getNotifyUrl() {
-		return notifyUrl;
-	}
-
-	/**
-	 * 设置异步处理URL
-	 * @param notifyUrl 异步处理URL
-	 */
-	public void setNotifyUrl(String notifyUrl) {
-		this.notifyUrl = notifyUrl;
+	public void setType(String type) {
+		this.type = type;
 	}
 }

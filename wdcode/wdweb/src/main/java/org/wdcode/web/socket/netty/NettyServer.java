@@ -65,7 +65,7 @@ public class NettyServer implements Server {
 	}
 
 	@Override
-	public void addHandler(Handler<Message> h) {}
+	public void addHandler(Handler<? extends Message> h) {}
 
 	@Override
 	public void bind() {
