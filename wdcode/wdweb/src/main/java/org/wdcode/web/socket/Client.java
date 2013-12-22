@@ -1,17 +1,13 @@
 package org.wdcode.web.socket;
 
+
 /**
  * Socket 客户端
  * @author WD
  * @since JDK7
  * @version 1.0 2013-12-19
  */
-public interface Client {
-	/**
-	 * 服务器名
-	 */
-	String getName();
-
+public interface Client extends Socket {
 	/**
 	 * 连接到服务器
 	 */

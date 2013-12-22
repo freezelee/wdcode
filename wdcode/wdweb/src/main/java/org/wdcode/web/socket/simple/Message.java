@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.message;
+package org.wdcode.web.socket.simple;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class Message implements BytesBean {
 			}
 		}
 		// 返回字节数组
-		return Bytes.toBytes(getId(), values);
+		return Bytes.toBytes(values);
 	}
 
 	@Override
@@ -77,12 +77,6 @@ public abstract class Message implements BytesBean {
 		// 返回本身
 		return this;
 	}
-
-	/**
-	 * 获得通信ID
-	 * @return
-	 */
-	public abstract int getId();
 
 	@Override
 	public String toString() {

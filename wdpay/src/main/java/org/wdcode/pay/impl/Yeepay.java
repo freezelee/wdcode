@@ -247,8 +247,8 @@ public final class Yeepay extends BaseOnlinePay {
 		sNewString = hmacSign(sValue.toString(), keyValue);
 
 		if (hmac.equals(sNewString)) {
-			return (true);
+			return true;
 		}
-		return (false);
+		return false;
 	}
 }

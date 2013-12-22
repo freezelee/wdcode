@@ -3,8 +3,8 @@ package org.wdcode.web.socket.factory;
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Client;
-import org.wdcode.web.socket.mina.MinaClient;
-import org.wdcode.web.socket.netty.NettyClient;
+import org.wdcode.web.socket.impl.mina.MinaClient;
+import org.wdcode.web.socket.impl.netty.NettyClient;
 
 /**
  * Socket客户端工厂

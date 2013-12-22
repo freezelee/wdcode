@@ -1,7 +1,12 @@
 package org.wdcode.common.util;
 
+import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
+
+import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.lang.Lists;
 
 /**
  * 关于Class的一些操作
@@ -104,6 +109,65 @@ public final class ClassUtil {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param packageName 包名
+	 * @param cls 指定类
+	 * @return 类列表
+	 */
+	public static List<Class<?>> getAssignedClass(String packageName, Class<?> cls) {
+		// 声明类列表
+		List<Class<?>> classes = Lists.getList();
+		// 循环包下所有类
+		for (Class<?> c : getPackageClasses(packageName)) {
+			// 是本类实现 并且不是本类
+			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
+				classes.add(c);
+			}
+		}
+		// 返回列表
+		return classes;
+	}
+
+	/**
+	 * 获得指定包下的所有Class
+	 * @param packageName 报名
+	 * @return 类列表
+	 */
+	public static List<Class<?>> getPackageClasses(String packageName) {
+		// 声明返回类列表
+		List<Class<?>> classes = Lists.getList();
+		// 转换报名为路径格式
+		String path = packageName.replace('.', '/');
+		// 获得资包所在路径目录
+		File dir = new File(ResourceUtil.getResource(path).getFile());
+		// 如果目录不存在
+		if (!dir.exists()) {
+			// 返回列表
+			return classes;
+		}
+		// 循环目录下的所有文件与目录
+		for (File f : dir.listFiles()) {
+			// 如果是目录
+			if (f.isDirectory()) {
+				// 迭代调用本方法 获得类列表
+				classes.addAll(getPackageClasses(packageName + StringConstants.POINT + f.getName()));
+			} else {
+				// 获得文件名
+				String name = f.getName();
+				// 如果是class文件
+				if (name.endsWith(".class")) {
+					try {
+						// 反射出类对象 并添加到列表中
+						classes.add(Class.forName(packageName + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6)));
+					} catch (ClassNotFoundException e) {}
+				}
+			}
+		}
+		// 返回类列表
+		return classes;
 	}
 
 	/**

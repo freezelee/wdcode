@@ -1,5 +1,6 @@
 package org.wdcode.web.params;
 
+import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.params.Params;
 
 /**
@@ -10,7 +11,15 @@ import org.wdcode.common.params.Params;
  */
 public final class SocketParams {
 	/* Socket使用 */
-	private final static String	PREFIX	= "socket"; // 前缀
+	private final static String		PREFIX	= "socket";																// 前缀
+	/**
+	 * Mina服务器开关
+	 */
+	public final static boolean		POWER	= Params.getBoolean(PREFIX + ".power", false);
+	/**
+	 * Mina服务器名称数组
+	 */
+	public final static String[]	NAMES	= Params.getStringArray(PREFIX + ".names", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 获得Socket使用解析包<br/>
@@ -46,6 +55,42 @@ public final class SocketParams {
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "port"));
+	}
+
+	/**
+	 * 获得Socket类型server或则client 只有host和type=client是才是客户端<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.type = ? <br/>
+	 * XML: {@literal <socket><*><type>?</type></*></socket>}</h2>
+	 * @return socket客户端连接服务器
+	 */
+	public static String getType(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "type"));
+	}
+
+	/**
+	 * 获得socket处理handler<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.handler = ? <br/>
+	 * XML: {@literal <socket><*><handler>?</handler></*></socket>}</h2>
+	 * @return socket处理handler
+	 */
+	public static String[] getHandler(String name) {
+		return Params.getStringArray(Params.getKey(PREFIX, name, "handler"), ArrayConstants.STRING_EMPTY);
+	}
+
+	/**
+	 * 获得socket处理handler包<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.package = ? <br/>
+	 * XML: {@literal <socket><*><package>?</package></*></socket>}</h2>
+	 * @return socket处理handler包
+	 */
+	public static String[] getPackage(String name) {
+		return Params.getStringArray(Params.getKey(PREFIX, name, "package"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**

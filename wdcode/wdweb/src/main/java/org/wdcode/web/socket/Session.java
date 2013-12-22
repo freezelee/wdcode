@@ -1,7 +1,6 @@
 package org.wdcode.web.socket;
 
 import org.wdcode.common.interfaces.Close;
-import org.wdcode.web.socket.message.Message;
 
 /**
  * Socket Session
@@ -11,15 +10,33 @@ import org.wdcode.web.socket.message.Message;
  */
 public interface Session extends Close {
 	/**
-	 * 写入数据
-	 * @param message
+	 * 获得SessionId
+	 * @return SessionId
 	 */
-	public void write(Message message);
+	int getId();
+
+	/**
+	 * 设置SessionId
+	 * @param id SessionId
+	 */
+	void setId(int id);
 
 	/**
 	 * 写入数据
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	public void write(int id, Object message);
+	void send(int id, Object message);
+
+	/**
+	 * 是否连接
+	 * @return true 为有连接 false 未连接
+	 */
+	boolean isConnect();
+
+	/**
+	 * 是否关闭
+	 * @return true 关闭 false 未关闭
+	 */
+	boolean isClose();
 }
