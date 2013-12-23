@@ -17,36 +17,34 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.pay.base.BaseOnlinePay;
+import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
+import org.wdcode.pay.bean.TradeBean;
+import org.wdcode.pay.constants.PayConstants;
 import org.wdcode.pay.params.PayParams;
+import org.wdcode.web.util.HttpUtil;
 import org.wdcode.web.util.RequestUtil;
 
 /**
- * 易宝支付
+ * 易宝网银支付
  * @author WD
  * @since JDK6
  * @version 1.0 2012-12-04
  */
 @Component
-public final class Yeepay extends BaseOnlinePay {
+public final class Yeepay implements Pay {
 	@Override
-	public String getName() {
-		return "易宝支付";
+	public int type() {
+		return PayConstants.TYPE_YEEPAY;
 	}
 
 	@Override
-	public String getDetail() {
-		return "中国领先的独立第三方支付平台，致力于为广大商家和消费者提供“安全、简单、快乐”的专业电子支付解决方案和服务。";
+	public String pay(HttpServletRequest request, PayBean pay) {
+		return HttpUtil.toUrl(getUrl(), getParameters(pay));
 	}
 
 	@Override
-	public String getLogo() {
-		return "/wdstatic/images/payment/yeepay_icon.gif";
-	}
-
-	@Override
-	public String trade(HttpServletRequest request, HttpServletResponse response) {
+	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
 		// 商家密钥
 		String keyValue = PayParams.YEEPAY_KEY;
 		// 业务类型
@@ -91,14 +89,18 @@ public final class Yeepay extends BaseOnlinePay {
 					// 产品通用接口支付成功返回-电话支付返回
 				}
 				// 下面页面输出是测试时观察结果使用
-				return r6_Order;
+				// return r6_Order;
 			}
 		}
 		// 返回空
-		return null;
+		return new TradeBean(r6_Order, isOK);
 	}
 
-	@Override
+	/**
+	 * 参数
+	 * @param pay
+	 * @return
+	 */
 	protected Map<String, String> getParameters(PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
@@ -110,7 +112,7 @@ public final class Yeepay extends BaseOnlinePay {
 		data.put("p5_Pid", pay.getSubject());
 		data.put("p6_Pcat", StringConstants.EMPTY);
 		data.put("p7_Pdesc", pay.getBody());
-		data.put("p8_Url", PayParams.REDIRECT);
+		data.put("p8_Url", PayParams.YEEPAY_REDIRECT);
 		data.put("p9_SAF", "0");
 		data.put("pa_MP", pay.getType());
 		data.put("pd_FrpId", StringConstants.EMPTY);
@@ -120,7 +122,10 @@ public final class Yeepay extends BaseOnlinePay {
 		return data;
 	}
 
-	@Override
+	/**
+	 * 支付url
+	 * @return
+	 */
 	protected String getUrl() {
 		return "https://www.yeepay.com/app-merchant-proxy/node";
 	}

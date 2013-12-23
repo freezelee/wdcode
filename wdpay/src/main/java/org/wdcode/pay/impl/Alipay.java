@@ -6,14 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
-import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.pay.base.BaseOnlinePay;
+import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
+import org.wdcode.pay.bean.TradeBean;
 import org.wdcode.pay.constants.PayConstants;
 import org.wdcode.pay.params.PayParams;
 import org.wdcode.web.http.HttpEngine;
@@ -27,29 +27,19 @@ import org.wdcode.web.util.RequestUtil;
  * @version 1.0 2012-12-04
  */
 @Component
-public final class AlipayDirect extends BaseOnlinePay {
+public final class Alipay implements Pay {
 	@Override
-	public String getName() {
-		return "支付宝（即时交易）";
+	public int type() {
+		return PayConstants.TYPE_ALIPAY;
 	}
 
 	@Override
-	public String getDetail() {
-		return "支付宝即时交易，付款后立即到账，无预付/年费，单笔费率阶梯最低0.7%，无流量限制。";
+	public String pay(HttpServletRequest request, PayBean pay) {
+		return HttpUtil.toUrl(getUrl(), getParameters(pay));
 	}
 
 	@Override
-	public String getLogo() {
-		return "/wdstatic/images/payment/alipay_direct_icon.gif";
-	}
-
-	@Override
-	protected String getUrl() {
-		return "https://mapi.alipay.com/gateway.do";
-	}
-
-	@Override
-	public String trade(HttpServletRequest request, HttpServletResponse response) {
+	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
 		// 交易状态
 		String tradeStatus = RequestUtil.getParameter(request, "trade_status");
 		// 通知校验ID
@@ -59,13 +49,13 @@ public final class AlipayDirect extends BaseOnlinePay {
 		// 计算出校验码
 		String mysign = StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(RequestUtil.getParameters(request)) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
 		// 校验URL
-		String veryfyUrl = PayConstants.PAY_ALIPAY_VERIFY_URL + PayConstants.PAY_ALIPAY_KEY_PARTNER + StringConstants.EQ + PayParams.ALIPAY_ID + StringConstants.AMP + PayConstants.PAY_KEY_NOTIFY_ID + StringConstants.EQ + notifyId;
+		String veryfyUrl = "https://www.alipay.com/cooperate/gateway.do?service=notify_verify&partner=" + PayParams.ALIPAY_ID + "&notify_id=" + notifyId;
 		// 获得交易网站验证
 		boolean verifyResponse = Conversion.toBoolean(HttpEngine.get(veryfyUrl));
 		// 获得交易状态
-		boolean status = PayConstants.PAY_ALIPAY_TRADE_FINISHED.equals(tradeStatus) || PayConstants.PAY_ALIPAY_TRADE_SUCCESS.equals(tradeStatus);
+		boolean status = "TRADE_FINISHED".equals(tradeStatus) || "TRADE_SUCCESS".equals(tradeStatus);
 		// 返回实体
-		return verifyResponse && status && sign.equals(mysign) ? RequestUtil.getParameter(request, PayConstants.PAY_KEY_OUT_TRADE_NO) : StringConstants.EMPTY;
+		return new TradeBean(RequestUtil.getParameter(request, "out_trade_no"), verifyResponse && status && sign.equals(mysign));
 	}
 
 	/**
@@ -78,8 +68,8 @@ public final class AlipayDirect extends BaseOnlinePay {
 		Map<String, String> data = Maps.getMap();
 		data.put("service", "create_direct_pay_by_user");
 		data.put("partner", PayParams.ALIPAY_ID);
-		data.put("return_url", PayParams.REDIRECT);
-		data.put("notify_url", PayParams.REDIRECT);
+		data.put("return_url", PayParams.ALIPAY_REDIRECT);
+		data.put("notify_url", PayParams.ALIPAY_REDIRECT);
 		data.put("_input_charset", PayParams.ALIPAY_CHARSET);
 		data.put("payment_type", "1");
 		data.put("out_trade_no", pay.getNo());
@@ -91,6 +81,14 @@ public final class AlipayDirect extends BaseOnlinePay {
 		data.put("sign_type", PayParams.ALIPAY_SIGNTYPE);
 		// 返回参数列表
 		return data;
+	}
+
+	/**
+	 * 获得支付url
+	 * @return
+	 */
+	protected String getUrl() {
+		return "https://mapi.alipay.com/gateway.do";
 	}
 
 	/**

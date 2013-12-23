@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/12/19 17:19:00                          */
+/* Created on:     2013/12/23 16:12:32                          */
 /*==============================================================*/
 
 
@@ -37,6 +37,7 @@ create table logs_operate
    time                 int comment '操作时间',
    content              text,
    state                tinyint,
+   ip                   char(15),
    primary key (id)
 );
 

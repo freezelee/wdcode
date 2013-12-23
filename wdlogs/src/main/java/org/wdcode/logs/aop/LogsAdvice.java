@@ -154,6 +154,7 @@ public class LogsAdvice {
 			logs.setTime(DateUtil.getTime());
 			logs.setState(state);
 			logs.setName(link);
+			logs.setIp(action.getIp());
 			// 判断操作
 			if (EmptyUtil.isEmpty(keys)) {
 				// 判断实体不为空

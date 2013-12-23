@@ -338,7 +338,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entity() throws Exception {
-		return callback(entity == null ? ERROR : (entity = entity.getKey() == null ? service.get(entity) : service.get(entityClass, entity.getKey())));
+		return callback(entity = entity == null ? null : service.get(entity));
 	}
 
 	/**

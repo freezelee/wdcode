@@ -123,6 +123,12 @@
 		    <groupId>com.cloudhopper.proxool</groupId>
 		    <artifactId>proxool</artifactId>
 		    <version>0.9.1</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>avalon-framework</groupId>
+		    		<artifactId>avalon-framework-api</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		    <scope>provided</scope>
 		</dependency>
 		<dependency>

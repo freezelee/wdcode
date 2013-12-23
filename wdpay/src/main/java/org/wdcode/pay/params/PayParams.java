@@ -12,8 +12,6 @@ import org.wdcode.common.params.Params;
  * @version 1.0 2011-11-08
  */
 public final class PayParams {
-	/* 回调url */
-	public final static String	REDIRECT		= Params.getString("pay.redirect");
 	/* 支付宝 */
 	/**
 	 * 合作身份者ID
@@ -23,6 +21,10 @@ public final class PayParams {
 	 * 密钥
 	 */
 	public final static String	ALIPAY_KEY		= Params.getString("pay.alipay.key");
+	/**
+	 * 回调URL
+	 */
+	public final static String	ALIPAY_REDIRECT	= Params.getString("pay.alipay.redirect");
 	/**
 	 * 编码类型
 	 */
@@ -55,6 +57,10 @@ public final class PayParams {
 	 * 密钥
 	 */
 	public final static String	YEEPAY_KEY		= Params.getString("pay.yeepay.key");
+	/**
+	 * 回调URL
+	 */
+	public final static String	YEEPAY_REDIRECT	= Params.getString("pay.yeepay.redirect");
 	/**
 	 * 编码类型
 	 */

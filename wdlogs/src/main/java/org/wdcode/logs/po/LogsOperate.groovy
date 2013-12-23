@@ -2,8 +2,8 @@ package org.wdcode.logs.po
 
 import javax.persistence.Entity
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -23,11 +23,13 @@ import org.wdcode.site.entity.base.BaseEntityIdTime
 @DynamicUpdate
 class LogsOperate extends BaseEntityIdTime {
 	// 内容
-	String				content
+	String		content
 	// 用户ID
-	Integer				userId
+	Integer		userId
 	// 状态
-	Integer				state
+	Integer		state
 	// 名称
-	String				name
+	String		name
+	//操作IP
+	String 		ip
 }
