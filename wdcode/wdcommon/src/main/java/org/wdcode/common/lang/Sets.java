@@ -52,6 +52,15 @@ public final class Sets {
 	}
 
 	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param es 初始化的数组
+	 * @return Set
+	 */
+	public static <E> Set<E> getSet(E... es) {
+		return getHashSet(es);
+	}
+
+	/**
 	 * 获得同步Set实例 实现类是HashSet 默认初始化大小为10
 	 * @return Set
 	 */
@@ -109,6 +118,15 @@ public final class Sets {
 	 */
 	public static <E> HashSet<E> getHashSet(int size) {
 		return new HashSet<E>(size);
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param es 初始化的集合
+	 * @return Set
+	 */
+	public static <E> HashSet<E> getHashSet(E... es) {
+		return getHashSet(Lists.getList(es));
 	}
 
 	/**
