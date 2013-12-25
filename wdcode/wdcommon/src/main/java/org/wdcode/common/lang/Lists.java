@@ -79,6 +79,41 @@ public final class Lists {
 	}
 
 	/**
+	 * 获得List实例 默认初始化大小为10
+	 * @return List
+	 */
+	public static <E> ArrayList<E> getArrayList() {
+		return new ArrayList<E>();
+	}
+
+	/**
+	 * 获得List实例
+	 * @param size 初始化大小
+	 * @return List
+	 */
+	public static <E> ArrayList<E> getArrayList(int size) {
+		return new ArrayList<E>(size < 1 ? 1 : size);
+	}
+
+	/**
+	 * 获得List实例
+	 * @param es 初始化的数组
+	 * @return List
+	 */
+	public static <E> ArrayList<E> getArrayList(E... e) {
+		return getArrayList(ArrayUtil.toList(e));
+	}
+
+	/**
+	 * 获得List实例
+	 * @param c 初始化的集合
+	 * @return List
+	 */
+	public static <E> ArrayList<E> getArrayList(Collection<E> c) {
+		return c == null ? new ArrayList<E>() : new ArrayList<E>(c);
+	}
+
+	/**
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
 	 * @return 同步的List
 	 */

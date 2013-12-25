@@ -267,12 +267,24 @@
 		    <groupId>org.apache.hbase</groupId>
 		    <artifactId>hbase-client</artifactId>
 		    <version>0.96.1-hadoop2</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>io.netty</groupId>
+		    		<artifactId>netty</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		    <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hbase</groupId>
 			<artifactId>asynchbase</artifactId>
 			<version>1.4.1</version>
+			<exclusions>
+		    	<exclusion>
+		    		<groupId>io.netty</groupId>
+		    		<artifactId>netty</artifactId>
+		    	</exclusion>
+		    </exclusions>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -285,6 +297,12 @@
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.5</version>
+			<exclusions>
+		    	<exclusion>
+		    		<groupId>org.jboss.netty</groupId>
+		    		<artifactId>netty</artifactId>
+		    	</exclusion>
+		    </exclusions>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

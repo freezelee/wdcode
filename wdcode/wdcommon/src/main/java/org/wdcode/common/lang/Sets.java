@@ -3,7 +3,9 @@ package org.wdcode.common.lang;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -30,7 +32,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet() {
-		return getHashSet();
+		return getLinkedHashSet();
 	}
 
 	/**
@@ -39,7 +41,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet(int size) {
-		return getHashSet(size);
+		return getLinkedHashSet(size);
 	}
 
 	/**
@@ -48,7 +50,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet(Collection<E> c) {
-		return getHashSet(c);
+		return getLinkedHashSet(c);
 	}
 
 	/**
@@ -57,7 +59,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet(E... es) {
-		return getHashSet(es);
+		return getLinkedHashSet(es);
 	}
 
 	/**
@@ -107,8 +109,43 @@ public final class Sets {
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
 	 * @return Set
 	 */
+	public static <E> LinkedHashSet<E> getLinkedHashSet() {
+		return getLinkedHashSet(16);
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param size 初始化大小
+	 * @return Set
+	 */
+	public static <E> LinkedHashSet<E> getLinkedHashSet(int size) {
+		return new LinkedHashSet<E>(size);
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param es 初始化的集合
+	 * @return Set
+	 */
+	public static <E> LinkedHashSet<E> getLinkedHashSet(E... es) {
+		return getLinkedHashSet(Lists.getList(es));
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param c 初始化的集合
+	 * @return Set
+	 */
+	public static <E> LinkedHashSet<E> getLinkedHashSet(Collection<E> c) {
+		return new LinkedHashSet<E>(c);
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @return Set
+	 */
 	public static <E> HashSet<E> getHashSet() {
-		return getHashSet(10);
+		return getHashSet(16);
 	}
 
 	/**
@@ -136,6 +173,32 @@ public final class Sets {
 	 */
 	public static <E> HashSet<E> getHashSet(Collection<E> c) {
 		return new HashSet<E>(c);
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @return Set
+	 */
+	public static <E> TreeSet<E> getTreeSet() {
+		return new TreeSet<E>();
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param es 初始化的集合
+	 * @return Set
+	 */
+	public static <E> TreeSet<E> getTreeSet(E... es) {
+		return getTreeSet(Lists.getList(es));
+	}
+
+	/**
+	 * 获得Set实例 实现类是HashSet
+	 * @param c 初始化的集合
+	 * @return Set
+	 */
+	public static <E> TreeSet<E> getTreeSet(Collection<E> c) {
+		return new TreeSet<E>(c);
 	}
 
 	/**

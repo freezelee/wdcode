@@ -1,9 +1,14 @@
 package org.wdcode.web.socket.impl.netty3;
 
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.socket.nio.NioSocketChannel;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 
+import org.jboss.netty.bootstrap.ClientBootstrap;
+import org.jboss.netty.channel.ChannelFuture;
+import org.jboss.netty.channel.ChannelPipeline;
+import org.jboss.netty.channel.ChannelPipelineFactory;
+import org.jboss.netty.channel.Channels;
+import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Client;
 import org.wdcode.web.socket.Session;
@@ -16,11 +21,15 @@ import org.wdcode.web.socket.Session;
  */
 public final class Netty3Client extends BaseNetty3 implements Client {
 	// 保存Netty客户端 Bootstrap
-	private Bootstrap		bootstrap;
+	private ClientBootstrap	bootstrap;
 	// 保存Netty服务器 ChannelFuture
 	private ChannelFuture	future;
 	// Session
 	private Session			session;
+	// 服务器
+	private String			host;
+	// 端口
+	private int				port;
 
 	/**
 	 * 构造方法
@@ -29,22 +38,29 @@ public final class Netty3Client extends BaseNetty3 implements Client {
 	public Netty3Client(String name) {
 		// 名称
 		this.name = name;
-		// 实例化ClientBootstrap
-		bootstrap = new Bootstrap();
-		// 添加配置
-		config(bootstrap);
-		// 设置channel
-		bootstrap.channel(NioSocketChannel.class);
-		// 设置初始化 handler
-		bootstrap.handler(handler);
-		// 设置监听端口
-		bootstrap.remoteAddress(SocketParams.getHost(name), SocketParams.getPort(name));
+		// 实例化ServerBootstrap
+		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+		// NettyHandler
+		handler = new Netty3Handler();
+		// 设置属性
+		bootstrap.setOption("tcpNoDelay", true);
+		bootstrap.setOption("keepAlive", true);
+		// 设置handler
+		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+			@Override
+			public ChannelPipeline getPipeline() throws Exception {
+				return Channels.pipeline(handler);
+			}
+		});
+		// 设置服务器和端口
+		host = SocketParams.getHost(name);
+		port = SocketParams.getPort(name);
 	}
 
 	@Override
 	public void connect() {
-		future = bootstrap.connect().awaitUninterruptibly();
-		session = new Netty3Session(0, future.channel());
+		future = bootstrap.connect(new InetSocketAddress(host, port)).awaitUninterruptibly();
+		session = new Netty3Session(future.getChannel());
 	}
 
 	@Override
@@ -55,6 +71,7 @@ public final class Netty3Client extends BaseNetty3 implements Client {
 	@Override
 	public void close() {
 		session.close();
-		bootstrap.group().shutdownGracefully();
+		bootstrap.releaseExternalResources();
+		bootstrap.shutdown();
 	}
 }

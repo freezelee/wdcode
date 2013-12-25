@@ -7,10 +7,10 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.params.Params;
 
 /**
- * 读取后台管理配置
+ * 安全配置
  * @author WD
  * @since JDK7
- * @version 1.0 2009-08-04
+ * @version 1.0 2013-12-25
  */
 public final class SecurityParams {
 	/**

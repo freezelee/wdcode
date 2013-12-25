@@ -1,8 +1,7 @@
 package org.wdcode.web.socket.impl.netty3;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
-
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
 import org.wdcode.web.socket.Buffer;
 
 /**
@@ -13,13 +12,13 @@ import org.wdcode.web.socket.Buffer;
  */
 public final class Netty3Buffer implements Buffer {
 	// Netty ByteBuf
-	private ByteBuf	buf;
+	private ChannelBuffer	buf;
 
 	/**
 	 * 构造
 	 */
 	public Netty3Buffer() {
-		buf = PooledByteBufAllocator.DEFAULT.buffer();
+		buf = ChannelBuffers.dynamicBuffer();
 	}
 
 	@Override

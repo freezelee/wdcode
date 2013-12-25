@@ -1,8 +1,7 @@
 package org.wdcode.web.socket.impl.netty3;
 
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.Channel;
-
+import org.jboss.netty.buffer.ChannelBuffers;
+import org.jboss.netty.channel.Channel;
 import org.wdcode.web.socket.Session;
 import org.wdcode.web.socket.base.BaseSession;
 
@@ -21,8 +20,8 @@ public final class Netty3Session extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param channel
 	 */
-	public Netty3Session(int id, Channel channel) {
-		this.id = id;
+	public Netty3Session(Channel channel) {
+		this.id = channel.getId();
 		this.channel = channel;
 	}
 
@@ -34,7 +33,7 @@ public final class Netty3Session extends BaseSession implements Session {
 
 	@Override
 	public boolean isConnect() {
-		return channel.isActive();
+		return channel.isConnected();
 	}
 
 	@Override
@@ -44,6 +43,6 @@ public final class Netty3Session extends BaseSession implements Session {
 
 	@Override
 	protected void send(byte[] data) {
-		channel.writeAndFlush(PooledByteBufAllocator.DEFAULT.buffer().writeBytes(data));
+		channel.write(ChannelBuffers.wrappedBuffer(data));
 	}
 }

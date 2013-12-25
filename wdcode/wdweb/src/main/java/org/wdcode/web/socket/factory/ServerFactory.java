@@ -5,6 +5,7 @@ import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Server;
 import org.wdcode.web.socket.impl.mina.MinaServer;
 import org.wdcode.web.socket.impl.netty.NettyServer;
+import org.wdcode.web.socket.impl.netty3.Netty3Server;
 
 /**
  * Socket服务器工程
@@ -33,6 +34,8 @@ public final class ServerFactory extends FactoryKey<String, Server> {
 		switch (SocketParams.getParse(key)) {
 			case "netty":
 				return new NettyServer(key);
+			case "netty3":
+				return new Netty3Server(key);
 			default:
 				// 默认mina
 				return new MinaServer(key);
