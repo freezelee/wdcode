@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.impl.netty;
+package org.wdcode.web.socket.impl.netty3;
 
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
@@ -17,7 +17,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public final class Netty3Handler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 消息处理器
 	private Process	process	= new Processor();
 
@@ -37,7 +37,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		process.connected(getSesson(ctx), new NettyBuffer());
+		process.connected(getSesson(ctx), new Netty3Buffer());
 		super.channelActive(ctx);
 	}
 
@@ -64,7 +64,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			s = new NettySession(id, ctx.channel());
+			s = new Netty3Session(id, ctx.channel());
 		}
 		// 返回
 		return s;

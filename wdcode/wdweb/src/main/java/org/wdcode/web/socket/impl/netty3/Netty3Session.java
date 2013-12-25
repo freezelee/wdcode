@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.impl.netty;
+package org.wdcode.web.socket.impl.netty3;
 
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -12,7 +12,7 @@ import org.wdcode.web.socket.base.BaseSession;
  * @since JDK7
  * @version 1.0 2013-12-20
  */
-public final class NettySession extends BaseSession implements Session {
+public final class Netty3Session extends BaseSession implements Session {
 	// 通道
 	private Channel	channel;
 
@@ -21,7 +21,7 @@ public final class NettySession extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param channel
 	 */
-	public NettySession(int id, Channel channel) {
+	public Netty3Session(int id, Channel channel) {
 		this.id = id;
 		this.channel = channel;
 	}

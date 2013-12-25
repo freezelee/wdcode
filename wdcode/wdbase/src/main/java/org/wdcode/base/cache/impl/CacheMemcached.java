@@ -44,9 +44,9 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 			if (!MEMCACHE.append(k, StringConstants.COMMA + key)) {
 				// 没追加到 第一个直接set
 				MEMCACHE.set(k, key);
-				// 加数量
-				MEMCACHE.set(getKeySize(), size() + 1);
 			}
+			// 加数量
+			MEMCACHE.set(getKeySize(), size() + 1);
 		}
 		// 返回实体
 		return entity;

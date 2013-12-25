@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.impl.netty;
+package org.wdcode.web.socket.impl.netty3;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -11,14 +11,14 @@ import org.wdcode.web.socket.Buffer;
  * @since JDK7
  * @version 1.0 2013-12-22
  */
-public final class NettyBuffer implements Buffer {
+public final class Netty3Buffer implements Buffer {
 	// Netty ByteBuf
 	private ByteBuf	buf;
 
 	/**
 	 * 构造
 	 */
-	public NettyBuffer() {
+	public Netty3Buffer() {
 		buf = PooledByteBufAllocator.DEFAULT.buffer();
 	}
 

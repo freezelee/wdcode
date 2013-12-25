@@ -38,4 +38,6 @@ public final class ServerFactory extends FactoryKey<String, Server> {
 				return new MinaServer(key);
 		}
 	}
+
+	private ServerFactory() {}
 }

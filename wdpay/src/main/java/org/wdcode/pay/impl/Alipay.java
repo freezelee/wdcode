@@ -49,7 +49,7 @@ public final class Alipay implements Pay {
 		// 计算出校验码
 		String mysign = StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(RequestUtil.getParameters(request)) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
 		// 校验URL
-		String veryfyUrl = "https://www.alipay.com/cooperate/gateway.do?service=notify_verify&partner=" + PayParams.ALIPAY_ID + "&notify_id=" + notifyId;
+		String veryfyUrl = "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=" + PayParams.ALIPAY_ID + "&notify_id=" + notifyId;
 		// 获得交易网站验证
 		boolean verifyResponse = Conversion.toBoolean(HttpEngine.get(veryfyUrl));
 		// 获得交易状态
@@ -88,7 +88,7 @@ public final class Alipay implements Pay {
 	 * @return
 	 */
 	protected String getUrl() {
-		return "https://mapi.alipay.com/gateway.do";
+		return PayParams.ALIPAY_URL;
 	}
 
 	/**

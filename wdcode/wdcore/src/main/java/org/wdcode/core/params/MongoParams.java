@@ -53,6 +53,30 @@ public final class MongoParams {
 	}
 
 	/**
+	 * Mongo服务器库用户<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mongo.user = ? <br/>
+	 * XML: {@literal <mongo><user>?</user></mongo>}</h2>
+	 * @return Mongo服务器库用户
+	 */
+	public static String getUser(String name) {
+		return Params.getString(getKey(name, "user"), "wdcode");
+	}
+
+	/**
+	 * Mongo服务器库用户密码<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: mongo.password = ? <br/>
+	 * XML: {@literal <mongo><password>?</password></mongo>}</h2>
+	 * @return Mongo服务器库用户密码
+	 */
+	public static String getPassword(String name) {
+		return Params.getString(getKey(name, "password"), "123456");
+	}
+
+	/**
 	 * Mongo数据库名<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>

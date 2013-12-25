@@ -26,6 +26,10 @@ public final class PayParams {
 	 */
 	public final static String	ALIPAY_REDIRECT	= Params.getString("pay.alipay.redirect");
 	/**
+	 * 支付URL
+	 */
+	public final static String	ALIPAY_URL		= Params.getString("pay.alipay.url", "https://mapi.alipay.com/gateway.do");
+	/**
 	 * 编码类型
 	 */
 	public final static String	ALIPAY_CHARSET	= Params.getString("pay.alipay.charset", CommonParams.ENCODING);

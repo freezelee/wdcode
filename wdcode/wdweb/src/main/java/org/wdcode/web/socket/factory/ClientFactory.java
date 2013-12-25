@@ -37,4 +37,6 @@ public final class ClientFactory extends FactoryKey<String, Client> {
 				return new MinaClient(key);
 		}
 	}
+
+	private ClientFactory() {}
 }

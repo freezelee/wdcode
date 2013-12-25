@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.impl.netty;
+package org.wdcode.web.socket.impl.netty3;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -14,7 +14,7 @@ import org.wdcode.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-19
  */
-public final class NettyClient extends BaseNetty implements Client {
+public final class Netty3Client extends BaseNetty3 implements Client {
 	// 保存Netty客户端 Bootstrap
 	private Bootstrap		bootstrap;
 	// 保存Netty服务器 ChannelFuture
@@ -26,7 +26,7 @@ public final class NettyClient extends BaseNetty implements Client {
 	 * 构造方法
 	 * @param name
 	 */
-	public NettyClient(String name) {
+	public Netty3Client(String name) {
 		// 名称
 		this.name = name;
 		// 实例化ClientBootstrap
@@ -44,7 +44,7 @@ public final class NettyClient extends BaseNetty implements Client {
 	@Override
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
-		session = new NettySession(0, future.channel());
+		session = new Netty3Session(0, future.channel());
 	}
 
 	@Override

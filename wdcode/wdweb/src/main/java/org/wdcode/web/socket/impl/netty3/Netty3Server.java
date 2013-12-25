@@ -1,4 +1,4 @@
-package org.wdcode.web.socket.impl.netty;
+package org.wdcode.web.socket.impl.netty3;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
@@ -13,7 +13,7 @@ import org.wdcode.web.socket.Server;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-public final class NettyServer extends BaseNetty implements Server {
+public final class Netty3Server extends BaseNetty3 implements Server {
 	// Netty ServerBootstrap
 	private ServerBootstrap	bootstrap;
 
@@ -21,7 +21,7 @@ public final class NettyServer extends BaseNetty implements Server {
 	 * 构造函数
 	 * @param name 名称
 	 */
-	public NettyServer(String name) {
+	public Netty3Server(String name) {
 		// 名称
 		this.name = name;
 		// 实例化ServerBootstrap

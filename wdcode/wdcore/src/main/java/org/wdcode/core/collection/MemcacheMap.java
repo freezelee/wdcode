@@ -9,6 +9,8 @@ import java.util.Set;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
+import org.wdcode.common.lang.Maps;
+import org.wdcode.common.lang.Sets;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.nosql.memcache.Memcache;
 
@@ -41,27 +43,43 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 
 	@Override
 	public boolean isEmpty() {
-		return memcache.get(getKey()) == null;
+		return !memcache.exists(getKey());
 	}
 
 	@Override
 	public boolean containsKey(Object key) {
-		return false;
+		return memcache.exists(getKey(key));
 	}
 
 	@Override
 	public boolean containsValue(Object value) {
-		return false;
+		return values().contains(value);
 	}
 
 	@Override
 	public V get(Object key) {
-		return null;
+		return (V) memcache.get(getKey(key));
 	}
 
 	@Override
 	public V put(K key, V value) {
-		return null;
+		V v = get(key);
+		// 获得键
+		String k = getKey(key);
+		// 判断键是否存在 不存在更新键 并且添加到memcached成功
+		if (!memcache.exists(k) && memcache.set(k, value)) {
+			// 获得保存键值
+			k = getKey();
+			// 追加到memcace
+			if (!memcache.append(k, StringConstants.COMMA + key)) {
+				// 没追加到 第一个直接set
+				memcache.set(k, Conversion.toString(key));
+			}
+			// 加数量
+			memcache.set(getKeySize(), size() + 1);
+		}
+		// 返回实体
+		return v;
 	}
 
 	@Override
@@ -84,7 +102,9 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
-
+		for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+			put(e.getKey(), e.getValue());
+		}
 	}
 
 	@Override
@@ -101,34 +121,39 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 
 	@Override
 	public Set<K> keySet() {
-		return null;
+		return (Set<K>) Sets.getSet(getKeys());
 	}
 
 	@Override
 	public Collection<V> values() {
-		return null;
+		return (Collection<V>) Lists.getList(memcache.get(getKeys()));
 	}
 
 	@Override
 	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		return null;
+		return map().entrySet();
 	}
 
-	// /**
-	// * 根据键列表获得memcached使用键列表
-	// * @param key 键
-	// * @return 键
-	// */
-	// private String[] getKey(List<Serializable> key) {
-	// // 声明键数组
-	// String[] keys = new String[key.size()];
-	// // 组成键数组
-	// for (int i = 0; i < key.size(); i++) {
-	// keys[i] = getKey(key.get(i));
-	// }
-	// // 返回键
-	// return keys;
-	// }
+	/**
+	 * 转成HashMap
+	 * @return
+	 */
+	public Map<K, V> map() {
+		String[] keys = getKeys();
+		Object[] values = memcache.get(getKey(keys));
+		Map<K, V> map = Maps.getMap();
+		for (int i = 0; i < keys.length; i++) {
+			if (values[i] != null) {
+				map.put((K) keys[i], (V) values[i]);
+			}
+		}
+		return map;
+	}
+
+	@Override
+	public String toString() {
+		return map().toString();
+	}
 
 	/**
 	 * 获得memcached保存主键key
@@ -151,8 +176,21 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	 * @param key 原实体键
 	 * @return memcached使用键
 	 */
-	private String getKey(Serializable key) {
+	private String getKey(Object key) {
 		return Conversion.toString(key).startsWith(name) ? Conversion.toString(key) : name + StringConstants.UNDERLINE + key;
+	}
+
+	/**
+	 * 根据单个key获得memcached中保存的键
+	 * @param key 原实体键
+	 * @return memcached使用键
+	 */
+	private String[] getKey(String... key) {
+		String[] keys = new String[key.length];
+		for (int i = 0; i < key.length; i++) {
+			keys[i] = getKey(key[i]);
+		}
+		return keys;
 	}
 
 	/**
