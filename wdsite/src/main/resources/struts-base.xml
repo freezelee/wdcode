@@ -32,7 +32,7 @@
                 </interceptor-ref>
                 <interceptor-ref name="defaultStack" />
             </interceptor-stack>
-            <<!-- 最简单包 用户http json API -->
+            <!-- 最简单包 用户http json API -->
             <interceptor-stack name="simpleStack">  
                 <interceptor-ref name="alias"/> 
                 <interceptor-ref name="params">
