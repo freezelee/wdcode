@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.wdcode.common.codec.Hex;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
@@ -97,6 +98,6 @@ public final class Alipay implements Pay {
 	 * @return 签名
 	 */
 	protected String sign(Map<String, String> data) {
-		return StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
+		return Hex.encode(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
 	}
 }
