@@ -19,6 +19,8 @@ public final class PayBean {
 	private String		subject;
 	// 内容
 	private String		body;
+	// 支付渠道
+	private String		ditch;
 
 	/**
 	 * 获得订单号
@@ -98,5 +100,21 @@ public final class PayBean {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * 获得支付渠道
+	 * @return 支付渠道
+	 */
+	public String getDitch() {
+		return ditch;
+	}
+
+	/**
+	 * 设置支付渠道
+	 * @param ditch 支付渠道
+	 */
+	public void setDitch(String ditch) {
+		this.ditch = ditch;
 	}
 }

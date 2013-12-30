@@ -36,7 +36,7 @@ public final class Alipay implements Pay {
 
 	@Override
 	public String pay(HttpServletRequest request, PayBean pay) {
-		return HttpUtil.toUrl(getUrl(), getParameters(pay));
+		return HttpUtil.toUrl(getUrl(), getParameters(request, pay));
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public final class Alipay implements Pay {
 	 * @param pay 支付实体
 	 * @return 支付参数
 	 */
-	protected Map<String, String> getParameters(PayBean pay) {
+	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
 		data.put("service", "create_direct_pay_by_user");
@@ -88,7 +88,7 @@ public final class Alipay implements Pay {
 	 * 获得支付url
 	 * @return
 	 */
-	protected String getUrl() {
+	public String getUrl() {
 		return PayParams.ALIPAY_URL;
 	}
 

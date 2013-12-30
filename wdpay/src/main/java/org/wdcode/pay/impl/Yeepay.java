@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncodingConstants;
 import org.wdcode.common.constants.StringConstants;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
@@ -40,7 +41,7 @@ public final class Yeepay implements Pay {
 
 	@Override
 	public String pay(HttpServletRequest request, PayBean pay) {
-		return HttpUtil.toUrl(getUrl(), getParameters(pay));
+		return HttpUtil.toUrl(getUrl(), getParameters(request, pay));
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, EncodingConstants.GBK);
+		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, EncodingConstants.UTF_8);
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
 		// 易宝支付会员ID
@@ -98,24 +99,25 @@ public final class Yeepay implements Pay {
 
 	/**
 	 * 参数
+	 * @param request
 	 * @param pay
 	 * @return
 	 */
-	protected Map<String, String> getParameters(PayBean pay) {
+	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
 		data.put("p0_Cmd", "Buy");
 		data.put("p1_MerId", PayParams.YEEPAY_ID);
-		data.put("p2_Order", pay.getNo());
+		data.put("p2_Order", Conversion.toString(pay.getNo()));
 		data.put("p3_Amt", MathUtil.scale(pay.getTotal(), 2).toPlainString());
 		data.put("p4_Cur", "CNY");
-		data.put("p5_Pid", pay.getSubject());
+		data.put("p5_Pid", Conversion.toString(pay.getSubject()));
 		data.put("p6_Pcat", StringConstants.EMPTY);
-		data.put("p7_Pdesc", pay.getBody());
+		data.put("p7_Pdesc", Conversion.toString(pay.getBody()));
 		data.put("p8_Url", PayParams.YEEPAY_REDIRECT);
 		data.put("p9_SAF", "0");
-		data.put("pa_MP", pay.getType());
-		data.put("pd_FrpId", StringConstants.EMPTY);
+		data.put("pa_MP", Conversion.toString(pay.getType()));
+		data.put("pd_FrpId", Conversion.toString(pay.getDitch()).toUpperCase());
 		data.put("pr_NeedResponse", "1");
 		data.put("hmac", sign(data));
 		// 返回参数列表
@@ -126,8 +128,8 @@ public final class Yeepay implements Pay {
 	 * 支付url
 	 * @return
 	 */
-	protected String getUrl() {
-		return "https://www.yeepay.com/app-merchant-proxy/node";
+	public String getUrl() {
+		return PayParams.YEEPAY_URL;
 	}
 
 	/**
@@ -224,7 +226,7 @@ public final class Yeepay implements Pay {
 	 * @param keyValue
 	 * @return
 	 */
-	public boolean verifyCallback(String hmac, String p1_MerId, String r0_Cmd, String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur, String r5_Pid, String r6_Order, String r7_Uid, String r8_MP, String r9_BType, String keyValue) {
+	private boolean verifyCallback(String hmac, String p1_MerId, String r0_Cmd, String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur, String r5_Pid, String r6_Order, String r7_Uid, String r8_MP, String r9_BType, String keyValue) {
 		StringBuffer sValue = new StringBuffer();
 		// 商户编号
 		sValue.append(p1_MerId);

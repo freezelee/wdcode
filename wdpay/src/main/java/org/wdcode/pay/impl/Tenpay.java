@@ -1,5 +1,7 @@
 package org.wdcode.pay.impl;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +31,16 @@ public final class Tenpay implements Pay {
 
 	@Override
 	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
+		return null;
+	}
+
+	@Override
+	public String getUrl() {
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		return null;
 	}
 }

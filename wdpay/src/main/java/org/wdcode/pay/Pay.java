@@ -1,5 +1,7 @@
 package org.wdcode.pay;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,20 @@ public interface Pay {
 	 * @return 返回支付url
 	 */
 	String pay(HttpServletRequest request, PayBean pay);
+
+	/**
+	 * 获得URL
+	 * @return
+	 */
+	String getUrl();
+
+	/**
+	 * 参数
+	 * @param request
+	 * @param pay
+	 * @return
+	 */
+	Map<String, String> getParameters(HttpServletRequest request, PayBean pay);
 
 	/**
 	 * 支付返回调用方法

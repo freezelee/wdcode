@@ -64,6 +64,10 @@ public final class PayParams {
 	/**
 	 * 回调URL
 	 */
+	public final static String	YEEPAY_URL		= Params.getString("pay.yeepay.url", "https://www.yeepay.com/app-merchant-proxy/node");
+	/**
+	 * 回调URL
+	 */
 	public final static String	YEEPAY_REDIRECT	= Params.getString("pay.yeepay.redirect");
 	/**
 	 * 编码类型

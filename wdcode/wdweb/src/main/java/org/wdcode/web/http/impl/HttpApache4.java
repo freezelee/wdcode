@@ -255,6 +255,8 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			} else if (status == 200 || (status > 200 && status < 300)) {
 				// 返回字节数组
 				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
+			} else {
+				return Conversion.toString(status);
 			}
 		} catch (Exception e) {
 			return e.getMessage();
@@ -262,8 +264,6 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			// 销毁post
 			post.abort();
 		}
-		// 返回空字节数组
-		return StringConstants.EMPTY;
 	}
 
 	/**
