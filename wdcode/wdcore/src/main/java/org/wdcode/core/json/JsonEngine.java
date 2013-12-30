@@ -35,16 +35,56 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		if (EmptyUtil.isEmpty(json)) {
 			return false;
 		}
-		// [开头 ]结尾
-		if (json.startsWith("[{") && json.endsWith("}]")) {
+		// 是数组格式
+		if (isObject(json)) {
 			return true;
+		}
+		// 是数组格式
+		if (isArray(json)) {
+			return true;
+		}
+		// 返回false
+		return false;
+	}
+
+	/**
+	 * 是否是json普通对象格式
+	 * @param json json串
+	 * @return true false
+	 */
+	public static boolean isObject(String json) {
+		// 字符串为空
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
 		}
 		// {开头 }结尾
 		if (json.startsWith("{") && json.endsWith("}")) {
 			return true;
 		}
 		// 空json
-		if (json.equals("[]") || json.equals("{}")) {
+		if (json.equals("{}")) {
+			return true;
+		}
+		// 返回false
+		return false;
+	}
+
+	/**
+	 * 是否是json数组格式
+	 * @param json json串
+	 * @return true false
+	 */
+	public static boolean isArray(String json) {
+		// 字符串为空
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
+		}
+		// [开头 ]结尾
+		if (json.startsWith("[{") && json.endsWith("}]")) {
+			return true;
+		}
+		// 空json
+		if (json.equals("[]")) {
 			return true;
 		}
 		// 返回false

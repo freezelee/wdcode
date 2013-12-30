@@ -3,10 +3,8 @@ package org.wdcode.web.socket.impl.netty;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Session;
-import org.wdcode.web.socket.simple.Processor;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -19,14 +17,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 消息处理器
-	private Process	process	= new Processor();
+	private Process	process;
 
 	/**
-	 * 添加要处理的Handler
-	 * @param handler
+	 * 构造
+	 * @param process
 	 */
-	public void addHandler(Handler<?>... handler) {
-		process.addHandler(handler);
+	public NettyHandler(Process process) {
+		this.process = process;
 	}
 
 	@Override

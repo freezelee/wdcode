@@ -58,6 +58,18 @@ public final class SocketParams {
 	}
 
 	/**
+	 * 获得Socket心跳检测时间 单位秒<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.heart = ? <br/>
+	 * XML: {@literal <socket><heart>?</heart></socket>}</h2>
+	 * @return 获得Socket心跳检测时间 单位秒
+	 */
+	public static int getHeart(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "heart"));
+	}
+
+	/**
 	 * 获得Socket类型server或则client 只有host和type=client是才是客户端<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>

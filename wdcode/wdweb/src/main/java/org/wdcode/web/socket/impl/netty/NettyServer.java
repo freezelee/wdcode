@@ -2,10 +2,12 @@ package org.wdcode.web.socket.impl.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Server;
+import org.wdcode.web.socket.base.BaseServer;
 
 /**
  * netty实现
@@ -13,9 +15,11 @@ import org.wdcode.web.socket.Server;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-public final class NettyServer extends BaseNetty implements Server {
+public final class NettyServer extends BaseServer {
 	// Netty ServerBootstrap
 	private ServerBootstrap	bootstrap;
+	// NettyHandler
+	private NettyHandler	handler;
 
 	/**
 	 * 构造函数
@@ -26,8 +30,10 @@ public final class NettyServer extends BaseNetty implements Server {
 		this.name = name;
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap();
-		// 添加配置
-		config(bootstrap);
+		// NettyHandler
+		handler = new NettyHandler(process);
+		// 设置group
+		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
 		// 设置属性
 		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
 		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -48,11 +54,6 @@ public final class NettyServer extends BaseNetty implements Server {
 	public void close() {
 		bootstrap.group().shutdownGracefully();
 		bootstrap.childGroup().shutdownGracefully();
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override

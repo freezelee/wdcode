@@ -9,7 +9,7 @@ import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Server;
+import org.wdcode.web.socket.base.BaseServer;
 
 /**
  * netty实现
@@ -17,11 +17,11 @@ import org.wdcode.web.socket.Server;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-public final class Netty3Server extends BaseNetty3 implements Server {
+public final class Netty3Server extends BaseServer {
 	// Netty ServerBootstrap
 	private ServerBootstrap	bootstrap;
-	// 端口
-	private int				port;
+	// NettyHandler
+	private Netty3Handler	handler;
 
 	/**
 	 * 构造函数
@@ -33,12 +33,13 @@ public final class Netty3Server extends BaseNetty3 implements Server {
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 		// NettyHandler
-		handler = new Netty3Handler();
+		handler = new Netty3Handler(process);
 		// 设置属性
 		bootstrap.setOption("child.tcpNoDelay", true);
 		bootstrap.setOption("child.keepAlive", true);
 		bootstrap.setOption("child.reuseAddress", true);
 		bootstrap.setOption("reuseAddress", true);
+		bootstrap.setOption("localAddress", new InetSocketAddress(SocketParams.getPort(name)));
 		// 设置handler
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			@Override
@@ -46,8 +47,6 @@ public final class Netty3Server extends BaseNetty3 implements Server {
 				return Channels.pipeline(handler);
 			}
 		});
-		// 设置监听端口
-		port = SocketParams.getPort(name);
 	}
 
 	@Override
@@ -57,12 +56,7 @@ public final class Netty3Server extends BaseNetty3 implements Server {
 	}
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
 	public void bind() {
-		bootstrap.bind(new InetSocketAddress(port));
+		bootstrap.bind();
 	}
 }

@@ -2,11 +2,13 @@ package org.wdcode.web.socket.impl.netty;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Client;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.base.BaseClient;
 
 /**
  * netty客户端
@@ -14,13 +16,13 @@ import org.wdcode.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-19
  */
-public final class NettyClient extends BaseNetty implements Client {
+public final class NettyClient extends BaseClient {
 	// 保存Netty客户端 Bootstrap
 	private Bootstrap		bootstrap;
 	// 保存Netty服务器 ChannelFuture
 	private ChannelFuture	future;
-	// Session
-	private Session			session;
+	// NettyHandler
+	private NettyHandler	handler;
 
 	/**
 	 * 构造方法
@@ -31,8 +33,18 @@ public final class NettyClient extends BaseNetty implements Client {
 		this.name = name;
 		// 实例化ClientBootstrap
 		bootstrap = new Bootstrap();
-		// 添加配置
-		config(bootstrap);
+		// NettyHandler
+		handler = new NettyHandler(process);
+		// 设置group
+		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
+		// 设置属性
+		bootstrap.option(ChannelOption.TCP_NODELAY, true);
+		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
+		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
+		bootstrap.option(ChannelOption.SO_TIMEOUT, 5000);
+		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
+		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel
 		bootstrap.channel(NioSocketChannel.class);
 		// 设置初始化 handler
@@ -45,11 +57,6 @@ public final class NettyClient extends BaseNetty implements Client {
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
 		session = new NettySession(0, future.channel());
-	}
-
-	@Override
-	public Session getSession() {
-		return session;
 	}
 
 	@Override

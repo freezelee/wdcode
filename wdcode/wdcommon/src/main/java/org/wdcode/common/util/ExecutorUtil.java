@@ -7,7 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.params.CommonParams;
 
@@ -19,7 +18,10 @@ import org.wdcode.common.params.CommonParams;
  */
 public final class ExecutorUtil {
 	// 并发服务类
-	private final static ExecutorService	ES	= Executors.newFixedThreadPool(SystemConstants.CPU_NUM + 1);
+	private final static ExecutorService	ES;
+	static {
+		ES = Executors.newFixedThreadPool(CommonParams.THREAD_POOL);
+	}
 
 	/**
 	 * 执行任务 不需要等待

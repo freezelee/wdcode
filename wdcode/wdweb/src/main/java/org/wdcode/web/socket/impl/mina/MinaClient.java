@@ -5,12 +5,13 @@ import java.net.InetSocketAddress;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketConnector;
+import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Client;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.base.BaseClient;
+import org.wdcode.web.socket.simple.Processor;
 
 /**
  * mina客户端
@@ -18,15 +19,13 @@ import org.wdcode.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-19
  */
-public final class MinaClient extends BaseMina implements Client {
-	// 名称
-	private String			name;
+public final class MinaClient extends BaseClient {
+	// MinaHandler
+	private MinaHandler		handler;
 	// 客户端连接
 	private SocketConnector	connector;
 	// 客户端ConnectFuture
 	private ConnectFuture	future;
-	// Session
-	private Session			session;
 
 	/**
 	 * 构造方法
@@ -37,15 +36,32 @@ public final class MinaClient extends BaseMina implements Client {
 		this.name = name;
 		// 客户端
 		this.connector = new NioSocketConnector(CommonParams.THREAD_POOL);
-		// 添加配置
-		config(connector);
+		// 实例化消息处理器
+		process = new Processor();
+		// 实例化handler
+		handler = new MinaHandler(process);
+		// 获得Session配置
+		SocketSessionConfig sc = connector.getSessionConfig();
+		// 设置每一个非主监听连接的端口可以重用
+		sc.setReuseAddress(true);
+		// 设置最小读取缓存
+		sc.setMinReadBufferSize(64);
+		// 设置输入缓冲区的大小
+		sc.setReceiveBufferSize(1024 * 8);
+		// 设置输出缓冲区的大小
+		sc.setSendBufferSize(1024 * 32);
+		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
+		sc.setTcpNoDelay(true);
+		sc.setSoLinger(0);
+		// 设置超时时间
+		sc.setWriteTimeout(10000);
+		sc.setWriterIdleTime(60);
+		sc.setReaderIdleTime(30);
+		sc.setBothIdleTime(180);
+		// 绑定Mina服务器管理模块
+		connector.setHandler(handler);
 		// 绑定服务器数据监听端口，启动服务器
 		connector.setDefaultRemoteAddress(new InetSocketAddress(SocketParams.getHost(name), SocketParams.getPort(name)));
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -53,11 +69,6 @@ public final class MinaClient extends BaseMina implements Client {
 		future = connector.connect().awaitUninterruptibly();
 		IoSession io = future.getSession();
 		session = new MinaSession(Conversion.toInt(io.getId()), io);
-	}
-
-	@Override
-	public Session getSession() {
-		return session;
 	}
 
 	@Override

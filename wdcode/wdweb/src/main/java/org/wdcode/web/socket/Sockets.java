@@ -10,6 +10,7 @@ import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.factory.ClientFactory;
 import org.wdcode.web.socket.factory.ServerFactory;
+import org.wdcode.web.socket.simple.HeartHandler;
 
 /**
  * Socket 相关类
@@ -59,6 +60,13 @@ public final class Sockets {
 			socket = addClient(name);
 		} else {
 			socket = addServer(name);
+		}
+		// 获得心跳时间
+		int heart = SocketParams.getHeart(name);
+		// 配置了心跳
+		if (heart > 0) {
+			// 设置心跳
+			socket.addHandler(new HeartHandler(heart));
 		}
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {

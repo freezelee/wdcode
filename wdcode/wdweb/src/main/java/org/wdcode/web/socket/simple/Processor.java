@@ -23,11 +23,19 @@ public final class Processor implements Process {
 	protected Map<Integer, Session>			sessions	= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
 	protected Map<Integer, Buffer>			buffers		= Maps.getConcurrentMap();
+	// 心跳处理
+	private HeartHandler					heart;
 
 	@Override
 	public void addHandler(Handler<?>... handler) {
 		for (Handler<?> h : handler) {
+			// 如果是心跳处理
+			if (h instanceof HeartHandler) {
+				heart = (HeartHandler) h;
+			}
+			// 正常添加到处理器列表
 			handlers.put(h.getId(), (Handler<Object>) h);
+
 		}
 	}
 
@@ -35,17 +43,30 @@ public final class Processor implements Process {
 	public void connected(Session session, Buffer buffer) {
 		sessions.put(session.getId(), session);
 		buffers.put(session.getId(), buffer);
+		// 如果心跳处理不为空
+		if (heart != null) {
+			heart.add(session);
+		}
 	}
 
 	@Override
 	public void closed(Session session) {
 		sessions.remove(session.getId());
 		buffers.remove(session.getId());
+		// 如果心跳处理不为空
+		if (heart != null) {
+			heart.remove(session);
+		}
 	}
 
 	@Override
 	public Session getSession(int id) {
 		return sessions.get(id);
+	}
+
+	@Override
+	public Map<Integer, Session> getSessions() {
+		return sessions;
 	}
 
 	@Override
@@ -88,7 +109,7 @@ public final class Processor implements Process {
 				// 读取指定长度字节数组
 				buff.get(data);
 				// 获得处理器消息类
-				Class<?> type = ClassUtil.getGenericClass(handler.getClass().getGenericInterfaces()[0], 0);
+				Class<?> type = ClassUtil.getGenericClass(handler.getClass());
 				// 判断消息实体类型
 				if (type.equals(String.class)) {
 					// 字符串

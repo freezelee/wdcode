@@ -16,7 +16,7 @@ public interface Socket extends Close {
 
 	/**
 	 * 添加要处理的Handler
-	 * @param h
+	 * @param handler
 	 */
-	void addHandler(Handler<?>... h);
+	void addHandler(Handler<?>... handler);
 }

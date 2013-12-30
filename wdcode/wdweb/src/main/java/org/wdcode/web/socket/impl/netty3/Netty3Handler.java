@@ -6,10 +6,8 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Session;
-import org.wdcode.web.socket.simple.Processor;
 
 /**
  * @author WD
@@ -18,14 +16,14 @@ import org.wdcode.web.socket.simple.Processor;
  */
 public final class Netty3Handler extends SimpleChannelHandler {
 	// 消息处理器
-	private Process	process	= new Processor();
+	private Process	process;
 
 	/**
-	 * 添加要处理的Handler
-	 * @param handler
+	 * 构造
+	 * @param process
 	 */
-	public void addHandler(Handler<?>... handler) {
-		process.addHandler(handler);
+	public Netty3Handler(Process process) {
+		this.process = process;
 	}
 
 	@Override

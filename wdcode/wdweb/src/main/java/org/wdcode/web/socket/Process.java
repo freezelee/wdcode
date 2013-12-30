@@ -1,5 +1,6 @@
 package org.wdcode.web.socket;
 
+import java.util.Map;
 
 /**
  * Socket 数据处理接口
@@ -14,6 +15,12 @@ public interface Process {
 	 * @return Session
 	 */
 	Session getSession(int id);
+
+	/**
+	 * 获得Session列表
+	 * @return Session列表
+	 */
+	Map<Integer, Session> getSessions();
 
 	/**
 	 * 添加要处理的Handler

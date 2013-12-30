@@ -913,16 +913,7 @@ public class SuperService {
 	 * @param entityClass 实体类
 	 * @return 缓存
 	 */
-	private <E extends Entity> Cache<E> getCache(E... entitys) {
-		return getCache((Class<E>) entitys[0].getClass());
-	}
-
-	/**
-	 * 根据实体类获得缓存
-	 * @param entityClass 实体类
-	 * @return 缓存
-	 */
-	private <E extends Entity> Cache<E> getCache(Class<E> entityClass) {
+	public <E extends Entity> Cache<E> getCache(Class<E> entityClass) {
 		// 获得缓存
 		Cache<E> cache = (Cache<E>) caches.get(entityClass);
 		// 判断缓存为空
@@ -939,6 +930,15 @@ public class SuperService {
 			// 返回缓存
 			return cache;
 		}
+	}
+
+	/**
+	 * 根据实体类获得缓存
+	 * @param entityClass 实体类
+	 * @return 缓存
+	 */
+	private <E extends Entity> Cache<E> getCache(E... entitys) {
+		return getCache((Class<E>) entitys[0].getClass());
 	}
 
 	/**

@@ -4,10 +4,8 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.wdcode.common.lang.Conversion;
-import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Session;
-import org.wdcode.web.socket.simple.Processor;
 
 /**
  * mina实现
@@ -17,14 +15,14 @@ import org.wdcode.web.socket.simple.Processor;
  */
 public final class MinaHandler extends IoHandlerAdapter {
 	// 消息处理器
-	private Process	process	= new Processor();
+	private Process	process;
 
 	/**
-	 * 添加要处理的Handler
-	 * @param handler
+	 * 构造
+	 * @param process
 	 */
-	public void addHandler(Handler<?>... handler) {
-		process.addHandler(handler);
+	public MinaHandler(Process process) {
+		this.process = process;
 	}
 
 	@Override

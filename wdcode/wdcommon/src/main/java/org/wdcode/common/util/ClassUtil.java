@@ -20,6 +20,27 @@ public final class ClassUtil {
 	 * @param type 指定的类型
 	 * @return 这个类的泛型
 	 */
+	public static <T> Class<T> getGenericClass(Class<?> clazz) {
+		// 查询父类是否有泛型
+		Class<T> gc = getGenericClass(clazz.getGenericSuperclass(), 0);
+		// 如果没找到
+		if (gc == null) {
+			// 获得所有接口
+			Type[] type = clazz.getGenericInterfaces();
+			// 接口不为空
+			if (!EmptyUtil.isEmpty(type)) {
+				gc = getGenericClass(type[0], 0);
+			}
+		}
+		// 返回类
+		return gc;
+	}
+
+	/**
+	 * 获得指定类型的泛型
+	 * @param type 指定的类型
+	 * @return 这个类的泛型
+	 */
 	public static Class<?>[] getGenericClass(Type type) {
 		// 获得类型类型数组
 		Type[] types = ((ParameterizedType) type).getActualTypeArguments();
@@ -41,7 +62,11 @@ public final class ClassUtil {
 	 * @return 这个类型的泛型
 	 */
 	public static <T> Class<T> getGenericClass(Type type, int index) {
-		return (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index];
+		try {
+			return (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index];
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
