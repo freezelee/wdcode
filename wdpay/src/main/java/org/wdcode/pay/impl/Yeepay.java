@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncodingConstants;
+import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
@@ -41,7 +42,12 @@ public final class Yeepay implements Pay {
 
 	@Override
 	public String pay(HttpServletRequest request, PayBean pay) {
-		return HttpUtil.toUrl(getUrl(), getParameters(request, pay));
+		return HttpUtil.toForm(getUrl(), getParameters(request, pay), getCharset());
+	}
+
+	@Override
+	public String getCharset() {
+		return PayParams.YEEPAY_CHARSET;
 	}
 
 	@Override
@@ -61,7 +67,7 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, EncodingConstants.UTF_8);
+		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, getCharset());
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
 		// 易宝支付会员ID
@@ -97,12 +103,7 @@ public final class Yeepay implements Pay {
 		return new TradeBean(r6_Order, isOK);
 	}
 
-	/**
-	 * 参数
-	 * @param request
-	 * @param pay
-	 * @return
-	 */
+	@Override
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
@@ -124,10 +125,7 @@ public final class Yeepay implements Pay {
 		return data;
 	}
 
-	/**
-	 * 支付url
-	 * @return
-	 */
+	@Override
 	public String getUrl() {
 		return PayParams.YEEPAY_URL;
 	}
@@ -179,8 +177,8 @@ public final class Yeepay implements Pay {
 		byte keyb[];
 		byte value[];
 		try {
-			keyb = aKey.getBytes(PayParams.YEEPAY_CHARSET);
-			value = aValue.getBytes(PayParams.YEEPAY_CHARSET);
+			keyb = aKey.getBytes(EncodingConstants.UTF_8);
+			value = aValue.getBytes(EncodingConstants.UTF_8);
 		} catch (UnsupportedEncodingException e) {
 			keyb = aKey.getBytes();
 			value = aValue.getBytes();
@@ -195,7 +193,7 @@ public final class Yeepay implements Pay {
 
 		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			md = MessageDigest.getInstance(EncryptConstants.ALGO_MD5);
 		} catch (NoSuchAlgorithmException e) {
 			return null;
 		}

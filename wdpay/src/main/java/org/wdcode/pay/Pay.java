@@ -30,6 +30,12 @@ public interface Pay {
 	String pay(HttpServletRequest request, PayBean pay);
 
 	/**
+	 * 获得编码
+	 * @return 获得编码
+	 */
+	String getCharset();
+
+	/**
 	 * 获得URL
 	 * @return
 	 */

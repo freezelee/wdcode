@@ -72,7 +72,7 @@ public final class PayParams {
 	/**
 	 * 编码类型
 	 */
-	public final static String	YEEPAY_CHARSET	= Params.getString("pay.yeepay.charset", EncodingConstants.UTF_8);
+	public final static String	YEEPAY_CHARSET	= Params.getString("pay.yeepay.charset", EncodingConstants.GBK);
 
 	/**
 	 * 私有构造

@@ -26,6 +26,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.crypto.Encrypts;
 import org.wdcode.common.io.FileUtil;
+import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
@@ -577,9 +578,15 @@ public class BasicAction extends ActionSupport {
 	/**
 	 * 写数据到前端
 	 * @param str 要写的字符串
+	 */
+	public void write(String str) {
+		write(str, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param str 要写的字符串
 	 * @param charsetName 编码
-	 * @param isClose 是否关闭流
-	 * @throws IOException
 	 */
 	public void write(String str, String charsetName) {
 		// 清除缓存
@@ -589,6 +596,28 @@ public class BasicAction extends ActionSupport {
 		// 写入到前端
 		try {
 			response.getWriter().write(str);
+		} catch (IOException e) {}
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param str 要写的字符串
+	 */
+	public void out(String str) {
+		out(str, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param str 要写的字符串
+	 * @param charsetName 编码
+	 */
+	public void out(String str, String charsetName) {
+		// 清除缓存
+		ResponseUtil.noCache(response);
+		// 写入到前端
+		try {
+			IOUtil.write(response.getOutputStream(), str, charsetName, false);
 		} catch (IOException e) {}
 	}
 

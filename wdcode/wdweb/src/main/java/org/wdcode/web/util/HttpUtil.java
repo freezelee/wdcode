@@ -41,6 +41,39 @@ public final class HttpUtil {
 	}
 
 	/**
+	 * 根据url和Map获得表单提交 &连接 如果值为空不连接 对Key进行排序
+	 * @param url 要提交的url
+	 * @param parameters 参数列表
+	 * @param charset 编码
+	 * @return 参数
+	 */
+	public static String toForm(String url, Map<String, String> parameters, String charset) {
+		// 声明表单字符串缓冲
+		StringBuilder sb = new StringBuilder();
+		sb.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		sb.append("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=");
+		sb.append(charset);
+		sb.append("\"></head>");
+		sb.append("<form id=\"paysubmit\" name=\"paysubmit\" action=\"");
+		sb.append(url);
+		sb.append("\" method=\"POST\">");
+		// 设置参数
+		for (Map.Entry<String, String> e : parameters.entrySet()) {
+			sb.append("<input type=\"hidden\" name=\"");
+			sb.append(e.getKey());
+			sb.append("\" value=\"");
+			sb.append(e.getValue());
+			sb.append("\"/>");
+		}
+		// submit按钮控件请不要含有name属性
+		sb.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
+		sb.append("<script>document.forms['paysubmit'].submit();</script>");
+		sb.append("<body></body></html>");
+		// 返回字节串
+		return sb.toString();
+	}
+
+	/**
 	 * 根据Map获得URL后的参数 &连接 如果值为空不连接 对Key进行排序
 	 * @param map 参数列表
 	 * @return 参数

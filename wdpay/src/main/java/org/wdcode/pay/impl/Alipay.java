@@ -36,7 +36,14 @@ public final class Alipay implements Pay {
 
 	@Override
 	public String pay(HttpServletRequest request, PayBean pay) {
-		return HttpUtil.toUrl(getUrl(), getParameters(request, pay));
+		// 获得提交参数
+		Map<String, String> params = getParameters(request, pay);
+		// 清空_input_charset
+		params.remove("_input_charset");
+		// 获得提交表单
+		String form = HttpUtil.toForm(getUrl(), params, getCharset());
+		// 处理表单并返回
+		return StringUtil.replace(form, getUrl(), getUrl() + "_input_charset=" + getCharset());
 	}
 
 	@Override
@@ -98,6 +105,11 @@ public final class Alipay implements Pay {
 	 * @return 签名
 	 */
 	protected String sign(Map<String, String> data) {
-		return Hex.encode(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
+		return Hex.encode(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, getCharset()), PayParams.ALIPAY_SIGNTYPE));
+	}
+
+	@Override
+	public String getCharset() {
+		return PayParams.ALIPAY_CHARSET;
 	}
 }

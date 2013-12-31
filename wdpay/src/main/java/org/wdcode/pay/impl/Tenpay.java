@@ -43,4 +43,9 @@ public final class Tenpay implements Pay {
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		return null;
 	}
+
+	@Override
+	public String getCharset() {
+		return null;
+	}
 }
