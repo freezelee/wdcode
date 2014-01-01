@@ -1,14 +1,9 @@
 package org.wdcode.common.params;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
-import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.Config;
-import org.wdcode.common.lang.Conversion;
-import org.wdcode.common.lang.Lists;
-import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.EmptyUtil;
 
@@ -20,10 +15,8 @@ import org.wdcode.common.util.EmptyUtil;
  * @version 1.0 2010-01-05
  */
 public final class Params {
-	// 保存键值并发Map
-	private final static ConcurrentMap<String, Object>	MAP	= Maps.getConcurrentMap();
 	// 读写配置文件接口
-	private static Config								config;
+	private static Config	config;
 
 	static {
 		config = (Config) BeanUtil.invoke("org.wdcode.core.config.ConfigFactory", "getConfig", null, null);
@@ -43,8 +36,6 @@ public final class Params {
 	 * @param value 属性value
 	 */
 	public static void setProperty(String key, Object value) {
-		// 设置Map里的值
-		MAP.put(key, value);
 		// 配置不为空
 		if (!EmptyUtil.isEmpty(config)) {
 			config.setProperty(key, value);
@@ -57,19 +48,7 @@ public final class Params {
 	 * @param value 属性value
 	 */
 	public static Object getProperty(String key, Object defaultValue) {
-		// 先从Map中获得值
-		Object value = MAP.get(key);
-		// 判断value为null
-		if (value == null) {
-			// 读取配置
-			try {
-				value = EmptyUtil.isEmpty(config) ? defaultValue : config.getProperty(key);
-			} catch (Exception e) {}
-			// 添加到Map中
-			MAP.put(key, value == null ? value = defaultValue : value);
-		}
-		// 返回值
-		return value;
+		return config.getProperty(key, defaultValue);
 	}
 
 	/**
@@ -79,7 +58,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static List<String> getList(String key, List<String> defaultValue) {
-		return Lists.getList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return config.getList(key, defaultValue);
 	}
 
 	/**
@@ -89,19 +68,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static String[] getStringArray(String key, String[] defaultValue) {
-		// 先从Map中获得值
-		String[] value = (String[]) MAP.get(key);
-		// 判断value为null
-		if (value == null) {
-			// 读取配置
-			try {
-				value = config.getStringArray(key);
-			} catch (Exception e) {}
-			// 添加到Map中
-			MAP.put(key, EmptyUtil.isEmpty(value) ? value = defaultValue : value);
-		}
-		// 返回值
-		return value;
+		return config.getStringArray(key, defaultValue);
 	}
 
 	/**
@@ -110,7 +77,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static String getString(String key) {
-		return getString(key, StringConstants.EMPTY);
+		return config.getString(key);
 	}
 
 	/**
@@ -120,7 +87,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static String getString(String key, String defaultValue) {
-		return Conversion.toString(getProperty(key, Conversion.toString(defaultValue)));
+		return config.getString(key, defaultValue);
 	}
 
 	/**
@@ -130,7 +97,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static boolean getBoolean(String key, boolean defaultValue) {
-		return Conversion.toBoolean(getProperty(key, defaultValue));
+		return config.getBoolean(key, defaultValue);
 	}
 
 	/**
@@ -140,7 +107,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static int getInt(String key) {
-		return Conversion.toInt(getProperty(key, 0));
+		return config.getInt(key);
 	}
 
 	/**
@@ -150,7 +117,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static int getInt(String key, int defaultValue) {
-		return Conversion.toInt(getProperty(key, defaultValue));
+		return config.getInt(key, defaultValue);
 	}
 
 	/**
@@ -160,7 +127,7 @@ public final class Params {
 	 * @return value
 	 */
 	public static long getLong(String key, long defaultValue) {
-		return Conversion.toLong(getProperty(key, defaultValue));
+		return config.getLong(key, defaultValue);
 	}
 
 	/**
@@ -170,14 +137,14 @@ public final class Params {
 	 * @return value
 	 */
 	public static short getShort(String key, short defaultValue) {
-		return Conversion.toShort(getProperty(key, defaultValue));
+		return config.getShort(key, defaultValue);
 	}
 
 	/**
 	 * 清楚Map中的键值
 	 */
 	public static void clear() {
-		MAP.clear();
+		config.clear();
 	}
 
 	/**

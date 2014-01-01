@@ -15,7 +15,7 @@ public final class SecurityParams {
 	/**
 	 * 安全方法过滤
 	 */
-	public final static String[]	SECURITY_METHODS	= Params.getStringArray("security.methods", new String[] { "add", "edit", "del", "dels" });
+	public final static String[]	SECURITY_METHODS	= Params.getStringArray("security.methods", new String[] { "add", "edit", "del", "dels", "trun" });
 
 	/**
 	 * 获得方法下可执行的实体列表<br/>

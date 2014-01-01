@@ -289,20 +289,20 @@ public class SuperService {
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, String property, Object value) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 获得缓存中的对象
-			for (E e : list(entityClass, -1, -1)) {
-				// 判断属性相等
-				if (value.equals(BeanUtil.getFieldValue(e, property))) {
-					return e;
-				}
-			}
-			// 缓冲中查询不到
-			return null;
-		} else {
-			// 数据库查询
-			return dao.get(entityClass, property, value);
-		}
+		// if (isCache(entityClass)) {
+		// // 获得缓存中的对象
+		// for (E e : list(entityClass, -1, -1)) {
+		// // 判断属性相等
+		// if (value.equals(BeanUtil.getFieldValue(e, property))) {
+		// return e;
+		// }
+		// }
+		// // 缓冲中查询不到
+		// return null;
+		// } else {
+		// 数据库查询
+		return dao.get(entityClass, property, value);
+		// }
 	}
 
 	/**
@@ -313,29 +313,29 @@ public class SuperService {
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Map<String, Object> map) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 获得缓存中的对象
-			for (E e : list(entityClass, -1, -1)) {
-				// 是否全相等标识
-				boolean is = true;
-				// 判断属性相等
-				for (Map.Entry<String, Object> m : map.entrySet()) {
-					if (!m.getValue().equals(BeanUtil.getFieldValue(e, m.getKey()))) {
-						is = false;
-						break;
-					}
-				}
-				// 如果所以属性相等 返回对象
-				if (is) {
-					return e;
-				}
-			}
-			// 缓冲中查询不到
-			return null;
-		} else {
-			// 数据库查询
-			return dao.get(entityClass, map);
-		}
+		// if (isCache(entityClass)) {
+		// // 获得缓存中的对象
+		// for (E e : list(entityClass, -1, -1)) {
+		// // 是否全相等标识
+		// boolean is = true;
+		// // 判断属性相等
+		// for (Map.Entry<String, Object> m : map.entrySet()) {
+		// if (!m.getValue().equals(BeanUtil.getFieldValue(e, m.getKey()))) {
+		// is = false;
+		// break;
+		// }
+		// }
+		// // 如果所以属性相等 返回对象
+		// if (is) {
+		// return e;
+		// }
+		// }
+		// // 缓冲中查询不到
+		// return null;
+		// } else {
+		// 数据库查询
+		return dao.get(entityClass, map);
+		// }
 	}
 
 	/**
@@ -444,28 +444,28 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 声明返回实体列表
-			List<E> list = Lists.getList(maxResults);
-			// 获得缓存中的对象
-			for (E e : list(entityClass, -1, -1)) {
-				// 是否全相等标识
-				boolean is = true;
-				// 判断属性相等
-				for (Map.Entry<String, Object> m : map.entrySet()) {
-					if (!m.getValue().equals(BeanUtil.getFieldValue(e, m.getKey()))) {
-						is = false;
-						break;
-					}
-				}
-				// 如果所以属性相等 返回对象
-				if (is) {
-					list.add(e);
-				}
-			}
-			// 返回数据列表
-			return Lists.subList(list, firstResult, maxResults);
-		}
+		// if (isCache(entityClass)) {
+		// // 声明返回实体列表
+		// List<E> list = Lists.getList(maxResults);
+		// // 获得缓存中的对象
+		// for (E e : list(entityClass, -1, -1)) {
+		// // 是否全相等标识
+		// boolean is = true;
+		// // 判断属性相等
+		// for (Map.Entry<String, Object> m : map.entrySet()) {
+		// if (!m.getValue().equals(BeanUtil.getFieldValue(e, m.getKey()))) {
+		// is = false;
+		// break;
+		// }
+		// }
+		// // 如果所以属性相等 返回对象
+		// if (is) {
+		// list.add(e);
+		// }
+		// }
+		// // 返回数据列表
+		// return Lists.subList(list, firstResult, maxResults);
+		// }
 		// 没有缓存
 		return dao.eq(entityClass, map, firstResult, maxResults);
 	}
@@ -481,9 +481,9 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			return in(entityClass, property, Lists.getList(value), firstResult, maxResults);
-		}
+		// if (isCache(entityClass)) {
+		// return in(entityClass, property, Lists.getList(value), firstResult, maxResults);
+		// }
 		// 查询数据库
 		return dao.eq(entityClass, property, Conversion.to(value, BeanUtil.getField(entityClass, property).getType()), firstResult, maxResults);
 	}
@@ -545,25 +545,25 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 获得所有缓存列表
-			List<E> list = list(entityClass, -1, -1);
-			// 获得列表大小
-			int size = list.size();
-			// 声明新列表
-			List<E> ls = Lists.getList(size);
-			// 循环缓存
-			for (int i = 0; i < size; i++) {
-				// 获得实体
-				E e = list.get(i);
-				// 判断实体的属性是否列表中
-				if (Lists.contains(values, BeanUtil.getFieldValue(e, property))) {
-					ls.add(e);
-				}
-			}
-			// 返回新列表
-			return Lists.subList(ls, firstResult, maxResults);
-		}
+		// if (isCache(entityClass)) {
+		// // 获得所有缓存列表
+		// List<E> list = list(entityClass, -1, -1);
+		// // 获得列表大小
+		// int size = list.size();
+		// // 声明新列表
+		// List<E> ls = Lists.getList(size);
+		// // 循环缓存
+		// for (int i = 0; i < size; i++) {
+		// // 获得实体
+		// E e = list.get(i);
+		// // 判断实体的属性是否列表中
+		// if (Lists.contains(values, BeanUtil.getFieldValue(e, property))) {
+		// ls.add(e);
+		// }
+		// }
+		// // 返回新列表
+		// return Lists.subList(ls, firstResult, maxResults);
+		// }
 		// 查询数据库
 		return dao.in(entityClass, property, values, firstResult, maxResults);
 	}
@@ -579,25 +579,26 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 获得所有缓存列表
-			List<E> list = EmptyUtil.isEmpty(orders) ? list(entityClass, -1, -1) : order(entityClass, orders, -1, -1);
-			// 获得列表大小
-			int size = list.size();
-			// 声明新列表
-			List<E> ls = Lists.getList(size);
-			// 循环缓存
-			for (int i = 0; i < size; i++) {
-				// 获得实体
-				E e = list.get(i);
-				// 判断实体的属性是否列表中
-				if (Lists.contains(values, BeanUtil.getFieldValue(e, property))) {
-					ls.add(e);
-				}
-			}
-			// 返回新列表
-			return Lists.subList(ls, firstResult, maxResults);
-		}
+		// if (isCache(entityClass)) {
+		// // 获得所有缓存列表
+		// List<E> list = EmptyUtil.isEmpty(orders) ? list(entityClass, -1, -1) : order(entityClass,
+		// orders, -1, -1);
+		// // 获得列表大小
+		// int size = list.size();
+		// // 声明新列表
+		// List<E> ls = Lists.getList(size);
+		// // 循环缓存
+		// for (int i = 0; i < size; i++) {
+		// // 获得实体
+		// E e = list.get(i);
+		// // 判断实体的属性是否列表中
+		// if (Lists.contains(values, BeanUtil.getFieldValue(e, property))) {
+		// ls.add(e);
+		// }
+		// }
+		// // 返回新列表
+		// return Lists.subList(ls, firstResult, maxResults);
+		// }
 		// 查询数据库
 		return dao.in(entityClass, property, values, orders, firstResult, maxResults);
 	}
@@ -635,35 +636,35 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults) {
 		// 判断有缓存
-		if (isCache(entityClass)) {
-			// 获得所有缓存列表
-			List<E> list = list(entityClass, -1, -1);
-			// 获得列表大小
-			int size = list.size();
-			// 声明新列表
-			List<E> ls = Lists.getList(size);
-			// 循环缓存
-			for (int i = 0; i < size; i++) {
-				// 获得实体
-				E e = list.get(i);
-				// 判断实体的属性是否列表中
-				boolean is = false;
-				for (Map.Entry<String, List<Object>> entry : parames.entrySet()) {
-					if (Lists.contains(entry.getValue(), BeanUtil.getFieldValue(e, entry.getKey()))) {
-						is = true;
-					} else {
-						is = false;
-						break;
-					}
-				}
-				// 全部属性相等 添加到列表中
-				if (is) {
-					ls.add(e);
-				}
-			}
-			// 返回新列表
-			return Lists.subList(ls, firstResult, maxResults);
-		}
+		// if (isCache(entityClass)) {
+		// // 获得所有缓存列表
+		// List<E> list = list(entityClass, -1, -1);
+		// // 获得列表大小
+		// int size = list.size();
+		// // 声明新列表
+		// List<E> ls = Lists.getList(size);
+		// // 循环缓存
+		// for (int i = 0; i < size; i++) {
+		// // 获得实体
+		// E e = list.get(i);
+		// // 判断实体的属性是否列表中
+		// boolean is = false;
+		// for (Map.Entry<String, List<Object>> entry : parames.entrySet()) {
+		// if (Lists.contains(entry.getValue(), BeanUtil.getFieldValue(e, entry.getKey()))) {
+		// is = true;
+		// } else {
+		// is = false;
+		// break;
+		// }
+		// }
+		// // 全部属性相等 添加到列表中
+		// if (is) {
+		// ls.add(e);
+		// }
+		// }
+		// // 返回新列表
+		// return Lists.subList(ls, firstResult, maxResults);
+		// }
 		// 查询数据库
 		return dao.in(entityClass, parames, firstResult, maxResults);
 	}
@@ -800,7 +801,9 @@ public class SuperService {
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass, String property, Object value) {
-		return isCache(entityClass) ? eq(entityClass, property, value, -1, -1).size() : dao.count(entityClass, property, value);
+		// return isCache(entityClass) ? eq(entityClass, property, value, -1, -1).size() :
+		// dao.count(entityClass, property, value);
+		return dao.count(entityClass, property, value);
 	}
 
 	/**
@@ -811,7 +814,9 @@ public class SuperService {
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass, String property, List<Object> values) {
-		return isCache(entityClass) ? in(entityClass, property, values, -1, -1).size() : dao.count(entityClass, property, values);
+		// return isCache(entityClass) ? in(entityClass, property, values, -1, -1).size() :
+		// dao.count(entityClass, property, values);
+		return dao.count(entityClass, property, values);
 	}
 
 	/**
@@ -823,7 +828,7 @@ public class SuperService {
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> int count(E entity, String property, Object lo, Object hi) {
-		return getCache(entity).isEmpty() ? between(entity, property, lo, hi, -1, -1).size() : dao.count(entity, property, lo, hi);
+		return dao.count(entity, property, lo, hi);
 	}
 
 	/**

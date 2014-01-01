@@ -20,7 +20,7 @@ public final class BaseParams {
 	/**
 	 * 数据源配置
 	 */
-	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "classpath:db/db.properties");
+	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
 	/**
 	 * 静态化配置文件
 	 */

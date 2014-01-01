@@ -2,14 +2,18 @@ package org.wdcode.core.config;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.FileConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.interfaces.Config;
+import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
+import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 
@@ -20,6 +24,8 @@ import org.wdcode.common.util.StringUtil;
  * @version 1.0 2012-9-16
  */
 public final class ConfigFile implements Config {
+	// 保存键值并发Map
+	private Map<String, Object>	map;
 	// Apache commons Configuration
 	private FileConfiguration	file;
 
@@ -29,6 +35,8 @@ public final class ConfigFile implements Config {
 	 */
 	public ConfigFile(String fileName) {
 		try {
+			// 声明Map列表
+			map = Maps.getConcurrentMap();
 			// 判断文件类型
 			if (fileName.indexOf(FileConstants.SUFFIX_XML) > -1) {
 				// xml文件
@@ -56,16 +64,145 @@ public final class ConfigFile implements Config {
 		return list.toArray(new String[list.size()]);
 	}
 
+	/**
+	 * 设置属性 如果这个key存在 会替换掉这个属性
+	 * @param key 属性key
+	 * @param value 属性value
+	 */
+	public void setProperty(String key, Object value) {
+		// 设置Map里的值
+		map.put(key, value);
+		// 添加配置
+		file.setProperty(key, value);
+	}
+
+	/**
+	 * 设置属性 如果这个key存在 会替换掉这个属性
+	 * @param key 属性key
+	 * @param value 属性value
+	 */
+	public Object getProperty(String key, Object defaultValue) {
+		// 先从Map中获得值
+		Object value = map.get(key);
+		// 判断value为null
+		if (value == null) {
+			// 读取配置
+			try {
+				value = EmptyUtil.isEmpty(file) ? defaultValue : file.getProperty(key);
+			} catch (Exception e) {}
+			// 添加到Map中
+			map.put(key, value == null ? value = defaultValue : value);
+		}
+		// 返回值
+		return value;
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public List<String> getList(String key, List<String> defaultValue) {
+		return Lists.getList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public String[] getStringArray(String key, String[] defaultValue) {
+		// 先从Map中获得值
+		String[] value = (String[]) map.get(key);
+		// 判断value为null
+		if (value == null) {
+			// 读取配置
+			try {
+				value = file.getStringArray(key);
+			} catch (Exception e) {}
+			// 添加到Map中
+			map.put(key, EmptyUtil.isEmpty(value) ? value = defaultValue : value);
+		}
+		// 返回值
+		return value;
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @return value
+	 */
+	public String getString(String key) {
+		return getString(key, StringConstants.EMPTY);
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public String getString(String key, String defaultValue) {
+		return Conversion.toString(getProperty(key, Conversion.toString(defaultValue)));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public boolean getBoolean(String key, boolean defaultValue) {
+		return Conversion.toBoolean(getProperty(key, defaultValue));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public int getInt(String key) {
+		return Conversion.toInt(getProperty(key, 0));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public int getInt(String key, int defaultValue) {
+		return Conversion.toInt(getProperty(key, defaultValue));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public long getLong(String key, long defaultValue) {
+		return Conversion.toLong(getProperty(key, defaultValue));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public short getShort(String key, short defaultValue) {
+		return Conversion.toShort(getProperty(key, defaultValue));
+	}
+
 	@Override
 	public void write() {
 		try {
 			file.save();
 		} catch (Exception e) {}
-	}
-
-	@Override
-	public void setProperty(String key, Object value) {
-		file.setProperty(key, value);
 	}
 
 	@Override
@@ -81,5 +218,11 @@ public final class ConfigFile implements Config {
 	@Override
 	public boolean isEmpty() {
 		return EmptyUtil.isEmpty(file);
+	}
+
+	@Override
+	public void clear() {
+		map.clear();
+		file.clear();
 	}
 }

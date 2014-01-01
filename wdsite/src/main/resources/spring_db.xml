@@ -11,7 +11,7 @@
 	<!-- 读取数据库配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="${dataSourceConfig}" />
+		<property name="location" value="classpath:${dataSourceConfig}" />
 	</bean> 
 	
 	<!-- namingStrategy -->
@@ -48,8 +48,8 @@
 				<prop key="hibernate.format_sql">${hibernate.sql:false}</prop>
 				<prop key="hibernate.release_mode">auto</prop>
 				<prop key="hibernate.connection.isolation">1</prop>
-				<prop key="hibernate.jdbc.batch_size">${hibernate.batch:25}</prop>
-				<prop key="hibernate.jdbc.fetch_size">${hibernate.fetch:25}</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.batch:50}</prop>
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.fetch:50}</prop>
 				<!-- 事务 -->
 				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext
 				</prop>
