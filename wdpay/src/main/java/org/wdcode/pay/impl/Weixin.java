@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.wdcode.common.crypto.Digest;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -21,6 +22,7 @@ import org.wdcode.web.util.IpUtil;
  * 微信支付
  * @author WD 2014-1-2
  */
+@Component
 public final class Weixin implements Pay {
 	@Override
 	public int type() {
