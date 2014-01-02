@@ -1,4 +1,4 @@
-package org.wdcode.core.xml.impl.jdom;
+package org.wdcode.core.xml.impl.jdom2;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,21 +19,21 @@ public final class ElementJDom implements Element {
 	// Document对象
 	private Document			doc;
 	// Dom4J节点对象
-	private org.jdom.Element	element;
+	private org.jdom2.Element	element;
 
 	/**
 	 * 构造方法
 	 * @param name 根节点名
 	 */
 	public ElementJDom(String name) {
-		element = new org.jdom.Element(name);
+		element = new org.jdom2.Element(name);
 	}
 
 	/**
 	 * 构造方法
 	 * @param e
 	 */
-	public ElementJDom(org.jdom.Element e) {
+	public ElementJDom(org.jdom2.Element e) {
 		element = e;
 	}
 
@@ -144,7 +144,7 @@ public final class ElementJDom implements Element {
 		// 循环属性
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
-			attributes.add(new AttributeJDom((org.jdom.Attribute) list.get(i)));
+			attributes.add(new AttributeJDom((org.jdom2.Attribute) list.get(i)));
 		}
 		// 返回集合
 		return attributes;
@@ -221,17 +221,17 @@ public final class ElementJDom implements Element {
 
 	/**
 	 * 获得JDom Element
-	 * @return org.jdom.Element
+	 * @return org.jdom2.Element
 	 */
-	public org.jdom.Element getElement() {
+	public org.jdom2.Element getElement() {
 		return element;
 	}
 
 	/**
 	 * 设置JDom Element
-	 * @param e org.jdom.Element
+	 * @param e org.jdom2.Element
 	 */
-	public void setElement(org.jdom.Element e) {
+	public void setElement(org.jdom2.Element e) {
 		element = e;
 	}
 
@@ -259,7 +259,7 @@ public final class ElementJDom implements Element {
 		// 循环JDom节点集合
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
-			lsElement.add(new ElementJDom((org.jdom.Element) list.get(i)));
+			lsElement.add(new ElementJDom((org.jdom2.Element) list.get(i)));
 		}
 		// 返回集合
 		return lsElement;

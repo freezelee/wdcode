@@ -1,13 +1,13 @@
-package org.wdcode.core.xml.impl.jdom.input;
+package org.wdcode.core.xml.impl.jdom2.input;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
 
-import org.jdom.input.SAXBuilder;
+import org.jdom2.input.SAXBuilder;
 
 import org.wdcode.core.xml.Document;
-import org.wdcode.core.xml.impl.jdom.DocumentJDom;
+import org.wdcode.core.xml.impl.jdom2.DocumentJDom;
 import org.wdcode.core.xml.input.XMLRead;
 
 import org.wdcode.core.log.Logs;

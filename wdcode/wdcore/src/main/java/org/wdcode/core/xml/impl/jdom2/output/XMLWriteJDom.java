@@ -1,14 +1,14 @@
-package org.wdcode.core.xml.impl.jdom.output;
+package org.wdcode.core.xml.impl.jdom2.output;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.jdom.output.XMLOutputter;
+import org.jdom2.output.XMLOutputter;
 
 import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.core.xml.Document;
-import org.wdcode.core.xml.impl.jdom.DocumentJDom;
+import org.wdcode.core.xml.impl.jdom2.DocumentJDom;
 import org.wdcode.core.xml.output.Format;
 import org.wdcode.core.xml.output.XMLWrite;
 

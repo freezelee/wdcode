@@ -58,7 +58,7 @@ public final class SiteParams {
 	/**
 	 * 是否静态化
 	 */
-	public final static boolean	IS_STATICS_POWER			= Params.getBoolean("staics.power", false);
+	public final static boolean	POWER						= Params.getBoolean("staics.power", false);
 
 	/**
 	 * 私有构造

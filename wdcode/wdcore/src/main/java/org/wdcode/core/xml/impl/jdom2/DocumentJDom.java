@@ -1,4 +1,4 @@
-package org.wdcode.core.xml.impl.jdom;
+package org.wdcode.core.xml.impl.jdom2;
 
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.xml.Document;
@@ -12,7 +12,7 @@ import org.wdcode.core.xml.Element;
  */
 public final class DocumentJDom implements Document {
 	// JDom Document对象
-	private org.jdom.Document	document;
+	private org.jdom2.Document	document;
 	// Element接口对象 根节点
 	private Element				root;
 
@@ -21,15 +21,15 @@ public final class DocumentJDom implements Document {
 	 */
 	public DocumentJDom() {
 		// 创建Document
-		document = new org.jdom.Document();
+		document = new org.jdom2.Document();
 		root = new ElementJDom(document.getRootElement());
 	}
 
 	/**
 	 * 构造方法
-	 * @param document org.jdom.Document
+	 * @param document org.jdom2.Document
 	 */
-	public DocumentJDom(org.jdom.Document document) {
+	public DocumentJDom(org.jdom2.Document document) {
 		this.document = document;
 		root = new ElementJDom(document.getRootElement());
 	}
@@ -40,7 +40,7 @@ public final class DocumentJDom implements Document {
 	 */
 	public DocumentJDom(Element root) {
 		// 创建Document
-		document = new org.jdom.Document();
+		document = new org.jdom2.Document();
 		// 判断传入的根节点不为空
 		// 创建根节点
 		this.root = root == null ? new ElementJDom("root") : root;
@@ -78,7 +78,7 @@ public final class DocumentJDom implements Document {
 	 * 获得JDom Document
 	 * @return Document
 	 */
-	public org.jdom.Document getDocument() {
+	public org.jdom2.Document getDocument() {
 		return document;
 	}
 
@@ -86,7 +86,7 @@ public final class DocumentJDom implements Document {
 	 * 设置JDom Document
 	 * @param doc
 	 */
-	public void setDocument(org.jdom.Document doc) {
+	public void setDocument(org.jdom2.Document doc) {
 		document = doc;
 	}
 

@@ -1,4 +1,4 @@
-package org.wdcode.core.xml.impl.jdom.output;
+package org.wdcode.core.xml.impl.jdom2.output;
 
 import org.wdcode.core.xml.output.Format;
 
@@ -10,7 +10,7 @@ import org.wdcode.core.xml.output.Format;
  */
 public final class FormatJDom implements Format {
 	// JDom Format
-	private org.jdom.output.Format	format;
+	private org.jdom2.output.Format	format;
 
 	/**
 	 * 构造方法
@@ -18,7 +18,7 @@ public final class FormatJDom implements Format {
 	 */
 	public FormatJDom(String encoding) {
 		// 创建漂亮的打印格式
-		format = org.jdom.output.Format.getPrettyFormat();
+		format = org.jdom2.output.Format.getPrettyFormat();
 		// 设置编码
 		format.setEncoding(encoding);
 	}
@@ -33,17 +33,17 @@ public final class FormatJDom implements Format {
 
 	/**
 	 * 设置输出格式
-	 * @param format org.jdom.output.Format
+	 * @param format org.jdom2.output.Format
 	 */
-	public void setFormat(org.jdom.output.Format format) {
+	public void setFormat(org.jdom2.output.Format format) {
 		this.format = format;
 	}
 
 	/**
 	 * 获得输出格式
-	 * @return org.jdom.output.Format
+	 * @return org.jdom2.output.Format
 	 */
-	public org.jdom.output.Format getFormat() {
+	public org.jdom2.output.Format getFormat() {
 		return format;
 	}
 }

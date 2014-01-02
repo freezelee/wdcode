@@ -1,4 +1,4 @@
-package org.wdcode.core.xml.impl.jdom;
+package org.wdcode.core.xml.impl.jdom2;
 
 import org.wdcode.core.xml.Attribute;
 
@@ -10,7 +10,7 @@ import org.wdcode.core.xml.Attribute;
  */
 public final class AttributeJDom implements Attribute {
 	// JDom Attribute对象
-	private org.jdom.Attribute	attribute;
+	private org.jdom2.Attribute	attribute;
 
 	/**
 	 * 构造方法
@@ -18,14 +18,14 @@ public final class AttributeJDom implements Attribute {
 	 * @param value 属性值
 	 */
 	public AttributeJDom(String name, String value) {
-		attribute = new org.jdom.Attribute(name, value);
+		attribute = new org.jdom2.Attribute(name, value);
 	}
 
 	/**
 	 * 构造方法
 	 * @param a 属性
 	 */
-	public AttributeJDom(org.jdom.Attribute a) {
+	public AttributeJDom(org.jdom2.Attribute a) {
 		this.attribute = a;
 	}
 
@@ -63,17 +63,17 @@ public final class AttributeJDom implements Attribute {
 
 	/**
 	 * 设置JDom Attribute
-	 * @param a org.jdom.Attribute
+	 * @param a org.jdom2.Attribute
 	 */
-	public void setAttribute(org.jdom.Attribute a) {
+	public void setAttribute(org.jdom2.Attribute a) {
 		attribute = a;
 	}
 
 	/**
 	 * 获得JDom Attribute
-	 * @return org.jdom.Attribute
+	 * @return org.jdom2.Attribute
 	 */
-	public org.jdom.Attribute getAttribute() {
+	public org.jdom2.Attribute getAttribute() {
 		return attribute;
 	}
 }
