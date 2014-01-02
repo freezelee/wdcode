@@ -19,6 +19,10 @@ public final class PayConstants {
 	 * 支付常量 易宝
 	 */
 	public final static int	TYPE_YEEPAY	= 3;
+	/**
+	 * 支付常量 微信
+	 */
+	public final static int	TYPE_WEIXIN	= 4;
 
 	private PayConstants() {}
 }
