@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.entity.EntityIp;
 import org.wdcode.base.entity.EntityStartEndTime;
@@ -61,7 +60,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	@Resource
 	protected QueryService			query;
 	// 分页Bean
-	@Autowired
+	@Resource
 	protected Pagination			pager;
 	// 排序参数
 	protected Map<String, Object>	orders;
@@ -240,18 +239,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	public String dels() throws Exception {
 		return callback(EmptyUtil.isEmpty(service.delete(entityClass, keys)) ? ERROR : mode);
-	}
-
-	/**
-	 * 清空表
-	 * @return
-	 * @throws Exception
-	 */
-	public String trun() throws Exception {
-		// 清空表
-		service.truncate(entityClass);
-		// 返回成功
-		return callback(SUCCESS);
 	}
 
 	/**

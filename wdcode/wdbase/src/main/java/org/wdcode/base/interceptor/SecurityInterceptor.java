@@ -3,7 +3,7 @@ package org.wdcode.base.interceptor;
 import java.util.List;
 import java.util.Map;
 
-import org.wdcode.base.action.SuperAction;
+import org.wdcode.base.action.BasicAction;
 import org.wdcode.base.params.SecurityParams;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
@@ -14,7 +14,7 @@ import org.wdcode.common.util.EmptyUtil;
  * @since JDK7
  * @version 1.0 2013-12-25
  */
-public final class SecurityInterceptor extends BasicInterceptor<SuperAction<?>> {
+public final class SecurityInterceptor extends BasicInterceptor<BasicAction> {
 	private static final long			serialVersionUID	= -7879736892830147087L;
 	// 方法对应实体Map
 	private Map<String, List<String>>	methods;
@@ -30,18 +30,32 @@ public final class SecurityInterceptor extends BasicInterceptor<SuperAction<?>> 
 	}
 
 	@Override
-	protected boolean before(SuperAction<?> action) {
-		// 获得执行的方法
-		String method = action.getMethod();
-		// 实体
-		String module = action.getModule();
-		// 实体玉方法相同 为自定义方法 直接通过
-		if (module.equals(method)) {
-			return true;
+	protected boolean before(BasicAction action) {
+		// 过滤IP
+		if (SecurityParams.SECURITY_POWER_IP) {
+			// 获得IP
+			String ip = action.getIp();
+			// 如果不存在允许列表中
+			if (!SecurityParams.SECURITY_IPS.contains(ip)) {
+				return false;
+			}
 		}
-		// 获得方法下的实体列表
-		List<String> modules = methods.get(method);
-		// 判断是可执行实体方法
-		return EmptyUtil.isEmpty(modules) ? false : modules.contains(module);
+		// 过滤方法
+		if (SecurityParams.SECURITY_POWER_METHOD) {
+			// 获得执行的方法
+			String method = action.getMethod();
+			// 实体
+			String module = action.getModule();
+			// 实体玉方法相同 为自定义方法 直接通过
+			if (module.equals(method)) {
+				return true;
+			}
+			// 获得方法下的实体列表
+			List<String> modules = methods.get(method);
+			// 判断是可执行实体方法
+			return EmptyUtil.isEmpty(modules) ? false : modules.contains(module);
+		}
+		// 如果都不过滤 返回true
+		return true;
 	}
 }

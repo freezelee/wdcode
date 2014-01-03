@@ -38,7 +38,6 @@ public final class SiteParams {
 	 * email验证替换用户名
 	 */
 	public final static String	USER_VERIFY_EMAIL_NAME		= Params.getString("user.verify.email.name");
-
 	/**
 	 * 登录信息最大保存时间
 	 */
@@ -58,7 +57,7 @@ public final class SiteParams {
 	/**
 	 * 是否静态化
 	 */
-	public final static boolean	POWER						= Params.getBoolean("staics.power", false);
+	public final static boolean	STAICS_POWER				= Params.getBoolean("staics.power", false);
 
 	/**
 	 * 私有构造

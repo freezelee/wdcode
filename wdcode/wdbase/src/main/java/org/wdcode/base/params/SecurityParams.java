@@ -15,7 +15,19 @@ public final class SecurityParams {
 	/**
 	 * 安全方法过滤
 	 */
-	public final static String[]	SECURITY_METHODS	= Params.getStringArray("security.methods", new String[] { "add", "edit", "del", "dels", "trun" });
+	public final static String[]		SECURITY_METHODS		= Params.getStringArray("security.methods", new String[] { "add", "edit", "del", "dels", "trun" });
+	/**
+	 * 是否使用IP过滤
+	 */
+	public final static boolean			SECURITY_POWER_METHOD	= Params.getBoolean("security.power.method", false);
+	/**
+	 * 安全方法过滤
+	 */
+	public final static List<String>	SECURITY_IPS			= Params.getList("security.ips", null);
+	/**
+	 * 是否使用IP过滤
+	 */
+	public final static boolean			SECURITY_POWER_IP		= Params.getBoolean("security.power.ip", false);
 
 	/**
 	 * 获得方法下可执行的实体列表<br/>

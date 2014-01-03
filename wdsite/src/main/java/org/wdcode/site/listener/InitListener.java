@@ -48,7 +48,7 @@ public class InitListener implements ServletContextListener {
 		System.setProperty("dataSourceConfig", BaseParams.DATA_SOURCE_CONFIG);
 
 		// 是否静态化
-		if (SiteParams.POWER) {
+		if (SiteParams.STAICS_POWER) {
 			StaticsEngine.start();
 		}
 		// 是否开启任务

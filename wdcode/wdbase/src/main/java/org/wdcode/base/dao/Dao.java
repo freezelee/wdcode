@@ -236,24 +236,6 @@ public interface Dao extends Close {
 	/**
 	 * 获得查询的对象实体总数
 	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 对象实体总数 异常返回 0
-	 */
-	int count(Class<?> entityClass, String property, Object value);
-
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param values 属性值
-	 * @return 对象实体总数 异常返回 0
-	 */
-	int count(Class<?> entityClass, String property, List<Object> values);
-
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
 	 * @param op 操作符
 	 * @param map 属性键值
 	 * @return 对象实体总数 异常返回 0
@@ -269,29 +251,32 @@ public interface Dao extends Close {
 
 	/**
 	 * 根据SQL查询语句查询出总行数
+	 * @param entityClass 实体类
 	 * @param sql SQL查询语句 参数为?的语句
 	 * @param value 参数值
 	 * @return 结果数 异常返回0
 	 */
-	int count(String sql, Object... values);
+	int count(Class<?> entityClass, String sql, Object... values);
 
 	/**
 	 * 执行非查询的SQL语言 使用 ? 做参数
+	 * @param entityClass 实体类
 	 * @param sql sql语句 不能是查询的
 	 * @param values 参数值数组
 	 * @return 返回影响的行数 异常返回-1
 	 */
-	int execute(String sql, Object... values);
+	int execute(Class<?> entityClass, String sql, Object... values);
 
 	/**
 	 * 根据SQL查询语句查询
+	 * @param entityClass 实体类
 	 * @param sql SQL查询语句 参数为?的语句
 	 * @param values 参数列表
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
 	 * @return 返回结果列表
 	 */
-	<E> List<E> query(String sql, List<Object> values, int firstResult, int maxResults);
+	<E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult, int maxResults);
 
 	/**
 	 * 清空整张表

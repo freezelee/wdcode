@@ -5,6 +5,7 @@ import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.site.params.SiteParams;
 import org.wdcode.web.util.IpUtil;
 
 /**
@@ -57,7 +58,7 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public boolean isLogin() {
-		return id > 0 && time > 0;
+		return id > 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? time > SiteParams.LOGIN_MAX_AGE : time > 0);
 	}
 
 	@Override

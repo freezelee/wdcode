@@ -17,6 +17,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.Dao;
@@ -43,7 +44,7 @@ public final class HibernateDao implements Dao {
 	@Resource
 	private SessionFactorys	factorys;
 	// HibernateSearch
-	@Resource
+	@Autowired(required = false)
 	private HibernateSearch	search;
 	// 是否使用openSession
 	private boolean			isSession;
@@ -159,7 +160,7 @@ public final class HibernateDao implements Dao {
 	 * @param entityClass 实体类
 	 */
 	public void truncate(Class<?> entityClass) {
-		execute(SqlUtil.getTruncateSQL(factorys.getTables(entityClass)));
+		execute(entityClass, SqlUtil.getTruncateSQL(factorys.getTables(entityClass)));
 	}
 
 	/**
@@ -404,51 +405,10 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Class<?> entityClass) {
-		return count(entityClass, null, null);
-	}
-
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
-	 * @param op 操作符
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 对象实体总数 异常返回 0
-	 */
-	public int count(final Class<?> entityClass, final String property, final Object value) {
 		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entityClass);
-				// 添加相等条件
-				if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
-					criteria.add(Restrictions.eq(property, value));
-				}
-				// 设置获得总行数
-				criteria.setProjection(Projections.rowCount());
-				// 返回结果
-				return Conversion.toInt(criteria.uniqueResult());
-			}
-		});
-	}
-
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
-	 * @param op 操作符
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 对象实体总数 异常返回 0
-	 */
-	public int count(final Class<?> entityClass, final String property, final List<Object> values) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				// 创建查询条件
-				Criteria criteria = session.createCriteria(entityClass);
-				// 添加相等条件
-				if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(values)) {
-					criteria.add(Restrictions.in(property, values));
-				}
 				// 设置获得总行数
 				criteria.setProjection(Projections.rowCount());
 				// 返回结果
@@ -519,8 +479,8 @@ public final class HibernateDao implements Dao {
 	 * @param values 参数值数组
 	 * @return 返回影响的行数 异常返回-1
 	 */
-	public int execute(final String sql, final Object... values) {
-		return execute(null, new Callback<Integer>() {
+	public int execute(Class<?> entityClass, final String sql, final Object... values) {
+		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				return setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate();
 			}
@@ -535,8 +495,8 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 一共查回多少条
 	 * @return 返回结果列表
 	 */
-	public <E> List<E> query(final String sql, final List<Object> values, final int firstResult, final int maxResults) {
-		return execute(null, new Callback<List<E>>() {
+	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
+		return execute(entityClass, new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
 			}
@@ -549,8 +509,8 @@ public final class HibernateDao implements Dao {
 	 * @param value 参数值
 	 * @return 结果数 异常返回0
 	 */
-	public int count(final String sql, final Object... values) {
-		return execute(null, new Callback<Integer>() {
+	public int count(Class<?> entityClass, final String sql, final Object... values) {
+		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 声明分页查询接口
 				Query queryCount = session.createSQLQuery(SqlUtil.getCountSQL(sql));
