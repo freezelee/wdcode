@@ -35,7 +35,7 @@ public final class Alipay implements Pay {
 	}
 
 	@Override
-	public String pay(HttpServletRequest request, PayBean pay) {
+	public String pay(HttpServletRequest request, HttpServletResponse response, PayBean pay) {
 		// 获得提交参数
 		Map<String, String> params = getParameters(request, pay);
 		// 清空_input_charset

@@ -41,7 +41,7 @@ public final class Yeepay implements Pay {
 	}
 
 	@Override
-	public String pay(HttpServletRequest request, PayBean pay) {
+	public String pay(HttpServletRequest request, HttpServletResponse response, PayBean pay) {
 		return HttpUtil.toForm(getUrl(), getParameters(request, pay), getCharset());
 	}
 
@@ -92,6 +92,7 @@ public final class Yeepay implements Pay {
 					// 如果在发起交易请求时 设置使用应答机制时，必须应答以"success"开头的字符串，大小写不敏感
 					try {
 						response.getWriter().println("SUCCESS");
+						response.getWriter().flush();
 					} catch (IOException e) {}
 					// 产品通用接口支付成功返回-电话支付返回
 				}
@@ -103,7 +104,12 @@ public final class Yeepay implements Pay {
 		return new TradeBean(r6_Order, isOK);
 	}
 
-	@Override
+	/**
+	 * 获得支付参数
+	 * @param request
+	 * @param pay
+	 * @return
+	 */
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
 		Map<String, String> data = Maps.getMap();
@@ -125,7 +131,10 @@ public final class Yeepay implements Pay {
 		return data;
 	}
 
-	@Override
+	/**
+	 * 获得支付url
+	 * @return
+	 */
 	public String getUrl() {
 		return PayParams.YEEPAY_URL;
 	}

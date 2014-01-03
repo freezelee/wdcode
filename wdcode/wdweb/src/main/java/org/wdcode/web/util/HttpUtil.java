@@ -74,6 +74,15 @@ public final class HttpUtil {
 	}
 
 	/**
+	 * 判断字符串是否是HTTP请求
+	 * @param str
+	 * @return
+	 */
+	public static boolean isHttp(String str) {
+		return EmptyUtil.isEmpty(str) ? false : str.startsWith(HttpConstants.HTTP) || str.startsWith(HttpConstants.HTTPS);
+	}
+
+	/**
 	 * 根据Map获得URL后的参数 &连接 如果值为空不连接 对Key进行排序
 	 * @param map 参数列表
 	 * @return 参数

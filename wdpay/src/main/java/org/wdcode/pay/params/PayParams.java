@@ -51,6 +51,14 @@ public final class PayParams {
 	 * 编码类型
 	 */
 	public final static String	TENPAY_CHARSET	= Params.getString("pay.tenpay.charset", CommonParams.ENCODING);
+	/**
+	 * 支付URL
+	 */
+	public final static String	TENPAY_URL		= Params.getString("pay.tenpay.url", "https://gw.tenpay.com/gateway/pay.htm");
+	/**
+	 * 回调URL
+	 */
+	public final static String	TENPAY_REDIRECT	= Params.getString("pay.tenpay.redirect");
 
 	/* 易宝 */
 	/**
