@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheEmpty;
 import org.wdcode.base.context.Context;
@@ -30,7 +29,6 @@ import org.wdcode.common.util.EmptyUtil;
  * @version 1.0 2012-07-02
  */
 @Service
-@Transactional(readOnly = true)
 public class SuperService {
 	// Context
 	@Resource
@@ -76,7 +74,6 @@ public class SuperService {
 	 * @param entitys 实体
 	 * @return ID
 	 */
-	@Transactional
 	public <E extends Entity> List<E> insert(E... entitys) {
 		return getCache(entitys).set(dao.insert(entitys));
 	}
@@ -86,7 +83,6 @@ public class SuperService {
 	 * @param entitys 实体
 	 * @return 是否成功
 	 */
-	@Transactional
 	public <E extends Entity> List<E> update(E... entitys) {
 		return getCache(entitys).set(dao.update(entitys));
 	}
@@ -96,7 +92,6 @@ public class SuperService {
 	 * @param entitys 实体
 	 * @return 影响行数
 	 */
-	@Transactional
 	public <E extends Entity> List<E> insertOrUpdate(E... entitys) {
 		return getCache(entitys).set(dao.insertOrUpdate(entitys));
 	}
@@ -106,7 +101,6 @@ public class SuperService {
 	 * @param list 实体列表
 	 * @return 是否成功
 	 */
-	@Transactional
 	public <E extends Entity> List<E> delete(E entity) {
 		// 查询出符合删除实体列表
 		List<E> list = list(entity, -1, -1);
@@ -125,7 +119,6 @@ public class SuperService {
 	 * @param list 实体列表
 	 * @return 是否成功
 	 */
-	@Transactional
 	public <E extends Entity> List<E> delete(E... entitys) {
 		// 删除
 		List<E> list = dao.delete(entitys);
@@ -139,7 +132,6 @@ public class SuperService {
 	 * @param pk 主键数组
 	 * @return 是否成功
 	 */
-	@Transactional
 	public <E extends Entity> List<E> delete(Class<E> entity, Serializable... pk) {
 		// 删除
 		List<E> entitys = dao.delete(newInstance(entity, pk));
@@ -151,7 +143,6 @@ public class SuperService {
 	 * 清空表
 	 * @param entity 要清空的实体
 	 */
-	@Transactional
 	public <E extends Entity> void truncate(Class<E> entity) {
 		// 清除表
 		dao.truncate(entity);

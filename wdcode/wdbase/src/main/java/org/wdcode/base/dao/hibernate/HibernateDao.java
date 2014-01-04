@@ -9,8 +9,6 @@ import javax.annotation.Resource;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
@@ -25,7 +23,6 @@ import org.wdcode.base.dao.hibernate.search.HibernateSearch;
 import org.wdcode.base.dao.hibernate.session.SessionFactorys;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
-import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.SqlUtil;
 
@@ -46,8 +43,6 @@ public final class HibernateDao implements Dao {
 	// HibernateSearch
 	@Autowired(required = false)
 	private HibernateSearch	search;
-	// 是否使用openSession
-	private boolean			isSession;
 
 	/**
 	 * 使用索引查询
@@ -657,28 +652,7 @@ public final class HibernateDao implements Dao {
 	 * @return Session
 	 */
 	private Session getSession(Class<?> entity) {
-		// 获得sessionFactory
-		SessionFactory sessionFactory = factorys.getSessionFactory(entity);
-		// 声明Session
-		Session session = null;
-		// 判断是否直接使用 openSession
-		try {
-			session = sessionFactory.getCurrentSession();
-		} catch (Exception e) {
-			Logs.debug(e);
-		} finally {
-			if (session == null) {
-				isSession = true;
-			} else {
-				try {
-					isSession = !session.getTransaction().isActive();
-				} catch (Exception e) {
-					isSession = true;
-				}
-			}
-		}
-		// 判断如果session为空 返回 openSession
-		return isSession ? sessionFactory.openSession() : session;
+		return factorys.getSession(entity);
 	}
 
 	/**
@@ -691,20 +665,22 @@ public final class HibernateDao implements Dao {
 		// 获得Session
 		Session session = getSession(entity);
 		// 声明事务
-		Transaction tx = null;
+		// Transaction tx = null;
+		// 是否自己控制事务
+		boolean isTx = factorys.isTx(entity);
 		try {
 			// 是否自己控制事务
-			if (isSession) {
-				// 开始事务
-				tx = session.beginTransaction();
-			}
+			// if (isTx) {
+			// // 开始事务
+			// tx = session.beginTransaction();
+			// }
 			// 执行
 			T t = callback.callback(session);
 			// 是否自己控制事务
-			if (!EmptyUtil.isEmpty(tx)) {
-				// 提交事务
-				tx.commit();
-			}
+			// if (!EmptyUtil.isEmpty(tx)) {
+			// // 提交事务
+			// tx.commit();
+			// }
 			// toString() 为了使关联生效
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
@@ -713,13 +689,13 @@ public final class HibernateDao implements Dao {
 			return t;
 		} catch (Exception e) {
 			// 回滚事务
-			if (!EmptyUtil.isEmpty(tx)) {
-				tx.rollback();
-			}
+			// if (!EmptyUtil.isEmpty(tx)) {
+			// tx.rollback();
+			// }
 			throw e;
 		} finally {
 			// 自己关闭session
-			if (isSession) {
+			if (isTx) {
 				if (!EmptyUtil.isEmpty(session) && session.isOpen() && session.isConnected()) {
 					session.close();
 				}
