@@ -49,7 +49,7 @@ public class SuperService {
 	@PostConstruct
 	protected void init() {
 		// 获得所有带缓存实体
-		Map<String, Object> map = context.getBeansWithAnnotation(org.hibernate.annotations.Cache.class);
+		Map<String, Object> map = context.getBeansWithAnnotation(org.wdcode.base.annotation.Cache.class);
 		// 实例化缓存
 		caches = Maps.getConcurrentMap();
 		// 实例化缓存加载
@@ -137,17 +137,6 @@ public class SuperService {
 		List<E> entitys = dao.delete(newInstance(entity, pk));
 		// 返回结果
 		return isCache(entity) ? getCache(entity).remove(entitys) : entitys;
-	}
-
-	/**
-	 * 清空表
-	 * @param entity 要清空的实体
-	 */
-	public <E extends Entity> void truncate(Class<E> entity) {
-		// 清除表
-		dao.truncate(entity);
-		// 清空缓存
-		getCache(entity).clear();
 	}
 
 	/**

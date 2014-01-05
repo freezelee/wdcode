@@ -7,6 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.quartz.Trigger;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.context.Context;
 import org.wdcode.common.constants.StringConstants;
@@ -21,7 +24,7 @@ import org.wdcode.core.params.QuartzParams;
  * @version 1.0 2013-12-27
  */
 @Component
-public final class Quartzs {
+final class Quartzs {
 	// Context
 	@Resource
 	private Context	context;
@@ -40,7 +43,7 @@ public final class Quartzs {
 				// 设置任务
 				for (Map.Entry<String, String> e : job.getTriggers().entrySet()) {
 					// 声明方法执行bean
-					JobDetail method = context.getBean(JobDetail.class);
+					MethodInvokingJobDetailFactoryBean method = new MethodInvokingJobDetailFactoryBean();
 					// 设置任务对象
 					method.setTargetObject(job);
 					// // 设置执行方法
@@ -49,12 +52,14 @@ public final class Quartzs {
 					method.setGroup(job.getClass().getSimpleName());
 					// 设置beanName
 					method.setBeanName(e.getKey());
-					// 执行初始化
-					method.init();
+					try {
+						// 执行初始化
+						method.afterPropertiesSet();
+					} catch (Exception ex) {}
 					// 执行执行时间
 					for (String trigger : e.getValue().split(StringConstants.COMMA)) {
 						// 执行时间对象
-						CronTrigger cron = context.getBean(CronTrigger.class);
+						CronTriggerFactoryBean cron = new CronTriggerFactoryBean();
 						// 设置group
 						cron.setGroup(method.getTargetObject().getClass().getSimpleName());
 						// 设置beanName
@@ -64,7 +69,7 @@ public final class Quartzs {
 						// 设置时间
 						cron.setCronExpression(trigger);
 						// 执行初始化
-						cron.init();
+						cron.afterPropertiesSet();
 						// 添加到定时列表中
 						triggers.add(cron.getObject());
 					}
@@ -73,11 +78,14 @@ public final class Quartzs {
 			// 定时任务不为空
 			if (!EmptyUtil.isEmpty(triggers)) {
 				// 声明执行定时方法工厂
-				Scheduler scheduler = context.getBean(Scheduler.class);
+				SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
 				// 设置执行时间
 				scheduler.setTriggers(Lists.toArray(triggers));
-				// 执行初始化
-				scheduler.init();
+				// scheduler.init();
+				try {
+					// 执行初始化
+					scheduler.afterPropertiesSet();
+				} catch (Exception e) {}
 				// 执行
 				scheduler.start();
 			}

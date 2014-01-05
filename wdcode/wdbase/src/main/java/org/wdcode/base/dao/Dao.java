@@ -250,13 +250,13 @@ public interface Dao extends Close {
 	int count(Object entity);
 
 	/**
-	 * 根据SQL查询语句查询出总行数
+	 * 根据实体条件查询数量
 	 * @param entityClass 实体类
-	 * @param sql SQL查询语句 参数为?的语句
-	 * @param value 参数值
-	 * @return 结果数 异常返回0
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @return 数量
 	 */
-	int count(Class<?> entityClass, String sql, Object... values);
+	public int count(Class<?> entityClass, String property, Object value);
 
 	/**
 	 * 执行非查询的SQL语言 使用 ? 做参数
@@ -277,10 +277,4 @@ public interface Dao extends Close {
 	 * @return 返回结果列表
 	 */
 	<E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult, int maxResults);
-
-	/**
-	 * 清空整张表
-	 * @param entityClass 实体类
-	 */
-	void truncate(Class<?> entityClass);
 }

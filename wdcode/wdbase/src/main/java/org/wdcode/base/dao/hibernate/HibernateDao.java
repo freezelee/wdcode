@@ -24,7 +24,6 @@ import org.wdcode.base.dao.hibernate.session.SessionFactorys;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.common.util.SqlUtil;
 
 /**
  * Hibernate接口
@@ -148,14 +147,6 @@ public final class HibernateDao implements Dao {
 				return Lists.getList(entitys);
 			}
 		});
-	}
-
-	/**
-	 * 清空整张表
-	 * @param entityClass 实体类
-	 */
-	public void truncate(Class<?> entityClass) {
-		execute(entityClass, SqlUtil.getTruncateSQL(factorys.getTables(entityClass)));
 	}
 
 	/**
@@ -399,11 +390,26 @@ public final class HibernateDao implements Dao {
 	 * @param entityClass 实体类
 	 * @return 对象实体总数 异常返回 0
 	 */
-	public int count(final Class<?> entityClass) {
+	public int count(Class<?> entityClass) {
+		return count(entityClass, null, null);
+	}
+
+	/**
+	 * 根据实体条件查询数量
+	 * @param entityClass 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @return 数量
+	 */
+	public int count(final Class<?> entityClass, final String property, final Object value) {
 		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 创建查询条件
 				Criteria criteria = session.createCriteria(entityClass);
+				// 设置参数
+				if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
+					criteria.add(Restrictions.eq(property, value));
+				}
 				// 设置获得总行数
 				criteria.setProjection(Projections.rowCount());
 				// 返回结果
@@ -494,31 +500,6 @@ public final class HibernateDao implements Dao {
 		return execute(entityClass, new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
-			}
-		});
-	}
-
-	/**
-	 * 根据SQL查询语句查询出总行数
-	 * @param sql SQL查询语句 参数为?的语句
-	 * @param value 参数值
-	 * @return 结果数 异常返回0
-	 */
-	public int count(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				// 声明分页查询接口
-				Query queryCount = session.createSQLQuery(SqlUtil.getCountSQL(sql));
-				// 如果参数不为空
-				if (!EmptyUtil.isEmpty(values)) {
-					// 循环参数列表
-					for (int i = 0; i < values.length; i++) {
-						// 设置参数
-						queryCount.setParameter(i, values[i]);
-					}
-				}
-				// 返回结果
-				return Conversion.toInt(queryCount.uniqueResult());
 			}
 		});
 	}
@@ -664,23 +645,10 @@ public final class HibernateDao implements Dao {
 	private <T> T execute(Class<?> entity, Callback<T> callback) {
 		// 获得Session
 		Session session = getSession(entity);
-		// 声明事务
-		// Transaction tx = null;
-		// 是否自己控制事务
-		boolean isTx = factorys.isTx(entity);
 		try {
-			// 是否自己控制事务
-			// if (isTx) {
-			// // 开始事务
-			// tx = session.beginTransaction();
-			// }
+
 			// 执行
 			T t = callback.callback(session);
-			// 是否自己控制事务
-			// if (!EmptyUtil.isEmpty(tx)) {
-			// // 提交事务
-			// tx.commit();
-			// }
 			// toString() 为了使关联生效
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
@@ -688,17 +656,11 @@ public final class HibernateDao implements Dao {
 			// 返回对象
 			return t;
 		} catch (Exception e) {
-			// 回滚事务
-			// if (!EmptyUtil.isEmpty(tx)) {
-			// tx.rollback();
-			// }
 			throw e;
 		} finally {
 			// 自己关闭session
-			if (isTx) {
-				if (!EmptyUtil.isEmpty(session) && session.isOpen() && session.isConnected()) {
-					session.close();
-				}
+			if (!session.getTransaction().isActive() && session.isOpen() && session.isConnected()) {
+				session.close();
 			}
 		}
 	}

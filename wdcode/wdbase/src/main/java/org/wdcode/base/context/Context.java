@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.cache.Cache;
 import org.wdcode.base.cache.impl.CacheMap;
@@ -39,7 +41,10 @@ public final class Context {
 	private final static String								ACTICON_MAPPING_KEY	= "struts.actionMapping";
 	// Spring ApplicationContext
 	@Resource
-	private ApplicationContext								applicationContext;
+	private ConfigurableApplicationContext					cac;
+	// DefaultListableBeanFactory
+	@Resource
+	private DefaultListableBeanFactory						factory;
 	// 短类名对应的类对象Map
 	private ConcurrentMap<String, Class<? extends Entity>>	entitys;
 
@@ -83,7 +88,7 @@ public final class Context {
 	 * @return 实体
 	 */
 	public <E> E getBean(String name, Class<E> requiredType) {
-		return applicationContext.getBean(name, requiredType);
+		return cac.getBean(name, requiredType);
 	}
 
 	/**
@@ -92,7 +97,7 @@ public final class Context {
 	 * @return 实体
 	 */
 	public <E> E getBean(Class<E> requiredType) {
-		return applicationContext.getBean(requiredType);
+		return cac.getBean(requiredType);
 	}
 
 	/**
@@ -102,7 +107,7 @@ public final class Context {
 	 * @return 实体
 	 */
 	public <E> E getBean(Class<E> requiredType, Object... args) {
-		return (E) applicationContext.getBean(requiredType.getName(), args);
+		return (E) cac.getBean(requiredType.getName(), args);
 	}
 
 	/**
@@ -120,7 +125,7 @@ public final class Context {
 	 * @return Map列表
 	 */
 	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
-		return applicationContext.getBeansWithAnnotation(annotationType);
+		return cac.getBeansWithAnnotation(annotationType);
 	}
 
 	/**
@@ -129,7 +134,16 @@ public final class Context {
 	 * @return Map列表
 	 */
 	public <E> Map<String, E> getBeans(Class<E> type) {
-		return applicationContext.getBeansOfType(type);
+		return cac.getBeansOfType(type);
+	}
+
+	/**
+	 * 注册一个新Bean
+	 * @param beanName Bean名称
+	 * @param beanDefinition Bean
+	 */
+	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+		factory.registerBeanDefinition(beanName, beanDefinition);
 	}
 
 	/**

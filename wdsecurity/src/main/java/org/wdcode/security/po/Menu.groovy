@@ -2,13 +2,12 @@ package org.wdcode.security.po
 
 import javax.persistence.Entity
 
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.wdcode.base.annotation.Cache
 import org.wdcode.site.entity.base.BaseEntityId
 
 /**
@@ -20,9 +19,9 @@ import org.wdcode.site.entity.base.BaseEntityId
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @DynamicInsert
 @DynamicUpdate
+@Cache
 class Menu extends BaseEntityId {
 	// 上级菜单ID
 	Integer		menuId

@@ -5,13 +5,12 @@ import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.Id
 
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.wdcode.base.annotation.Cache
 import org.wdcode.common.lang.Conversion
 import org.wdcode.site.entity.base.BaseEntity
 
@@ -24,9 +23,9 @@ import org.wdcode.site.entity.base.BaseEntity
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @DynamicInsert
 @DynamicUpdate
+@Cache
 class Operate extends BaseEntity {
 	// 操作连接
 	@Id

@@ -7,13 +7,12 @@ import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.wdcode.base.annotation.Cache
 import org.wdcode.common.constants.StringConstants
 import org.wdcode.common.lang.Conversion
 import org.wdcode.common.lang.Lists
@@ -29,21 +28,19 @@ import org.wdcode.site.entity.base.BaseEntityId
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @DynamicInsert
 @DynamicUpdate
+@Cache
 class Role extends BaseEntityId {
 	// 名称
 	String				name
 	// 操作列表
 	@ManyToMany
 	@JoinTable(name = "role_operate", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "operate"))
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	List<Operate>		operates
 	// 菜单
 	@ManyToMany
 	@JoinTable(name = "role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	List<Menu>			menus
 
 	/**

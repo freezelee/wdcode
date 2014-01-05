@@ -8,13 +8,11 @@ import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.lang.Sets;
-import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.ClearUtil;
 import org.wdcode.core.params.QuartzParams;
@@ -26,21 +24,16 @@ import org.wdcode.core.params.QuartzParams;
  * @version 1.0 2011-05-25
  */
 public final class QuartzEngine {
-	// 任务执行器工厂
-	private final static SchedulerFactory						FACTORY;
 	// 保存任务列表
 	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB;
 	// 任务执行器
 	private static Scheduler									scheduler;
 
 	static {
-		FACTORY = new StdSchedulerFactory();
 		MAP_JOB = Maps.getConcurrentMap();
 		try {
-			scheduler = FACTORY.getScheduler();
-		} catch (Exception e) {
-			Logs.warn(e);
-		}
+			scheduler = new StdSchedulerFactory().getScheduler();
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -54,7 +47,7 @@ public final class QuartzEngine {
 				try {
 					add((Class<? extends Job>) ClassUtil.forName(QuartzParams.getClass(name)), QuartzParams.getTrigger(name));
 				} catch (Exception e) {
-					Logs.warn(e);
+					throw e;
 				}
 			}
 			// 执行
@@ -85,16 +78,12 @@ public final class QuartzEngine {
 	 */
 	public static void start() {
 		try {
-			// 如果任务执行器为空 获得
-			if (scheduler == null) {
-				scheduler = FACTORY.getScheduler();
-			}
 			// 添加任务
 			scheduler.scheduleJobs(MAP_JOB, true);
 			// 执行任务
 			scheduler.start();
 		} catch (Exception e) {
-			Logs.warn(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -107,7 +96,7 @@ public final class QuartzEngine {
 			scheduler.clear();
 			scheduler.shutdown();
 		} catch (Exception e) {
-			Logs.warn(e);
+			throw new RuntimeException(e);
 		} finally {
 			scheduler = null;
 		}

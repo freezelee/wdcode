@@ -13,7 +13,6 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import org.springframework.stereotype.Repository;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.dao.hibernate.session.SessionFactorys;
 import org.wdcode.common.lang.Lists;
@@ -25,7 +24,6 @@ import org.wdcode.common.util.EmptyUtil;
  * @since JDK7
  * @version 1.0 2013-12-31
  */
-@Repository
 public final class HibernateSearch {
 	// Context
 	@Resource
@@ -110,7 +108,7 @@ public final class HibernateSearch {
 	/**
 	 * 创建索引
 	 */
-	private void createIndex() {
+	public void createIndex() {
 		// 获得带索引的实体
 		List<Object> list = Lists.getList(context.getBeansWithAnnotation(Indexed.class).values());
 		// 如果有索引列表

@@ -179,6 +179,10 @@ public final class Lists {
 		}
 		// 获得元列表大小
 		int size = list.size();
+		// 如果开始为小于1 介绍大于列表长度
+		if (begin < 1 && end >= size) {
+			return list;
+		}
 		// 判断如果begin大于等于元素列表大小 返回原列表
 		if (begin > size) {
 			return emptyList();

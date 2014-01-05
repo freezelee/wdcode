@@ -146,15 +146,6 @@ public final class DaoParams {
 	}
 
 	/**
-	 * 是否开启数据库缓存
-	 * @param name 名称
-	 * @return
-	 */
-	public static boolean getCache(String name) {
-		return CONFIG.getBoolean(getKey(name, "cache"), false);
-	}
-
-	/**
 	 * 是否显示sql语句
 	 * @param name 名称
 	 * @return
@@ -182,12 +173,39 @@ public final class DaoParams {
 	}
 
 	/**
+	 * 是否使用Lucene Search
+	 * @param name 名称
+	 * @return
+	 */
+	public static boolean isSearchPower(String name) {
+		return CONFIG.getBoolean(getKey(name, "search.power"), false);
+	}
+
+	/**
 	 * 索引保存目录
 	 * @param name 名称
 	 * @return
 	 */
-	public static String getIndex(String name) {
-		return CONFIG.getString(getKey(name, "index"), "${path}/WEB-INF/indexed");
+	public static String getSearchBase(String name) {
+		return CONFIG.getString(getKey(name, "search.base"), "${path}/WEB-INF/indexed");
+	}
+
+	/**
+	 * Lucene保存索引系统 默认filesystem
+	 * @param name 名称
+	 * @return
+	 */
+	public static String getSearchDirectory(String name) {
+		return CONFIG.getString(getKey(name, "search.directory"), "filesystem");
+	}
+
+	/**
+	 * 获得Lucene版本
+	 * @param name 名称
+	 * @return
+	 */
+	public static String getSearchVersion(String name) {
+		return CONFIG.getString(getKey(name, "search.version"), "LUCENE_36");
 	}
 
 	/**
