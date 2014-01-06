@@ -46,8 +46,8 @@ public final class Tenpay implements Pay {
 		reqHandler.setParameter("partner", PayParams.TENPAY_ID); // 商户号
 		reqHandler.setParameter("out_trade_no", pay.getNo()); // 商家订单号
 		reqHandler.setParameter("total_fee", Integer.toString(MathUtil.multiply(pay.getTotal(), 100).intValue())); // 商品金额,以分为单位
-		reqHandler.setParameter("return_url", PayParams.TENPAY_REDIRECT); // 交易完成后跳转的URL
-		reqHandler.setParameter("notify_url", PayParams.TENPAY_REDIRECT); // 接收财付通通知的URL
+		reqHandler.setParameter("return_url", PayParams.TENPAY_RETURN); // 交易完成后跳转的URL
+		reqHandler.setParameter("notify_url", PayParams.TENPAY_NOTIFY); // 接收财付通通知的URL
 		reqHandler.setParameter("body", pay.getBody()); // 商品描述
 		reqHandler.setParameter("bank_type", Conversion.toString(pay.getDitch(), "DEFAULT")); // 银行类型(中介担保时此参数无效)
 		reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr()); // 用户的公网ip，不是商户服务器IP

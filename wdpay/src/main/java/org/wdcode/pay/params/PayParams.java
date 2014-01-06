@@ -58,7 +58,11 @@ public final class PayParams {
 	/**
 	 * 回调URL
 	 */
-	public final static String	TENPAY_REDIRECT	= Params.getString("pay.tenpay.redirect");
+	public final static String	TENPAY_RETURN	= Params.getString("pay.tenpay.return");
+	/**
+	 * 回调URL
+	 */
+	public final static String	TENPAY_NOTIFY	= Params.getString("pay.tenpay.notify");
 
 	/* 易宝 */
 	/**
