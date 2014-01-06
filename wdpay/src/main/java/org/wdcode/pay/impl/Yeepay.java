@@ -68,9 +68,9 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		Logs.warn("r5_Pid_o=" + RequestUtil.getParameter(request, "r5_Pid"));
-		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), getCharacterEncoding(request, response), getCharset());
-		Logs.warn("r5_Pid=" + r5_Pid);
+		Logs.warn("r5_Pid_o="+RequestUtil.getParameter(request, "r5_Pid"));
+		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, getCharset());
+		Logs.warn("r5_Pid="+r5_Pid);
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
 		// 易宝支付会员ID
@@ -271,23 +271,5 @@ public final class Yeepay implements Pay {
 			return true;
 		}
 		return false;
-	}
-
-	public static String getCharacterEncoding(HttpServletRequest request, HttpServletResponse response) {
-
-		if (null == request || null == response) {
-			return "gbk";
-		}
-
-		String enc = request.getCharacterEncoding();
-		if (null == enc || "".equals(enc)) {
-			enc = response.getCharacterEncoding();
-		}
-
-		if (null == enc || "".equals(enc)) {
-			enc = "gbk";
-		}
-
-		return enc;
 	}
 }
