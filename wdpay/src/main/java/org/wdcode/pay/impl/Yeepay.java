@@ -262,8 +262,9 @@ public final class Yeepay implements Pay {
 		// 交易结果返回类型
 		sValue.append(r9_BType);
 		String sNewString = null;
+		Logs.warn(sValue.toString());
 		sNewString = hmacSign(sValue.toString(), keyValue);
-
+		Logs.warn("hmac=" + hmac + ";new=" + sNewString + ";" + hmac.equals(sNewString));
 		if (hmac.equals(sNewString)) {
 			return true;
 		}
