@@ -19,6 +19,7 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
+import org.wdcode.core.log.Logs;
 import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
 import org.wdcode.pay.bean.TradeBean;
@@ -81,6 +82,7 @@ public final class Yeepay implements Pay {
 		boolean isOK = false;
 		// 校验返回数据包
 		isOK = verifyCallback(hmac, p1_MerId, r0_Cmd, r1_Code, r2_TrxId, r3_Amt, r4_Cur, r5_Pid, r6_Order, r7_Uid, r8_MP, r9_BType, keyValue);
+		Logs.warn("ok=" + isOK + ";r1_Code=" + r1_Code + ";r9_BType=" + r9_BType + ";r3_Amt=" + r3_Amt);
 		if (isOK) {
 			// 在接收到支付结果通知后，判断是否进行过业务逻辑处理，不要重复进行业务逻辑处理
 			if (r1_Code.equals("1")) {
@@ -91,8 +93,10 @@ public final class Yeepay implements Pay {
 				} else if (r9_BType.equals("2")) {
 					// 如果在发起交易请求时 设置使用应答机制时，必须应答以"success"开头的字符串，大小写不敏感
 					try {
+						Logs.warn("回写！");
 						response.getWriter().println("SUCCESS");
 						response.getWriter().flush();
+						Logs.warn("回写成功！");
 					} catch (IOException e) {}
 					// 产品通用接口支付成功返回-电话支付返回
 				}

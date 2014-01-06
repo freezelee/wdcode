@@ -11,6 +11,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.wdcode.common.util.CloseUtil;
 
 /**
  * xml工具类
@@ -26,34 +27,36 @@ public class XMLUtil {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, String> doXMLParse(String strxml) throws JDOMException, IOException {
+	public static Map<String, String> doXMLParse(String strxml) {
 		if (null == strxml || "".equals(strxml)) {
 			return null;
 		}
 		Map<String, String> m = new HashMap<String, String>();
-		InputStream in = HttpClientUtil.String2Inputstream(strxml);
-		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(in);
-		Element root = doc.getRootElement();
-		List<Element> list = root.getChildren();
-		Iterator<Element> it = list.iterator();
-		while (it.hasNext()) {
-			Element e = it.next();
-			String k = e.getName();
-			String v = "";
-			List<Element> children = e.getChildren();
-			if (children.isEmpty()) {
-				v = e.getTextNormalize();
-			} else {
-				v = XMLUtil.getChildrenText(children);
+		InputStream in = null;
+		try {
+			in = HttpClientUtil.String2Inputstream(strxml);
+			SAXBuilder builder = new SAXBuilder();
+			Document doc = builder.build(in);
+			Element root = doc.getRootElement();
+			List<Element> list = root.getChildren();
+			Iterator<Element> it = list.iterator();
+			while (it.hasNext()) {
+				Element e = it.next();
+				String k = e.getName();
+				String v = "";
+				List<Element> children = e.getChildren();
+				if (children.isEmpty()) {
+					v = e.getTextNormalize();
+				} else {
+					v = XMLUtil.getChildrenText(children);
+				}
+
+				m.put(k, v);
 			}
-
-			m.put(k, v);
+		} catch (Exception e) {} finally {
+			// 关闭流
+			CloseUtil.close(in);
 		}
-
-		// 关闭流
-		in.close();
-
 		return m;
 	}
 

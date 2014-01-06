@@ -76,53 +76,70 @@ public final class Tenpay implements Pay {
 		resHandler.setKey(PayParams.TENPAY_KEY);
 		// 商户订单号
 		String out_trade_no = resHandler.getParameter("out_trade_no");
+		// 商户订单号
+		String notify = resHandler.getParameter("notify");
 		// 是否成功
 		boolean isOk = false;
+		Logs.warn("订单号=" + out_trade_no);
 		// 判断签名
 		if (resHandler.isTenpaySign()) {
 			try {
-				// 通知id
-				String notify_id = resHandler.getParameter("notify_id");
-				// 创建请求对象
-				RequestHandler queryReq = new RequestHandler(null, null);
-				// 通信对象
-				TenpayHttpClient httpClient = new TenpayHttpClient();
-				// 应答对象
-				ClientResponseHandler queryRes = new ClientResponseHandler();
-				// 通过通知ID查询，确保通知来至财付通
-				queryReq.init();
-				queryReq.setKey(PayParams.TENPAY_KEY);
-				queryReq.setGateUrl("https://gw.tenpay.com/gateway/simpleverifynotifyid.xml");
-				queryReq.setParameter("partner", PayParams.TENPAY_ID);
-				queryReq.setParameter("notify_id", notify_id);
-				// 通信对象
-				httpClient.setTimeOut(5);
-				// 设置请求内容
-				httpClient.setReqContent(queryReq.getRequestURL());
-				// 后台调用
-				if (httpClient.call()) {
-					// 设置结果参数
-					queryRes.setContent(httpClient.getResContent());
-					queryRes.setKey(PayParams.TENPAY_KEY);
-					// 获取id验证返回状态码，0表示此通知id是财付通发起
-					String retcode = queryRes.getParameter("retcode");
+				Logs.warn("签名成功了");
+				// 异步通知
+				if (Conversion.toBoolean(notify)) {
+					// 通知id
+					String notify_id = resHandler.getParameter("notify_id");
+					// 创建请求对象
+					RequestHandler queryReq = new RequestHandler(null, null);
+					// 通信对象
+					TenpayHttpClient httpClient = new TenpayHttpClient();
+					// 应答对象
+					ClientResponseHandler queryRes = new ClientResponseHandler();
+					// 通过通知ID查询，确保通知来至财付通
+					queryReq.init();
+					queryReq.setKey(PayParams.TENPAY_KEY);
+					queryReq.setGateUrl("https://gw.tenpay.com/gateway/simpleverifynotifyid.xml");
+					queryReq.setParameter("partner", PayParams.TENPAY_ID);
+					queryReq.setParameter("notify_id", notify_id);
+					// 通信对象
+					httpClient.setTimeOut(5);
+					// 设置请求内容
+					httpClient.setReqContent(queryReq.getRequestURL());
+					// 后台调用
+					if (httpClient.call()) {
+						Logs.warn("验证通知成功");
+						// 设置结果参数
+						queryRes.setContent(httpClient.getResContent());
+						queryRes.setKey(PayParams.TENPAY_KEY);
+						// 获取id验证返回状态码，0表示此通知id是财付通发起
+						String retcode = queryRes.getParameter("retcode");
+						// 支付结果
+						String trade_state = resHandler.getParameter("trade_state");
+						// 交易模式，1即时到账，2中介担保
+						String trade_mode = resHandler.getParameter("trade_mode");
+						Logs.warn("retcode=" + retcode);
+						// 判断签名及结果
+						if (queryRes.isTenpaySign() && "0".equals(retcode)) {
+							if ("1".equals(trade_mode)) { // 即时到账
+								if ("0".equals(trade_state)) {
+									isOk = true;
+									// 给财付通系统发送成功信息，财付通系统收到此结果后不再进行后续通知
+									resHandler.sendToCFT("success");
+								}
+							}
+						}
+					}
+				} else {
 					// 支付结果
 					String trade_state = resHandler.getParameter("trade_state");
 					// 交易模式，1即时到账，2中介担保
 					String trade_mode = resHandler.getParameter("trade_mode");
-					// 判断签名及结果
-					if (queryRes.isTenpaySign() && "0".equals(retcode)) {
-						if ("1".equals(trade_mode)) { // 即时到账
-							if ("0".equals(trade_state)) {
-								isOk = true;
-								// 给财付通系统发送成功信息，财付通系统收到此结果后不再进行后续通知
-								resHandler.sendToCFT("success");
-							}
-						}
-					}
+					// 即时到账
+					isOk = "1".equals(trade_mode) && "0".equals(trade_state);
+					Logs.warn("ok=" + isOk + ";trade_mode=" + trade_mode + ";trade_state=" + trade_state);
 				}
 			} catch (Exception e) {
-				Logs.info(e);
+				Logs.warn(e);
 			}
 		}
 		// 返回实体

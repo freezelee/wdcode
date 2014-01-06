@@ -6,10 +6,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import java.io.IOException;
 import org.wdcode.pay.impl.tenpay.util.MD5Util;
 
-import org.jdom.JDOMException;
 import org.wdcode.pay.impl.tenpay.util.XMLUtil;
 
 /**
@@ -182,7 +180,7 @@ public class ClientResponseHandler {
 	/**
 	 * 解析XML内容
 	 */
-	protected void doParse() throws JDOMException, IOException {
+	protected void doParse() {
 		String xmlContent = this.getContent();
 
 		// 解析xml,得到map
