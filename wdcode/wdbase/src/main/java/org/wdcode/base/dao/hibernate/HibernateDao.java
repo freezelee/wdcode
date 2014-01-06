@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
@@ -645,10 +646,23 @@ public final class HibernateDao implements Dao {
 	private <T> T execute(Class<?> entity, Callback<T> callback) {
 		// 获得Session
 		Session session = getSession(entity);
+		// 声明事务
+		Transaction tx = null;
+		// 是否自己控制事务
+		boolean isSession = !session.getTransaction().isActive();
 		try {
-
+			// 是否自己控制事务
+			if (isSession) {
+				// 开始事务
+				tx = session.beginTransaction();
+			}
 			// 执行
 			T t = callback.callback(session);
+			// 是否自己控制事务
+			if (!EmptyUtil.isEmpty(tx)) {
+				// 提交事务
+				tx.commit();
+			}
 			// toString() 为了使关联生效
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
@@ -656,10 +670,14 @@ public final class HibernateDao implements Dao {
 			// 返回对象
 			return t;
 		} catch (Exception e) {
+			// 回滚事务
+			if (!EmptyUtil.isEmpty(tx)) {
+				tx.rollback();
+			}
 			throw e;
 		} finally {
 			// 自己关闭session
-			if (!session.getTransaction().isActive() && session.isOpen() && session.isConnected()) {
+			if (isSession && session.isOpen() && session.isConnected()) {
 				session.close();
 			}
 		}
