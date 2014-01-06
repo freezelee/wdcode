@@ -141,7 +141,8 @@ public class ResponseHandler {
 		String strHtml = msg;
 		PrintWriter out = this.getHttpServletResponse().getWriter();
 		out.println(strHtml);
-		out.flush(); 
+		out.flush();
+		out.close();
 	}
 
 	/**
