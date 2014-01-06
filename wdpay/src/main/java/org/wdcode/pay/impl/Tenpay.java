@@ -87,6 +87,7 @@ public final class Tenpay implements Pay {
 				Logs.warn("签名成功了");
 				// 异步通知
 				if (Conversion.toBoolean(notify)) {
+					Logs.warn("异步通知");
 					// 通知id
 					String notify_id = resHandler.getParameter("notify_id");
 					// 创建请求对象
@@ -125,6 +126,7 @@ public final class Tenpay implements Pay {
 									isOk = true;
 									// 给财付通系统发送成功信息，财付通系统收到此结果后不再进行后续通知
 									resHandler.sendToCFT("success");
+									Logs.warn("ok=" + isOk + ";trade_mode=" + trade_mode + ";trade_state=" + trade_state);
 								}
 							}
 						}

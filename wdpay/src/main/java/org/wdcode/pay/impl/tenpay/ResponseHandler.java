@@ -118,7 +118,7 @@ public class ResponseHandler {
 			Map.Entry<String, String> entry = it.next();
 			String k = entry.getKey();
 			String v = entry.getValue();
-			if (!"sign".equals(k) && null != v && !"".equals(v)) {
+			if (!"sign".equals(k) && null != v && !"".equals(v) && !"key".equals(k) && !"notify".equals(k)) {
 				sb.append(k + "=" + v + "&");
 			}
 		}
@@ -141,9 +141,7 @@ public class ResponseHandler {
 		String strHtml = msg;
 		PrintWriter out = this.getHttpServletResponse().getWriter();
 		out.println(strHtml);
-		out.flush();
-		out.close();
-
+		out.flush(); 
 	}
 
 	/**
