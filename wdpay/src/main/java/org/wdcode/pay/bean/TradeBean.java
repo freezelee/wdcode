@@ -10,7 +10,7 @@ public final class TradeBean {
 	// 订单号
 	private String	no;
 	// 价钱
-	private String	amt;
+	private String	total;
 	// 是否成功
 	private boolean	success;
 	// 是否异步
@@ -20,11 +20,13 @@ public final class TradeBean {
 	 * 构造
 	 * @param no
 	 * @param success
+	 * @param total
 	 */
-	public TradeBean(String no, boolean success, boolean notify, String amt) {
+	public TradeBean(String no, boolean success, boolean notify, String total) {
 		this.no = no;
 		this.success = success;
 		this.notify = notify;
+		this.total = total;
 	}
 
 	/**
@@ -55,7 +57,7 @@ public final class TradeBean {
 	 * 交易金额
 	 * @return
 	 */
-	public String getAmt() {
-		return amt;
+	public String getTotal() {
+		return total;
 	}
 }
