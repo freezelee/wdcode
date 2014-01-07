@@ -63,7 +63,7 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public int getId() {
-		return id;
+		return isLogin() ? id : 0;
 	}
 
 	@Override
