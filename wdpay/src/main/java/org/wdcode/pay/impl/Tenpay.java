@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.MathUtil;
-import org.wdcode.core.log.Logs;
 import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
 import org.wdcode.pay.bean.TradeBean;
@@ -82,11 +81,9 @@ public final class Tenpay implements Pay {
 		boolean isOk = false;
 		// 金额
 		String total_fee = MathUtil.divide(resHandler.getParameter("total_fee"), 100).toPlainString();
-		Logs.warn("订单号=" + out_trade_no);
 		// 判断签名
 		if (resHandler.isTenpaySign()) {
 			try {
-				Logs.warn("签名成功了");
 				// 通知id
 				String notify_id = resHandler.getParameter("notify_id");
 				// 创建请求对象
@@ -107,7 +104,6 @@ public final class Tenpay implements Pay {
 				httpClient.setReqContent(queryReq.getRequestURL());
 				// 后台调用
 				if (httpClient.call()) {
-					Logs.warn("验证通知成功");
 					// 设置结果参数
 					queryRes.setContent(httpClient.getResContent());
 					queryRes.setKey(PayParams.TENPAY_KEY);
@@ -117,7 +113,6 @@ public final class Tenpay implements Pay {
 					String trade_state = resHandler.getParameter("trade_state");
 					// 交易模式，1即时到账，2中介担保
 					String trade_mode = resHandler.getParameter("trade_mode");
-					Logs.warn("retcode=" + retcode);
 					// 判断签名及结果
 					if (queryRes.isTenpaySign() && "0".equals(retcode)) {
 						if ("1".equals(trade_mode)) { // 即时到账
@@ -125,19 +120,15 @@ public final class Tenpay implements Pay {
 								isOk = true;
 								// 异步通知
 								if (notify) {
-									Logs.warn("异步通知");
 									// 给财付通系统发送成功信息，财付通系统收到此结果后不再进行后续通知
 									resHandler.sendToCFT("success");
-									Logs.warn("ok=" + isOk + ";trade_mode=" + trade_mode + ";trade_state=" + trade_state);
 								}
 							}
 						}
 					}
 				}
 
-			} catch (Exception e) {
-				Logs.warn(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 返回实体
 		return new TradeBean(out_trade_no, isOk, notify, total_fee);
