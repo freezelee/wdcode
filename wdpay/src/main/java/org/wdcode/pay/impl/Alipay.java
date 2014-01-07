@@ -63,7 +63,7 @@ public final class Alipay implements Pay {
 		// 获得交易状态
 		boolean status = "TRADE_FINISHED".equals(tradeStatus) || "TRADE_SUCCESS".equals(tradeStatus);
 		// 返回实体
-		return new TradeBean(RequestUtil.getParameter(request, "out_trade_no"), verifyResponse && status && sign.equals(mysign));
+		return new TradeBean(RequestUtil.getParameter(request, "out_trade_no"), verifyResponse && status && sign.equals(mysign), false);
 	}
 
 	/**

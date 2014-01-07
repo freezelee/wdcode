@@ -18,7 +18,6 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
-import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.log.Logs;
 import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
@@ -68,9 +67,11 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		Logs.warn("r5_Pid_o="+RequestUtil.getParameter(request, "r5_Pid"));
-		String r5_Pid = StringUtil.toCharset(RequestUtil.getParameter(request, "r5_Pid"), EncodingConstants.ISO_8859_1, getCharset());
-		Logs.warn("r5_Pid="+r5_Pid);
+		String r5_Pid = null;
+		try {
+			r5_Pid = new String(request.getParameter("r5_Pid").getBytes("iso-8859-1"), "gbk");
+		} catch (UnsupportedEncodingException e1) {}
+		Logs.warn("r5_Pid=" + r5_Pid);
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
 		// 易宝支付会员ID
@@ -82,6 +83,7 @@ public final class Yeepay implements Pay {
 		// 签名数据
 		String hmac = RequestUtil.getParameter(request, "hmac");
 		boolean isOK = false;
+		boolean notify = false;
 		// 校验返回数据包
 		isOK = verifyCallback(hmac, p1_MerId, r0_Cmd, r1_Code, r2_TrxId, r3_Amt, r4_Cur, r5_Pid, r6_Order, r7_Uid, r8_MP, r9_BType, keyValue);
 		Logs.warn("ok=" + isOK + ";r1_Code=" + r1_Code + ";r9_BType=" + r9_BType + ";r3_Amt=" + r3_Amt);
@@ -96,6 +98,7 @@ public final class Yeepay implements Pay {
 					// 如果在发起交易请求时 设置使用应答机制时，必须应答以"success"开头的字符串，大小写不敏感
 					try {
 						Logs.warn("回写！");
+						notify = true;
 						response.getWriter().println("SUCCESS");
 						response.getWriter().flush();
 						Logs.warn("回写成功！");
@@ -107,7 +110,7 @@ public final class Yeepay implements Pay {
 			}
 		}
 		// 返回空
-		return new TradeBean(r6_Order, isOK);
+		return new TradeBean(r6_Order, isOK, notify);
 	}
 
 	/**

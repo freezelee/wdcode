@@ -11,15 +11,18 @@ public final class TradeBean {
 	private String	no;
 	// 是否成功
 	private boolean	success;
+	// 是否异步
+	private boolean	notify;
 
 	/**
 	 * 构造
 	 * @param no
 	 * @param success
 	 */
-	public TradeBean(String no, boolean success) {
+	public TradeBean(String no, boolean success, boolean notify) {
 		this.no = no;
 		this.success = success;
+		this.notify = notify;
 	}
 
 	/**
@@ -36,5 +39,13 @@ public final class TradeBean {
 	 */
 	public boolean isSuccess() {
 		return success;
+	}
+
+	/**
+	 * 是否异步
+	 * @return
+	 */
+	public boolean isNotify() {
+		return notify;
 	}
 }

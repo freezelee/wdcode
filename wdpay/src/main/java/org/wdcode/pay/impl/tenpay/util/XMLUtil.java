@@ -7,11 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
 import org.wdcode.common.util.CloseUtil;
+import org.wdcode.core.xml.Document;
+import org.wdcode.core.xml.Element;
+import org.wdcode.core.xml.builder.XmlBuilder;
 
 /**
  * xml工具类
@@ -25,8 +24,7 @@ public class XMLUtil {
 	 * @return
 	 * @throws JDOMException
 	 * @throws IOException
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public static Map<String, String> doXMLParse(String strxml) {
 		if (null == strxml || "".equals(strxml)) {
 			return null;
@@ -35,18 +33,17 @@ public class XMLUtil {
 		InputStream in = null;
 		try {
 			in = HttpClientUtil.String2Inputstream(strxml);
-			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(in);
+			Document doc = XmlBuilder.createXMLRead().build(in);
 			Element root = doc.getRootElement();
-			List<Element> list = root.getChildren();
+			List<Element> list = root.getElements();
 			Iterator<Element> it = list.iterator();
 			while (it.hasNext()) {
 				Element e = it.next();
 				String k = e.getName();
 				String v = "";
-				List<Element> children = e.getChildren();
+				List<Element> children = e.getElements();
 				if (children.isEmpty()) {
-					v = e.getTextNormalize();
+					v = e.getText();
 				} else {
 					v = XMLUtil.getChildrenText(children);
 				}
@@ -64,8 +61,7 @@ public class XMLUtil {
 	 * 获取子结点的xml
 	 * @param children
 	 * @return String
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public static String getChildrenText(List<Element> children) {
 		StringBuffer sb = new StringBuffer();
 		if (!children.isEmpty()) {
@@ -73,8 +69,8 @@ public class XMLUtil {
 			while (it.hasNext()) {
 				Element e = (Element) it.next();
 				String name = e.getName();
-				String value = e.getTextNormalize();
-				List<Element> list = e.getChildren();
+				String value = e.getText();
+				List<Element> list = e.getElements();
 				sb.append("<" + name + ">");
 				if (!list.isEmpty()) {
 					sb.append(XMLUtil.getChildrenText(list));
@@ -94,12 +90,10 @@ public class XMLUtil {
 	 * @throws IOException
 	 * @throws JDOMException
 	 */
-	public static String getXMLEncoding(String strxml) throws JDOMException, IOException {
+	public static String getXMLEncoding(String strxml) {
 		InputStream in = HttpClientUtil.String2Inputstream(strxml);
-		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(in);
-		in.close();
-		return (String) doc.getProperty("encoding");
+		Document doc = XmlBuilder.createXMLRead().build(in);
+		return (String) doc.getRootElement().getAttributeValue("encoding");
 	}
 
 }
