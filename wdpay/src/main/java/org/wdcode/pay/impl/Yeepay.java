@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.common.codec.Hex;
+import org.wdcode.common.codec.URLCode;
 import org.wdcode.common.constants.EncodingConstants;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.MathUtil;
+import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.log.Logs;
 import org.wdcode.pay.Pay;
 import org.wdcode.pay.bean.PayBean;
@@ -52,9 +54,6 @@ public final class Yeepay implements Pay {
 
 	@Override
 	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			request.setCharacterEncoding(EncodingConstants.ISO_8859_1);
-		} catch (UnsupportedEncodingException e2) {}
 		// 商家密钥
 		String keyValue = PayParams.YEEPAY_KEY;
 		// 业务类型
@@ -70,10 +69,8 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		String r5_Pid = null;
-		try {
-			r5_Pid = new String(request.getParameter("r5_Pid").getBytes(EncodingConstants.ISO_8859_1), EncodingConstants.GBK);
-		} catch (UnsupportedEncodingException e1) {}
+		String r5_Pid = StringUtil.subString(request.getQueryString(), "r5_Pid=", "&");
+		r5_Pid = URLCode.decode(r5_Pid, getCharset());
 		Logs.warn("r5_Pid=" + r5_Pid);
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
@@ -113,7 +110,7 @@ public final class Yeepay implements Pay {
 			}
 		}
 		// 返回空
-		return new TradeBean(r6_Order, isOK, notify);
+		return new TradeBean(r6_Order, isOK, notify, r3_Amt);
 	}
 
 	/**

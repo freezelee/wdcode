@@ -80,6 +80,8 @@ public final class Tenpay implements Pay {
 		boolean notify = Conversion.toBoolean(resHandler.getParameter("notify"));
 		// 是否成功
 		boolean isOk = false;
+		// 金额
+		String total_fee = MathUtil.divide(resHandler.getParameter("total_fee"), 100).toPlainString();
 		Logs.warn("订单号=" + out_trade_no);
 		// 判断签名
 		if (resHandler.isTenpaySign()) {
@@ -138,7 +140,7 @@ public final class Tenpay implements Pay {
 			}
 		}
 		// 返回实体
-		return new TradeBean(out_trade_no, isOk, notify);
+		return new TradeBean(out_trade_no, isOk, notify, total_fee);
 	}
 
 	@Override

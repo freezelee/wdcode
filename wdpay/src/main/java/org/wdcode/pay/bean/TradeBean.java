@@ -9,6 +9,8 @@ package org.wdcode.pay.bean;
 public final class TradeBean {
 	// 订单号
 	private String	no;
+	// 价钱
+	private String	amt;
 	// 是否成功
 	private boolean	success;
 	// 是否异步
@@ -19,7 +21,7 @@ public final class TradeBean {
 	 * @param no
 	 * @param success
 	 */
-	public TradeBean(String no, boolean success, boolean notify) {
+	public TradeBean(String no, boolean success, boolean notify, String amt) {
 		this.no = no;
 		this.success = success;
 		this.notify = notify;
@@ -47,5 +49,13 @@ public final class TradeBean {
 	 */
 	public boolean isNotify() {
 		return notify;
+	}
+
+	/**
+	 * 交易金额
+	 * @return
+	 */
+	public String getAmt() {
+		return amt;
 	}
 }
