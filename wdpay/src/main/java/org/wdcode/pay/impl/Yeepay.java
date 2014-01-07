@@ -52,6 +52,9 @@ public final class Yeepay implements Pay {
 
 	@Override
 	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding(EncodingConstants.ISO_8859_1);
+		} catch (UnsupportedEncodingException e2) {}
 		// 商家密钥
 		String keyValue = PayParams.YEEPAY_KEY;
 		// 业务类型
@@ -69,7 +72,7 @@ public final class Yeepay implements Pay {
 		// 商品名称
 		String r5_Pid = null;
 		try {
-			r5_Pid = new String(request.getParameter("r5_Pid").getBytes("iso-8859-1"), "gbk");
+			r5_Pid = new String(request.getParameter("r5_Pid").getBytes(EncodingConstants.ISO_8859_1), EncodingConstants.GBK);
 		} catch (UnsupportedEncodingException e1) {}
 		Logs.warn("r5_Pid=" + r5_Pid);
 		// 商户订单号
