@@ -58,7 +58,7 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public boolean isLogin() {
-		return id > 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time > SiteParams.LOGIN_MAX_AGE : time > 0);
+		return id > 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0);
 	}
 
 	@Override
