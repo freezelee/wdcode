@@ -55,7 +55,7 @@ public final class Alipay implements Pay {
 		// 通知校验码
 		String sign = RequestUtil.getParameter(request, "sign");
 		// 计算出校验码
-		String mysign = StringUtil.toString(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(RequestUtil.getParameters(request)) + PayParams.ALIPAY_KEY, PayParams.ALIPAY_CHARSET), PayParams.ALIPAY_SIGNTYPE));
+		String mysign = sign(RequestUtil.getParameters(request));
 		// 校验URL
 		String veryfyUrl = "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=" + PayParams.ALIPAY_ID + "&notify_id=" + notifyId;
 		// 获得交易网站验证
@@ -106,6 +106,9 @@ public final class Alipay implements Pay {
 	 * @return 签名
 	 */
 	protected String sign(Map<String, String> data) {
+		data.remove("sign");
+		data.remove("sign_type");
+		data.remove("key");
 		return Hex.encode(Digest.getMessageDigest(StringUtil.toBytes(HttpUtil.toParameters(data) + PayParams.ALIPAY_KEY, getCharset()), PayParams.ALIPAY_SIGNTYPE));
 	}
 
