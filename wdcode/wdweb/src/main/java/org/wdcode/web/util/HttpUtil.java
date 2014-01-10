@@ -96,6 +96,8 @@ public final class HttpUtil {
 		StringBuilder sb = new StringBuilder();
 		// 获得Key列表
 		List<String> keys = Lists.sort(Lists.getList(map.keySet()));
+		// 排序
+		Lists.sort(keys);
 		// 根据Key列表获得值
 		for (int i = 0; i < keys.size(); i++) {
 			// 获得Key
@@ -109,7 +111,7 @@ public final class HttpUtil {
 			}
 		}
 		// 返回组合后的字符串
-		return sb.toString();
+		return StringUtil.subString(sb.toString(), 0, sb.length() - 1);
 	}
 
 	/**

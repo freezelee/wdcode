@@ -43,7 +43,7 @@ public final class Alipay implements Pay {
 		// 获得提交表单
 		String form = HttpUtil.toForm(getUrl(), params, getCharset());
 		// 处理表单并返回
-		return StringUtil.replace(form, getUrl(), getUrl() + "_input_charset=" + getCharset());
+		return StringUtil.replace(form, getUrl(), getUrl() + "?_input_charset=" + getCharset());
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public final class Alipay implements Pay {
 		// 获得交易状态
 		boolean status = "TRADE_FINISHED".equals(tradeStatus) || "TRADE_SUCCESS".equals(tradeStatus);
 		// 返回实体
-		return new TradeBean(RequestUtil.getParameter(request, "out_trade_no"), verifyResponse && status && sign.equals(mysign), false,request.getParameter("total_fee"));
+		return new TradeBean(RequestUtil.getParameter(request, "out_trade_no"), verifyResponse && status && sign.equals(mysign), false, request.getParameter("total_fee"));
 	}
 
 	/**
@@ -80,6 +80,7 @@ public final class Alipay implements Pay {
 		data.put("notify_url", PayParams.ALIPAY_REDIRECT);
 		data.put("_input_charset", PayParams.ALIPAY_CHARSET);
 		data.put("payment_type", "1");
+		data.put("seller_email", PayParams.ALIPAY_SELLER);
 		data.put("out_trade_no", pay.getNo());
 		data.put("subject", pay.getSubject());
 		data.put("body", pay.getBody());
