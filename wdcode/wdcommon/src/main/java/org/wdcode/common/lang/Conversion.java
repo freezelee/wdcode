@@ -93,8 +93,6 @@ public final class Conversion {
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
 			} else if (obj instanceof Character) {
 				return ((Character) obj).charValue();
-			} else if (obj instanceof String) {
-				return Integer.parseInt(toString(obj));
 			} else {
 				return Math.round(toFloat(obj, defaultValue));
 			}

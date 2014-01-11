@@ -2,6 +2,7 @@ package org.wdcode.web.socket.simple;
 
 import java.util.Map;
 
+import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.StringUtil;
@@ -104,21 +105,44 @@ public final class Processor implements Process {
 				int id = Integer.reverseBytes(buff.getInt());
 				// 获得相应的
 				Handler<Object> handler = handlers.get(id);
-				// 读取指定长度的字节数
-				byte[] data = new byte[length - 4];
-				// 读取指定长度字节数组
-				buff.get(data);
-				// 获得处理器消息类
-				Class<?> type = ClassUtil.getGenericClass(handler.getClass());
-				// 判断消息实体类型
-				if (type.equals(String.class)) {
-					// 字符串
-					handler.handler(session, StringUtil.toString(data));
-				} else if (type.equals(byte[].class)) {
-					handler.handler(session, data);
+				// 消息长度
+				int len = length - 4;
+				// 如果消息长度为0
+				if (len == 0) {
+					handler.handler(session, null);
 				} else {
-					// 默认使用消息体
-					handler.handler(session, ((Message) ClassUtil.newInstance(type)).toBean(data));
+					// 读取指定长度的字节数
+					byte[] data = new byte[len];
+					// 读取指定长度字节数组
+					buff.get(data);
+					// 获得处理器消息类
+					Class<?> type = ClassUtil.getGenericClass(handler.getClass());
+					// 判断消息实体类型
+					if (type.equals(String.class)) {
+						// 字符串
+						handler.handler(session, StringUtil.toString(data));
+					} else if (type.equals(int.class) || type.equals(Integer.class)) {
+						// 整型
+						handler.handler(session, Bytes.toInt(data));
+					} else if (type.equals(long.class) || type.equals(Long.class)) {
+						// 长整型
+						handler.handler(session, Bytes.toLong(data));
+					} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+						// 布尔
+						handler.handler(session, Bytes.toLong(data));
+					} else if (type.equals(float.class) || type.equals(Float.class)) {
+						// float型
+						handler.handler(session, Bytes.toFloat(data));
+					} else if (type.equals(double.class) || type.equals(Double.class)) {
+						// Double型
+						handler.handler(session, Bytes.toDouble(data));
+					} else if (type.equals(byte[].class)) {
+						// 字节流
+						handler.handler(session, data);
+					} else {
+						// 默认使用消息体
+						handler.handler(session, ((Message) ClassUtil.newInstance(type)).toBean(data));
+					}
 				}
 				// 如果缓存区为空
 				if (buff.remaining() == 0) {

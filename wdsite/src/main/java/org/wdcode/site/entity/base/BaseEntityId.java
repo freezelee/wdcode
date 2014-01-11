@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.search.annotations.DocumentId;
 import org.wdcode.common.lang.Conversion;
 
 /**
@@ -23,7 +22,6 @@ public abstract class BaseEntityId extends BaseEntity {
 	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@DocumentId
 	private int					id;
 
 	/**

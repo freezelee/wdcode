@@ -1,5 +1,6 @@
 package org.wdcode.web.socket.base;
 
+import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.StringUtil;
@@ -21,7 +22,10 @@ public abstract class BaseSession implements Session {
 		// 声明字节数组
 		byte[] data = null;
 		// 判断类型
-		if (message instanceof String) {
+		if (message == null) {
+			// 空
+			data = ArrayConstants.BYTES_EMPTY;
+		} else if (message instanceof String) {
 			// 字符串
 			data = StringUtil.toBytes(Conversion.toString(message));
 		} else if (message instanceof Message) {
