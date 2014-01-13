@@ -1,4 +1,4 @@
-package org.wdcode.base.quartz;
+package org.wdcode.base.starter;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.context.Context;
+import org.wdcode.base.quartz.Job;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.util.EmptyUtil;
@@ -24,7 +25,7 @@ import org.wdcode.core.params.QuartzParams;
  * @version 1.0 2013-12-27
  */
 @Component
-final class Quartzs {
+final class QuartzStarter {
 	// Context
 	@Resource
 	private Context	context;

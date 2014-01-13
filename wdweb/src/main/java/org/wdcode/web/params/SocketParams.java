@@ -1,6 +1,7 @@
 package org.wdcode.web.params;
 
 import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.params.Params;
 
 /**
@@ -11,15 +12,19 @@ import org.wdcode.common.params.Params;
  */
 public final class SocketParams {
 	/* Socket使用 */
-	private final static String		PREFIX	= "socket";																// 前缀
+	private final static String		PREFIX	= "socket";																		// 前缀
 	/**
 	 * Mina服务器开关
 	 */
 	public final static boolean		POWER	= Params.getBoolean(PREFIX + ".power", false);
 	/**
+	 * Mina服务器开关
+	 */
+	public final static boolean		SPRING	= Params.getBoolean(PREFIX + ".spring", false);
+	/**
 	 * Mina服务器名称数组
 	 */
-	public final static String[]	NAMES	= Params.getStringArray(PREFIX + ".names", ArrayConstants.STRING_EMPTY);
+	public final static String[]	NAMES	= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
 
 	/**
 	 * 获得Socket使用解析包<br/>

@@ -91,31 +91,53 @@ public final class PayParams {
 	 */
 	public final static String	YEEPAY_CHARSET	= Params.getString("pay.yeepay.charset", EncodingConstants.GBK);
 
-	/* 微信支付 */
+	/* 手机卡 */
 	/**
 	 * 合作身份者ID
 	 */
-	public final static String	WEIXIN_ID		= Params.getString("pay.weixin.id");
+	public final static String	CARD_ID			= Params.getString("pay.card.id");
 	/**
 	 * 密钥
 	 */
-	public final static String	WEIXIN_KEY		= Params.getString("pay.weixin.key");
+	public final static String	CARD_KEY		= Params.getString("pay.card.key");
 	/**
 	 * 支付URL
 	 */
-	public final static String	WEIXIN_URL		= Params.getString("pay.weixin.url", "https://gw.tenpay.com/gateway/pay.htm");
-	/**
-	 * 编码类型
-	 */
-	public final static String	WEIXIN_CHARSET	= Params.getString("pay.weixin.charset", EncodingConstants.GBK);
-	/**
-	 * 签名类型
-	 */
-	public final static String	WEIXIN_SIGNTYPE	= Params.getString("pay.weixin.signtype", EncryptConstants.ALGO_MD5);
+	public final static String	CARD_URL		= Params.getString("pay.card.url", "https://www.yeepay.com/app-merchant-proxy/node");
 	/**
 	 * 回调URL
 	 */
-	public final static String	WEIXIN_REDIRECT	= Params.getString("pay.weixin.redirect");
+	public final static String	CARD_REDIRECT	= Params.getString("pay.card.redirect");
+	/**
+	 * 编码类型
+	 */
+	public final static String	CARD_CHARSET	= Params.getString("pay.card.charset", EncodingConstants.GBK);
+
+	/* 短信支付 */
+	/**
+	 * 合作身份者ID
+	 */
+	public final static String	SMS_ID			= Params.getString("pay.sms.id");
+	/**
+	 * 密钥
+	 */
+	public final static String	SMS_KEY			= Params.getString("pay.sms.key");
+	/**
+	 * 支付URL
+	 */
+	public final static String	SMS_URL			= Params.getString("pay.sms.url", "https://gw.tenpay.com/gateway/pay.htm");
+	/**
+	 * 编码类型
+	 */
+	public final static String	SMS_CHARSET		= Params.getString("pay.sms.charset", EncodingConstants.GBK);
+	/**
+	 * 签名类型
+	 */
+	public final static String	SMS_SIGNTYPE	= Params.getString("pay.sms.signtype", EncryptConstants.ALGO_MD5);
+	/**
+	 * 回调URL
+	 */
+	public final static String	SMS_REDIRECT	= Params.getString("pay.sms.redirect");
 
 	//
 	/**

@@ -20,9 +20,13 @@ public final class PayConstants {
 	 */
 	public final static int	TYPE_YEEPAY	= 3;
 	/**
-	 * 支付常量 微信
+	 * 支付常量 短信
 	 */
-	public final static int	TYPE_WEIXIN	= 4;
+	public final static int	TYPE_SMS	= 4;
+	/**
+	 * 支付常量 手机卡
+	 */
+	public final static int	TYPE_CARD	= 5;
 
 	private PayConstants() {}
 }

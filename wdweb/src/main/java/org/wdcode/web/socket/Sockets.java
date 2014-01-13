@@ -2,7 +2,6 @@ package org.wdcode.web.socket;
 
 import java.util.Map;
 
-import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.ClassUtil;
@@ -35,15 +34,11 @@ public final class Sockets {
 	public static void init() {
 		// 判断任务不为空
 		if (SocketParams.POWER) {
-			// 如果names为空
-			if (EmptyUtil.isEmpty(SocketParams.NAMES)) {
-				init(StringConstants.EMPTY);
-			} else {
-				// 循环数组
-				for (String name : SocketParams.NAMES) {
-					init(name);
-				}
+			// 循环数组
+			for (String name : SocketParams.NAMES) {
+				init(name);
 			}
+			// 启动服务器
 			start();
 		}
 	}
@@ -52,7 +47,7 @@ public final class Sockets {
 	 * 根据名称设置
 	 * @param name 名
 	 */
-	private static void init(String name) {
+	public static Socket init(String name) {
 		// Socket
 		Socket socket = null;
 		// 判断是否客户端
@@ -78,6 +73,8 @@ public final class Sockets {
 				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 			}
 		}
+		// 返回Socket
+		return socket;
 	}
 
 	/**

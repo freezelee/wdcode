@@ -65,23 +65,23 @@ public final class DateConstants {
 	public final static long	TIME_WEEK			= 604800000L;
 
 	/**
-	 * 时间常量 秒 = X毫秒
+	 * 时间常量 秒 = X秒
 	 */
 	public final static int		SECOND				= 1;
 	/**
-	 * 时间常量 分 = X毫秒
+	 * 时间常量 分 = X秒
 	 */
 	public final static int		MINUTE				= 60;
 	/**
-	 * 时间常量 时 = X毫秒
+	 * 时间常量 时 = X秒
 	 */
 	public final static int		HOUR				= 3600;
 	/**
-	 * 时间常量 天 = X毫秒
+	 * 时间常量 天 = X秒
 	 */
 	public final static int		DAY					= 86400;
 	/**
-	 * 时间常量 周 = X毫秒
+	 * 时间常量 周 = X秒
 	 */
 	public final static int		WEEK				= 604800;
 
