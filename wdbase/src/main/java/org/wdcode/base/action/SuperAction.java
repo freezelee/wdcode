@@ -13,8 +13,6 @@ import org.wdcode.base.entity.EntityStartEndTime;
 import org.wdcode.base.entity.EntityFile;
 import org.wdcode.base.entity.EntityFiles;
 import org.wdcode.base.entity.EntityTime;
-import org.wdcode.base.service.QueryService;
-import org.wdcode.base.service.SuperService;
 import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
@@ -35,10 +33,8 @@ import org.wdcode.web.constants.HttpConstants;
  * @version 1.0 2012-07-4
  */
 public class SuperAction<E extends Entity> extends BasicAction {
-	// 序列化ID
-	private static final long		serialVersionUID	= -2886589693379937807L;
 	// 时间字段
-	protected final static String	TIME_FIELD			= "time";
+	protected final static String	TIME_FIELD	= "time";
 	// 通用实体
 	protected E						entity;
 	// 实体列表
@@ -53,12 +49,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	protected String				endDate;
 	// 实体类
 	protected Class<E>				entityClass;
-	// 通用业务接口
-	@Resource
-	protected SuperService			service;
-	// 查询器
-	@Resource
-	protected QueryService			query;
 	// 分页Bean
 	@Resource
 	protected Pagination			pager;
@@ -415,22 +405,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
-	 * 获得业务
-	 * @return 业务
-	 */
-	public SuperService getService() {
-		return service;
-	}
-
-	/**
-	 * 设置业务
-	 * @param service 业务
-	 */
-	public void setService(SuperService service) {
-		this.service = service;
-	}
-
-	/**
 	 * 获得主键
 	 * @return 主键
 	 */
@@ -562,14 +536,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	public void setOrders(String orders) {
 		this.orders = JsonEngine.toMap(orders);
-	}
-
-	/**
-	 * 获得查询器
-	 * @return 查询器
-	 */
-	public QueryService getQuery() {
-		return query;
 	}
 
 	/**

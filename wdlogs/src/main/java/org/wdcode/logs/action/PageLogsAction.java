@@ -23,9 +23,6 @@ import org.wdcode.web.util.RequestUtil;
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 public class PageLogsAction extends LoginAction<LogsPage, EntityLogin> {
-	// 序列化ID
-	private static final long	serialVersionUID	= -9081711038252503304L;
-
 	/**
 	 * 进入页面
 	 * @return

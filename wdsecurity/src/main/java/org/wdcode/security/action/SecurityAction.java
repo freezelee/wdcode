@@ -21,8 +21,6 @@ import org.wdcode.site.engine.LoginEngine;
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 public class SecurityAction extends BackAction {
-	private static final long	serialVersionUID	= -6498335176982031962L;
-
 	@PostConstruct
 	protected void init() {
 		// 父类初始化

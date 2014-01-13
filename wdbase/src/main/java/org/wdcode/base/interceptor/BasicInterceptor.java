@@ -3,6 +3,7 @@ package org.wdcode.base.interceptor;
 import org.wdcode.base.action.BasicAction;
 import org.wdcode.common.constants.StringConstants;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
@@ -29,7 +30,7 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 					return exception(action, e);
 				}
 			} else {
-				return BasicAction.INPUT;
+				return Action.INPUT;
 			}
 
 		} else {
@@ -69,7 +70,7 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 		// 返回错误信息
 		action.addError(mess);
 		// 返回错误
-		return BasicAction.ERROR;
+		return Action.ERROR;
 	}
 
 	/**

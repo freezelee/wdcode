@@ -15,11 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.util.ValueStack;
 
+import org.apache.struts2.util.TextProviderHelper;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.UploadParams;
+import org.wdcode.base.service.QueryService;
+import org.wdcode.base.service.SuperService;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -51,14 +55,24 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-08-26
  */
-public class BasicAction extends ActionSupport {
-	// 序列化ID
-	private static final long					serialVersionUID	= 3314538887531859725L;
-
+public class BasicAction {
+	// 成功
+	protected static final String				SUCCESS	= "success";
+	// 错误
+	protected static final String				ERROR	= "error";
+	// 登录页
+	protected static final String				LOGIN	= "login";
 	// LIST
-	protected final static String				LIST				= "list";
+	protected final static String				LIST	= "list";
 	// 回调方法处理
-	protected final static Map<String, Method>	METHODS				= Maps.getMap();
+	protected final static Map<String, Method>	METHODS	= Maps.getMap();
+
+	// 通用业务接口
+	@Resource
+	protected SuperService						service;
+	// 查询器
+	@Resource
+	protected QueryService						query;
 
 	// 提交的url
 	protected String							url;
@@ -98,6 +112,8 @@ public class BasicAction extends ActionSupport {
 	protected HttpSession						session;
 	// 错误信息
 	protected List<String>						error;
+	// 错误信息
+	protected List<String>						message;
 
 	/**
 	 * 初始化方法
@@ -311,6 +327,14 @@ public class BasicAction extends ActionSupport {
 	}
 
 	/**
+	 * 获得信息列表
+	 * @return
+	 */
+	public List<String> getMessage() {
+		return message;
+	}
+
+	/**
 	 * 获得国际化值
 	 */
 	public String getText(String name) {
@@ -318,10 +342,12 @@ public class BasicAction extends ActionSupport {
 		String[] val = name.split(StringConstants.COMMA);
 		// 设置字符串缓存类
 		StringBuilder sb = new StringBuilder();
+		// 获得栈值
+		ValueStack vs = ActionContext.getContext().getValueStack();
 		// 循环
 		for (int i = 0; i < val.length; i++) {
 			// 添加内容
-			sb.append(super.getText(val[i], val[i]));
+			sb.append(TextProviderHelper.getText(val[i], val[i], vs));
 		}
 		return sb.toString();
 	}
@@ -420,8 +446,9 @@ public class BasicAction extends ActionSupport {
 	 * 添加错误信息 错误Field=key value=国际化value
 	 * @param key 国际化文件的Key
 	 */
-	public void addError(String key) {
-		error.add(getText(key));
+	public String addError(String key) {
+		error.add(key);
+		return key;
 	}
 
 	/**
@@ -429,7 +456,7 @@ public class BasicAction extends ActionSupport {
 	 * @param key 国际化文件的Key
 	 */
 	public String addMessage(String key) {
-		addActionMessage(getText(key));
+		message.add(key);
 		return key;
 	}
 
@@ -573,6 +600,22 @@ public class BasicAction extends ActionSupport {
 	 */
 	public void setField(String field) {
 		this.field = field;
+	}
+
+	/**
+	 * 获得业务
+	 * @return 业务
+	 */
+	public SuperService getService() {
+		return service;
+	}
+
+	/**
+	 * 获得查询器
+	 * @return 查询器
+	 */
+	public QueryService getQuery() {
+		return query;
 	}
 
 	/**

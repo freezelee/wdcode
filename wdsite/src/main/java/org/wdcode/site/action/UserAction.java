@@ -21,17 +21,14 @@ import org.wdcode.web.email.EmailEngine;
  * @version 1.0 2011-11-02
  */
 public class UserAction<E extends Entity, U extends EntityUser> extends LoginAction<E, U> {
-	// 序列化ID
-	private static final long	serialVersionUID	= 847404521518587435L;
-
 	// 原密码
-	private String				oldPwd;
+	private String	oldPwd;
 	// 新密码
-	private String				newPwd;
+	private String	newPwd;
 	// 重复密码
-	private String				echoPwd;
+	private String	echoPwd;
 	// 验证码
-	private String				activeCoding;
+	private String	activeCoding;
 
 	/**
 	 * 修改个人密码

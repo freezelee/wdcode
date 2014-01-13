@@ -9,7 +9,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import org.wdcode.base.action.BasicAction;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.common.lang.Conversion;
@@ -22,6 +21,8 @@ import org.wdcode.logs.po.StatisticsLogin;
 import org.wdcode.logs.po.LogsOperate;
 import org.wdcode.logs.po.StatisticsPage;
 import org.wdcode.site.action.LoginAction;
+
+import com.opensymphony.xwork2.Action;
 
 /**
  * AOP通知 用于拦截Action
@@ -140,7 +141,7 @@ public class LogsAdvice {
 			// 获得后台Action
 			LoginAction<?, ?> action = (LoginAction<?, ?>) point.getTarget();
 			// 获得登录状态
-			int state = BasicAction.ERROR.equals(retVal) ? 0 : 1;
+			int state = Action.ERROR.equals(retVal) ? 0 : 1;
 			// 获得提交的连接
 			String link = action.getLink();
 			// 获得操作实体

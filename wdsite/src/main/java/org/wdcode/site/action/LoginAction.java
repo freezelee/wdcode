@@ -24,17 +24,15 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @version 1.0 2009-07-14
  */
 public class LoginAction<E extends Entity, U extends EntityLogin> extends SuperAction<E> {
-	// 序列化 ID
-	private static final long	serialVersionUID	= 5542364549112574333L;
 	// 用户实体
-	protected U					user;
+	protected U			user;
 	// 验证登录标识
-	protected AuthToken			token;
+	protected AuthToken	token;
 
 	// 验证码
-	private String				verifyCode;
+	private String		verifyCode;
 	// 保存属性时间
-	private boolean				autoLogin;
+	private boolean		autoLogin;
 
 	@PostConstruct
 	protected void init() {
