@@ -2,6 +2,7 @@ package org.wdcode.web.socket;
 
 import java.util.Map;
 
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.ClassUtil;
@@ -57,11 +58,11 @@ public final class Sockets {
 			socket = addServer(name);
 		}
 		// 获得心跳时间
-		int heart = SocketParams.getHeart(name);
+		int heart = SocketParams.getHeartTime(name);
 		// 配置了心跳
 		if (heart > 0) {
 			// 设置心跳
-			socket.addHandler(new HeartHandler(heart));
+			socket.addHandler(new HeartHandler(SocketParams.getHeartId(name), heart));
 		}
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {
@@ -112,6 +113,65 @@ public final class Sockets {
 	}
 
 	/**
+	 * 广播消息
+	 * @param key 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void radio(int id, Object message) {
+		// 循环发送
+		for (String name : SERVERS.keySet()) {
+			radio(name, id, message);
+		}
+	}
+
+	/**
+	 * 广播消息
+	 * @param name 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void radio(String name, int id, Object message) {
+		// 循环发送消息
+		for (String key : manager(name).keys()) {
+			radio(name, key, id, message);
+		}
+	}
+
+	/**
+	 * 广播消息
+	 * @param key 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void radio(String name, String key, int id, Object message) {
+		// 循环发送消息
+		for (Session session : manager(name).sessions(key)) {
+			session.send(id, message);
+		}
+	}
+
+	/**
+	 * 发送消息
+	 * @param key 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void send(int id, Object message) {
+		radio(StringConstants.EMPTY, id, message);
+	}
+
+	/**
+	 * 发送消息
+	 * @param key 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void send(String key, int id, Object message) {
+		radio(StringConstants.EMPTY, key, id, message);
+	}
+
+	/**
 	 * 获得服务器
 	 * @param name
 	 * @return
@@ -121,12 +181,62 @@ public final class Sockets {
 	}
 
 	/**
+	 * 获得服务器
+	 * @return
+	 */
+	public static Server server() {
+		return server(StringConstants.EMPTY);
+	}
+
+	/**
+	 * 获得服务器Session管理器
+	 * @param name
+	 * @return
+	 */
+	public static Manager manager(String name) {
+		return server(name).getManager();
+	}
+
+	/**
+	 * 获得服务器
+	 * @return
+	 */
+	public static Manager manager() {
+		return server().getManager();
+	}
+
+	/**
 	 * 获得客户端
 	 * @param name
 	 * @return
 	 */
 	public static Client client(String name) {
 		return CLIENTS.get(name);
+	}
+
+	/**
+	 * 获得客户端
+	 * @return
+	 */
+	public static Client client() {
+		return client(StringConstants.EMPTY);
+	}
+
+	/**
+	 * 获得客户端Session
+	 * @param name
+	 * @return
+	 */
+	public static Session session(String name) {
+		return client(name).getSession();
+	}
+
+	/**
+	 * 获得客户端Session
+	 * @return
+	 */
+	public static Session session() {
+		return client().getSession();
 	}
 
 	/**

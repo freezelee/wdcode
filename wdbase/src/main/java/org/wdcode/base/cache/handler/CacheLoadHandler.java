@@ -7,6 +7,7 @@ import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.web.socket.Handler;
+import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Session;
 
 /**
@@ -30,7 +31,7 @@ public final class CacheLoadHandler implements Handler<String> {
 	}
 
 	@Override
-	public void handler(Session session, String data) {
+	public void handler(Session session, String data, Manager manager) {
 		// 获得要更新缓存的类
 		Class<? extends Entity> c = context.getClass(data);
 		// 判断类是否为空

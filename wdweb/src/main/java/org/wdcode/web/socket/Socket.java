@@ -19,4 +19,10 @@ public interface Socket extends Close {
 	 * @param handler
 	 */
 	void addHandler(Handler<?>... handler);
+
+	/**
+	 * 获得Manager
+	 * @return Manager
+	 */
+	Manager getManager();
 }

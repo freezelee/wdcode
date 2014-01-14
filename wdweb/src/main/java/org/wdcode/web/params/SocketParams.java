@@ -12,19 +12,23 @@ import org.wdcode.common.params.Params;
  */
 public final class SocketParams {
 	/* Socket使用 */
-	private final static String		PREFIX	= "socket";																		// 前缀
+	private final static String		PREFIX		= "socket";																			// 前缀
 	/**
 	 * Mina服务器开关
 	 */
-	public final static boolean		POWER	= Params.getBoolean(PREFIX + ".power", false);
+	public final static boolean		POWER		= Params.getBoolean(PREFIX + ".power", false);
 	/**
 	 * Mina服务器开关
 	 */
-	public final static boolean		SPRING	= Params.getBoolean(PREFIX + ".spring", false);
+	public final static boolean		SPRING		= Params.getBoolean(PREFIX + ".spring", false);
 	/**
 	 * Mina服务器名称数组
 	 */
-	public final static String[]	NAMES	= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
+	public final static String[]	NAMES		= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
+	/**
+	 * Mina服务器名称数组
+	 */
+	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
 
 	/**
 	 * 获得Socket使用解析包<br/>
@@ -63,15 +67,27 @@ public final class SocketParams {
 	}
 
 	/**
+	 * 获得Socket心跳检测ID指令<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.heart.id = ? <br/>
+	 * XML: {@literal <socket><heart><id>?</id></heart></socket>}</h2>
+	 * @return 获得Socket心跳检测ID指令
+	 */
+	public static int getHeartId(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "heart.id"));
+	}
+
+	/**
 	 * 获得Socket心跳检测时间 单位秒<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.heart = ? <br/>
-	 * XML: {@literal <socket><heart>?</heart></socket>}</h2>
+	 * Properties: socket.heart.time = ? <br/>
+	 * XML: {@literal <socket><heart><time>?</time></heart></socket>}</h2>
 	 * @return 获得Socket心跳检测时间 单位秒
 	 */
-	public static int getHeart(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "heart"));
+	public static int getHeartTime(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "heart.time"));
 	}
 
 	/**

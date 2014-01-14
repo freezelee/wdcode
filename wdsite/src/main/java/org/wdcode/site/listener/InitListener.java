@@ -64,7 +64,20 @@ public class InitListener implements ServletContextListener {
 	/**
 	 * 销毁资源
 	 */
-	public void contextDestroyed(ServletContextEvent event) {}
+	public void contextDestroyed(ServletContextEvent event) {
+		// 是否静态化
+		if (SiteParams.STAICS_POWER) {
+			StaticsEngine.close();
+		}
+		// 是否开启任务
+		if (QuartzParams.POWER) {
+			QuartzEngine.close();
+		}
+		// 是否开启socket
+		if (SocketParams.POWER) {
+			Sockets.close();
+		}
+	}
 
 	/**
 	 * 设置log4j配置

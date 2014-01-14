@@ -1,6 +1,5 @@
 package org.wdcode.web.socket;
 
-
 /**
  * Socket 处理器
  * @author WD
@@ -18,6 +17,7 @@ public interface Handler<E> {
 	 * 处理器
 	 * @param session Socket Session
 	 * @param data 传送的数据
+	 * @param manager Session管理器 可以注册获得Session
 	 */
-	void handler(Session session, E data);
+	void handler(Session session, E data, Manager manager);
 }

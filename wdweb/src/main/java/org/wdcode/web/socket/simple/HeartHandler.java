@@ -9,6 +9,7 @@ import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.ScheduledUtile;
 import org.wdcode.web.socket.Handler;
+import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Session;
 
 /**
@@ -24,14 +25,17 @@ public final class HeartHandler implements Handler<byte[]> {
 	private Map<Integer, Session>	sessions;
 	// 心跳检测时间
 	private int						heart;
+	// 心跳检查ID指令
+	private int						id;
 
 	/**
 	 * 构造
 	 */
-	public HeartHandler(int time) {
+	public HeartHandler(int id, int time) {
+		this.id = id;
+		this.heart = time;
 		times = Maps.getConcurrentMap();
 		sessions = Maps.getConcurrentMap();
-		this.heart = time;
 		// 定时检测
 		ScheduledUtile.rate(new Runnable() {
 			@Override
@@ -86,11 +90,11 @@ public final class HeartHandler implements Handler<byte[]> {
 
 	@Override
 	public int getId() {
-		return 0;
+		return id;
 	}
 
 	@Override
-	public void handler(Session session, byte[] data) {
+	public void handler(Session session, byte[] data, Manager manager) {
 		// 有数据 4字节为int时间戳
 		if (!EmptyUtil.isEmpty(data) && data.length == 4) {
 			times.put(session.getId(), Bytes.toInt(data));

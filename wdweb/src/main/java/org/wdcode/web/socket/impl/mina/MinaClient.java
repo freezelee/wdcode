@@ -11,7 +11,6 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.params.CommonParams;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.base.BaseClient;
-import org.wdcode.web.socket.simple.Processor;
 
 /**
  * mina客户端
@@ -36,8 +35,6 @@ public final class MinaClient extends BaseClient {
 		this.name = name;
 		// 客户端
 		this.connector = new NioSocketConnector(CommonParams.THREAD_POOL);
-		// 实例化消息处理器
-		process = new Processor();
 		// 实例化handler
 		handler = new MinaHandler(process);
 		// 获得Session配置
@@ -77,6 +74,5 @@ public final class MinaClient extends BaseClient {
 		future.getSession().close(false).awaitUninterruptibly();
 		// 关闭acceptor
 		connector.dispose(false);
-
 	}
 }

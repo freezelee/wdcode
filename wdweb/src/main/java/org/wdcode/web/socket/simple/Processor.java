@@ -8,6 +8,7 @@ import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.web.socket.Buffer;
 import org.wdcode.web.socket.Handler;
+import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Session;
 
@@ -19,13 +20,23 @@ import org.wdcode.web.socket.Session;
  */
 public final class Processor implements Process {
 	// Handler列表
-	protected Map<Integer, Handler<Object>>	handlers	= Maps.getConcurrentMap();
+	private Map<Integer, Handler<Object>>	handlers	= Maps.getConcurrentMap();
 	// 保存Session
-	protected Map<Integer, Session>			sessions	= Maps.getConcurrentMap();
+	private Map<Integer, Session>			sessions	= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
-	protected Map<Integer, Buffer>			buffers		= Maps.getConcurrentMap();
+	private Map<Integer, Buffer>			buffers		= Maps.getConcurrentMap();
+	// SessionManager
+	private Manager							manager;
 	// 心跳处理
 	private HeartHandler					heart;
+
+	/**
+	 * Session管理
+	 * @param manager
+	 */
+	public Processor(Manager manager) {
+		this.manager = manager;
+	}
 
 	@Override
 	public void addHandler(Handler<?>... handler) {
@@ -52,12 +63,16 @@ public final class Processor implements Process {
 
 	@Override
 	public void closed(Session session) {
+		// 删除session
 		sessions.remove(session.getId());
+		// 删除缓存
 		buffers.remove(session.getId());
 		// 如果心跳处理不为空
 		if (heart != null) {
 			heart.remove(session);
 		}
+		// 删除Session管理中的注册Session
+		manager.remove(session);
 	}
 
 	@Override
@@ -109,7 +124,7 @@ public final class Processor implements Process {
 				int len = length - 4;
 				// 如果消息长度为0
 				if (len == 0) {
-					handler.handler(session, null);
+					handler.handler(session, null, manager);
 				} else {
 					// 读取指定长度的字节数
 					byte[] data = new byte[len];
@@ -117,32 +132,36 @@ public final class Processor implements Process {
 					buff.get(data);
 					// 获得处理器消息类
 					Class<?> type = ClassUtil.getGenericClass(handler.getClass());
+					// 消息实体
+					Object mess = null;
 					// 判断消息实体类型
 					if (type.equals(String.class)) {
 						// 字符串
-						handler.handler(session, StringUtil.toString(data));
+						mess = StringUtil.toString(data);
 					} else if (type.equals(int.class) || type.equals(Integer.class)) {
 						// 整型
-						handler.handler(session, Bytes.toInt(data));
+						mess = Bytes.toInt(data);
 					} else if (type.equals(long.class) || type.equals(Long.class)) {
 						// 长整型
-						handler.handler(session, Bytes.toLong(data));
+						mess = Bytes.toLong(data);
 					} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 						// 布尔
-						handler.handler(session, Bytes.toLong(data));
+						mess = Bytes.toLong(data);
 					} else if (type.equals(float.class) || type.equals(Float.class)) {
 						// float型
-						handler.handler(session, Bytes.toFloat(data));
+						mess = Bytes.toFloat(data);
 					} else if (type.equals(double.class) || type.equals(Double.class)) {
 						// Double型
-						handler.handler(session, Bytes.toDouble(data));
+						mess = Bytes.toDouble(data);
 					} else if (type.equals(byte[].class)) {
 						// 字节流
-						handler.handler(session, data);
+						mess = data;
 					} else {
 						// 默认使用消息体
-						handler.handler(session, ((Message) ClassUtil.newInstance(type)).toBean(data));
+						mess = ((Message) ClassUtil.newInstance(type)).toBean(data);
 					}
+					// 回调处理器
+					handler.handler(session, mess, manager);
 				}
 				// 如果缓存区为空
 				if (buff.remaining() == 0) {

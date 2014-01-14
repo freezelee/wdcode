@@ -18,12 +18,15 @@ import org.wdcode.web.util.HttpUtil;
  * @version 1.0 2010-12-22
  */
 public final class StaticsEngine {
+	// 定时器
+	private static ScheduledExecutorService	service;
+
 	/**
 	 * 开始执行
 	 */
 	public static void start() {
 		// 定时任务
-		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		service = Executors.newSingleThreadScheduledExecutor();
 		// 获得配置
 		Config config = ConfigFactory.getConfig(BaseParams.STAICS_CONFIG);
 		// 获得静态化开关
@@ -49,6 +52,15 @@ public final class StaticsEngine {
 					}
 				}, Conversion.toLong(starts[i]) * DateConstants.TIME_SECOND, Conversion.toLong(times[i]) * DateConstants.TIME_SECOND, TimeUnit.MILLISECONDS);
 			}
+		}
+	}
+
+	/**
+	 * 关闭静态化定时器
+	 */
+	public static void close() {
+		if (service != null) {
+			service.shutdown();
 		}
 	}
 }
