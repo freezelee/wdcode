@@ -18,7 +18,6 @@ import org.wdcode.base.bean.Pagination;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-import org.wdcode.common.util.ArrayUtil;
 import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.EmptyUtil;
 
@@ -132,11 +131,8 @@ public class SuperService {
 	 * @param pk 主键数组
 	 * @return 是否成功
 	 */
-	public <E extends Entity> List<E> delete(Class<E> entity, Serializable... pk) {
-		// 删除
-		List<E> entitys = dao.delete(newInstance(entity, pk));
-		// 返回结果
-		return isCache(entity) ? getCache(entity).remove(entitys) : entitys;
+	public <E extends Entity> List<E> delete(Class<E> entity, Serializable... pks) {
+		return delete(Lists.toArray(gets(entity, pks)));
 	}
 
 	/**
@@ -935,39 +931,39 @@ public class SuperService {
 		return getCache(entityClass).isValid();
 	}
 
-	/**
-	 * 根据ID数组返回一个用户列表
-	 * @param entity 实体名
-	 * @param pk 主键数组
-	 * @return 实体列表
-	 */
-	private <E extends Entity> E[] newInstance(Class<E> entity, Serializable... pk) {
-		// 列表大小
-		int length = pk.length;
-		// 声明一个实体数组
-		E[] es = ArrayUtil.getArray(entity, length);
-		// 循环生成
-		for (int i = 0; i < length; i++) {
-			// 添加列表
-			es[i] = newInstance(entity, pk[i]);
-		}
-		// 返回实体数组
-		return es;
-	}
+	// /**
+	// * 根据ID数组返回一个用户列表
+	// * @param entity 实体名
+	// * @param pk 主键数组
+	// * @return 实体列表
+	// */
+	// private <E extends Entity> E[] newInstance(Class<E> entity, Serializable... pk) {
+	// // 列表大小
+	// int length = pk.length;
+	// // 声明一个实体数组
+	// E[] es = ArrayUtil.getArray(entity, length);
+	// // 循环生成
+	// for (int i = 0; i < length; i++) {
+	// // 添加列表
+	// es[i] = newInstance(entity, pk[i]);
+	// }
+	// // 返回实体数组
+	// return es;
+	// }
 
-	/**
-	 * 根据ID构造一个实体
-	 * @param entity 实体名
-	 * @param pk 主键
-	 */
-	private <E extends Entity> E newInstance(Class<E> entity, Serializable pk) {
-		// 获得实体
-		E e = BeanUtil.newInstance(entity);
-		// 设置主键
-		e.setKey(pk);
-		// 返回实体
-		return e;
-	}
+	// /**
+	// * 根据ID构造一个实体
+	// * @param entity 实体名
+	// * @param pk 主键
+	// */
+	// private <E extends Entity> E newInstance(Class<E> entity, Serializable pk) {
+	// // 获得实体
+	// E e = BeanUtil.newInstance(entity);
+	// // 设置主键
+	// e.setKey(pk);
+	// // 返回实体
+	// return e;
+	// }
 
 	/**
 	 * 获得最大结果数

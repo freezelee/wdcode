@@ -200,8 +200,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String del() throws Exception {
-		// 影响数量标识
-		int size = 0;
 		// key为空
 		if (EmptyUtil.isEmpty(key)) {
 			// 实体不为空
@@ -209,17 +207,17 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				// 实体主键为空
 				if (EmptyUtil.isEmpty(entity.getKey())) {
 					// 按实体查询出相关列表 在删除
-					size = service.delete(entity).size();
+					entitys = service.delete(entity);
 				} else {
 					// 按实体主键删除
-					size = service.delete(entityClass, entity.getKey()).size();
+					entitys = service.delete(entityClass, entity.getKey());
 				}
 			}
 		} else {
 			// 按key删除
-			size = service.delete(entityClass, key).size();
+			entitys = service.delete(entityClass, key);
 		}
-		return callback(size > 0);
+		return callback(EmptyUtil.isEmpty(entitys) ? ERROR : (entity = entitys.get(0)));
 	}
 
 	/**
@@ -228,7 +226,7 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	 * @throws Exception
 	 */
 	public String dels() throws Exception {
-		return callback(EmptyUtil.isEmpty(service.delete(entityClass, keys)) ? ERROR : mode);
+		return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : mode);
 	}
 
 	/**
