@@ -136,6 +136,8 @@ public class BasicAction {
 		session = request.getSession();
 		// 声明错误信息
 		error = Lists.getList();
+		// 声明信息
+		message = Lists.getList();
 	}
 
 	/**
