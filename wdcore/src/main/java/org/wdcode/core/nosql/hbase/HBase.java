@@ -1,12 +1,14 @@
 package org.wdcode.core.nosql.hbase;
 
+import org.wdcode.core.nosql.NoSQL;
+
 /**
  * HBase接口
  * @author WD
  * @since JDK7
  * @version 1.0 2010-12-12
  */
-public interface HBase {
+public interface HBase extends NoSQL {
 	/**
 	 * 获得Dao
 	 * @param tableName 表名

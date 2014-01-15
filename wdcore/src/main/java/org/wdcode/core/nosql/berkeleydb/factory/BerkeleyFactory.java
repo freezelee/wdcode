@@ -25,6 +25,14 @@ public final class BerkeleyFactory extends FactoryKey<String, Berkeley> {
 		return FACTORY.getInstance();
 	}
 
+	/**
+	 * 获得Berkeley
+	 * @return Berkeley
+	 */
+	public static Berkeley getBerkeley(String key) {
+		return FACTORY.getInstance(key);
+	}
+
 	@Override
 	public Berkeley newInstance(String key) {
 		return new BerkeleyImpl(key);

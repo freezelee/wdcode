@@ -116,4 +116,38 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	public HBaseDao newInstance() {
 		return newInstance(StringConstants.EMPTY);
 	}
+
+	@Override
+	public boolean compress(String key, Object value) {
+		return false;
+	}
+
+	@Override
+	public byte[] extract(String key) {
+		return null;
+	}
+
+	@Override
+	public boolean set(String key, Object value) {
+		return false;
+	}
+
+	@Override
+	public Object get(String key) {
+		return null;
+	}
+
+	@Override
+	public void remove(String... key) {}
+
+	@Override
+	public boolean exists(String key) {
+		return false;
+	}
+
+	@Override
+	public void clear() {}
+
+	@Override
+	public void close() {}
 }

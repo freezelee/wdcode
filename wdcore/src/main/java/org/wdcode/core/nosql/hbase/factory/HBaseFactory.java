@@ -1,6 +1,6 @@
 package org.wdcode.core.nosql.hbase.factory;
 
-import org.wdcode.core.factory.Factory;
+import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.hbase.HBase;
 import org.wdcode.core.params.CoreParams;
 
@@ -10,7 +10,7 @@ import org.wdcode.core.params.CoreParams;
  * @since JDK7
  * @version 1.0 2010-12-12
  */
-public final class HBaseFactory extends Factory<HBase> {
+public final class HBaseFactory extends FactoryKey<String, HBase> {
 	// 工厂
 	private final static HBaseFactory	FACTORY;
 
@@ -27,11 +27,19 @@ public final class HBaseFactory extends Factory<HBase> {
 	private HBaseFactory() {}
 
 	/**
-	 * 获得工厂
-	 * @return 工厂
+	 * 获得HBase
+	 * @return HBase
 	 */
-	public static HBaseFactory getFactory() {
-		return FACTORY;
+	public static HBase getHBase() {
+		return FACTORY.getInstance();
+	}
+
+	/**
+	 * 获得HBase
+	 * @return HBase
+	 */
+	public static HBase getHBase(String key) {
+		return FACTORY.getInstance(key);
 	}
 
 	/**
@@ -49,5 +57,10 @@ public final class HBaseFactory extends Factory<HBase> {
 	 */
 	public HBase newInstance(String host, int port) {
 		return new HBaseImpl(host, port);
+	}
+
+	@Override
+	public HBase newInstance(String key) {
+		return null;
 	}
 }

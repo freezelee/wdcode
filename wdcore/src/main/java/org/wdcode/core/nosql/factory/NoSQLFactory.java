@@ -2,6 +2,12 @@ package org.wdcode.core.nosql.factory;
 
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.NoSQL;
+import org.wdcode.core.nosql.berkeleydb.factory.BerkeleyFactory;
+import org.wdcode.core.nosql.hbase.factory.HBaseFactory;
+import org.wdcode.core.nosql.memcache.factory.MemcacheFactory;
+import org.wdcode.core.nosql.mongodb.factory.MongoFactory;
+import org.wdcode.core.nosql.redis.factory.RedisFactory;
+import org.wdcode.core.params.NoSQLParams;
 
 /**
  * NoSQL工厂
@@ -27,6 +33,18 @@ public final class NoSQLFactory extends FactoryKey<String, NoSQL> {
 
 	@Override
 	public NoSQL newInstance(String key) {
+		switch (NoSQLParams.getParse(key)) {
+			case "memcache":
+				return MemcacheFactory.getMemcache(key);
+			case "hbase":
+				return HBaseFactory.getHBase(key);
+			case "mongodb":
+				return MongoFactory.getMongo(key);
+			case "redis":
+				return RedisFactory.getRedis(key);
+			case "berkeleydb":
+				return BerkeleyFactory.getBerkeley(key);
+		}
 		return null;
 	}
 

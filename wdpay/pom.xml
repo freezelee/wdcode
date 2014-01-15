@@ -17,7 +17,7 @@
 			<artifactId>wdcommon</artifactId>
 			<version>1.1</version>
 			<scope>provided</scope>
-		</dependency>   
+		</dependency>
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdcore</artifactId>
@@ -29,7 +29,7 @@
 			<artifactId>wdweb</artifactId>
 			<version>1.1</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdbase</artifactId>
