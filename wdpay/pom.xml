@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wdcode</groupId>
 	<artifactId>wdpay</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 
 	<dependencies>
 		<dependency>
@@ -15,25 +15,25 @@
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdcommon</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>   
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdcore</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdweb</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>
 			<groupId>org.wdcode</groupId>
 			<artifactId>wdbase</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>  
 		<dependency>
