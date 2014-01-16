@@ -20,6 +20,7 @@ import org.wdcode.common.io.ChannelUtil;
 import org.wdcode.common.io.FileUtil;
 import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.params.CommonParams;
+import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
@@ -144,7 +145,10 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(BytesBean bean) {
-		return EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.toBytes();
+		// 转换成字节数组
+		byte[] b = EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.toBytes();
+		// 加上长度返回
+		return EmptyUtil.isEmpty(b) ? b : toBytes(bean.getClass().getName(), b.length, b);
 	}
 
 	/**
@@ -541,8 +545,37 @@ public final class Bytes {
 	 * @param b 字节数组
 	 * @return 转换后的对象
 	 */
-	public static BytesBean toBean(BytesBean bean, byte[] b) {
-		return EmptyUtil.isEmpty(bean) || EmptyUtil.isEmpty(b) ? null : bean.toBean(b);
+	public static BytesBean toBean(byte[] b, int offset) {
+		return toBean(copy(b, offset, b.length));
+	}
+
+	/**
+	 * 把字节数组转换为BytesBean
+	 * @param obj BytesBean对象
+	 * @param b 字节数组
+	 * @return 转换后的对象
+	 */
+	public static BytesBean toBean(byte[] b) {
+		// 如果字节流为空
+		if (EmptyUtil.isEmpty(b)) {
+			return null;
+		}
+		// 获得Bean的Class
+		String name = toString(b);
+		// Class名为空
+		if (EmptyUtil.isEmpty(name)) {
+			return null;
+		}
+		// 转行为BytesBean
+		BytesBean bean = (BytesBean) BeanUtil.newInstance(name);
+		// Bean为空
+		if (bean == null) {
+			return null;
+		}
+		// 设置偏移
+		int offset = 8 + name.length();
+		// 返回Bean
+		return bean.toBean(copy(b, offset, toInt(b) + offset));
 	}
 
 	/**

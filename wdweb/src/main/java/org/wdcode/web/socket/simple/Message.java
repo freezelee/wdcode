@@ -22,12 +22,12 @@ public abstract class Message implements BytesBean {
 		List<Object> values = Lists.getList();
 		// 获得字段赋值
 		for (Field field : BeanUtil.getFields(this.getClass())) {
-			if (BeanUtil.isBaseType(field.getType()) && !field.getName().startsWith("__")) {
+			if (!field.isSynthetic()) {
 				values.add(BeanUtil.getFieldValue(this, field));
 			}
 		}
 		// 返回字节数组
-		return Bytes.toBytes(values);
+		return Bytes.toBytes(values.toArray());
 	}
 
 	@Override
@@ -42,9 +42,9 @@ public abstract class Message implements BytesBean {
 			if (b.length == offset) {
 				break;
 			}
-			// 获得字段类型
-			Class<?> type = field.getType();
-			if (BeanUtil.isBaseType(type) && !field.getName().startsWith("__")) {
+			if (!field.isSynthetic()) {
+				// 获得字段类型
+				Class<?> type = field.getType();
 				// 转换字节值
 				if (type.equals(Integer.class) || type.equals(int.class)) {
 					BeanUtil.setFieldValue(this, field, Bytes.toInt(b, offset));
@@ -71,6 +71,10 @@ public abstract class Message implements BytesBean {
 					String s = Bytes.toString(b, offset);
 					BeanUtil.setFieldValue(this, field, s);
 					offset += s.length() + 4;
+				} else {
+					BytesBean bean = Bytes.toBean(b, offset);
+					BeanUtil.setFieldValue(this, field, bean);
+					offset += Bytes.toInt(b, offset);
 				}
 			}
 		}
