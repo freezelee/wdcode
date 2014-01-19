@@ -2,10 +2,10 @@ package org.wdcode.core.nosql.factory;
 
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.nosql.NoSQL;
-import org.wdcode.core.nosql.berkeleydb.factory.BerkeleyFactory;
+import org.wdcode.core.nosql.berkeley.factory.BerkeleyFactory;
 import org.wdcode.core.nosql.hbase.factory.HBaseFactory;
 import org.wdcode.core.nosql.memcache.factory.MemcacheFactory;
-import org.wdcode.core.nosql.mongodb.factory.MongoFactory;
+import org.wdcode.core.nosql.mongo.factory.MongoFactory;
 import org.wdcode.core.nosql.redis.factory.RedisFactory;
 import org.wdcode.core.params.NoSQLParams;
 

@@ -1,4 +1,4 @@
-package org.wdcode.core.nosql.mongodb.impl;
+package org.wdcode.core.nosql.mongo.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.nosql.base.BaseNoSQL;
-import org.wdcode.core.nosql.mongodb.Mongo;
+import org.wdcode.core.nosql.mongo.Mongo;
 import org.wdcode.core.params.MongoParams;
 
 import com.mongodb.BasicDBObject;
@@ -168,16 +168,18 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param obj 要更新的值
 	 */
 	public void update(String name, Map<String, Object> query, Map<String, Object> obj) {
-		getCollection(name).update(new BasicDBObject(query), new BasicDBObject(obj));
+		update(name, query, obj, true, true);
 	}
 
 	/**
 	 * 根据query参数,更新obj值
 	 * @param query 条件值
 	 * @param obj 要更新的值
+	 * @param upsert 没有查询到直接添加新文档
+	 * @param multi 是否多列更新
 	 */
-	public void updateMulti(String name, Map<String, Object> query, Map<String, Object> obj) {
-		getCollection(name).updateMulti(new BasicDBObject(query), new BasicDBObject(obj));
+	public void update(String name, Map<String, Object> query, Map<String, Object> obj, boolean upsert, boolean multi) {
+		getCollection(name).update(new BasicDBObject(query), new BasicDBObject(obj), upsert, multi);
 	}
 
 	/**

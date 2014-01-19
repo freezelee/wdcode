@@ -1,6 +1,6 @@
-package org.wdcode.core.nosql.mongodb;
+package org.wdcode.core.nosql.mongo;
 
-import org.wdcode.core.nosql.mongodb.factory.MongoFactory;
+import org.wdcode.core.nosql.mongo.factory.MongoFactory;
 
 /**
  * MongoDB引擎

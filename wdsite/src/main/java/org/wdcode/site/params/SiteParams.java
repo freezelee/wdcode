@@ -45,7 +45,7 @@ public final class SiteParams {
 	/**
 	 * 登录信息最小保存时间
 	 */
-	public final static int		LOGIN_MIN_AGE				= Params.getInt("login.minAge", DateConstants.HOUR / 2);
+	public final static int		LOGIN_MIN_AGE				= Params.getInt("login.minAge", DateConstants.HOUR * 2);
 	/**
 	 * 登录游客名称
 	 */

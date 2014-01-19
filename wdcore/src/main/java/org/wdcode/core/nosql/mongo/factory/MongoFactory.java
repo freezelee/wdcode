@@ -1,8 +1,8 @@
-package org.wdcode.core.nosql.mongodb.factory;
+package org.wdcode.core.nosql.mongo.factory;
 
 import org.wdcode.core.factory.FactoryKey;
-import org.wdcode.core.nosql.mongodb.Mongo;
-import org.wdcode.core.nosql.mongodb.impl.MongoImpl;
+import org.wdcode.core.nosql.mongo.Mongo;
+import org.wdcode.core.nosql.mongo.impl.MongoImpl;
 
 /**
  * MongoDB工厂

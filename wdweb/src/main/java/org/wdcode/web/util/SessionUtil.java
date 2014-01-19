@@ -66,9 +66,11 @@ public final class SessionUtil {
 	 * @param session ServletRequest
 	 * @param key 属性值
 	 * @param value 属性值
+	 * @param maxAge 保存多少秒
 	 */
-	public static void setAttribute(HttpSession session, String key, Object value) {
+	public static void setAttribute(HttpSession session, String key, Object value, int maxAge) {
 		if (!EmptyUtil.isEmpty(session)) {
+			session.setMaxInactiveInterval(maxAge);
 			session.setAttribute(key, value);
 		}
 	}

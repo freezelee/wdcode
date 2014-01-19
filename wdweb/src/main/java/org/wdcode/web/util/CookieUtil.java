@@ -40,9 +40,8 @@ public final class CookieUtil {
 		// 设置目录
 		cookie.setPath(StringConstants.BACKSLASH);
 		// 设置域
-		String domain = WebParams.DOMAIN;
-		if (!EmptyUtil.isEmpty(domain)) {
-			cookie.setDomain(domain);
+		if (!EmptyUtil.isEmpty(WebParams.DOMAIN)) {
+			cookie.setDomain(WebParams.DOMAIN);
 		}
 		// 添加Cookie
 		response.addCookie(cookie);

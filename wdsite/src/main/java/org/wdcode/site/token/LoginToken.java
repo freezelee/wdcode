@@ -58,7 +58,17 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public boolean isLogin() {
-		return id > 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0);
+		return id != 0 && SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0;
+	}
+
+	@Override
+	public boolean isUser() {
+		return id > 0;
+	}
+
+	@Override
+	public boolean isGuest() {
+		return id < 0;
 	}
 
 	@Override
@@ -102,10 +112,5 @@ public class LoginToken implements AuthToken {
 		}
 		// 返回自身
 		return this;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return id == 0;
 	}
 }

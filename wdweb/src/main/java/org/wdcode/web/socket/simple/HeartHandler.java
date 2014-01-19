@@ -2,11 +2,9 @@ package org.wdcode.web.socket.simple;
 
 import java.util.Map;
 
-import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.DateUtil;
-import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.ScheduledUtile;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Manager;
@@ -18,7 +16,7 @@ import org.wdcode.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-30
  */
-public final class HeartHandler implements Handler<byte[]> {
+public final class HeartHandler implements Handler<Integer> {
 	// 保存Session 时间
 	private Map<Integer, Integer>	times;
 	// 保存Session
@@ -94,10 +92,8 @@ public final class HeartHandler implements Handler<byte[]> {
 	}
 
 	@Override
-	public void handler(Session session, byte[] data, Manager manager) {
-		// 有数据 4字节为int时间戳
-		if (!EmptyUtil.isEmpty(data) && data.length == 4) {
-			times.put(session.getId(), Bytes.toInt(data));
-		}
+	public void handler(Session session, Integer data, Manager manager) {
+		// data一般为服务器心跳来的时间戳
+		times.put(session.getId(), data);
 	}
 }

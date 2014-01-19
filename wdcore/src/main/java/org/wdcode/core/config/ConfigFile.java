@@ -23,7 +23,7 @@ import org.wdcode.common.util.StringUtil;
  * @since JDK7
  * @version 1.0 2012-9-16
  */
-public final class ConfigFile implements Config {
+final class ConfigFile implements Config {
 	// 保存键值并发Map
 	private Map<String, Object>	map;
 	// Apache commons Configuration

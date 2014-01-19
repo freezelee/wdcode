@@ -1,4 +1,4 @@
-package org.wdcode.core.nosql.berkeleydb;
+package org.wdcode.core.nosql.berkeley;
 
 import java.util.List;
 

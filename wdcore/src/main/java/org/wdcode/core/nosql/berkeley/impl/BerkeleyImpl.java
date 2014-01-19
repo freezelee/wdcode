@@ -1,4 +1,4 @@
-package org.wdcode.core.nosql.berkeleydb.impl;
+package org.wdcode.core.nosql.berkeley.impl;
 
 import java.io.File;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.wdcode.core.log.Logs;
 import org.wdcode.common.util.CloseUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.nosql.base.BaseNoSQL;
-import org.wdcode.core.nosql.berkeleydb.Berkeley;
+import org.wdcode.core.nosql.berkeley.Berkeley;
 
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.SerialBinding;

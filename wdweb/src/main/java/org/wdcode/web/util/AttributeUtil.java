@@ -39,7 +39,7 @@ public final class AttributeUtil {
 		// 使用Cookie保存
 		CookieUtil.add(response, key, Encrypts.encrypt(value), maxAge);
 		// 使用Session保存
-		SessionUtil.setAttribute(RequestUtil.getSession(request), key, value);
+		SessionUtil.setAttribute(RequestUtil.getSession(request), key, value, maxAge);
 	}
 
 	/**

@@ -1,8 +1,8 @@
-package org.wdcode.core.nosql.berkeleydb.factory;
+package org.wdcode.core.nosql.berkeley.factory;
 
 import org.wdcode.core.factory.FactoryKey;
-import org.wdcode.core.nosql.berkeleydb.Berkeley;
-import org.wdcode.core.nosql.berkeleydb.impl.BerkeleyImpl;
+import org.wdcode.core.nosql.berkeley.Berkeley;
+import org.wdcode.core.nosql.berkeley.impl.BerkeleyImpl;
 
 /**
  * Berkeley工厂

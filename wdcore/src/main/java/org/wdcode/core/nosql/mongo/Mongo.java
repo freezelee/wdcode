@@ -1,4 +1,4 @@
-package org.wdcode.core.nosql.mongodb;
+package org.wdcode.core.nosql.mongo;
 
 import java.util.List;
 import java.util.Map;
@@ -76,8 +76,10 @@ public interface Mongo extends NoSQL {
 	 * @param name 数据集合
 	 * @param query 条件值
 	 * @param obj 要更新的值
+	 * @param upsert 没有查询到直接添加新文档
+	 * @param multi 是否多列更新
 	 */
-	void updateMulti(String name, Map<String, Object> query, Map<String, Object> obj);
+	void update(String name, Map<String, Object> query, Map<String, Object> obj, boolean upsert, boolean multi);
 
 	/**
 	 * 获得所有数据
