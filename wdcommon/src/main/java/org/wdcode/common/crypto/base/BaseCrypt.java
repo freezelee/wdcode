@@ -1,11 +1,14 @@
 package org.wdcode.common.crypto.base;
 
 import java.security.Key;
+import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.lang.Maps;
+import org.wdcode.common.util.StringUtil;
 
 /**
  * 加密解密基础类 内部使用
@@ -14,6 +17,9 @@ import org.wdcode.common.constants.ArrayConstants;
  * @version 1.0 2010-06-23
  */
 public abstract class BaseCrypt {
+	// 加密算法
+	private final static Map<String, Key>	KEYS	= Maps.getConcurrentMap();
+
 	/**
 	 * 计算密文
 	 * @param b 要计算的字节数组
@@ -24,8 +30,8 @@ public abstract class BaseCrypt {
 	 * @param mode 计算模式 加密和解密
 	 * @return 字节数组
 	 */
-	protected final static byte[] doFinal(byte[] b, byte[] key, int offset, int len, String algorithm, int mode) {
-		return doFinal(b, new SecretKeySpec(key, offset, len, algorithm), algorithm, mode);
+	protected final static byte[] doFinal(byte[] b, String keys, int len, String algorithm, int mode) {
+		return doFinal(b, getKey(algorithm, keys, len), algorithm, mode);
 	}
 
 	/**
@@ -50,5 +56,26 @@ public abstract class BaseCrypt {
 			// 返回空字节数组
 			return ArrayConstants.BYTES_EMPTY;
 		}
+	}
+
+	/**
+	 * 根据算法和key字符串获得Key对象
+	 * @param algorithm 算法
+	 * @param keys 键
+	 * @param len 键长度
+	 * @return Key
+	 */
+	private static Key getKey(String algorithm, String keys, int len) {
+		// 获得Key
+		Key key = KEYS.get(algorithm + keys);
+		// 如果key为空
+		if (key == null) {
+			// 把键转换程字节数组
+			byte[] b = StringUtil.toBytes(StringUtil.resolve(keys, len));
+			// 添加到列表中
+			KEYS.put(algorithm + keys, key = new SecretKeySpec(b, 0, len, algorithm));
+		}
+		// 返回key
+		return key;
 	}
 }

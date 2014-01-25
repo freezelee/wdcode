@@ -9,7 +9,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.base.entity.EntityUser;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.params.Params;
@@ -24,7 +24,7 @@ import java.io.IOException;
  * @since JDK7
  * @version 1.0 2010-03-07
  */
-public final class LoginFilter<L extends EntityLogin> implements Filter {
+public final class LoginFilter<L extends EntityUser> implements Filter {
 	// 常量
 	private final static String	REDIRECT	= "redirect";
 	private final static String	LOGIN		= "login";

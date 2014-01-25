@@ -1,5 +1,6 @@
 package org.wdcode.web.socket.base;
 
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.web.socket.Client;
 import org.wdcode.web.socket.Session;
 
@@ -16,5 +17,14 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	@Override
 	public Session getSession() {
 		return session;
+	}
+
+	/**
+	 * 设置 Session
+	 * @param session Session
+	 */
+	protected void setSession(Session session) {
+		this.session = session;
+		manager.register(StringConstants.EMPTY, session.getId(), session);
 	}
 }

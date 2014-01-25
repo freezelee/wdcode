@@ -20,7 +20,7 @@ import org.wdcode.logs.po.LogsLogin;
 import org.wdcode.logs.po.StatisticsLogin;
 import org.wdcode.logs.po.LogsOperate;
 import org.wdcode.logs.po.StatisticsPage;
-import org.wdcode.site.action.LoginAction;
+import org.wdcode.site.action.SiteAction;
 
 import com.opensymphony.xwork2.Action;
 
@@ -81,7 +81,7 @@ public class LogsAdvice {
 	@AfterReturning(pointcut = "execution(* org.wdcode.site.action.LoginAction.login())", returning = "retVal")
 	public void login(JoinPoint point, Object retVal) {
 		// 获得登录Login
-		LoginAction<?, ?> login = (LoginAction<?, ?>) point.getTarget();
+		SiteAction<?> login = (SiteAction<?>) point.getTarget();
 		// 获得用户ID
 		int uid = login.getToken().getId();
 		// 获得登录key
@@ -139,7 +139,7 @@ public class LogsAdvice {
 		// 判断是否开启操作日志记录
 		if (LogsParams.LOGS_OPERATE) {
 			// 获得后台Action
-			LoginAction<?, ?> action = (LoginAction<?, ?>) point.getTarget();
+			PageLogsAction action = (PageLogsAction) point.getTarget();
 			// 获得登录状态
 			int state = Action.ERROR.equals(retVal) ? 0 : 1;
 			// 获得提交的连接

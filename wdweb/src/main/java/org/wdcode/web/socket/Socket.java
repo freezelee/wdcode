@@ -1,6 +1,7 @@
 package org.wdcode.web.socket;
 
 import org.wdcode.common.interfaces.Close;
+import org.wdcode.web.socket.handler.Heart;
 
 /**
  * Socket接口
@@ -19,6 +20,12 @@ public interface Socket extends Close {
 	 * @param handler
 	 */
 	void addHandler(Handler<?>... handler);
+
+	/**
+	 * 添加心跳包处理器
+	 * @param heart
+	 */
+	void setHeart(Heart heart);
 
 	/**
 	 * 获得Manager

@@ -3,14 +3,15 @@ package org.wdcode.logs.action;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.base.action.SuperAction;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.io.IOUtil;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.logs.params.LogsParams;
 import org.wdcode.logs.po.LogsPage;
-import org.wdcode.site.action.LoginAction;
+import org.wdcode.site.engine.LoginEngine;
 import org.wdcode.web.util.IpUtil;
 import org.wdcode.web.util.RequestUtil;
 
@@ -22,7 +23,7 @@ import org.wdcode.web.util.RequestUtil;
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class PageLogsAction extends LoginAction<LogsPage, EntityLogin> {
+public class PageLogsAction extends SuperAction<LogsPage> {
 	/**
 	 * 进入页面
 	 * @return
@@ -85,5 +86,10 @@ public class PageLogsAction extends LoginAction<LogsPage, EntityLogin> {
 		}
 		// 返回否
 		return false;
+	}
+
+	@Override
+	protected AuthToken auth() {
+		return LoginEngine.getLoginBean(request, response, "User");
 	}
 }

@@ -3,11 +3,7 @@ package org.wdcode.common.crypto;
 import java.security.Key;
 
 import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import org.wdcode.common.codec.Base64;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.crypto.base.BaseCrypt;
@@ -24,25 +20,6 @@ import org.wdcode.common.util.StringUtil;
  * @version 1.0 2010-06-22
  */
 public final class Encrypts extends BaseCrypt {
-	/**
-	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
-	 * @param text 原始输入字符串
-	 */
-	public static String hmacSha1(String text) {
-		try {
-			// 实例化SecretKey
-			SecretKey secretKey = new SecretKeySpec(CommonParams.ENCRYPT_KEY_BYTES, EncryptConstants.ALGO_HMAC_SHA1);
-			// 获得Mac
-			Mac mac = Mac.getInstance(EncryptConstants.ALGO_HMAC_SHA1);
-			// 初始化算法
-			mac.init(secretKey);
-			// 返回加密串
-			return Hex.encode(mac.doFinal(text.getBytes()));
-		} catch (Exception e) {
-			return text;
-		}
-	}
-
 	/**
 	 * 加密
 	 * @param obj 要加密的对象
@@ -62,49 +39,39 @@ public final class Encrypts extends BaseCrypt {
 	}
 
 	/**
-	 * 加密字符串 Hex编码
+	 * 加密字符串
 	 * @param b 要加密的字节数组
-	 * @return 加密后的Hex编码的字符串
+	 * @param key 加密key
+	 * @return 加密后的字节数组
 	 */
-	public static String encryptHex(byte[] b) {
-		return Hex.encode(encrypt(b));
-	}
-
-	/**
-	 * 加密字符串 Hex编码
-	 * @param b 要加密的字节数组
-	 * @return 加密后的Hex编码的字符串
-	 */
-	public static String encryptBase64(byte[] b) {
-		return Base64.encode(encrypt(b));
+	public static byte[] encrypt(byte[] b) {
+		return encrypt(b, CommonParams.ENCRYPT_KEY);
 	}
 
 	/**
 	 * 加密字符串
 	 * @param b 要加密的字节数组
+	 * @param key 加密key
 	 * @return 加密后的字节数组
 	 */
-	public static byte[] encrypt(byte[] b) {
+	public static byte[] encrypt(byte[] b, String key) {
 		// 判断加密方式
 		switch (CommonParams.ENCRYPT_ALGO) {
 			case EncryptConstants.ALGO_AES:
 				// AES加密
-				return aes(b);
+				return aes(b, key);
 			case EncryptConstants.ALGO_DES:
 				// DES加密
-				return des(b);
+				return des(b, key);
 			case EncryptConstants.ALGO_RC2:
 				// RC2加密
-				return rc2(b);
+				return rc2(b, key);
 			case EncryptConstants.ALGO_RC4:
 				// RC4加密
-				return rc4(b);
-			case EncryptConstants.ALGO_RSA:
-				// RSA加密
-				return rsa(b);
+				return rc4(b, key);
 			default:
 				// 默认返回AES
-				return aes(b);
+				return aes(b, key);
 		}
 	}
 
@@ -114,7 +81,17 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] des(byte[] b) {
-		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_DES, EncryptConstants.ALGO_DES);
+		return des(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 可逆的加密算法 DES算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密key
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] des(byte[] b, String key) {
+		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_DES, EncryptConstants.ALGO_DES);
 	}
 
 	/**
@@ -123,7 +100,17 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] aes(byte[] b) {
-		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_AES, EncryptConstants.ALGO_AES);
+		return aes(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 可逆的加密算法 AES算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密key
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] aes(byte[] b, String key) {
+		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_AES, EncryptConstants.ALGO_AES);
 	}
 
 	/**
@@ -132,7 +119,17 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] rc2(byte[] b) {
-		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
+		return rc2(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 可逆的加密算法 RC2算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密key
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rc2(byte[] b, String key) {
+		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
 	}
 
 	/**
@@ -141,18 +138,18 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] rc4(byte[] b) {
-		return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
+		return rc4(b, CommonParams.ENCRYPT_KEY);
 	}
 
-	// /**
-	// * 可逆的加密算法 RC4算法
-	// * @param b 需要加密的字节数组
-	// * @return 返回加密后的字节数组
-	// */
-	// public static byte[] rc5(byte[] b) {
-	// return encrypt(b, CommonParams.ENCRYPT_KEY_BYTES, 0, CommonParams.ENCRYPT_KEY_LENGTH_RC5,
-	// EncryptConstants.ALGO_RC5);
-	// }
+	/**
+	 * 可逆的加密算法 RC4算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密key
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rc4(byte[] b, String key) {
+		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
+	}
 
 	/**
 	 * 可逆的非对称加密算法 RSA算法
@@ -173,55 +170,16 @@ public final class Encrypts extends BaseCrypt {
 		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.ENCRYPT_MODE);
 	}
 
-	// /**
-	// * 可逆的非对称加密算法 DSA算法
-	// * @param b 需要加密的字节数组
-	// * @return 返回加密后的字节数组
-	// */
-	// public static byte[] dsa(byte[] b) {
-	// return dsa(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DSA));
-	// }
-	//
-	// /**
-	// * 可逆的非对称加密算法 DSA算法
-	// * @param b 需要加密的字节数组
-	// * @param key 加密密钥
-	// * @return 返回加密后的字节数组
-	// */
-	// public static byte[] dsa(byte[] b, Key key) {
-	// return doFinal(b, key, EncryptConstants.ALGO_DSA, Cipher.ENCRYPT_MODE);
-	// }
-
-	// /**
-	// * 可逆的非对称加密算法 DH算法
-	// * @param b 需要加密的字节数组
-	// * @return 返回加密后的字节数组
-	// */
-	// public static byte[] dh(byte[] b) {
-	// return dh(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_DH));
-	// }
-
-	// /**
-	// * 可逆的非对称加密算法 DH算法
-	// * @param b 需要加密的字节数组
-	// * @param key 加密密钥
-	// * @return 返回加密后的字节数组
-	// */
-	// public static byte[] dh(byte[] b, Key key) {
-	// return doFinal(b, key, EncryptConstants.ALGO_DH, Cipher.ENCRYPT_MODE);
-	// }
-
 	/**
 	 * 加密字符串
 	 * @param text 要加密的字符串
 	 * @param key 加密密钥Key 长度有限制 DSE 为8位 ASE 为16位
-	 * @param offset 偏移从第几位开始
-	 * @param len 长度一共几位
+	 * @param keys 键
 	 * @param algorithm 算法
 	 * @return 加密后的字节数组
 	 */
-	private static byte[] encrypt(byte[] b, byte[] key, int offset, int len, String algorithm) {
-		return doFinal(b, key, offset, len, algorithm, Cipher.ENCRYPT_MODE);
+	private static byte[] encrypt(byte[] b, String keys, int len, String algorithm) {
+		return doFinal(b, keys, len, algorithm, Cipher.ENCRYPT_MODE);
 	}
 
 	/**

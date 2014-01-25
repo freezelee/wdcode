@@ -650,6 +650,8 @@ public final class HibernateDao implements Dao {
 		Transaction tx = null;
 		// 是否自己控制事务
 		boolean isSession = !session.getTransaction().isActive();
+		// 返回结果
+		T t = null;
 		try {
 			// 是否自己控制事务
 			if (isSession) {
@@ -657,7 +659,7 @@ public final class HibernateDao implements Dao {
 				tx = session.beginTransaction();
 			}
 			// 执行
-			T t = callback.callback(session);
+			t = callback.callback(session);
 			// 是否自己控制事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				// 提交事务
@@ -667,8 +669,6 @@ public final class HibernateDao implements Dao {
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
 			}
-			// 返回对象
-			return t;
 		} catch (Exception e) {
 			// 回滚事务
 			if (!EmptyUtil.isEmpty(tx)) {
@@ -681,6 +681,8 @@ public final class HibernateDao implements Dao {
 				session.close();
 			}
 		}
+		// 返回对象
+		return t;
 	}
 
 	/**

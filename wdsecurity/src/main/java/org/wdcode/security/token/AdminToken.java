@@ -8,10 +8,10 @@ import org.wdcode.back.po.Admin;
 import org.wdcode.back.po.Menu;
 import org.wdcode.back.po.Role;
 import org.wdcode.base.service.SuperService;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.core.json.JsonEngine;
 import org.wdcode.security.po.Authority;
-import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 
 /**

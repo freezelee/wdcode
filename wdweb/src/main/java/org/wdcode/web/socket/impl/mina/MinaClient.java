@@ -65,7 +65,7 @@ public final class MinaClient extends BaseClient {
 	public void connect() {
 		future = connector.connect().awaitUninterruptibly();
 		IoSession io = future.getSession();
-		session = new MinaSession(Conversion.toInt(io.getId()), io);
+		setSession(new MinaSession(Conversion.toInt(io.getId()), io));
 	}
 
 	@Override

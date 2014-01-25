@@ -2,6 +2,7 @@ package org.wdcode.base.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.UploadParams;
 import org.wdcode.base.service.QueryService;
 import org.wdcode.base.service.SuperService;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -47,7 +49,6 @@ import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
 import org.wdcode.web.util.IpUtil;
 import org.wdcode.web.util.ResponseUtil;
-import org.wdcode.web.util.VerifyCodeUtil;
 
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
@@ -55,7 +56,7 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-08-26
  */
-public class BasicAction {
+public abstract class BasicAction {
 	// 成功
 	protected static final String				SUCCESS	= "success";
 	// 错误
@@ -73,11 +74,21 @@ public class BasicAction {
 	// 查询器
 	@Resource
 	protected QueryService						query;
+	// 全局Context
+	@Resource
+	protected Context							context;
+
+	// 验证登录标识
+	protected AuthToken							token;
 
 	// 提交的url
 	protected String							url;
 	// 跨域方法
 	protected String							callback;
+	// 主键
+	protected Serializable						key;
+	// 主键数组
+	protected Serializable[]					keys;
 
 	// 上传文件
 	protected File								file;
@@ -99,9 +110,6 @@ public class BasicAction {
 	protected String							method;
 	// 返回模式名
 	protected String							mode;
-	// 全局Context
-	@Resource
-	protected Context							context;
 	// 要回执消息的字段
 	protected String							field;
 	// HttpServletRequest
@@ -138,18 +146,10 @@ public class BasicAction {
 		error = Lists.getList();
 		// 声明信息
 		message = Lists.getList();
-	}
-
-	/**
-	 * 获得验证码方法
-	 * @return
-	 * @throws Exception
-	 */
-	public String verifyCode() throws Exception {
-		// 获得验证码
-		VerifyCodeUtil.make(request, response);
-		// 返回到登录页
-		return null;
+		// 获得登录凭证
+		if (EmptyUtil.isEmpty(token)) {
+			token = auth();
+		}
 	}
 
 	/**
@@ -605,6 +605,60 @@ public class BasicAction {
 	}
 
 	/**
+	 * 获得主键
+	 * @return 主键
+	 */
+	public Serializable getKey() {
+		return key;
+	}
+
+	/**
+	 * 设置主键
+	 * @param key 主键
+	 */
+	public void setKey(Serializable key) {
+		// 如果传递进来的是数组
+		if (key.getClass().isArray()) {
+			// 转换成数组
+			Serializable[] keys = (Serializable[]) key;
+			// 如果只有一个值 赋值给key 否则赋值给keys
+			if (keys.length == 1) {
+				setKey(keys[0]);
+			} else {
+				setKeys(keys);
+			}
+		} else if (key instanceof String) {
+			// 传的是字符串
+			String s = Conversion.toString(key);
+			// 如果是json串
+			if (!JsonEngine.isJson(s) && s.indexOf(StringConstants.COMMA) > -1) {
+				// ,号分割的字符串 转换成数组setKey
+				setKey(s.split(StringConstants.COMMA));
+			} else {
+				this.key = s;
+			}
+		} else {
+			this.key = key;
+		}
+	}
+
+	/**
+	 * 获得主键数组
+	 * @return 主键数组
+	 */
+	public Serializable[] getKeys() {
+		return keys;
+	}
+
+	/**
+	 * 设置主键数组
+	 * @param keys 主键数组
+	 */
+	public void setKeys(Serializable[] keys) {
+		this.keys = keys;
+	}
+
+	/**
 	 * 获得业务
 	 * @return 业务
 	 */
@@ -618,6 +672,14 @@ public class BasicAction {
 	 */
 	public QueryService getQuery() {
 		return query;
+	}
+
+	/**
+	 * 获得验证登录标识
+	 * @return 验证登录标识
+	 */
+	public AuthToken getToken() {
+		return token;
 	}
 
 	/**
@@ -847,4 +909,10 @@ public class BasicAction {
 		// 返回文件名
 		return name.toString();
 	}
+
+	/**
+	 * 授权用户登录权限
+	 * @return
+	 */
+	protected abstract AuthToken auth();
 }

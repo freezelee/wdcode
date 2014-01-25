@@ -5,8 +5,9 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.util.Map;
 
-import org.wdcode.common.constants.EncryptConstants;
+import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
 
 /**
@@ -17,19 +18,13 @@ import org.wdcode.common.params.CommonParams;
  */
 public final class KeyUtil {
 	// 密钥对
-	private final static KeyPair	RSA_KEY_PAIR;
-	// 密钥对
-	private final static KeyPair	DSA_KEY_PAIR;
-	// 密钥对
-	private final static KeyPair	DH_KEY_PAIR;
+	private final static Map<String, KeyPair>	KEYPAIRS;
 
 	/**
 	 * 静态初始化
 	 */
 	static {
-		RSA_KEY_PAIR = getKeyPair(EncryptConstants.ALGO_RSA);
-		DSA_KEY_PAIR = getKeyPair(EncryptConstants.ALGO_DSA);
-		DH_KEY_PAIR = getKeyPair(EncryptConstants.ALGO_DH);
+		KEYPAIRS = Maps.getConcurrentMap();
 	}
 
 	/**
@@ -38,7 +33,32 @@ public final class KeyUtil {
 	 * @return 密钥对
 	 */
 	public static KeyPair getKeyPair(String algorithm) {
-		return getKeyPair(algorithm, CommonParams.ENCRYPT_KEY_LENGTH, CommonParams.ENCRYPT_KEY_STRING);
+		// 获得KeyPair
+		KeyPair pair = KEYPAIRS.get(algorithm);
+		// 如果键为空
+		if (pair == null) {
+			KEYPAIRS.put(algorithm, pair = getKeyPair(algorithm, CommonParams.ENCRYPT_KEY_LENGTH, CommonParams.ENCRYPT_KEY));
+		}
+		// 返回
+		return pair;
+	}
+
+	/**
+	 * 获得默认公钥
+	 * @param algorithm 加密算法
+	 * @return 公钥
+	 */
+	public static PublicKey getPublicKey(String algorithm) {
+		return getKeyPair(algorithm).getPublic();
+	}
+
+	/**
+	 * 获得默认私钥
+	 * @param algorithm 加密算法
+	 * @return 私钥
+	 */
+	public static PrivateKey getPrivateKey(String algorithm) {
+		return getKeyPair(algorithm).getPrivate();
 	}
 
 	/**
@@ -48,7 +68,7 @@ public final class KeyUtil {
 	 * @param key 生成密钥的Key
 	 * @return 密钥对
 	 */
-	public static KeyPair getKeyPair(String algorithm, int keysize, String key) {
+	private static KeyPair getKeyPair(String algorithm, int keysize, String key) {
 		try {
 			// 生成KeyPaire
 			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
@@ -58,46 +78,6 @@ public final class KeyUtil {
 			return keyPairGenerator.genKeyPair();
 		} catch (Exception e) {
 			return null;
-		}
-	}
-
-	/**
-	 * 获得默认公钥
-	 * @param algorithm 加密算法
-	 * @return 公钥
-	 */
-	public static PublicKey getPublicKey(String algorithm) {
-		// 判断算法
-		switch (algorithm) {
-			case EncryptConstants.ALGO_DSA:
-				// DSA
-				return DSA_KEY_PAIR.getPublic();
-			case EncryptConstants.ALGO_DH:
-				// DH
-				return DH_KEY_PAIR.getPublic();
-			default:
-				// RSA
-				return RSA_KEY_PAIR.getPublic();
-		}
-	}
-
-	/**
-	 * 获得默认私钥
-	 * @param algorithm 加密算法
-	 * @return 私钥
-	 */
-	public static PrivateKey getPrivateKey(String algorithm) {
-		// 判断算法
-		switch (algorithm) {
-			case EncryptConstants.ALGO_DSA:
-				// DSA
-				return DSA_KEY_PAIR.getPrivate();
-			case EncryptConstants.ALGO_DH:
-				// DH
-				return DH_KEY_PAIR.getPrivate();
-			default:
-				// RSA
-				return RSA_KEY_PAIR.getPrivate();
 		}
 	}
 

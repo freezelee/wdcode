@@ -20,7 +20,7 @@ public final class PayConstants {
 	 */
 	public final static int	TYPE_YEEPAY	= 3;
 	/**
-	 * 支付常量 短信
+	 * 支付常量 短信 深圳盈华讯方移动短信支付
 	 */
 	public final static int	TYPE_SMS	= 4;
 	/**

@@ -11,6 +11,7 @@ import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.handler.Heart;
 
 /**
  * Socket 数据处理器实现
@@ -28,24 +29,25 @@ public final class Processor implements Process {
 	// SessionManager
 	private Manager							manager;
 	// 心跳处理
-	private HeartHandler					heart;
+	private Heart							heart;
 
 	/**
 	 * Session管理
-	 * @param manager
+	 * @param manager Session管理
+	 * @param heart 心跳协议
 	 */
 	public Processor(Manager manager) {
 		this.manager = manager;
 	}
 
 	@Override
+	public void setHeart(Heart heart) {
+		this.heart = heart;
+	}
+
+	@Override
 	public void addHandler(Handler<?>... handler) {
 		for (Handler<?> h : handler) {
-			// 如果是心跳处理
-			if (h instanceof HeartHandler) {
-				heart = (HeartHandler) h;
-			}
-			// 正常添加到处理器列表
 			handlers.put(h.getId(), (Handler<Object>) h);
 
 		}

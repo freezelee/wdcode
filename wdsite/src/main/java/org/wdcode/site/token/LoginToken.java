@@ -1,6 +1,7 @@
 package org.wdcode.site.token;
 
-import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.base.entity.EntityUser;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
@@ -37,7 +38,7 @@ public class LoginToken implements AuthToken {
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
-	public LoginToken(EntityLogin login, String loginIp, String serverIp) {
+	public LoginToken(EntityUser login, String loginIp, String serverIp) {
 		this(login.getId(), loginIp, serverIp);
 	}
 

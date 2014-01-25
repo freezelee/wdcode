@@ -4,6 +4,7 @@ import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Process;
 import org.wdcode.web.socket.Socket;
+import org.wdcode.web.socket.handler.Heart;
 import org.wdcode.web.socket.simple.Processor;
 import org.wdcode.web.socket.simple.SessionManager;
 
@@ -20,6 +21,8 @@ public abstract class BaseSocket implements Socket {
 	protected Process	process;
 	// 注册Session
 	protected Manager	manager;
+	// 心跳处理
+	protected Heart		heart;
 
 	/**
 	 * 构造
@@ -42,5 +45,11 @@ public abstract class BaseSocket implements Socket {
 	@Override
 	public Manager getManager() {
 		return manager;
+	}
+
+	@Override
+	public void setHeart(Heart heart) {
+		this.heart = heart;
+		process.setHeart(heart);
 	}
 }

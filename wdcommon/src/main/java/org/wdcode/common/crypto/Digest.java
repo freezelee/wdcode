@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.EncryptConstants;
+import org.wdcode.common.constants.StringConstants;
 
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.params.CommonParams;
@@ -22,15 +23,12 @@ public final class Digest {
 	private final static Map<String, MessageDigest>	DIGEST	= Maps.getConcurrentMap();
 
 	/**
-	 * 加密密码
+	 * 加密密码 空密码不加密
 	 * @param text 要加密的文本
 	 * @return 加密后的文本
 	 */
 	public static String password(String text) {
-		// 加密密码
-		String password = absolute(text);
-		// 长度相同 加密过 返回原密码
-		return EmptyUtil.isEmpty(text) ? null : password.length() == text.length() ? text : password;
+		return EmptyUtil.isEmpty(text) ? StringConstants.EMPTY : absolute(text, 20);
 	}
 
 	/**

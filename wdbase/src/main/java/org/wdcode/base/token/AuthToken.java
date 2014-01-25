@@ -1,4 +1,4 @@
-package org.wdcode.site.token;
+package org.wdcode.base.token;
 
 import org.wdcode.common.interfaces.BytesBean;
 

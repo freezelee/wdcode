@@ -3,7 +3,8 @@ package org.wdcode.site.engine;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.wdcode.base.entity.EntityLogin;
+import org.wdcode.base.entity.EntityUser;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.crypto.Decrypts;
@@ -13,7 +14,6 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.site.params.SiteParams;
-import org.wdcode.site.token.AuthToken;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.IpUtil;
@@ -51,7 +51,7 @@ public final class LoginEngine {
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
 	 */
-	public static LoginToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityLogin login, int maxAge) {
+	public static LoginToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login, int maxAge) {
 		// 获得登录token实体
 		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
 		// 返回token

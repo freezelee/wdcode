@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.wdcode.base.entity.EntityUser
 import org.wdcode.site.entity.base.BaseEntityIdTime
 
 /**

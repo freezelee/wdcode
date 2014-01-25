@@ -125,21 +125,8 @@ public final class PayParams {
 	/**
 	 * 支付URL
 	 */
-	public final static String	SMS_URL			= Params.getString("pay.sms.url", "https://gw.tenpay.com/gateway/pay.htm");
-	/**
-	 * 编码类型
-	 */
-	public final static String	SMS_CHARSET		= Params.getString("pay.sms.charset", EncodingConstants.GBK);
-	/**
-	 * 签名类型
-	 */
-	public final static String	SMS_SIGNTYPE	= Params.getString("pay.sms.signtype", EncryptConstants.ALGO_MD5);
-	/**
-	 * 回调URL
-	 */
-	public final static String	SMS_REDIRECT	= Params.getString("pay.sms.redirect");
+	public final static String	SMS_URL			= Params.getString("pay.sms.url", "http://ydzf.vnetone.com/Default_mo.aspx");
 
-	//
 	/**
 	 * 私有构造
 	 */

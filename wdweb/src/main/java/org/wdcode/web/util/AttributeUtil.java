@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.common.crypto.Decrypts;
 import org.wdcode.common.crypto.Encrypts;
-import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
 
 /**
@@ -50,9 +49,9 @@ public final class AttributeUtil {
 	 */
 	public static Object get(HttpServletRequest request, String key) {
 		// 先获得cookie保存
-		Object value = CookieUtil.getCookieValue(request, key);
+		String value = CookieUtil.getCookieValue(request, key);
 		// 如果值为空 获得Session保存
-		return EmptyUtil.isEmpty(value) ? SessionUtil.getAttribute(RequestUtil.getSession(request), key) : Decrypts.decryptHex(Conversion.toString(value));
+		return EmptyUtil.isEmpty(value) ? SessionUtil.getAttribute(RequestUtil.getSession(request), key) : Decrypts.decryptString(value);
 	}
 
 	/**

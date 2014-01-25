@@ -2,6 +2,8 @@ package org.wdcode.web.socket;
 
 import java.util.Map;
 
+import org.wdcode.web.socket.handler.Heart;
+
 /**
  * Socket 数据处理接口
  * @author WD
@@ -21,6 +23,12 @@ public interface Process {
 	 * @return Session列表
 	 */
 	Map<Integer, Session> getSessions();
+
+	/**
+	 * 添加心跳包处理器
+	 * @param heart
+	 */
+	void setHeart(Heart heart);
 
 	/**
 	 * 添加要处理的Handler

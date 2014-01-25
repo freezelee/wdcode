@@ -9,6 +9,7 @@ import org.wdcode.common.util.ScheduledUtile;
 import org.wdcode.web.socket.Handler;
 import org.wdcode.web.socket.Manager;
 import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.handler.Heart;
 
 /**
  * 心跳检测
@@ -16,7 +17,7 @@ import org.wdcode.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-30
  */
-public final class HeartHandler implements Handler<Integer> {
+public final class HeartHandler implements Heart, Handler<Integer> {
 	// 保存Session 时间
 	private Map<Integer, Integer>	times;
 	// 保存Session
@@ -62,7 +63,7 @@ public final class HeartHandler implements Handler<Integer> {
 				int time = DateUtil.getTime();
 				// 循环发送心跳信息
 				for (Session session : sessions.values()) {
-					session.send(0, time);
+					session.send(getId(), time);
 				}
 			}
 		}, heart / 2);

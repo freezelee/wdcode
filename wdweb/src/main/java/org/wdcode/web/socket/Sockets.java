@@ -8,8 +8,12 @@ import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.factory.ClientFactory;
-import org.wdcode.web.socket.factory.ServerFactory;
+import org.wdcode.web.socket.impl.mina.MinaClient;
+import org.wdcode.web.socket.impl.mina.MinaServer;
+import org.wdcode.web.socket.impl.netty.NettyClient;
+import org.wdcode.web.socket.impl.netty.NettyServer;
+import org.wdcode.web.socket.impl.netty3.Netty3Client;
+import org.wdcode.web.socket.impl.netty3.Netty3Server;
 import org.wdcode.web.socket.simple.HeartHandler;
 
 /**
@@ -62,7 +66,7 @@ public final class Sockets {
 		// 配置了心跳
 		if (heart > 0) {
 			// 设置心跳
-			socket.addHandler(new HeartHandler(SocketParams.getHeartId(name), heart));
+			socket.setHeart(new HeartHandler(SocketParams.getHeartId(name), heart));
 		}
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {
@@ -83,7 +87,7 @@ public final class Sockets {
 	 * @param name 名称
 	 */
 	public static Server addServer(String name) {
-		return addServer(ServerFactory.getServer(name));
+		return addServer(getServer(name));
 	}
 
 	/**
@@ -100,7 +104,7 @@ public final class Sockets {
 	 * @param name 名称
 	 */
 	public static Client addClient(String name) {
-		return addClient(ClientFactory.getClient(name));
+		return addClient(getClient(name));
 	}
 
 	/**
@@ -294,6 +298,40 @@ public final class Sockets {
 			server.close();
 			// 删除Map中的引用
 			SERVERS.remove(name);
+		}
+	}
+
+	/**
+	 * 获得服务器
+	 * @param name 服务器配置名
+	 * @return Server
+	 */
+	private static Server getServer(String name) {
+		switch (SocketParams.getParse(name)) {
+			case "netty":
+				return new NettyServer(name);
+			case "netty3":
+				return new Netty3Server(name);
+			default:
+				// 默认mina
+				return new MinaServer(name);
+		}
+	}
+
+	/**
+	 * 获得客户端
+	 * @param name 客户端配置名
+	 * @return Client
+	 */
+	private static Client getClient(String name) {
+		switch (SocketParams.getParse(name)) {
+			case "netty":
+				return new NettyClient(name);
+			case "netty3":
+				return new Netty3Client(name);
+			default:
+				// 默认mina
+				return new MinaClient(name);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.wdcode.base.action;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +12,8 @@ import org.wdcode.base.entity.EntityStartEndTime;
 import org.wdcode.base.entity.EntityFile;
 import org.wdcode.base.entity.EntityFiles;
 import org.wdcode.base.entity.EntityTime;
+import org.wdcode.base.entity.EntityUserId;
 import org.wdcode.common.constants.DateConstants;
-import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.base.bean.Pagination;
@@ -32,17 +31,14 @@ import org.wdcode.web.constants.HttpConstants;
  * @since JDK7
  * @version 1.0 2012-07-4
  */
-public class SuperAction<E extends Entity> extends BasicAction {
+public abstract class SuperAction<E extends Entity> extends BasicAction {
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
 	// 通用实体
 	protected E						entity;
 	// 实体列表
 	protected List<E>				entitys;
-	// 主键
-	protected Serializable			key;
-	// 主键数组
-	protected Serializable[]		keys;
+
 	// 开始时间
 	protected String				startDate;
 	// 结束时间
@@ -83,7 +79,13 @@ public class SuperAction<E extends Entity> extends BasicAction {
 				}
 			}
 		}
-
+		// 如果查询自己的数据 添加登录用户名
+		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
+			entity = context.getBean(module, entityClass);
+		}
+		if (entity instanceof EntityUserId) {
+			((EntityUserId) entity).setUserId(token.getId());
+		}
 	}
 
 	/**
@@ -403,60 +405,6 @@ public class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
-	 * 获得主键
-	 * @return 主键
-	 */
-	public Serializable getKey() {
-		return key;
-	}
-
-	/**
-	 * 设置主键
-	 * @param key 主键
-	 */
-	public void setKey(Serializable key) {
-		// 如果传递进来的是数组
-		if (key.getClass().isArray()) {
-			// 转换成数组
-			Serializable[] keys = (Serializable[]) key;
-			// 如果只有一个值 赋值给key 否则赋值给keys
-			if (keys.length == 1) {
-				setKey(keys[0]);
-			} else {
-				setKeys(keys);
-			}
-		} else if (key instanceof String) {
-			// 传的是字符串
-			String s = Conversion.toString(key);
-			// 如果是json串
-			if (!JsonEngine.isJson(s) && s.indexOf(StringConstants.COMMA) > -1) {
-				// ,号分割的字符串 转换成数组setKey
-				setKey(s.split(StringConstants.COMMA));
-			} else {
-				this.key = s;
-			}
-		} else {
-			this.key = key;
-		}
-	}
-
-	/**
-	 * 获得主键数组
-	 * @return 主键数组
-	 */
-	public Serializable[] getKeys() {
-		return keys;
-	}
-
-	/**
-	 * 设置主键数组
-	 * @param keys 主键数组
-	 */
-	public void setKeys(Serializable[] keys) {
-		this.keys = keys;
-	}
-
-	/**
 	 * 获得通用实体列表
 	 * @return 通用实体列表
 	 */
@@ -584,6 +532,9 @@ public class SuperAction<E extends Entity> extends BasicAction {
 			if (!EmptyUtil.isEmpty(endDate) && EmptyUtil.isEmpty(((EntityStartEndTime) e).getEndTime())) {
 				((EntityStartEndTime) e).setEndTime(DateUtil.getTime(endDate));
 			}
+		}
+		if (e instanceof EntityUserId) {
+			((EntityUserId) e).setUserId(token.getId());
 		}
 		// 返回E
 		return upload(e);

@@ -6,8 +6,6 @@ import org.wdcode.common.constants.EncryptConstants;
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.constants.SystemConstants;
 import org.wdcode.common.constants.UnitConstants;
-import org.wdcode.common.crypto.Digest;
-import org.wdcode.common.util.StringUtil;
 
 /**
  * WdWeb包参数读取类
@@ -63,11 +61,7 @@ public final class CommonParams {
 	/**
 	 * 加密使用的密钥 字符串
 	 */
-	public final static String	ENCRYPT_KEY_STRING		= Params.getString("encrypt.key", "http://www.wdcode.org");
-	/**
-	 * 加密使用的密钥 字节数组
-	 */
-	public final static byte[]	ENCRYPT_KEY_BYTES		= StringUtil.toBytes(Digest.md5(ENCRYPT_KEY_STRING));
+	public final static String	ENCRYPT_KEY				= Params.getString("encrypt.key", "http://www.wdcode.org");
 	/**
 	 * 加密使用的算法
 	 */
