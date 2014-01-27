@@ -78,7 +78,7 @@ public class LogsAdvice {
 	 * @param point aop切点信息
 	 * @param retVal 返回值
 	 */
-	@AfterReturning(pointcut = "execution(* org.wdcode.site.action.LoginAction.login())", returning = "retVal")
+	@AfterReturning(pointcut = "execution(* org.wdcode.site.action.SiteAction.login())", returning = "retVal")
 	public void login(JoinPoint point, Object retVal) {
 		// 获得登录Login
 		SiteAction<?> login = (SiteAction<?>) point.getTarget();

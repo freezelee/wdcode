@@ -14,11 +14,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.TextProviderHelper;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
@@ -116,8 +118,6 @@ public abstract class BasicAction {
 	protected HttpServletRequest				request;
 	// HttpServletResponse
 	protected HttpServletResponse				response;
-	// HttpSession
-	protected HttpSession						session;
 	// 错误信息
 	protected List<String>						error;
 	// 错误信息
@@ -141,7 +141,6 @@ public abstract class BasicAction {
 		// 获得request与response
 		request = context.getRequest();
 		response = context.getResponse();
-		session = request.getSession();
 		// 声明错误信息
 		error = Lists.getList();
 		// 声明信息
@@ -441,7 +440,7 @@ public abstract class BasicAction {
 	 * @return ServletContext
 	 */
 	public ServletContext getServletContext() {
-		return context.getServletContext();
+		return ServletActionContext.getServletContext();
 	}
 
 	/**
@@ -528,6 +527,28 @@ public abstract class BasicAction {
 	 */
 	public String getActionName() {
 		return context.getActionMapping().getName();
+	}
+
+	/**
+	 * 获得当前Action
+	 * @return Action
+	 */
+	public <E extends Action> E getAction() {
+		// 获得值栈里的对象
+		Object action = ActionContext.getContext().getValueStack().peek();
+		// 判断对象是Action类型的
+		if (action instanceof Action) {
+			// 返回Action
+			return (E) action;
+		}
+		// 获得Action拦截器
+		ActionInvocation ai = ActionContext.getContext().getActionInvocation();
+		// 如果拦截器不为空
+		if (ai != null) {
+			return (E) ai.getAction();
+		}
+		// 如果都不符合返回null
+		return null;
 	}
 
 	/**

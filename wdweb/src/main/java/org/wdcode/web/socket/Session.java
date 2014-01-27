@@ -16,12 +16,6 @@ public interface Session extends Close {
 	int getId();
 
 	/**
-	 * 设置SessionId
-	 * @param id SessionId
-	 */
-	void setId(int id);
-
-	/**
 	 * 写入数据
 	 * @param id 指令
 	 * @param message 消息
@@ -39,4 +33,16 @@ public interface Session extends Close {
 	 * @return true 关闭 false 未关闭
 	 */
 	boolean isClose();
+
+	/**
+	 * 获得连接IP
+	 * @return IP
+	 */
+	String getIp();
+
+	/**
+	 * 获得连接端口
+	 * @return port
+	 */
+	int getPort();
 }

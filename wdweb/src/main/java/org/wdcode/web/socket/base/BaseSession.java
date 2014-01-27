@@ -1,6 +1,10 @@
 package org.wdcode.web.socket.base;
 
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+
 import org.wdcode.common.constants.ArrayConstants;
+import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.StringUtil;
@@ -15,7 +19,11 @@ import org.wdcode.web.socket.simple.Message;
  */
 public abstract class BaseSession implements Session {
 	// SessionId
-	protected int	id;
+	protected int		id;
+	// 保存IP
+	protected String	ip;
+	// 保存端口
+	protected int		port;
 
 	@Override
 	public void send(int id, Object message) {
@@ -39,20 +47,36 @@ public abstract class BaseSession implements Session {
 		send(Bytes.toBytes(data.length + 4, id, data));
 	}
 
-	/**
-	 * 获得SessionId
-	 * @return SessionId
-	 */
+	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
+	public String getIp() {
+		return ip;
+	}
+
+	@Override
+	public int getPort() {
+		return port;
+	}
+
 	/**
-	 * 设置SessionId
-	 * @param id SessionId
+	 * 设置IP与端口
 	 */
-	public void setId(int id) {
-		this.id = id;
+	protected void address(SocketAddress address) {
+		if (address instanceof InetSocketAddress) {
+			// InetSocketAddress
+			InetSocketAddress inet = (InetSocketAddress) address;
+			this.ip = inet.getHostName();
+			this.port = inet.getPort();
+		} else {
+			// 普通SocketAddress
+			String host = address.toString();
+			this.ip = StringUtil.subString(host, StringConstants.BACKSLASH, StringConstants.COLON);
+			this.port = Conversion.toInt(StringUtil.subString(host, StringConstants.COLON));
+		}
 	}
 
 	/**

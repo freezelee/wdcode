@@ -24,6 +24,7 @@ public final class NettySession extends BaseSession implements Session {
 	public NettySession(int id, Channel channel) {
 		this.id = id;
 		this.channel = channel;
+		address(channel.remoteAddress());
 	}
 
 	@Override

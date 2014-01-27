@@ -26,5 +26,9 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	protected void setSession(Session session) {
 		this.session = session;
 		manager.register(StringConstants.EMPTY, session.getId(), session);
+		// 心跳出来不为空
+		if (heart != null) {
+			heart.add(session);
+		}
 	}
 }

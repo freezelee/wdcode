@@ -23,6 +23,7 @@ public final class MinaSession extends BaseSession implements Session {
 	public MinaSession(int id, IoSession session) {
 		this.id = id;
 		this.session = session;
+		address(session.getRemoteAddress());
 	}
 
 	@Override

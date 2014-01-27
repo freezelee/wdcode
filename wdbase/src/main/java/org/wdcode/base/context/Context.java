@@ -37,8 +37,6 @@ import com.opensymphony.xwork2.ActionInvocation;
  */
 @Component
 public final class Context {
-	// struts2 request key
-	private final static String								ACTICON_MAPPING_KEY	= "struts.actionMapping";
 	// Spring ApplicationContext
 	@Resource
 	private ConfigurableApplicationContext					cac;
@@ -175,7 +173,7 @@ public final class Context {
 	 * @return ActionMapping
 	 */
 	public ActionMapping getActionMapping() {
-		return (ActionMapping) getRequest().getAttribute(ACTICON_MAPPING_KEY);
+		return (ActionMapping) getRequest().getAttribute(ServletActionContext.ACTION_MAPPING);
 	}
 
 	/**

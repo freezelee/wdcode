@@ -23,6 +23,7 @@ public final class Netty3Session extends BaseSession implements Session {
 	public Netty3Session(Channel channel) {
 		this.id = channel.getId();
 		this.channel = channel;
+		address(channel.getRemoteAddress());
 	}
 
 	@Override

@@ -881,7 +881,7 @@ public class SuperService {
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
 		// 获得所有数据列表
-		List<E> beans = all(entityClass);
+		List<E> beans = dao.list(entityClass, -1, -1);
 		// 判断有缓存
 		if (cache.isValid()) {
 			cache.clear();
@@ -904,10 +904,8 @@ public class SuperService {
 			return (Cache<E>) empty;
 		} else {
 			// 如果缓存为空
-			if (cache.isEmpty() && !loads.get(entityClass)) {
-				// 加载缓存
-				cache.clear();
-				cache.set(all(entityClass));
+			if (cache.isValid() && cache.isEmpty() && !loads.get(entityClass)) {
+				cache.set(dao.list(entityClass, -1, -1));
 				loads.put(entityClass, true);
 			}
 			// 返回缓存
