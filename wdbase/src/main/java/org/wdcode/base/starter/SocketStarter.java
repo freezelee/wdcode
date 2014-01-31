@@ -8,9 +8,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.wdcode.base.context.Context;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Socket;
 import org.wdcode.web.socket.Sockets;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Socket;
 
 /**
  * Socket 相关类

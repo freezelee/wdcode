@@ -28,8 +28,7 @@ public final class MinaServer extends BaseServer {
 	 * @param name 名称
 	 */
 	public MinaServer(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 服务器
 		this.acceptor = new NioSocketAcceptor(CommonParams.THREAD_POOL);
 		// 实例化handler

@@ -1,4 +1,5 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
+
 
 /**
  * Socket 处理器

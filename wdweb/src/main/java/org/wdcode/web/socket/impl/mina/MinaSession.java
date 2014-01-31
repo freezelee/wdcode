@@ -2,8 +2,8 @@ package org.wdcode.web.socket.impl.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
-import org.wdcode.web.socket.Session;
 import org.wdcode.web.socket.base.BaseSession;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * Mina实现

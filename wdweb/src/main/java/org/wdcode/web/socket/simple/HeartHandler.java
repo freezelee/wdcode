@@ -6,10 +6,10 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.ScheduledUtile;
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Manager;
-import org.wdcode.web.socket.Session;
-import org.wdcode.web.socket.handler.Heart;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Heart;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * 心跳检测

@@ -28,8 +28,7 @@ public final class Netty3Server extends BaseServer {
 	 * @param name 名称
 	 */
 	public Netty3Server(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 		// NettyHandler

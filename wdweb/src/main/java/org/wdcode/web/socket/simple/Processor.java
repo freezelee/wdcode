@@ -6,12 +6,13 @@ import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.web.socket.Buffer;
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Manager;
-import org.wdcode.web.socket.Process;
-import org.wdcode.web.socket.Session;
-import org.wdcode.web.socket.handler.Heart;
+import org.wdcode.web.socket.interfaces.Buffer;
+import org.wdcode.web.socket.interfaces.Closed;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Heart;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Process;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * Socket 数据处理器实现
@@ -30,6 +31,8 @@ public final class Processor implements Process {
 	private Manager							manager;
 	// 心跳处理
 	private Heart							heart;
+	// 关闭处理
+	private Closed							closed;
 
 	/**
 	 * Session管理
@@ -43,6 +46,11 @@ public final class Processor implements Process {
 	@Override
 	public void setHeart(Heart heart) {
 		this.heart = heart;
+	}
+
+	@Override
+	public void setClosed(Closed closed) {
+		this.closed = closed;
 	}
 
 	@Override
@@ -72,6 +80,10 @@ public final class Processor implements Process {
 		// 如果心跳处理不为空
 		if (heart != null) {
 			heart.remove(session);
+		}
+		// 关闭处理器不为空
+		if (closed != null) {
+			closed.closed(session);
 		}
 		// 删除Session管理中的注册Session
 		manager.remove(session);

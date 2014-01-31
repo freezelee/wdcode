@@ -29,8 +29,7 @@ public final class NettyClient extends BaseClient {
 	 * @param name
 	 */
 	public NettyClient(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 实例化ClientBootstrap
 		bootstrap = new Bootstrap();
 		// NettyHandler

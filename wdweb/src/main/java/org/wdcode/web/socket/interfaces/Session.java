@@ -1,4 +1,4 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
 
 import org.wdcode.common.interfaces.Close;
 

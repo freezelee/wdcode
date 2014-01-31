@@ -8,9 +8,9 @@ import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.service.SuperService;
 import org.wdcode.core.json.JsonEngine;
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Manager;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * 缓存Socket通知类

@@ -31,8 +31,7 @@ public final class MinaClient extends BaseClient {
 	 * @param name
 	 */
 	public MinaClient(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 客户端
 		this.connector = new NioSocketConnector(CommonParams.THREAD_POOL);
 		// 实例化handler

@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.web.params.SocketParams;
-import org.wdcode.web.socket.Manager;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * Session管理类
@@ -108,8 +108,13 @@ public final class SessionManager implements Manager {
 	public boolean remove(Session session) {
 		// Session ID
 		int id = session.getId();
-		// 删除Session
-		return remove(keys.get(id), ids.get(id));
+		// 如果存在
+		if (keys.containsKey(id) && ids.containsKey(id)) {
+			// 删除Session
+			return remove(keys.get(id), ids.get(id));
+		} else {
+			return false;
+		}
 	}
 
 	/**

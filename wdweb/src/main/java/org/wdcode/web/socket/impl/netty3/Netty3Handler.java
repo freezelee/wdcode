@@ -6,8 +6,8 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-import org.wdcode.web.socket.Process;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.interfaces.Process;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * @author WD

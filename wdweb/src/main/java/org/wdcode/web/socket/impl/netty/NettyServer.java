@@ -26,8 +26,7 @@ public final class NettyServer extends BaseServer {
 	 * @param name 名称
 	 */
 	public NettyServer(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap();
 		// NettyHandler

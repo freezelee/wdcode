@@ -2,7 +2,7 @@ package org.wdcode.web.socket.impl.netty3;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
-import org.wdcode.web.socket.Buffer;
+import org.wdcode.web.socket.interfaces.Buffer;
 
 /**
  * Netty 缓冲区实现

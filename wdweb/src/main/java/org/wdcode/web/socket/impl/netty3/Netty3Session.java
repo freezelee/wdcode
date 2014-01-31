@@ -2,8 +2,8 @@ package org.wdcode.web.socket.impl.netty3;
 
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
-import org.wdcode.web.socket.Session;
 import org.wdcode.web.socket.base.BaseSession;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * netty Session实现

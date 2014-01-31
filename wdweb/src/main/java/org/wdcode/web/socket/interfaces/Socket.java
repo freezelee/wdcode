@@ -1,7 +1,6 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
 
 import org.wdcode.common.interfaces.Close;
-import org.wdcode.web.socket.handler.Heart;
 
 /**
  * Socket接口

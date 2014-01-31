@@ -1,7 +1,8 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
 
 import java.util.List;
 import java.util.Set;
+
 
 /**
  * Socket Session 管理器

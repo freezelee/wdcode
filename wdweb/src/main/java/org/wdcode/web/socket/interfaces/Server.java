@@ -1,6 +1,7 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
 
 import java.util.Map;
+
 
 /**
  * Socket 服务器

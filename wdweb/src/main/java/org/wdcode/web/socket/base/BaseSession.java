@@ -8,7 +8,7 @@ import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.StringUtil;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.interfaces.Session;
 import org.wdcode.web.socket.simple.Message;
 
 /**

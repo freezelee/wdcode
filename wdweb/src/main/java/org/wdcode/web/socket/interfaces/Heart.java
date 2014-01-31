@@ -1,6 +1,6 @@
-package org.wdcode.web.socket.handler;
+package org.wdcode.web.socket.interfaces;
 
-import org.wdcode.web.socket.Session;
+
 
 /**
  * 心跳协议处理器

@@ -2,9 +2,9 @@ package org.wdcode.web.socket.base;
 
 import java.util.Map;
 
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Server;
-import org.wdcode.web.socket.Session;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Server;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * 基础Server
@@ -13,6 +13,14 @@ import org.wdcode.web.socket.Session;
  * @version 1.0 2013-12-30
  */
 public abstract class BaseServer extends BaseSocket implements Server {
+
+	/**
+	 * 构造
+	 * @param name
+	 */
+	public BaseServer(String name) {
+		super(name);
+	}
 
 	@Override
 	public Session getSession(int id) {

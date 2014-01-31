@@ -3,8 +3,8 @@ package org.wdcode.web.socket.impl.netty;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 
-import org.wdcode.web.socket.Session;
 import org.wdcode.web.socket.base.BaseSession;
+import org.wdcode.web.socket.interfaces.Session;
 
 /**
  * netty Session实现

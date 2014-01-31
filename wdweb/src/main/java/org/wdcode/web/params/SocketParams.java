@@ -127,6 +127,18 @@ public final class SocketParams {
 	}
 
 	/**
+	 * 获得socket Session关闭处理器<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.closed = ? <br/>
+	 * XML: {@literal <socket><*><closed>?</closed></*></socket>}</h2>
+	 * @return socket Session关闭处理器
+	 */
+	public static String getClosed(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "closed"));
+	}
+
+	/**
 	 * 私有构造
 	 */
 	private SocketParams() {}

@@ -1,10 +1,13 @@
 package org.wdcode.web.socket.base;
 
-import org.wdcode.web.socket.Handler;
-import org.wdcode.web.socket.Manager;
-import org.wdcode.web.socket.Process;
-import org.wdcode.web.socket.Socket;
-import org.wdcode.web.socket.handler.Heart;
+import org.wdcode.common.util.BeanUtil;
+import org.wdcode.web.params.SocketParams;
+import org.wdcode.web.socket.interfaces.Closed;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Heart;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Process;
+import org.wdcode.web.socket.interfaces.Socket;
 import org.wdcode.web.socket.simple.Processor;
 import org.wdcode.web.socket.simple.SessionManager;
 
@@ -27,9 +30,15 @@ public abstract class BaseSocket implements Socket {
 	/**
 	 * 构造
 	 */
-	public BaseSocket() {
+	public BaseSocket(String name) {
+		this.name = name;
 		manager = new SessionManager();
 		process = new Processor(manager);
+		// 获得关闭处理器
+		Closed closed = (Closed) BeanUtil.newInstance(SocketParams.getClosed(name));
+		if (closed != null) {
+			process.setClosed(closed);
+		}
 	}
 
 	@Override

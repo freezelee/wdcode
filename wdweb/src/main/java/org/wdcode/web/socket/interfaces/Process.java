@@ -1,8 +1,7 @@
-package org.wdcode.web.socket;
+package org.wdcode.web.socket.interfaces;
 
 import java.util.Map;
 
-import org.wdcode.web.socket.handler.Heart;
 
 /**
  * Socket 数据处理接口
@@ -29,6 +28,12 @@ public interface Process {
 	 * @param heart
 	 */
 	void setHeart(Heart heart);
+
+	/**
+	 * 添加关闭处理器
+	 * @param closed 关闭处理器
+	 */
+	void setClosed(Closed closed);
 
 	/**
 	 * 添加要处理的Handler

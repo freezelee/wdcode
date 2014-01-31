@@ -14,6 +14,12 @@ import org.wdcode.web.socket.impl.netty.NettyClient;
 import org.wdcode.web.socket.impl.netty.NettyServer;
 import org.wdcode.web.socket.impl.netty3.Netty3Client;
 import org.wdcode.web.socket.impl.netty3.Netty3Server;
+import org.wdcode.web.socket.interfaces.Client;
+import org.wdcode.web.socket.interfaces.Handler;
+import org.wdcode.web.socket.interfaces.Manager;
+import org.wdcode.web.socket.interfaces.Server;
+import org.wdcode.web.socket.interfaces.Session;
+import org.wdcode.web.socket.interfaces.Socket;
 import org.wdcode.web.socket.simple.HeartHandler;
 
 /**

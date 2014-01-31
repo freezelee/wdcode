@@ -2,7 +2,7 @@ package org.wdcode.web.socket.impl.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.wdcode.common.params.CommonParams;
-import org.wdcode.web.socket.Buffer;
+import org.wdcode.web.socket.interfaces.Buffer;
 
 /**
  * mina缓冲区实现
