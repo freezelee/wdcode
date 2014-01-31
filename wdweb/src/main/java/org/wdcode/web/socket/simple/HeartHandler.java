@@ -17,7 +17,7 @@ import org.wdcode.web.socket.interfaces.Session;
  * @since JDK7
  * @version 1.0 2013-12-30
  */
-public final class HeartHandler implements Heart, Handler<Integer> {
+public final class HeartHandler implements Handler<Integer>, Heart {
 	// 保存Session 时间
 	private Map<Integer, Integer>	times;
 	// 保存Session

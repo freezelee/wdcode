@@ -72,7 +72,9 @@ public final class Sockets {
 		// 配置了心跳
 		if (heart > 0) {
 			// 设置心跳
-			socket.setHeart(new HeartHandler(SocketParams.getHeartId(name), heart));
+			HeartHandler handler = new HeartHandler(SocketParams.getHeartId(name), heart);
+			socket.setHeart(handler);
+			socket.addHandler(handler);
 		}
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {

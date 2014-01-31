@@ -29,7 +29,15 @@ public final class ClassUtil {
 			Type[] type = clazz.getGenericInterfaces();
 			// 接口不为空
 			if (!EmptyUtil.isEmpty(type)) {
-				gc = getGenericClass(type[0], 0);
+				// 循环接口
+				for (Type t : type) {
+					// 获得泛型
+					gc = getGenericClass(t, 0);
+					// 泛型不为空 跳出循环
+					if (gc != null) {
+						break;
+					}
+				}
 			}
 		}
 		// 返回类

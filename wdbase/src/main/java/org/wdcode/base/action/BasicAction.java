@@ -128,27 +128,29 @@ public abstract class BasicAction {
 	 */
 	@PostConstruct
 	protected void init() {
-		// 获得提交Action地址
-		String actionName = getActionName();
-		// 分解提交action
-		String[] action = StringUtil.split(actionName, StringConstants.UNDERLINE);
-		// 获得模板名
-		module = action[0];
-		// 方法名
-		method = action.length > 1 ? action[1] : action[0];
-		// 获得方法名
-		mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
-		// 获得request与response
-		request = context.getRequest();
-		response = context.getResponse();
-		// 声明错误信息
-		error = Lists.getList();
-		// 声明信息
-		message = Lists.getList();
-		// 获得登录凭证
-		if (EmptyUtil.isEmpty(token)) {
-			token = auth();
-		}
+		try {
+			// 声明错误信息
+			error = Lists.getList();
+			// 声明信息
+			message = Lists.getList();
+			// 获得登录凭证
+			if (EmptyUtil.isEmpty(token)) {
+				token = auth();
+			}
+			// 获得提交Action地址
+			String actionName = getActionName();
+			// 分解提交action
+			String[] action = StringUtil.split(actionName, StringConstants.UNDERLINE);
+			// 获得模板名
+			module = action[0];
+			// 方法名
+			method = action.length > 1 ? action[1] : action[0];
+			// 获得方法名
+			mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
+			// 获得request与response
+			request = context.getRequest();
+			response = context.getResponse();
+		} catch (Exception e) {}
 	}
 
 	/**
