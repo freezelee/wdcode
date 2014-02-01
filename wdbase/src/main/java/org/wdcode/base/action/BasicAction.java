@@ -46,6 +46,7 @@ import org.wdcode.common.util.ImageUtil;
 import org.wdcode.common.util.MathUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.constants.HttpConstants;
 import org.wdcode.web.util.AttributeUtil;
 import org.wdcode.web.util.CookieUtil;
@@ -133,6 +134,9 @@ public abstract class BasicAction {
 			error = Lists.getList();
 			// 声明信息
 			message = Lists.getList();
+			// 获得request与response
+			request = context.getRequest();
+			response = context.getResponse();
 			// 获得登录凭证
 			if (EmptyUtil.isEmpty(token)) {
 				token = auth();
@@ -147,10 +151,9 @@ public abstract class BasicAction {
 			method = action.length > 1 ? action[1] : action[0];
 			// 获得方法名
 			mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
-			// 获得request与response
-			request = context.getRequest();
-			response = context.getResponse();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logs.error(e);
+		}
 	}
 
 	/**
