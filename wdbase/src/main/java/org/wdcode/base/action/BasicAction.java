@@ -25,8 +25,6 @@ import org.apache.struts2.util.TextProviderHelper;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.UploadParams;
-import org.wdcode.base.service.QueryService;
-import org.wdcode.base.service.SuperService;
 import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
@@ -70,20 +68,9 @@ public abstract class BasicAction {
 	protected final static String				LIST	= "list";
 	// 回调方法处理
 	protected final static Map<String, Method>	METHODS	= Maps.getMap();
-
-	// 通用业务接口
-	@Resource
-	protected SuperService						service;
-	// 查询器
-	@Resource
-	protected QueryService						query;
 	// 全局Context
 	@Resource
 	protected Context							context;
-
-	// 验证登录标识
-	protected AuthToken							token;
-
 	// 提交的url
 	protected String							url;
 	// 跨域方法
@@ -137,10 +124,6 @@ public abstract class BasicAction {
 			// 获得request与response
 			request = context.getRequest();
 			response = context.getResponse();
-			// 获得登录凭证
-			if (EmptyUtil.isEmpty(token)) {
-				token = auth();
-			}
 			// 获得提交Action地址
 			String actionName = getActionName();
 			// 分解提交action
@@ -682,30 +665,6 @@ public abstract class BasicAction {
 	 */
 	public void setKeys(Serializable[] keys) {
 		this.keys = keys;
-	}
-
-	/**
-	 * 获得业务
-	 * @return 业务
-	 */
-	public SuperService getService() {
-		return service;
-	}
-
-	/**
-	 * 获得查询器
-	 * @return 查询器
-	 */
-	public QueryService getQuery() {
-		return query;
-	}
-
-	/**
-	 * 获得验证登录标识
-	 * @return 验证登录标识
-	 */
-	public AuthToken getToken() {
-		return token;
 	}
 
 	/**

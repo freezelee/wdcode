@@ -1,7 +1,9 @@
 package org.wdcode.site.action;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.wdcode.base.action.BasicAction;
+import org.wdcode.base.action.SuperAction;
 import org.wdcode.base.entity.EntityUser;
 import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.constants.StringConstants;
@@ -24,7 +26,7 @@ import org.wdcode.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-07-14
  */
-public class SiteAction<U extends EntityUser> extends BasicAction {
+public class SiteAction<U extends EntityUser> extends SuperAction {
 	// 用户实体
 	protected U		user;
 
@@ -40,6 +42,16 @@ public class SiteAction<U extends EntityUser> extends BasicAction {
 	private String	echoPwd;
 	// 验证码
 	private String	activeCoding;
+
+	@PostConstruct
+	protected void init() {
+		// 父类初始化
+		super.init();
+		// 获得登录凭证
+		if (EmptyUtil.isEmpty(token)) {
+			token = auth();
+		}
+	}
 
 	/**
 	 * 设置登录凭证
@@ -400,20 +412,6 @@ public class SiteAction<U extends EntityUser> extends BasicAction {
 	 */
 	public String getLoginKey() {
 		return user.getClass().getSimpleName();
-	}
-
-	/**
-	 * 添加实体
-	 * @param u
-	 * @return
-	 */
-	protected U add(U u) {
-		// 设置时间
-		u.setTime(DateUtil.getTime());
-		// 设置IP
-		u.setIp(getIp());
-		// 返回E
-		return u;
 	}
 
 	/**

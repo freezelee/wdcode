@@ -23,7 +23,7 @@ import org.wdcode.web.util.RequestUtil;
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class PageLogsAction extends SuperAction<LogsPage> {
+public class PageLogsAction extends SuperAction {
 	/**
 	 * 进入页面
 	 * @return
@@ -33,6 +33,7 @@ public class PageLogsAction extends SuperAction<LogsPage> {
 		// 判断是否开启页面访问日志记录
 		if (LogsParams.LOGS_PAGE && !isFilter()) {
 			// 设置日志属性
+			LogsPage entity = new LogsPage();
 			entity.setIp(IpUtil.getIp(request));
 			entity.setLanguage(RequestUtil.getLanguage(request));
 			entity.setUserAgent(RequestUtil.getUserAgent(request));

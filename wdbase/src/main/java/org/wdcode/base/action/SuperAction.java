@@ -13,6 +13,9 @@ import org.wdcode.base.entity.EntityFile;
 import org.wdcode.base.entity.EntityFiles;
 import org.wdcode.base.entity.EntityTime;
 import org.wdcode.base.entity.EntityUserId;
+import org.wdcode.base.service.QueryService;
+import org.wdcode.base.service.SuperService;
+import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.constants.DateConstants;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
@@ -31,20 +34,28 @@ import org.wdcode.web.constants.HttpConstants;
  * @since JDK7
  * @version 1.0 2012-07-4
  */
-public abstract class SuperAction<E extends Entity> extends BasicAction {
+public abstract class SuperAction extends BasicAction {
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
+	// 通用业务接口
+	@Resource
+	protected SuperService			service;
+	// 查询器
+	@Resource
+	protected QueryService			query;
+	// 验证登录标识
+	protected AuthToken				token;
 	// 通用实体
-	protected E						entity;
+	protected Entity				entity;
 	// 实体列表
-	protected List<E>				entitys;
+	protected List<Entity>			entitys;
 
 	// 开始时间
 	protected String				startDate;
 	// 结束时间
 	protected String				endDate;
 	// 实体类
-	protected Class<E>				entityClass;
+	protected Class<Entity>			entityClass;
 	// 分页Bean
 	@Resource
 	protected Pagination			pager;
@@ -149,7 +160,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
 		}
 		// 循环实体数组
-		for (E e : entitys) {
+		for (Entity e : entitys) {
 			add(e);
 		}
 		// 添加并返回结果
@@ -163,7 +174,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 */
 	public String edit() throws Exception {
 		// 获得要更像的实体
-		E e = service.get(entityClass, entity.getKey());
+		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
 		return callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
 	}
@@ -181,11 +192,11 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 		// 实体列表不为空
 		if (!EmptyUtil.isEmpty(entitys)) {
 			// 声明修改实体数组
-			E[] es = ArrayUtil.getArray(entityClass, entitys.size());
+			Entity[] es = ArrayUtil.getArray(entityClass, entitys.size());
 			// 循环获取持久化数据实体
 			for (int i = 0; i < entitys.size(); i++) {
 				// 获得修改实体
-				E e = entitys.get(i);
+				Entity e = entitys.get(i);
 				// 把新修改的值赋值给修改是实体
 				es[i] = BeanUtil.copyProperties(e, service.get(entityClass, e.getKey()));
 			}
@@ -392,7 +403,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * 获得通用实体
 	 * @return 通用实体
 	 */
-	public E getEntity() {
+	public Entity getEntity() {
 		return entity;
 	}
 
@@ -400,7 +411,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * 设置通用实体
 	 * @param entity 通用实体
 	 */
-	public void setEntity(E entity) {
+	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}
 
@@ -408,7 +419,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * 获得通用实体列表
 	 * @return 通用实体列表
 	 */
-	public List<E> getEntitys() {
+	public List<Entity> getEntitys() {
 		return entitys;
 	}
 
@@ -416,7 +427,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * 设置通用实体列表
 	 * @param entitys 通用实体列表
 	 */
-	public void setEntitys(List<E> entitys) {
+	public void setEntitys(List<Entity> entitys) {
 		this.entitys = entitys;
 	}
 
@@ -485,11 +496,35 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	}
 
 	/**
+	 * 获得业务
+	 * @return 业务
+	 */
+	public SuperService getService() {
+		return service;
+	}
+
+	/**
+	 * 获得查询器
+	 * @return 查询器
+	 */
+	public QueryService getQuery() {
+		return query;
+	}
+
+	/**
+	 * 获得验证登录标识
+	 * @return 验证登录标识
+	 */
+	public AuthToken getToken() {
+		return token;
+	}
+
+	/**
 	 * 添加实体
 	 * @param e
 	 * @return
 	 */
-	protected E theme(E e) {
+	protected Entity theme(Entity e) {
 		// 判断e==null 直接返回
 		if (e == null) {
 			return e;
@@ -513,7 +548,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * @param e
 	 * @return
 	 */
-	protected E add(E e) {
+	protected Entity add(Entity e) {
 		// 判断实体类型
 		if (e instanceof EntityTime && EmptyUtil.isEmpty(((EntityTime) e).getTime())) {
 			((EntityTime) e).setTime(DateUtil.getTime());
@@ -545,7 +580,7 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 	 * @param e
 	 * @return
 	 */
-	protected E upload(E e) {
+	protected Entity upload(Entity e) {
 		if (e instanceof EntityFile) {
 			// 上次文件
 			String path = upload(file, fileFileName);
@@ -564,4 +599,9 @@ public abstract class SuperAction<E extends Entity> extends BasicAction {
 		}
 		return e;
 	}
+
+	/**
+	 * 获得验证登录凭证
+	 */
+	protected abstract AuthToken auth();
 }
