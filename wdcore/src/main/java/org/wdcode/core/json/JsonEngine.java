@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.wdcode.common.constants.StringConstants;
 import org.wdcode.common.lang.Lists;
+import org.wdcode.common.lang.Maps;
+import org.wdcode.common.util.BeanUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.core.factory.FactoryKey;
 import org.wdcode.core.json.impl.JsonFast;
@@ -126,6 +128,25 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	public static Map<String, Object> toMap(String json) {
 		return toBean(json, Map.class);
+	}
+
+	/**
+	 * 把json转换成Map
+	 * @param json JSON字符串
+	 * @param value Map值类
+	 * @return Map
+	 */
+	public static <E> Map<String, E> toMap(String json, Class<E> value) {
+		// 获得Map
+		Map<String, Object> map = toBean(json, Map.class);
+		// 声明返回map
+		Map<String, E> data = Maps.getMap(map.size());
+		// 循环生成类
+		for (Map.Entry<String, Object> e : map.entrySet()) {
+			data.put(e.getKey(), BeanUtil.copyProperties(e.getValue(), value));
+		}
+		// 返回数据
+		return data;
 	}
 
 	/**

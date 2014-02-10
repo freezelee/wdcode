@@ -23,6 +23,16 @@ public final class BeanUtil {
 	/**
 	 * 拷贝属性
 	 * @param source 原对象
+	 * @param entity 目标类
+	 * @return 目标对象
+	 */
+	public static <T> T copyProperties(Object source, Class<T> entity) {
+		return copyProperties(source, newInstance(entity));
+	}
+
+	/**
+	 * 拷贝属性
+	 * @param source 原对象
 	 * @param target 目标对象
 	 * @return 目标对象
 	 */
@@ -94,12 +104,12 @@ public final class BeanUtil {
 
 	/**
 	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
-	 * @param dest 对象的类
+	 * @param entity 对象的类
 	 * @return 实例的对象
 	 */
-	public static <T> T newInstance(Class<T> dest) {
+	public static <T> T newInstance(Class<T> entity) {
 		try {
-			return dest.newInstance();
+			return entity.newInstance();
 		} catch (Exception e) {
 			return null;
 		}
