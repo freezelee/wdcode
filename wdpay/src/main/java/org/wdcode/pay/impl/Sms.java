@@ -1,5 +1,6 @@
 package org.wdcode.pay.impl;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public final class Sms implements Pay {
 
 	@Override
 	public String pay(HttpServletRequest request, HttpServletResponse response, PayBean pay) {
-		return HttpUtil.toForm(getUrl(), getParameters(request, pay), getCharset());
+		return HttpUtil.toUrl(getUrl(), getParameters(request, pay));
 	}
 
 	@Override
@@ -43,7 +44,35 @@ public final class Sms implements Pay {
 
 	@Override
 	public TradeBean trade(HttpServletRequest request, HttpServletResponse response) {
-		return null;
+		// spid 商户代码 非空 5位数字商户代码
+		// String spid = RequestUtil.getParameter(request, "spid");
+		// md5 32位MD5 大写 非空 32位MD5 大写
+		String md5 = RequestUtil.getParameter(request, "md5");
+		// oid 盈华讯方平台订单号 非空 平台服务商订单号码
+		String oid = RequestUtil.getParameter(request, "oid");
+		// sporder 商户订单号 非空 商户提交时候产的唯一订单号
+		String sporder = RequestUtil.getParameter(request, "sporder");
+		// mz 支付结果 非空 整数面值
+		String mz = RequestUtil.getParameter(request, "mz");
+		// zdy 商户自定义 非空 商户自定义数据
+		// String zdy = RequestUtil.getParameter(request, "zdy");
+		// spuid 用户ID 非空 用户ID
+		// String spuid = RequestUtil.getParameter(request, "spuid");
+		// 加密MD5
+		// 设置提交参数
+		StringBuilder sb = new StringBuilder();
+		sb.append(oid);
+		sb.append(sporder);
+		sb.append(PayParams.SMS_ID);
+		sb.append(mz);
+		sb.append(PayParams.SMS_KEY);
+		String MD5 = Digest.md5(sb.toString()).toUpperCase();
+		// 通知成功
+		try {
+			response.getWriter().println("okydzf");
+			response.getWriter().flush();
+		} catch (IOException e) {}
+		return new TradeBean(sporder, MD5.equals(md5), true, mz);
 	}
 
 	/**
@@ -69,14 +98,17 @@ public final class Sms implements Pay {
 		data.put("od", pay.getNo());
 		sb.append(pay.getNo());
 		sb.append(PayParams.SMS_KEY);
-		data.put("mz", MathUtil.scale(pay.getTotal(), 0).toPlainString());
-		sb.append(MathUtil.scale(pay.getTotal(), 0).toPlainString());
+		String mz = MathUtil.scale(pay.getTotal(), 0).toPlainString();
+		data.put("mz", mz);
+		sb.append(mz);
 		data.put("spzdy", "true");
 		data.put("uid", RequestUtil.getParameter(request, "uid"));
-		data.put("spreq", RequestUtil.getParameter(request, "spreq"));
-		sb.append(RequestUtil.getParameter(request, "spreq"));
-		data.put("spsuc", RequestUtil.getParameter(request, "spsuc"));
-		sb.append(RequestUtil.getParameter(request, "spsuc"));
+		String spreq = RequestUtil.getParameter(request, "spreq");
+		data.put("spreq", spreq);
+		sb.append(spreq);
+		String spsuc = RequestUtil.getParameter(request, "spsuc");
+		data.put("spsuc", spsuc);
+		sb.append(spsuc);
 		data.put("md5", Digest.md5(sb.toString()).toUpperCase());
 		// 返回参数列表
 		return data;

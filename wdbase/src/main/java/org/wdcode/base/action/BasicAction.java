@@ -25,7 +25,6 @@ import org.apache.struts2.util.TextProviderHelper;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.UploadParams;
-import org.wdcode.base.token.AuthToken;
 import org.wdcode.common.codec.Hex;
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -894,10 +893,4 @@ public abstract class BasicAction {
 		// 返回文件名
 		return name.toString();
 	}
-
-	/**
-	 * 授权用户登录权限
-	 * @return
-	 */
-	protected abstract AuthToken auth();
 }
