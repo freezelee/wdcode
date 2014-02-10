@@ -139,6 +139,10 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	public static <E> Map<String, E> toMap(String json, Class<E> value) {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
+		// 如果map为空
+		if (EmptyUtil.isEmpty(map)) {
+			return Maps.emptyMap();
+		}
 		// 声明返回map
 		Map<String, E> data = Maps.getMap(map.size());
 		// 循环生成类
