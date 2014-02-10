@@ -7,12 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,10 +19,6 @@ import org.wdcode.base.entity.Entity;
 import org.wdcode.base.params.BaseParams;
 import org.wdcode.common.lang.Lists;
 import org.wdcode.common.lang.Maps;
-
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionInvocation;
 
 /**
  * 全局Context控制
@@ -142,59 +133,5 @@ public final class Context {
 	 */
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 		factory.registerBeanDefinition(beanName, beanDefinition);
-	}
-
-	/**
-	 * 获得Request
-	 * @return Request
-	 */
-	public HttpServletRequest getRequest() {
-		return ServletActionContext.getRequest();
-	}
-
-	/**
-	 * 获得Response
-	 * @return Response
-	 */
-	public HttpServletResponse getResponse() {
-		return ServletActionContext.getResponse();
-	}
-
-	/**
-	 * 获得ServletContext
-	 * @return ServletContext
-	 */
-	public ServletContext getServletContext() {
-		return ServletActionContext.getServletContext();
-	}
-
-	/**
-	 * 获得ActionMapping
-	 * @return ActionMapping
-	 */
-	public ActionMapping getActionMapping() {
-		return (ActionMapping) getRequest().getAttribute(ServletActionContext.ACTION_MAPPING);
-	}
-
-	/**
-	 * 获得当前Action
-	 * @return Action
-	 */
-	public <E extends Action> E getAction() {
-		// 获得值栈里的对象
-		Object action = ActionContext.getContext().getValueStack().peek();
-		// 判断对象是Action类型的
-		if (action instanceof Action) {
-			// 返回Action
-			return (E) action;
-		}
-		// 获得Action拦截器
-		ActionInvocation ai = ActionContext.getContext().getActionInvocation();
-		// 如果拦截器不为空
-		if (ai != null) {
-			return (E) ai.getAction();
-		}
-		// 如果都不符合返回null
-		return null;
 	}
 }

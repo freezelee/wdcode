@@ -21,6 +21,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.apache.struts2.util.TextProviderHelper;
 import org.wdcode.base.context.Context;
 import org.wdcode.base.entity.Entity;
@@ -121,8 +122,8 @@ public abstract class BasicAction {
 			// 声明信息
 			message = Lists.getList();
 			// 获得request与response
-			request = context.getRequest();
-			response = context.getResponse();
+			request = ServletActionContext.getRequest();
+			response = ServletActionContext.getResponse();
 			// 获得提交Action地址
 			String actionName = getActionName();
 			// 分解提交action
@@ -513,7 +514,7 @@ public abstract class BasicAction {
 	 * @return Action方法名
 	 */
 	public String getActionName() {
-		return context.getActionMapping().getName();
+		return ((ActionMapping) getRequest().getAttribute(ServletActionContext.ACTION_MAPPING)).getName();
 	}
 
 	/**
