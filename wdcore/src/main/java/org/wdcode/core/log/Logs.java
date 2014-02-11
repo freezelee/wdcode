@@ -20,7 +20,9 @@ public final class Logs {
 	 * @param info 日志信息
 	 */
 	public static void debug(Object info) {
-		log(LogEnum.DEBUG, info);
+		if (LOG.isDebugEnabled()) {
+			log(LogEnum.DEBUG, info);
+		}
 	}
 
 	/**
@@ -28,7 +30,9 @@ public final class Logs {
 	 * @param info 日志信息
 	 */
 	public static void info(Object info) {
-		log(LogEnum.INFO, info);
+		if (LOG.isInfoEnabled()) {
+			log(LogEnum.INFO, info);
+		}
 	}
 
 	/**
@@ -36,7 +40,9 @@ public final class Logs {
 	 * @param info 日志信息
 	 */
 	public static void warn(Object info) {
-		log(LogEnum.WARN, info);
+		if (LOG.isWarnEnabled()) {
+			log(LogEnum.WARN, info);
+		}
 	}
 
 	/**
@@ -44,7 +50,9 @@ public final class Logs {
 	 * @param info 日志信息
 	 */
 	public static void error(Object info) {
-		log(LogEnum.ERROR, info);
+		if (LOG.isErrorEnabled()) {
+			log(LogEnum.ERROR, info);
+		}
 	}
 
 	/**
@@ -52,7 +60,9 @@ public final class Logs {
 	 * @param info 日志信息
 	 */
 	public static void fatal(Object info) {
-		log(LogEnum.FATAL, info);
+		if (LOG.isFatalEnabled()) {
+			log(LogEnum.FATAL, info);
+		}
 	}
 
 	/**

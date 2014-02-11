@@ -6,6 +6,7 @@ import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.ClassUtil;
 import org.wdcode.common.util.StringUtil;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.socket.interfaces.Buffer;
 import org.wdcode.web.socket.interfaces.Closed;
 import org.wdcode.web.socket.interfaces.Handler;
@@ -69,6 +70,7 @@ public final class Processor implements Process {
 		if (heart != null) {
 			heart.add(session);
 		}
+		Logs.info("socket conn=" + session.getId());
 	}
 
 	@Override
@@ -87,6 +89,7 @@ public final class Processor implements Process {
 		}
 		// 删除Session管理中的注册Session
 		manager.remove(session);
+		Logs.info("socket close=" + session.getId());
 	}
 
 	@Override
@@ -101,6 +104,7 @@ public final class Processor implements Process {
 
 	@Override
 	public void process(Session session, byte[] message) {
+		Logs.info("socket receive=" + session.getId() + ";len=" + message.length);
 		// 获得全局buffer
 		Buffer buff = buffers.get(session.getId());
 		// 添加新消息到全局缓存中
@@ -134,11 +138,16 @@ public final class Processor implements Process {
 				int id = Integer.reverseBytes(buff.getInt());
 				// 获得相应的
 				Handler<Object> handler = handlers.get(id);
+				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler);
 				// 消息长度
 				int len = length - 4;
+				// 当前时间
+				long curr = System.currentTimeMillis();
+				Logs.info("socket handler start id=" + id + ";time=" + curr);
 				// 如果消息长度为0
 				if (len == 0) {
 					handler.handler(session, null, manager);
+					Logs.info("socket handler message is null end time=" + (System.currentTimeMillis() - curr));
 				} else {
 					// 读取指定长度的字节数
 					byte[] data = new byte[len];
@@ -174,8 +183,11 @@ public final class Processor implements Process {
 						// 默认使用消息体
 						mess = ((Message) ClassUtil.newInstance(type)).toBean(data);
 					}
+					Logs.info("socket handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
+					curr = System.currentTimeMillis();
 					// 回调处理器
 					handler.handler(session, mess, manager);
+					Logs.info("socket handler end time=" + (System.currentTimeMillis() - curr));
 				}
 				// 如果缓存区为空
 				if (buff.remaining() == 0) {

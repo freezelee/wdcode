@@ -6,6 +6,7 @@ import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.ScheduledUtile;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.socket.interfaces.Handler;
 import org.wdcode.web.socket.interfaces.Heart;
 import org.wdcode.web.socket.interfaces.Manager;
@@ -41,6 +42,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 			public void run() {
 				// 获得当前时间
 				int time = DateUtil.getTime();
+				Logs.info("heart check=" + DateUtil.getDate());
 				// 循环检测
 				for (Map.Entry<Integer, Integer> e : times.entrySet()) {
 					// 获得心跳时间
@@ -51,6 +53,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 						sessions.get(e.getKey()).close();
 						sessions.remove(e.getKey());
 						times.remove(e.getKey());
+						Logs.info("heart close session=" + e.getKey());
 					}
 				}
 			}
@@ -64,6 +67,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 				// 循环发送心跳信息
 				for (Session session : sessions.values()) {
 					session.send(getId(), time);
+					Logs.info("send heart session=" + session.getId());
 				}
 			}
 		}, heart / 2);
@@ -94,7 +98,14 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 
 	@Override
 	public void handler(Session session, Integer data, Manager manager) {
+		Logs.info("receive heart time=" + DateUtil.getTime() + ";data=" + data);
+		// 获得session id
+		int id = session.getId();
 		// data一般为服务器心跳来的时间戳
-		times.put(session.getId(), data);
+		times.put(id, data);
+		// 如果session 列表中不存在
+		if (!sessions.containsKey(id)) {
+			sessions.put(id, session);
+		}
 	}
 }

@@ -26,6 +26,7 @@ import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.EmptyUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.json.JsonEngine;
+import org.wdcode.core.log.Logs;
 import org.wdcode.web.constants.HttpConstants;
 
 /**
@@ -137,6 +138,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String add() throws Exception {
+		Logs.info("add entity=" + entity);
 		return callback(entity = service.insert(add(entity)).get(0));
 	}
 
@@ -146,6 +148,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String addOrUpdata() throws Exception {
+		Logs.info("addOrUpdata entity=" + entity);
 		return callback(entity = service.insertOrUpdate(add(entity)).get(0));
 	}
 
@@ -155,6 +158,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String adds() throws Exception {
+		Logs.info("adds entity=" + entitys + ";key=" + key);
 		// 如果实体列表为空 并且key不为空
 		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
 			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
@@ -173,6 +177,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String edit() throws Exception {
+		Logs.info("edit entity=" + entity);
 		// 获得要更像的实体
 		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
@@ -185,6 +190,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String edits() throws Exception {
+		Logs.info("edits entity=" + entitys + ";key=" + key);
 		// 如果实体列表为空 并且key不为空
 		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
 			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
@@ -213,6 +219,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String del() throws Exception {
+		Logs.info("del entity=" + entity + ";key=" + key);
 		// key为空
 		if (EmptyUtil.isEmpty(key)) {
 			// 实体不为空
@@ -239,6 +246,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String dels() throws Exception {
+		Logs.info("dels entity=" + entitys);
 		return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : mode);
 	}
 
@@ -257,6 +265,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String page() throws Exception {
+		Logs.info("page entity=" + entity + ";pager=" + pager);
 		// 查询实体列表
 		entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager));
 		// 声明返回列表
@@ -273,6 +282,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String order() throws Exception {
+		Logs.info("page entity=" + entity + ";pager=" + pager);
 		return callback(entitys = entity == null ? service.order(entityClass, orders, pager) : service.order(entity, orders, pager));
 	}
 
@@ -282,6 +292,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String date() throws Exception {
+		Logs.info("page entity=" + entity + ";pager=" + pager + ";start=" + startDate + ";end=" + endDate);
 		// 如果开始时间和结束时间都为空
 		if (EmptyUtil.isEmpty(startDate) && EmptyUtil.isEmpty(endDate)) {
 			// 直接分页查询
@@ -308,6 +319,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String get() throws Exception {
+		Logs.info("get key=" + key);
 		return callback(entity = key == null ? null : service.get(entityClass, key));
 	}
 
@@ -317,6 +329,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String gets() throws Exception {
+		Logs.info("get keys=" + keys);
 		return keys == null ? callback(entitys = service.gets(entityClass, key)) : callback(entitys = service.gets(entityClass, keys));
 	}
 
@@ -326,6 +339,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entity() throws Exception {
+		Logs.info("entity=" + entity);
 		return callback(entity = entity == null ? null : service.get(entity));
 	}
 
@@ -335,7 +349,55 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String entitys() throws Exception {
+		Logs.info("entitys entity=" + entity + ";pager=" + pager);
 		return callback(entity == null ? LIST : (entitys = service.list(entity, pager)));
+	}
+
+	/**
+	 * 跳转到修改页
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String theme() throws Exception {
+		Logs.info("theme entity=" + entity);
+		return callback(!EmptyUtil.isEmpty(entity = service.get(entityClass, entity.getKey())));
+	}
+
+	/**
+	 * 跳转到列表页
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String list() throws Exception {
+		Logs.info("list entity=" + entity + ";pager=" + pager + ";orders=" + orders);
+		// 排序参数为空
+		if (EmptyUtil.isEmpty(orders)) {
+			entitys = entity == null ? service.list(entityClass, pager) : service.list(entity, pager);
+		} else {
+			entitys = entity == null ? service.order(entityClass, orders, pager) : service.order(entity, orders, pager);
+		}
+		// 返回结果
+		return callback(entitys);
+	}
+
+	/**
+	 * 获得数量
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String count() throws Exception {
+		Logs.info("count entity=" + entity);
+		return callback(entity == null ? service.count(entityClass) : service.count(entity));
+	}
+
+	/**
+	 * 跳转到列表页
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String search() throws Exception {
+		Logs.info("theme search=" + entity + ";pager=" + pager);
+		return callback(entitys = service.search(entity, pager));
 	}
 
 	/**
@@ -354,49 +416,6 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String tos() throws Exception {
 		return LIST;
-	}
-
-	/**
-	 * 跳转到修改页
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String theme() throws Exception {
-		return callback(!EmptyUtil.isEmpty(entity = service.get(entityClass, entity.getKey())));
-	}
-
-	/**
-	 * 跳转到列表页
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String list() throws Exception {
-		// 排序参数为空
-		if (EmptyUtil.isEmpty(orders)) {
-			entitys = entity == null ? service.list(entityClass, pager) : service.list(entity, pager);
-		} else {
-			entitys = entity == null ? service.order(entityClass, orders, pager) : service.order(entity, orders, pager);
-		}
-		// 返回结果
-		return callback(entitys);
-	}
-
-	/**
-	 * 获得数量
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String count() throws Exception {
-		return callback(entity == null ? service.count(entityClass) : service.count(entity));
-	}
-
-	/**
-	 * 跳转到列表页
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String search() throws Exception {
-		return callback(entitys = service.search(entity, pager));
 	}
 
 	/**
