@@ -42,7 +42,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 			public void run() {
 				// 获得当前时间
 				int time = DateUtil.getTime();
-				Logs.info("heart check=" + DateUtil.getDate());
+				Logs.debug("heart check=" + DateUtil.getDate());
 				// 循环检测
 				for (Map.Entry<Integer, Integer> e : times.entrySet()) {
 					// 获得心跳时间
@@ -53,7 +53,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 						sessions.get(e.getKey()).close();
 						sessions.remove(e.getKey());
 						times.remove(e.getKey());
-						Logs.info("heart close session=" + e.getKey());
+						Logs.debug("heart close session=" + e.getKey());
 					}
 				}
 			}
@@ -67,7 +67,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 				// 循环发送心跳信息
 				for (Session session : sessions.values()) {
 					session.send(getId(), time);
-					Logs.info("send heart session=" + session.getId());
+					Logs.debug("send heart session=" + session.getId());
 				}
 			}
 		}, heart / 2);
@@ -98,7 +98,6 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 
 	@Override
 	public void handler(Session session, Integer data, Manager manager) {
-		Logs.info("receive heart time=" + DateUtil.getTime() + ";data=" + data);
 		// 获得session id
 		int id = session.getId();
 		// data一般为服务器心跳来的时间戳

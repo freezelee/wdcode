@@ -5,6 +5,7 @@ import java.util.Map;
 import org.wdcode.common.lang.Bytes;
 import org.wdcode.common.lang.Maps;
 import org.wdcode.common.util.ClassUtil;
+import org.wdcode.common.util.DateUtil;
 import org.wdcode.common.util.StringUtil;
 import org.wdcode.core.log.Logs;
 import org.wdcode.web.socket.interfaces.Buffer;
@@ -104,7 +105,7 @@ public final class Processor implements Process {
 
 	@Override
 	public void process(Session session, byte[] message) {
-		Logs.info("socket receive=" + session.getId() + ";len=" + message.length);
+		Logs.debug("socket receive=" + session.getId() + ";len=" + message.length);
 		// 获得全局buffer
 		Buffer buff = buffers.get(session.getId());
 		// 添加新消息到全局缓存中
@@ -138,12 +139,11 @@ public final class Processor implements Process {
 				int id = Integer.reverseBytes(buff.getInt());
 				// 获得相应的
 				Handler<Object> handler = handlers.get(id);
-				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler);
+				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
 				// 消息长度
 				int len = length - 4;
 				// 当前时间
 				long curr = System.currentTimeMillis();
-				Logs.info("socket handler start id=" + id + ";time=" + curr);
 				// 如果消息长度为0
 				if (len == 0) {
 					handler.handler(session, null, manager);
