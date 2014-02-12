@@ -5,14 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.wdcode.base.entity.EntityUser;
 import org.wdcode.base.token.AuthToken;
-import org.wdcode.common.codec.Hex;
-import org.wdcode.common.constants.StringConstants;
-import org.wdcode.common.crypto.Decrypts;
-import org.wdcode.common.crypto.Digest;
-import org.wdcode.common.crypto.Encrypts;
+import org.wdcode.base.token.TokenEngine;
 import org.wdcode.common.lang.Conversion;
 import org.wdcode.common.util.EmptyUtil;
-import org.wdcode.common.util.StringUtil;
 import org.wdcode.site.params.SiteParams;
 import org.wdcode.site.token.LoginToken;
 import org.wdcode.web.util.AttributeUtil;
@@ -29,8 +24,6 @@ public final class LoginEngine {
 	private final static LoginToken	EMPTY		= new LoginToken();
 	// 登录信息标识
 	private final static String		INFO		= "_info";
-	// 验证长度
-	private final static int		LENGHT		= 5;
 	// 游客IP
 	private static int				GUEST_ID	= SiteParams.LOGIN_GUEST_ID;
 
@@ -110,10 +103,7 @@ public final class LoginEngine {
 	 * @return 加密信息
 	 */
 	public static String encrypt(AuthToken token) {
-		// 加密登录凭证字符串
-		String info = Hex.encode(Encrypts.rc4(token.toBytes()));
-		// 返回加密字符串
-		return Digest.absolute(info, LENGHT) + StringConstants.MIDLINE + info;
+		return TokenEngine.encrypt(token);
 	}
 
 	/**
@@ -121,24 +111,7 @@ public final class LoginEngine {
 	 * @return 登录实体
 	 */
 	public static LoginToken decrypt(String info) {
-		try {
-			// 验证去掉"""
-			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
-			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT && info.indexOf(StringConstants.MIDLINE) == LENGHT) {
-				// 分解信息
-				String[] temp = info.split(StringConstants.MIDLINE);
-				// 分解的信息不为空并且只有2组
-				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-					// 判断校验串是否合法
-					if (temp[0].equals(Digest.absolute(temp[1], LENGHT))) {
-						return new LoginToken().toBean(Decrypts.rc4(Hex.decode(temp[1])));
-					}
-				}
-			}
-		} catch (Exception ex) {}
-		// 返回一个空的登录凭证
-		return empty();
+		return TokenEngine.decrypt(info, new LoginToken());
 	}
 
 	/**

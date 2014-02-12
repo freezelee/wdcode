@@ -1,12 +1,14 @@
 package org.wdcode.base.starter;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.wdcode.base.context.Context;
+import org.wdcode.common.lang.Sets;
 import org.wdcode.web.params.SocketParams;
 import org.wdcode.web.socket.Sockets;
 import org.wdcode.web.socket.interfaces.Handler;
@@ -50,9 +52,14 @@ public final class SocketStarter {
 	private void init(String name, Collection<Handler> handlers) {
 		// Socket
 		Socket socket = Sockets.init(name);
+		// 获得指定的handler包
+		Set<String> set = Sets.getSet(SocketParams.getPackage(name));
 		// 设置Handler
 		for (Handler<?> handler : handlers) {
-			socket.addHandler(handler);
+			// 在指定包内
+			if (set.contains(handler.getClass().getPackage().getName())) {
+				socket.addHandler(handler);
+			}
 		}
 	}
 

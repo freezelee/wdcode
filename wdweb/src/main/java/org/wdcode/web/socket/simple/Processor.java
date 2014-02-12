@@ -121,7 +121,8 @@ public final class Processor implements Process {
 				break;
 			}
 			// 获得信息长度
-			int length = Integer.reverseBytes(buff.getInt());
+			// int length = Integer.reverseBytes(buff.getInt());
+			int length = buff.getInt();
 			// 无长度 发送消息不符合 关掉连接
 			if (length == 0) {
 				session.close();
@@ -136,7 +137,8 @@ public final class Processor implements Process {
 				break;
 			} else {
 				// 读取指令id
-				int id = Integer.reverseBytes(buff.getInt());
+				// int id = Integer.reverseBytes(buff.getInt());
+				int id = buff.getInt();
 				// 获得相应的
 				Handler<Object> handler = handlers.get(id);
 				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());

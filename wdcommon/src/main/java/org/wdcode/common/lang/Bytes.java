@@ -116,6 +116,9 @@ public final class Bytes {
 		} else if (obj instanceof String) {
 			// String
 			b = toBytes(Conversion.toString(obj));
+		} else if (obj instanceof ByteBuffer) {
+			// String
+			b = toBytes((ByteBuffer) obj);
 		} else if (obj instanceof BytesBean) {
 			// File
 			b = toBytes((BytesBean) obj);
@@ -149,6 +152,32 @@ public final class Bytes {
 		byte[] b = EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.toBytes();
 		// 加上长度返回
 		return EmptyUtil.isEmpty(b) ? b : toBytes(bean.getClass().getName(), b.length, b);
+	}
+
+	/**
+	 * 转换ByteBuffer变成字节数组
+	 * @param buff ByteBuffer类型
+	 * @return 字节数组
+	 */
+	public static byte[] toBytes(ByteBuffer buff) {
+		// 如果为null
+		if (buff == null) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
+		// 如果可以直接访问数组
+		if (buff.hasArray()) {
+			return buff.array();
+		}
+		// 如果读取长度大于0
+		int len = buff.limit();
+		if (len > 0) {
+			// 读取全部字节返回
+			byte[] dst = new byte[len];
+			buff.get(dst);
+			return dst;
+		}
+		// 返回空字节
+		return ArrayConstants.BYTES_EMPTY;
 	}
 
 	/**
