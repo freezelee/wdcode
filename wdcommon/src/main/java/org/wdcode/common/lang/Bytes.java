@@ -66,7 +66,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Collection<?> c) {
-		return toBytes(c.toArray());
+		return toBytes(c.size(), c.toArray());
 	}
 
 	/**

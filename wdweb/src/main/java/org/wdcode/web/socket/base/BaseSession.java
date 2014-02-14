@@ -2,6 +2,7 @@ package org.wdcode.web.socket.base;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 
 import org.wdcode.common.constants.ArrayConstants;
 import org.wdcode.common.constants.StringConstants;
@@ -39,6 +40,9 @@ public abstract class BaseSession implements Session {
 		} else if (message instanceof Message) {
 			// 消息体
 			data = ((Message) message).toBytes();
+		} else if (message instanceof ByteBuffer) {
+			// ByteBuffer
+			data = ((ByteBuffer) message).array();
 		} else {
 			// 不知道的类型 以字节数组发送
 			data = Bytes.toBytes(message);
